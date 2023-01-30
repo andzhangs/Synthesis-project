@@ -2,11 +2,10 @@ package zs.android.module.permission
 
 import android.Manifest
 import android.content.ContentValues
-import android.content.Context
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.provider.ContactsContract
@@ -17,13 +16,16 @@ import android.view.View
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.core.content.FileProvider
 import com.luck.picture.lib.basic.PictureSelector
 import com.luck.picture.lib.config.SelectMimeType
 import com.luck.picture.lib.entity.LocalMedia
 import com.luck.picture.lib.interfaces.OnResultCallbackListener
-import java.util.ArrayList
+import java.io.File
+import java.io.FileInputStream
 
 class MainActivity : AppCompatActivity() {
 
@@ -43,6 +45,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var getMultipleContents: ActivityResultLauncher<String>
 
     private lateinit var mImageView: AppCompatImageView
+
+    var uri: Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -238,34 +242,61 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-        var uri: Uri? = null
+        val cameraPath: String =
+            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).absolutePath + File.separator + "Camera"
         //调用MediaStore.ACTION_IMAGE_CAPTURE拍照，并将图片保存到给定的Uri地址，返回true表示保存成功
         takePicture = registerForActivityResult(ActivityResultContracts.TakePicture()) {
-            Log.i("print_logs", "takePicture: $it")
+            Log.i("print_logs", "状态:: $it ,uri=$uri")
             if (it) {
                 with(mImageView) {
-                    visibility = View.VISIBLE
-                    setImageURI(uri)
+                    uri?.let { _path ->
+                        val name = _path.toString().substringAfterLast(File.separator)
+                        Log.i("print_logs", "文件路径: ${cameraPath}/$name")
+                        visibility = View.VISIBLE
+                        setImageURI(uri)
+                    }
                 }
             }
         }
 
+        Log.i("print_logs", this.applicationContext.packageName)
+
+
         findViewById<AppCompatButton>(R.id.onTakePicture).setOnClickListener {
-            uri = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                val values = ContentValues().apply {
-                    put(
-                        MediaStore.MediaColumns.DISPLAY_NAME,
-                        "${System.currentTimeMillis()}_test.jpg"
-                    )
-                    put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES)
-                }
-                contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
-            } else {
-                null
-            }
-            takePicture.launch(
-                uri
+//            uri = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+//                val values = ContentValues().apply {
+//                    put(
+//                        MediaStore.MediaColumns.DISPLAY_NAME,
+//                        "IMG_${System.currentTimeMillis()}.jpg"
+//                    )
+//                    put(MediaStore.MediaColumns.RELATIVE_PATH, "${Environment.DIRECTORY_DCIM}/Camera")
+//                }
+//                contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
+//            } else {
+//              null
+//            }
+
+            val photoFile = File.createTempFile("IMG_", ".jpg", File(cameraPath))
+            uri = FileProvider.getUriForFile(
+                this,
+                "${BuildConfig.APPLICATION_ID}.providers",
+                photoFile
             )
+
+//            cameraPath?.let { folder ->
+//                if (folder.exists() && folder.isDirectory) {
+//                    Log.i("print_logs", "MainActivity::setCallback: 文件夹已经存在")
+//                    folder.listFiles().forEach { file->
+//                        Log.i("print_logs", "文件:: ${file.name}")
+//                        if (file.isFile) {
+//                            Log.i("print_logs", "删除文件： ${file.name}")
+//                            file.delete()
+//                        }
+//                    }
+//                }
+//            }
+
+            takePicture.launch(uri)
         }
 
 
@@ -439,7 +470,7 @@ class MainActivity : AppCompatActivity() {
                 result.forEach {
 
                     Log.i("print_logs", "文件夹：${it?.firstImagePath}, ${it.data.size}")
-                    it.data.forEach { file->
+                    it.data.forEach { file ->
                         Log.i("print_logs", "专辑列表: $file")
                     }
                 }
@@ -455,5 +486,21 @@ class MainActivity : AppCompatActivity() {
                     Log.i("print_logs", "图片: ${it?.realPath}")
                 }
             }
+    }
+
+    fun getAllDataFileName(folderPath: String?): ArrayList<String>? {
+        val fileList = ArrayList<String>()
+        val file = File(folderPath)
+        val tempList = file.listFiles()
+        for (i in tempList.indices) {
+            if (tempList[i].isFile) {
+                Log.w("print_logs", "文件:: ${tempList[i].name}")
+                val fileName = tempList[i].name
+                if (fileName.endsWith(".jpg") or fileName.endsWith(".png")) {    //  根据自己的需要进行类型筛选
+                    fileList.add(fileName)
+                }
+            }
+        }
+        return fileList
     }
 }

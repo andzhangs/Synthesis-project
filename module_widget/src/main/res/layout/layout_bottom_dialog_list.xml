@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@android:color/white"
+    android:padding="10dp"
+    tools:itemCount="8"
+    tools:listitem="@layout/layout_bottom_dialog_list_item"
+    app:spanCount="4"
+    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+    tools:context=".ItemListDialogFragment">
+
+</androidx.recyclerview.widget.RecyclerView>
