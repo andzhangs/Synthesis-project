@@ -11,7 +11,9 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/CustomProjectPlugin" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/module_groovy" />
             <option value="$PROJECT_DIR$/module_java8" />
             <option value="$PROJECT_DIR$/module_material" />
             <option value="$PROJECT_DIR$/module_media" />

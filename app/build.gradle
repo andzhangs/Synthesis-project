@@ -1,7 +1,16 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+
+    //自定义三
+//    id 'android-plugin'
+//    id 'groovy-plugin'
 }
+
+//App配置文档
+//apply from: "${rootProject.rootDir}/script/AppConfig.gradle"
+//打包apk上传到蒲公英，并发通知到钉钉
+//apply from: "${rootProject.rootDir}/script/UploadApk.gradle"
 
 android {
     namespace 'zs.android.synthesis'
@@ -15,6 +24,7 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
 
     buildTypes {
@@ -36,9 +46,37 @@ android {
             version '3.18.1'
         }
     }
-    buildFeatures {
-        viewBinding true
+    dependenciesInfo {
+        includeInApk true
+        includeInBundle true
     }
+    ndkVersion '23.1.7779620'
+
+    // 自定义打包名称
+//    android.applicationVariants.all { variant ->
+//        variant.getPackageApplication().outputDirectory = new File(project.rootDir.absolutePath + "/apks")
+//        variant.outputs.all {
+//            outputFileName = "${buildType.name}_v${defaultConfig.versionName}_${defaultConfig.versionCode}.apk"
+//        }
+//    }
+
+//    applicationVariants.all { variant ->
+//        // 打包完成后复制到的目录
+//        def outputFileDir = "${project.projectDir.absolutePath}/release"
+//        // 打包完成后做的一些事,复制apk到指定文件夹
+//        variant.assemble.doLast {
+//            File out = new File(outputFileDir)
+//            copy {
+//                variant.outputs.forEach { file ->
+//                    copy {
+//                        from file.outputFile
+//                        into out
+//                    }
+//                }
+//            }
+//        }
+//    }
+
 }
 
 dependencies {

@@ -1,0 +1,83 @@
+/**
+ * project 相关的api讲解
+ */
+//this.getProjects()
+
+def getProjects() {
+    println '----------------'
+    println 'Root Project'
+    println '----------------'
+    this.getAllprojects().eachWithIndex { Project entry, int i ->
+        if (i == 0) {
+            println "Allprojects：Root Project---->'${entry.name}'"
+        } else {
+            println "Allprojects：Module of Project---->'${entry.name}'"
+        }
+    }
+    println()
+    this.getSubprojects().eachWithIndex { Project entry, int i ->
+        if (i == 0) {
+            println "Subprojects：Root Project---->'${entry.name}'"
+        } else {
+            println "Subprojects：Module of Project---->'${entry.name}'"
+        }
+    }
+}
+
+/**
+ * Project api讲解
+ */
+println project('app').version
+project('app') { Project pro ->
+//    println pro.name
+    apply plugin: 'com.android.application'
+    group 'com.zs'
+    version '1.0.0'
+    dependencies {
+
+    }
+
+    android {
+
+    }
+}
+
+/**
+ * Configures this project and each of its sub-projects
+ * 配置当前节点Project和其sub-project的所有project
+ */
+allprojects {
+    version '1.0.0'
+}
+
+/**
+ * 不包括当前节点工程，只包括他的subProject
+ */
+subprojects { Project pro ->
+    if (pro.plugins.hasPlugin('com.android.library')) {
+//        apply from : ''
+    }
+}
+
+//自定义属性
+ext {
+    compileSdkVersion = 27
+}
+
+//println "the root file path is："+getRootDir().absolutePath
+//println "the build file path is："+getBuildDir().absolutePath
+//println "the project file path is："+getProjectDir().absolutePath
+
+/**  文件遍历
+ * 根据文件名，在项目根工程下找到对应文件
+ */
+def getContentPath(String path) {
+    try {
+        def file = file(path)  //相对于当前的project工程开始查找 ,new File() 使用绝对路径
+        return file.text
+    } catch (GradleException e) {
+        println 'the file found...'
+        e.printStackTrace()
+    }
+}
+//println getContentPath('common.gradle')

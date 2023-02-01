@@ -1,0 +1,61 @@
+// dependsOn-------mustRunAfter-------finalizedBy
+
+/**
+ * dependsOn - 设置任务依赖关系。 执行任务 F 需要任务 D 首先被执行。
+ * shouldRunAfter：非强制
+ * mustRunAfter - 强制（推荐使用）
+ *  设置任务执行顺序。 执行任务 B 不需要执行任务 C.
+ *  但如果任务 C 和 B 都存在的场景下, 任务 B 必须先于任务 C 执行。
+ * finalizedBy - 为任务A添加一个当前任务结束后立马执行的任务B
+ */
+
+//分组归类
+def TASK_GROUP = 'relationships'
+
+task A {
+    group(TASK_GROUP)
+    doLast {
+        def properties = new Properties()
+        properties.load(new FileInputStream('gradle.properties'))
+
+        println "Task A：${properties.getProperty('WEB_HOOK')}"
+    }
+}
+
+task B {
+    group(TASK_GROUP)
+    doLast {
+        println 'Task B'
+    }
+}
+
+task C {
+    group(TASK_GROUP)
+    doLast {
+        println 'Task C'
+    }
+}
+
+task D {
+    group(TASK_GROUP)
+    doLast {
+        println 'Task D'
+    }
+}
+
+//b依赖于a
+B.dependsOn(A)
+//b要以c结尾
+B.finalizedBy(C)
+
+//执行terminal 命令：./gradlew taskD taskB taskC taskA
+
+/**
+ * 失效函数
+ */
+//c要在a的后面执行
+//C.mustRunAfter(A)
+//d要在c的后面执行
+//D.shouldRunAfter(C)
+
+

@@ -1,0 +1,154 @@
+group = "AndroidGradleBook"
+version = "1.0.0"
+
+def CUSTOM_GROUP="CustomTask"
+
+task CustomTask1 {
+    group(CUSTOM_GROUP)
+    doFirst {
+        println('CustomTask1：doFirst')
+    }
+    doLast {
+        println('CustomTask1：doLast')
+    }
+}
+
+//TaskContainer创建任务，即 tasks
+tasks.create("CustomTask2") {
+    group(CUSTOM_GROUP)
+    doFirst {
+        println('CustomTask2：doFirst')
+    }
+    doLast {
+        println('CustomTask2：doLast')
+    }
+}
+
+
+/**
+ * 任务依赖
+ */
+task ex35Hello {
+    group(CUSTOM_GROUP)
+    println('ex35Hello')
+}
+task ex35World {
+    group(CUSTOM_GROUP)
+    println('ex35World')
+}
+//依赖一个
+task ex35Main(dependsOn: ex35Hello) {
+    group(CUSTOM_GROUP)
+    doLast {
+        println('ex35Main')
+    }
+}
+//依赖多个
+task ex35MuiltTask {
+    group(CUSTOM_GROUP)
+    dependsOn ex35Hello, ex35World
+    doFirst {
+        println('ex35MuiltTask')
+    }
+}
+
+/**
+ * 任务间通过API控制、交互CustomAPI
+ */
+task CustomAPI {
+    group(CUSTOM_GROUP)
+    println('中间段')
+}
+CustomAPI.doFirst {
+    println('开始段')
+}
+CustomAPI.doLast {
+    println "是否存在CustomAPI任务："+project.hasProperty('CustomAPI')
+    println('结尾段')
+}
+//自定义一个project属性
+ext.age = 18
+//通过代码块同时自定义多个属性
+ext {
+    phone = 15821239216
+    address = '上海市浦东新区金杨路785弄56号502室'
+}
+task exCustomProperty {
+    group(CUSTOM_GROUP)
+    println("年龄：${age}")
+    println("手机号：${phone}")
+    println("地址：${address}")
+}
+
+def buildTime() {
+    def date = new Date()
+    def formattedDate = date.format('yyyMMdd')
+    return formattedDate
+}
+
+/**
+ * 任务分组和描述 在build组目录中
+ */
+Task mTask = task ex43GroupTask
+mTask.group(group(CUSTOM_GROUP))//BasePlugin.BUILD_GROUP)
+mTask.description('这是一个构建的引导任务')
+mTask.doFirst {
+    println("doFirst group${group}, dependencies：${description}")
+}
+mTask.doLast {
+    println("doLast group${group}, dependencies：${description}")
+}
+
+
+/**
+ * 任务的执行分析
+ */
+class CustomTask extends DefaultTask {
+
+    @TaskAction
+    def doSelf() {
+        println('Task执行自身in doSelf')
+    }
+}
+
+task ex45CustomTask(type: CustomTask) {
+    group(CUSTOM_GROUP)
+    doFirst {
+        println('Task执行之前in doFirst')
+    }
+    doLast {
+        println('Task执行之后in doLast')
+    }
+}
+
+/**
+ * 任务排序
+ */
+task ex46OrderTask1 {
+    group(CUSTOM_GROUP)
+    doLast {
+        println('ex46OrderTask1')
+    }
+}
+task ex46OrderTask2 {
+    group(CUSTOM_GROUP)
+    doLast {
+        println('ex46OrderTask2')
+    }
+}
+//ex46OrderTask2.dependsOn(ex46OrderTask1)
+//ex46OrderTask1.finalizedBy(ex46OrderTask2)
+
+/**
+ * 任务的启用和禁止
+ * enabled 默认是true
+ */
+task ex47DisenableTask {
+    group(CUSTOM_GROUP)
+    doLast {
+        println('ex47DisenableTask')
+    }
+}
+ex47DisenableTask.enabled=false
+
+

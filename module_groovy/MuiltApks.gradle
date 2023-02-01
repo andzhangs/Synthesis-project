@@ -1,0 +1,111 @@
+group = "MuiltAppks"
+version = "1.0.0"
+
+/**
+ * 断言 就是一个条件表达式
+ *  onlyIf函数 接受一个闭包参数。如果是是返回true 则执行，反之不执行.
+ * 以多渠道打包举例
+ */
+final String BUILD_APPS_ALL = "all"
+final String BUILD_APPS_RELEASE = "release"
+final String BUILD_APPS_EXCLUDE_RELEASE = "exclude_release"
+
+def muiltTask='MuiltTask'
+
+task ex48QqRelease {
+    group(muiltTask)
+    println('打应用宝的包')
+}
+task ex48360Release {
+    group(muiltTask)
+    doLast {
+        println('打360的包')
+    }
+}
+task ex48HuaWeiRelease {
+    group(muiltTask)
+    doLast {
+        println('打华为的包')
+    }
+}
+task ex48MiuiRelease {
+    group(muiltTask)
+    println('打小米的包')
+}
+task buildMuiltApks {
+//    group BasePlugin.BUILD_GROUP
+    group(muiltTask)
+    description "打多渠道包"
+    println('---------- 多渠道构建 ----------')
+}
+
+//buildMuiltApks.dependsOn ex48QqRelease, ex48360Release, ex48HuaWeiRelease, ex48MiuiRelease
+
+ex48QqRelease.onlyIf {
+    def execute = false;
+    if (project.hasProperty("build_apps")) {
+        Object buildApps = project.property("build_apps")
+        if (BUILD_APPS_RELEASE == buildApps || BUILD_APPS_ALL == buildApps) {
+            println('ex48QqRelease---->>>> true')
+            execute = true
+        } else {
+            println('ex48QqRelease---->>>> false')
+            execute = false
+        }
+    } else {
+        println('ex48QqRelease end---->>>> true')
+        execute = true
+    }
+    execute
+}
+ex48360Release.onlyIf {
+    def execute = false;
+    if (project.hasProperty("build_apps")) {
+        Object buildApps = project.property("build_apps")
+        if (BUILD_APPS_RELEASE == buildApps || BUILD_APPS_ALL == buildApps) {
+            println('ex48360Release---->>>> true')
+            execute = true
+        } else {
+            println('ex48360Release---->>>> false')
+            execute = false
+        }
+    } else {
+        println('ex48360Release end---->>>> true')
+        execute = true
+    }
+    execute
+}
+ex48HuaWeiRelease.onlyIf {
+    def execute = false;
+    if (project.hasProperty("build_apps")) {
+        Object buildApps = project.property("build_apps")
+        if (BUILD_APPS_EXCLUDE_RELEASE == buildApps || BUILD_APPS_ALL == buildApps) {
+            println('ex48HuaWeiRelease---->>>> true')
+            execute = true
+        } else {
+            println('ex48HuaWeiRelease---->>>> false')
+            execute = false
+        }
+    } else {
+        println('ex48HuaWeiRelease end---->>>> true')
+        execute = true
+    }
+    execute
+}
+ex48MiuiRelease.onlyIf {
+    def execute = false;
+    if (project.hasProperty("build_apps")) {
+        Object buildApps = project.property("build_apps")
+        if (BUILD_APPS_EXCLUDE_RELEASE == buildApps || BUILD_APPS_ALL == buildApps) {
+            println('ex48MiuiRelease---->>>> true')
+            execute = true
+        } else {
+            println('ex48MiuiRelease---->>>> false')
+            execute = false
+        }
+    } else {
+        println('ex48MiuiRelease end---->>>> true')
+        execute = true
+    }
+    execute
+}

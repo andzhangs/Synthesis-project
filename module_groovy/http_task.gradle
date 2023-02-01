@@ -1,0 +1,148 @@
+import groovy.json.JsonSlurper
+import okhttp3.FormBody
+import okhttp3.OkHttpClient
+import okhttp3.Request
+
+apply plugin: 'java-library'
+apply plugin: 'groovy'
+
+dependencies {
+    implementation localGroovy()
+}
+
+sourceCompatibility = "1.8"
+targetCompatibility = "1.8"
+
+def GROUP_TAG='Customs'
+
+task renameGroovyToJava {
+    group(GROUP_TAG)
+    doLast{
+        delete "$buildDir/classes/java"
+        File file = new File("$buildDir/classes/groovy")
+        println '打印：'+file.renameTo("$buildDir/classes/java")
+    }
+}
+
+compileJava.finalizedBy compileGroovy
+compileGroovy.finalizedBy renameGroovyToJava
+
+
+/**
+ * Fir.im
+ * https://www.betaqr.com/docs/description
+ */
+def id = '5f61d920b2eb467dd1a6b33d'
+def api_token = 'aa3ba49387260124e566f3329c6d7331'
+def client = new OkHttpClient();
+
+/**
+ * 版本查询
+ */
+task exeCheckVersion {
+    doFirst {
+        group(GROUP_TAG)
+        def request = new Request.Builder().url("http://api.bq04.com/apps/latest/${id}?api_token=${api_token}").build()
+        def response = client.newCall(request).execute()
+        println("打印exeCheckVersion--->>>>>" + response.body().string())
+        response.close()
+    }
+}
+
+/**
+ * 发布版本，获取上传凭证
+ */
+task exeCheckUploadCertificate {
+    group(GROUP_TAG)
+    doLast {
+        def requestBody = new FormBody.Builder()
+                .add("type", "android")
+                .add("bundle_id", "io.dushu.fandengreader")
+                .add("api_token", api_token)
+                .build()
+        def request = new Request.Builder().url("http://api.bq04.com/apps").post(requestBody).build()
+        def response = client.newCall(request).execute()
+        println("打印exeCheckUploadCertificate--->>>>>" + response.body().string())
+        response.close()
+    }
+
+}
+
+/**
+ * 查看应用列表
+ */
+task exeCheckAppList {
+    group(GROUP_TAG)
+    doLast {
+        def request = new Request.Builder().url("http://api.bq04.com/apps?api_token=${api_token}").build()
+        def response = client.newCall(request).execute()
+        println("打印exeCheckAppList--->>>>>" + response.body().string())
+        response.close()
+    }
+}
+
+/**
+ * 查看应用详细信息
+ */
+task exeCheckAppDetailInfo {
+    group(GROUP_TAG)
+    doLast {
+        def request = new Request.Builder().url("http://api.bq04.com/apps/${id}?api_token=${api_token}").build()
+        def response = client.newCall(request).execute()
+        println("打印exeCheckAppDetailInfo--->>>>>" + response.body().string())
+        response.close()
+    }
+}
+
+/**
+ * 修改应用信息
+ */
+task exeUpdateAppInfo {
+    group(GROUP_TAG)
+    doLast {
+        def requestBody = new FormBody.Builder()
+                .add("id", id)
+                .add("api_token", api_token)
+                .add("name", "樊登读书")
+                .add("desc", "测试描述")
+                .add("short", "http://d.firim.vip/xc91")
+                .add("genre_id", "")
+                .add("is_opened", true)
+                .add("is_show_plaza", true)
+                .add("passwd", false)
+                .add("store_link_visible", true)
+                .build()
+        def request = new Request.Builder().url("http://api.bq04.com/apps").put(requestBody).build()
+        def response = client.newCall(request).execute()
+        println("打印exeUpdateAppInfo--->>>>> " + response.body().string())
+        response.close()
+    }
+}
+
+/**
+ * 第一步：获取download_token
+ * http://api.bq04.com/apps/:id/download_token
+ * 第二步：安装应用
+ */
+task exeInstallApp(){
+    group(GROUP_TAG)
+    def downloadToken=null
+    doFirst {
+        def request = new Request.Builder().url("http://api.bq04.com/apps/${id}/download_token?api_token=${api_token}").build()
+        def response = client.newCall(request).execute()
+        String result=response.body().string()
+        downloadToken=new JsonSlurper().parseText(result)['download_token']
+        println("打印exeGetDownloadToken--->>>>>" + result)
+        response.close()
+    }
+
+    doLast {
+        println("打印Token--->>>>>"+downloadToken)
+        def request = new Request.Builder().url("http://api.bq04.com/apps/${id}/install?download_token=${downloadToken}").build()
+        def response = client.newCall(request).execute()
+        println("打印exeInstallApp--->>>>>" + response.body().string())
+        response.close()
+    }
+}
+
+
