@@ -18,6 +18,7 @@
             <option value="$PROJECT_DIR$/module_material" />
             <option value="$PROJECT_DIR$/module_media" />
             <option value="$PROJECT_DIR$/module_permission" />
+            <option value="$PROJECT_DIR$/module_spi" />
             <option value="$PROJECT_DIR$/module_widget" />
           </set>
         </option>
