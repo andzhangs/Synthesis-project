@@ -276,7 +276,21 @@ class MainActivity : AppCompatActivity() {
 //              null
 //            }
 
-            val photoFile = File.createTempFile("IMG_", ".jpg", File(cameraPath))
+            val file = File(cameraPath).apply {
+                if (!this.exists()) {
+                    this.mkdirs()
+                }else{
+                    if (this.isDirectory) {
+                        this.listFiles()?.forEach { file ->
+                            if (file.isFile) {
+                                file.delete()
+                            }
+                        }
+                    }
+                }
+            }
+
+            val photoFile = File.createTempFile("IMG_", ".jpg", file)
             uri = FileProvider.getUriForFile(
                 this,
                 "${BuildConfig.APPLICATION_ID}.providers",

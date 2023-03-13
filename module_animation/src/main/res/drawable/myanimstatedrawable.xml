@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/myPressed"
+        android:drawable="@drawable/ic_launcher_background"
+        android:state_pressed="true" />
+    <item
+        android:id="@+id/myFocused"
+        android:drawable="@drawable/ic_launcher_background"
+        android:state_focused="true" />
+    <item
+        android:id="@+id/myDefault"
+        android:drawable="@drawable/ic_launcher_foreground" />
+
+    <transition
+        android:fromId="@+id/myDefault"
+        android:toId="@+id/myPressed">
+        <animation-list>
+            <item android:duration="15" android:drawable="@color/purple_200"/>
+            <item android:duration="15" android:drawable="@color/purple_500"/>
+            <item android:duration="15" android:drawable="@color/teal_700"/>
+        </animation-list>
+    </transition>
+
+</animated-selector>

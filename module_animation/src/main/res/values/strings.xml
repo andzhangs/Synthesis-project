@@ -1,0 +1,57 @@
+<resources>
+    <string name="app_name">module_animation</string>
+    <string name="lorem_ipsum">Set up the crossfade animationTo set up the crossfade animation: Create member variables for the views that you want to crossfade.
+        You need these references later when modifying the views during the animation.
+        For the view that is being faded in, set its visibility to GONE.
+        This prevents the view from taking up layout space and omits it from layout calculations, speeding up processing.
+        Cache the config_shortAnimTime system property in a member variable.
+        This property defines a standard \'short\' duration for the animation.
+        This duration is ideal for subtle animations or animations that occur very frequently.
+        config_longAnimTime and config_mediumAnimTime are also available if you wish to use them.
+        Here\'s an example using the layout from the previous code snippet as the activity content view:
+       \n
+        Set up the crossfade animationTo set up the crossfade animation:
+        Create member variables for the views that you want to crossfade.
+        You need these references later when modifying the views during the animation.
+        For the view that is being faded in, set its visibility to GONE.
+        This prevents the view from taking up layout space and omits it from layout calculations, speeding up processing.
+        Cache the config_shortAnimTime system property in a member variable.
+        This property defines a standard \'short\' duration for the animation.
+        This duration is ideal for subtle animations or animations that occur very frequently.
+        config_longAnimTime and config_mediumAnimTime are also available if you wish to use them.
+        Here\'s an example using the layout from the previous code snippet as the activity content view:
+        \n
+        Set up the crossfade animationTo set up the crossfade animation:
+        Create member variables for the views that you want to crossfade.
+        You need these references later when modifying the views during the animation.
+        For the view that is being faded in, set its visibility to GONE.
+        This prevents the view from taking up layout space and omits it from layout calculations, speeding up processing.
+        Cache the config_shortAnimTime system property in a member variable.
+        This property defines a standard \'short\' duration for the animation.
+        This duration is ideal for subtle animations or animations that occur very frequently.
+        config_longAnimTime and config_mediumAnimTime are also available if you wish to use them.
+        Here\'s an example using the layout from the previous code snippet as the activity content view:
+        \n
+        Set up the crossfade animationTo set up the crossfade animation:
+        Create member variables for the views that you want to crossfade.
+        You need these references later when modifying the views during the animation.
+        For the view that is being faded in, set its visibility to GONE.
+        This prevents the view from taking up layout space and omits it from layout calculations, speeding up processing.
+        Cache the config_shortAnimTime system property in a member variable.
+        This property defines a standard \'short\' duration for the animation.
+        This duration is ideal for subtle animations or animations that occur very frequently.
+        config_longAnimTime and config_mediumAnimTime are also available if you wish to use them.
+        Here\'s an example using the layout from the previous code snippet as the activity content view:
+        \n
+        Set up the crossfade animationTo set up the crossfade animation:
+        Create member variables for the views that you want to crossfade.
+        You need these references later when modifying the views during the animation.
+        For the view that is being faded in, set its visibility to GONE.
+        This prevents the view from taking up layout space and omits it from layout calculations, speeding up processing.
+        Cache the config_shortAnimTime system property in a member variable.
+        This property defines a standard \'short\' duration for the animation.
+        This duration is ideal for subtle animations or animations that occur very frequently.
+        config_longAnimTime and config_mediumAnimTime are also available if you wish to use them.
+        Here\'s an example using the layout from the previous code snippet as the activity content view:
+        </string>
+</resources>

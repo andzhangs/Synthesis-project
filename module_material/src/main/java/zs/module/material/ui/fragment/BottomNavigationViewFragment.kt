@@ -41,23 +41,5 @@ class BottomNavigationViewFragment private constructor(mIndexName: String) :
                 else -> {}
             }
         }
-
-        //选中同一个
-        mNavigationView.setOnItemSelectedListener {
-            when (it.itemId) {
-                R.id.action_search -> {
-                    Log.i("print_logs", "setOnItemSelectedListener:: action_search")
-
-                }
-                R.id.action_settings -> {
-                    Log.i("print_logs", "setOnItemSelectedListener:: action_settings")
-                }
-                R.id.action_navigation -> {
-                    Log.i("print_logs", "setOnItemSelectedListener:: action_navigation")
-                }
-                else -> {}
-            }
-            true
-        }
     }
 }

@@ -14,7 +14,7 @@
         app:dividerPadding="5dp"
         app:showDividers="middle">
 
-        <com.google.android.material.button.MaterialButtonToggleGroup xmlns:android="http://schemas.android.com/apk/res/android"
+        <com.google.android.material.button.MaterialButtonToggleGroup
             android:id="@+id/toggle_button_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
@@ -51,31 +51,33 @@
             android:layout_height="?android:attr/actionBarSize"
             android:background="@android:color/white"
             android:gravity="center"
-            android:text="哈哈哈"
+            android:text="哈哈哈-1"
             android:textSize="20sp" />
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardCornerRadius="20dp">
+
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="match_parent"
                 android:layout_height="?android:attr/actionBarSize"
                 android:background="@android:color/white"
                 android:gravity="center"
-                android:text="哈哈哈"
+                android:text="哈哈哈-2"
                 android:textSize="20sp" />
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.circularreveal.cardview.CircularRevealCardView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
+
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@android:color/white"
                 android:gravity="center"
-                android:text="哈哈哈"
+                android:text="哈哈哈-3"
                 android:textSize="20sp" />
         </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
 
