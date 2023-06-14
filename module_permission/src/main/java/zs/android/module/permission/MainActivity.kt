@@ -1,6 +1,7 @@
 package zs.android.module.permission
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Intent
 import android.graphics.BitmapFactory
@@ -15,6 +16,7 @@ import android.util.Log
 import android.view.View
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.IntentSenderRequest
+import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
@@ -51,12 +53,14 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        setPictureClick()
         setCallback()
+
+        setPictureClick()
 
         mImageView = findViewById(R.id.acIv)
     }
 
+    @SuppressLint("Range")
     private fun setCallback() {
         //常规跳转，下一页面调用方法：setResult(RESULT_OK)返回，触发回调！
         startActivityForResult =
@@ -312,6 +316,56 @@ class MainActivity : AppCompatActivity() {
 
             takePicture.launch(uri)
         }
+
+        //单项图片选择器
+        val pickMedia=registerForActivityResult(ActivityResultContracts.PickVisualMedia()){
+
+
+            if (uri != null) {
+                Log.d("print_logs", "Selected URI: $uri")
+            } else {
+                Log.d("print_logs", "No media selected")
+            }
+        }
+        findViewById<AppCompatButton>(R.id.onPickVisualMedia).setOnClickListener {
+            //验证照片选择器在设备上是否可用
+            if (ActivityResultContracts.PickVisualMedia.isPhotoPickerAvailable(this)) {
+//            pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageAndVideo))
+//            pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+            pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.VideoOnly))
+
+//            val mimetype="image/gif"
+//            pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.SingleMimeType(mimetype)))
+            }else{
+                if (BuildConfig.DEBUG) {
+                    Log.i("print_logs", "MainActivity::setCallback: 系统不适用")
+                }
+            }
+        }
+
+        //多项图片选择器
+        val pickMultipleMedia=registerForActivityResult(ActivityResultContracts.PickMultipleVisualMedia(3)){
+            if (it.isNotEmpty()) {
+                if (BuildConfig.DEBUG) {
+                    Log.i("print_logs", "MainActivity::setCallback: ${it.size}")
+                }
+            }else{
+                if (BuildConfig.DEBUG) {
+                    Log.i("print_logs", "No media selected: nothing")
+                }
+            }
+        }
+        findViewById<AppCompatButton>(R.id.onPickMultipleVisualMedia).setOnClickListener {
+            //验证照片选择器在设备上是否可用
+            if (ActivityResultContracts.PickVisualMedia.isPhotoPickerAvailable(this)) {
+                pickMultipleMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageAndVideo))
+            }else{
+                if (BuildConfig.DEBUG) {
+                    Log.i("print_logs", "MainActivity::setCallback: 系统不适用")
+                }
+            }
+        }
+
 
 
         //调用MediaStore.ACTION_VIDEO_CAPTURE 拍摄视频，保存到给定的Uri地址，返回一张缩略图

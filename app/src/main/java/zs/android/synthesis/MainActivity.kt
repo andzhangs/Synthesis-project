@@ -1,5 +1,6 @@
 package zs.android.synthesis
 
+import android.app.ProgressDialog.show
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -38,20 +39,21 @@ class MainActivity : AppCompatActivity() {
             commit()
         }
 
-        showFragment(mFragments[0])
+        showFragment(0)
 
         findViewById<AppCompatButton>(R.id.acBtn_img_labeler).setOnClickListener {
-            showFragment(mFragments[0])
+            showFragment(0)
         }
         findViewById<AppCompatButton>(R.id.acBtn_cross_device).setOnClickListener {
-            showFragment(mFragments[1])
+            showFragment(1)
         }
         findViewById<AppCompatButton>(R.id.acBtn_cronet).setOnClickListener {
-            showFragment(mFragments[2])
+            showFragment(2)
         }
     }
 
-    private fun showFragment(fragment: Fragment) {
+    private fun showFragment(position: Int) {
+        val fragment = mFragments[position]
         supportFragmentManager.beginTransaction().apply {
             mFragments.forEach {
                 if (it.javaClass.simpleName == fragment.javaClass.simpleName) {
