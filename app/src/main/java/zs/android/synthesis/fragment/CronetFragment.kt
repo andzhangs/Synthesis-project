@@ -2,7 +2,6 @@ package zs.android.synthesis.fragment
 
 import android.os.Bundle
 import android.os.Handler
-import android.os.Handler.Callback
 import android.os.Looper
 import android.os.Message
 import android.util.Log
@@ -13,10 +12,6 @@ import android.view.ViewGroup
 import androidx.activity.result.ActivityResultCaller
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatTextView
-import androidx.core.content.ContentProviderCompat.requireContext
-import com.google.ambient.crossdevice.discovery.DevicePickerLauncher
-import com.google.ambient.crossdevice.discovery.Discovery
-import com.google.ambient.crossdevice.wakeup.startComponentRequest
 import com.google.android.gms.net.CronetProviderInstaller
 import org.chromium.net.CronetEngine
 import org.chromium.net.CronetException
@@ -77,18 +72,16 @@ class CronetFragment : Fragment(), ActivityResultCaller {
             info: UrlResponseInfo?,
             newLocationUrl: String?
         ) {
-            Log.i("print_logs", "CronetFragment::onRedirectReceived: $info")
             printStatus(request, "onRedirectReceived")
-
+            Log.i("print_logs", "CronetFragment::onRedirectReceived: $info")
             strBuilder.append("onRedirectReceived").append("\n")
 
             request?.followRedirect()
         }
 
         override fun onResponseStarted(request: UrlRequest?, info: UrlResponseInfo?) {
-            Log.i("print_logs", "CronetFragment::onResponseStarted: $info")
-
             printStatus(request, "onResponseStarted")
+            Log.i("print_logs", "CronetFragment::onResponseStarted: $info")
 
             strBuilder.append("onResponseStarted").append("\n")
 
@@ -128,8 +121,8 @@ class CronetFragment : Fragment(), ActivityResultCaller {
         }
 
         override fun onSucceeded(request: UrlRequest?, info: UrlResponseInfo?) {
-            Log.i("print_logs", "CronetFragment::onSucceeded: $info")
             printStatus(request, "onSucceeded")
+            Log.i("print_logs", "CronetFragment::onSucceeded: $info")
 
             strBuilder.append("onSucceeded：$info")
 
@@ -154,7 +147,7 @@ class CronetFragment : Fragment(), ActivityResultCaller {
         }
 
         private fun printStatus(request: UrlRequest?, methodName: String) {
-            Log.w("print_logs", "CronetFragment::printStatus: ${Thread.currentThread().name}")
+            Log.w("print_logs", "printStatus::$methodName ${Thread.currentThread().name}")
             request?.getStatus(object : UrlRequest.StatusListener() {
                 override fun onStatus(status: Int) {
                     Log.d("print_logs", "$methodName-onStatus: $status")

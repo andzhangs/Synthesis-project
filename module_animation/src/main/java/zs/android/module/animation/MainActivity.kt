@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         findViewById<AppCompatTextView>(R.id.tv_info).setOnClickListener {
             AnimatorSet().apply {
-                ObjectAnimator.ofFloat(it, "TranslationY", 100F).apply {
+                ObjectAnimator.ofFloat(it, "TranslationY", 200F).apply {
                     duration = 1000
                     start()
                     play(this)
@@ -34,7 +34,6 @@ class MainActivity : AppCompatActivity() {
                     start()
                     play(this)
                 }
-
                 start()
             }
         }

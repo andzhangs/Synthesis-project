@@ -94,22 +94,6 @@
             android:textSize="12sp" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/onPickVisualMedia"
-            android:layout_width="wrap_content"
-            android:layout_height="?attr/actionBarSize"
-            android:gravity="center"
-            android:text="PickVisualMedia"
-            android:textSize="12sp" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/onPickMultipleVisualMedia"
-            android:layout_width="wrap_content"
-            android:layout_height="?attr/actionBarSize"
-            android:gravity="center"
-            android:text="PickMultipleVisualMedia"
-            android:textSize="12sp" />
-
-        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/onCaptureVideo"
             android:layout_width="wrap_content"
             android:layout_height="?attr/actionBarSize"

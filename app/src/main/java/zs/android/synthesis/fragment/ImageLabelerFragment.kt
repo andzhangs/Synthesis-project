@@ -39,16 +39,16 @@ class ImageLabelerFragment : Fragment() {
         btnGetInfo.setOnClickListener {
             val labeler = ImageLabeling.getClient(ImageLabelerOptions.DEFAULT_OPTIONS)
             val image = InputImage.fromBitmap(bitmap!!, 0)
-            var outPutText = ""
+            val stringBuilder=StringBuilder()
             labeler.process(image)
                 .addOnSuccessListener {
                     it.forEach { imageLabel ->
                         val index = imageLabel.index
                         val text = imageLabel.text
                         val confidence = imageLabel.confidence
-                        outPutText += "$index，$text, $confidence \n"
+                        stringBuilder.append("$index，$text, $confidence").append("\n")
                     }
-                    textOutput.text = outPutText
+                    textOutput.text = stringBuilder.toString()
                 }.addOnFailureListener {
                     Log.e("print_logs", "MainActivity::onCreate: $it")
                 }

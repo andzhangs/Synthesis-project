@@ -1,8 +1,11 @@
 package zs.android.module.java8.lambda
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import zs.android.module.java8.MainActivity
 import zs.android.module.java8.R
+import zs.android.module.java8.beans.UserModel
 
 class LambdaActivity : AppCompatActivity() {
 
@@ -20,5 +23,26 @@ class LambdaActivity : AppCompatActivity() {
             //find：查找集合内第一个满足条件的元素
             this.find { it == 2 }
         }
+
+
+        val stringConverter = object : Converter<Int, String> {
+            override fun convert(from: Int): String {
+                return from.toString()
+            }
+        }
+
+        stringConverter.convert(100)
+    }
+
+    @FunctionalInterface
+    interface Converter<F, T> {
+        fun convert(from: F): T
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setResult(RESULT_OK, Intent().apply {
+            putExtra(MainActivity.RESULT_VALUE, this@LambdaActivity::class.java.simpleName)
+        })
     }
 }

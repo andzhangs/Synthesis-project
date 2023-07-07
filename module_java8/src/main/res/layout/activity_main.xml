@@ -4,13 +4,35 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:orientation="vertical">
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/acTv_info"
-        android:layout_width="wrap_content"
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/ll_root"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="Hello World!" />
+        android:orientation="vertical">
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/acBtn_stream"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Stream"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/acBtn_lambda"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Lambda"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/acBtn_functional"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Functional函数式编程"/>
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/acBtn_new_date_api"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="新的日期API"/>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
 </androidx.core.widget.NestedScrollView>

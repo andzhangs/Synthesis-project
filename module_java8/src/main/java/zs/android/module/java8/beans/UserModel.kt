@@ -9,4 +9,8 @@ import kotlinx.parcelize.Parcelize
  * @description
  */
 @Parcelize
-data class UserModel(val name: String = "", val sex: String = "", val age: String? = "") : Parcelable
+data class UserModel(val name: String = "", val sex: String = "", val age: String? = "") : Parcelable{
+    override fun toString(): String {
+        return "UserModel(name='$name', sex='$sex', age=$age)"
+    }
+}

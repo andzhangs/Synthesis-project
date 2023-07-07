@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".MainActivity">
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/acTv_Adapter_Q"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="适配AndroidQ-10-新建文件" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/onPickVisualMedia"
+            android:layout_width="wrap_content"
+            android:layout_height="?attr/actionBarSize"
+            android:gravity="center"
+            android:text="PickVisualMedia"
+            android:textSize="12sp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/onPickMultipleVisualMedia"
+            android:layout_width="wrap_content"
+            android:layout_height="?attr/actionBarSize"
+            android:gravity="center"
+            android:text="PickMultipleVisualMedia"
+            android:textSize="12sp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
+            android:orientation="vertical"
+            android:padding="1dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:itemCount="9"
+            tools:listitem="@layout/layout_item" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/acBtn_is_has_selected"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="是否有选中的？" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/acBtn_get_selected"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="获取选中的数据" />
+
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/acBtn_selected_second"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="选中第二个" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/acBtn_unselected_second"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="取消选中第二个" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/acBtn_clear_selected"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="退出多选" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/acTv_selected_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</androidx.core.widget.NestedScrollView>
+
+
