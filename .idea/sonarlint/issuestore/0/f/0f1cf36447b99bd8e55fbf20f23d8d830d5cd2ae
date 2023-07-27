@@ -1,0 +1,22 @@
+
+Fkotlin:S1172¨"-Remove this unused function parameter "view".(¨×ÓÅ
+Kkotlin:S1172¼"-Remove this unused function parameter "view".(Ş»ˆÕúÿÿÿÿ
+Kkotlin:S1172Ï"-Remove this unused function parameter "view".(ôÔƒâşÿÿÿÿ
+Fkotlin:S1172â"-Remove this unused function parameter "view".(æ¼ÿ¸
+Fkotlin:S1172ñ"-Remove this unused function parameter "view".(ÕÊ½ù
+Gkotlin:S6508("*Replace this usage of Void type with Unit.(ù“·Êøÿÿÿÿ
+Gkotlin:S6508+"*Replace this usage of Void type with Unit.(À²ÿûÿÿÿÿ
+Skotlin:S899¡";Do something with the "Boolean" value returned by "delete".(µÜÒ
+kotlin:S6611n"rMap values should be accessed safely. Using the non-null assertion operator here can throw a NullPointerException.(íÇÓİøÿÿÿÿ
+Škotlin:S6611y"rMap values should be accessed safely. Using the non-null assertion operator here can throw a NullPointerException.(ªÎ›æ
+kotlin:S6611„"rMap values should be accessed safely. Using the non-null assertion operator here can throw a NullPointerException.(·¸ˆøüÿÿÿÿ
+‹kotlin:S6611"rMap values should be accessed safely. Using the non-null assertion operator here can throw a NullPointerException.(Àóô
+‹kotlin:S6611š"rMap values should be accessed safely. Using the non-null assertion operator here can throw a NullPointerException.(Ë”¦ò
+;kotlin:S125W"Remove this commented out code.(——Üşøÿÿÿÿ
+<kotlin:S125¯"Remove this commented out code.(–Äşşûÿÿÿÿ
+2kotlin:S1128"Remove this unused import.(úºÆÿ
+2kotlin:S1128"Remove this unused import.(Ÿ®ËÍ
+ikotlin:S1192Ç"KDefine a constant instead of duplicating this literal "text/plain" 4 times.(šˆ†úÿÿÿÿ
+wkotlin:S1192¶"YDefine a constant instead of duplicating this literal "MainActivity::onCancel: " 3 times.(Áå½Àùÿÿÿÿ
+;kotlin:S1874³"#Deprecated code should not be used.(¹®U
+jkotlin:S3776?"RRefactor this method to reduce its Cognitive Complexity from 77 to the 15 allowed.(õ“Š

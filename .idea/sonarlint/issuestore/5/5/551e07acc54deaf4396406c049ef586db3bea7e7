@@ -1,0 +1,59 @@
+
+j
+java:S1104$"TMake buildKey a static final constant or non-public and provide accessors if needed.(¢™ãô
+p
+java:S1104%"UMake buildType a static final constant or non-public and provide accessors if needed.(À¿Ì¬ıÿÿÿÿ
+n
+java:S1104&"XMake buildIsFirst a static final constant or non-public and provide accessors if needed.(¯Ã©•
+u
+java:S1104'"ZMake buildIsLastest a static final constant or non-public and provide accessors if needed.(­•İúÿÿÿÿ
+t
+java:S1104("YMake buildFileSize a static final constant or non-public and provide accessors if needed.(¼¦Œ¼øÿÿÿÿ
+p
+java:S1104)"UMake buildName a static final constant or non-public and provide accessors if needed.(ó±¯·ùÿÿÿÿ
+n
+java:S1104*"SMake iconUrl a static final constant or non-public and provide accessors if needed.(äââ¯ÿÿÿÿÿ
+n
+java:S1104+"XMake buildVersion a static final constant or non-public and provide accessors if needed.(À¨íô
+u
+java:S1104,"ZMake buildVersionNo a static final constant or non-public and provide accessors if needed.(Üğ¦‡ûÿÿÿÿ
+s
+java:S1104-"]Make buildBuildVersion a static final constant or non-public and provide accessors if needed.(ïÏØê
+v
+java:S1104."[Make buildIdentifier a static final constant or non-public and provide accessors if needed.(Ö¢¤ùÿÿÿÿÿ
+p
+java:S1104/"UMake buildIcon a static final constant or non-public and provide accessors if needed.(„î îúÿÿÿÿ
+w
+java:S11040"\Make buildDescription a static final constant or non-public and provide accessors if needed.(¦¥ö¥ùÿÿÿÿ
+}
+java:S11041"bMake buildUpdateDescription a static final constant or non-public and provide accessors if needed.(Úáøøÿÿÿÿ
+r
+java:S11042"\Make buildScreenShots a static final constant or non-public and provide accessors if needed.(ãÖâ½
+z
+java:S11043"_Make buildScreenshotsUrl a static final constant or non-public and provide accessors if needed.(±ş“øùÿÿÿÿ
+q
+java:S11044"\Make buildShortcutUrl a static final constant or non-public and provide accessors if needed.(İ’ºI
+q
+java:S11045"VMake buildCates a static final constant or non-public and provide accessors if needed.(ñ©æÚúÿÿÿÿ
+u
+java:S11046"ZMake buildQRCodeURL a static final constant or non-public and provide accessors if needed.(¬º€ñûÿÿÿÿ
+n
+java:S11047"XMake buildCreated a static final constant or non-public and provide accessors if needed.(Â†Ò‚
+s
+java:S11048"XMake buildUpdated a static final constant or non-public and provide accessors if needed.(ïÏÁØüÿÿÿÿ
+k
+java:S11049"UMake otherApps a static final constant or non-public and provide accessors if needed.(Óœ¿
+u
+java:S1104:"ZMake otherAppsCount a static final constant or non-public and provide accessors if needed.(¾Ÿ”êıÿÿÿÿ
+j
+java:S1104F"TMake buildKey a static final constant or non-public and provide accessors if needed.(¢™ãô
+p
+java:S1104G"UMake buildName a static final constant or non-public and provide accessors if needed.(ó±¯·ùÿÿÿÿ
+n
+java:S1104H"XMake buildVersion a static final constant or non-public and provide accessors if needed.(À¨íô
+s
+java:S1104I"]Make buildBuildVersion a static final constant or non-public and provide accessors if needed.(ïÏØê
+n
+java:S1104J"XMake buildCreated a static final constant or non-public and provide accessors if needed.(Â†Ò‚
+s
+java:S1104K"XMake buildUpdated a static final constant or non-public and provide accessors if needed.(ïÏÁØüÿÿÿÿ

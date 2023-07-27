@@ -1,0 +1,63 @@
+
+o
+java:S1104"YMake apkOutputPath a static final constant or non-public and provide accessors if needed.(†ß±„
+i
+java:S1104"SMake apkName a static final constant or non-public and provide accessors if needed.(ñĞèö
+f
+java:S1104"QMake isPgy a static final constant or non-public and provide accessors if needed.(Ü¶Ùl
+p
+java:S1104"UMake pgyConfig a static final constant or non-public and provide accessors if needed.(Ü¤ùÿÿÿÿ
+l
+java:S1104"WMake firImConfig a static final constant or non-public and provide accessors if needed.(ö‚¾+
+j
+java:S1104"TMake ddConfig a static final constant or non-public and provide accessors if needed.(¤íî­
+p
+java:S1104"UMake ddContent a static final constant or non-public and provide accessors if needed.(ôÛäáüÿÿÿÿ
+l
+java:S1104"VMake pgyBaseUrl a static final constant or non-public and provide accessors if needed.(É™¿–
+k
+java:S1104 "UMake pgyAppKey a static final constant or non-public and provide accessors if needed.(ÚÚ´¨
+j
+java:S1104""UMake pgyApiKey a static final constant or non-public and provide accessors if needed.(à¶Ğp
+s
+java:S1104$"XMake pgyBuildType a static final constant or non-public and provide accessors if needed.(ó¯‰şÿÿÿÿ
+l
+java:S1104&"VMake pgyOversea a static final constant or non-public and provide accessors if needed.(èàÚ
+u
+java:S1104("_Make pgyBuildInstallType a static final constant or non-public and provide accessors if needed.(ğîı˜
+w
+java:S1104*"\Make pgyBuildPassword a static final constant or non-public and provide accessors if needed.(†ÃÊìúÿÿÿÿ
+z
+java:S1104,"_Make pgyBuildDescription a static final constant or non-public and provide accessors if needed.(Ì˜¾ïşÿÿÿÿ
+€
+java:S1104."eMake pgyBuildUpdateDescription a static final constant or non-public and provide accessors if needed.(¸ó—ìşÿÿÿÿ
+z
+java:S11040"_Make pgyBuildInstallDate a static final constant or non-public and provide accessors if needed.(ÀÁ°Åüÿÿÿÿ
+y
+java:S11042"dMake pgyBuildInstallStartDate a static final constant or non-public and provide accessors if needed.(³Ñ¨g
+x
+java:S11044"bMake pgyBuildInstallEndDate a static final constant or non-public and provide accessors if needed.(á‚œš
+y
+java:S11046"cMake pgyBuildChannelShortcut a static final constant or non-public and provide accessors if needed.(™ñÕŞ
+r
+java:S1104?"WMake ddWebSecret a static final constant or non-public and provide accessors if needed.(ÂÏë¯üÿÿÿÿ
+s
+java:S1104@"XMake ddWebHookUrl a static final constant or non-public and provide accessors if needed.(ºèË›úÿÿÿÿ
+l
+java:S1104J"VMake firBaseUrl a static final constant or non-public and provide accessors if needed.(·Á›ô
+k
+java:S1104L"PMake type a static final constant or non-public and provide accessors if needed.(ÙşÓ¼ûÿÿÿÿ
+r
+java:S1104N"WMake packageName a static final constant or non-public and provide accessors if needed.(ƒ³½úÿÿÿÿ
+o
+java:S1104P"TMake apiToken a static final constant or non-public and provide accessors if needed.(ÊàÊêùÿÿÿÿ
+f
+java:S1104R"PMake icon a static final constant or non-public and provide accessors if needed.(­À¤
+g
+java:S1104T"QMake xName a static final constant or non-public and provide accessors if needed.( ¹æü
+o
+java:S1104V"TMake xVersion a static final constant or non-public and provide accessors if needed.(•ô¥œşÿÿÿÿ
+h
+java:S1104X"RMake xBuild a static final constant or non-public and provide accessors if needed.(™û¼¯
+q
+java:S1104Z"VMake xChangeLog a static final constant or non-public and provide accessors if needed.(¿£•Ôÿÿÿÿÿ

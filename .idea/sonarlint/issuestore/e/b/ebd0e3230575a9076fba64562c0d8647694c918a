@@ -1,0 +1,36 @@
+
+f
+java:S11041"QMake mData a static final constant or non-public and provide accessors if needed.(­»çr
+@
+java:S14441"+Make this "public static mData" field final(­»çr
+j
+java:S14500"TRemove the "mGson" field and declare it as a local variable in the relevant methods.(’îîº
+r
+java:S1450/"WRemove the "mProject" field and declare it as a local variable in the relevant methods.(øÜ·Çÿÿÿÿÿ
+o
+java:S14502"YRemove the "mTimestamp" field and declare it as a local variable in the relevant methods.(ÓØæ¸
+´
+java:S6548-"˜A Singleton implementation was detected. Make sure the use of the Singleton pattern is required and the implementation is the right one for the context.(Â¹¨·ıÿÿÿÿ
+N	java:S106r"9Replace this use of System.out or System.err by a logger.(‹æó
+S	java:S106x"9Replace this use of System.out or System.err by a logger.(–·¢üÿÿÿÿ
+O	java:S106…"9Replace this use of System.out or System.err by a logger.(‹æó
+T	java:S106‹"9Replace this use of System.out or System.err by a logger.(–·¢üÿÿÿÿ
+H
+java:S3599",Use another way to initialize this instance.(˜ÿµ›şÿÿÿÿ
+u
+java:S1171"YMove the contents of this initializer to a standard constructor or to field initializers.(ÒÌâ–øÿÿÿÿ
+H
+java:S3599Ü",Use another way to initialize this instance.(®³ã†ıÿÿÿÿ
+u
+java:S1171İ"YMove the contents of this initializer to a standard constructor or to field initializers.(ÒÌâ–øÿÿÿÿ
+C
+java:S3599û",Use another way to initialize this instance.(Ì†²÷
+u
+java:S1171ü"YMove the contents of this initializer to a standard constructor or to field initializers.(ÒÌâ–øÿÿÿÿ
+n
+java:S3776‘"RRefactor this method to reduce its Cognitive Complexity from 20 to the 15 allowed.(˜ÁÉ‹ùÿÿÿÿ
+M
+java:S2696ï"6Make the enclosing method "static" or remove this set.(±ò³å
+N	java:S106ó"9Replace this use of System.out or System.err by a logger.(‚š‰1
+G
+java:S1068/",Remove this unused "mProject" private field.(øÜ·Çÿÿÿÿÿ

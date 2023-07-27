@@ -1,7 +1,12 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
 
+    ext {
+        kotlin_version = '1.9.0'
+    }
     repositories {
+        mavenCentral()
+
 //        mavenCentral()
 //        google()
 //        jcenter()
@@ -20,6 +25,7 @@ buildscript {
         classpath "com.squareup.okhttp3:okhttp:3.14.9"
         classpath "com.squareup.retrofit2:retrofit:2.9.0"
         classpath "com.squareup.retrofit2:converter-gson:2.3.0"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
         //模拟远程仓库依赖
 //        classpath 'cn.andzhang.android:android-plugin:1.0.0'
@@ -28,7 +34,7 @@ buildscript {
 }
 
 plugins {
-    id 'com.android.application' version '7.3.1' apply false
-    id 'com.android.library' version '7.3.1' apply false
-    id 'org.jetbrains.kotlin.android' version '1.7.20' apply false
+    id 'com.android.application' version '8.0.0' apply false
+    id 'com.android.library' version '8.0.0' apply false
+    id 'org.jetbrains.kotlin.android' version '1.8.10' apply false
 }

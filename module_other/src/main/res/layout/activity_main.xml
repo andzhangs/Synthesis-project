@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/root_ll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/acBtn_handler_thread_start"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="HandlerThread-start" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/acBtn_handler_thread_quit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="HandlerThread-quit" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/acBtn_seismic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Seismic-感应器" />
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/acBtn_back_pressed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="OnBackPressedDispatcher" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.core.widget.NestedScrollView>
+</layout>

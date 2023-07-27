@@ -1,0 +1,75 @@
+
+n
+java:S1104"SMake msgtype a static final constant or non-public and provide accessors if needed.(àÕğƒúÿÿÿÿ
+f
+java:S1104"PMake text a static final constant or non-public and provide accessors if needed.(ñ›‚°
+f
+java:S1104"PMake link a static final constant or non-public and provide accessors if needed.(ÕîÍŞ
+g
+java:S1104"QMake photo a static final constant or non-public and provide accessors if needed.(´òœç
+j
+java:S1104"TMake markdown a static final constant or non-public and provide accessors if needed.(ØˆÜé
+k
+java:S1104"VMake actionCard a static final constant or non-public and provide accessors if needed.(àË½[
+o
+java:S1104"TMake feedCard a static final constant or non-public and provide accessors if needed.(š–ì’ûÿÿÿÿ
+c
+java:S1104"NMake at a static final constant or non-public and provide accessors if needed.(äâ~
+i
+java:S1104"SMake content a static final constant or non-public and provide accessors if needed.(­ÁÅ’
+k
+java:S1104("PMake text a static final constant or non-public and provide accessors if needed.(øò¨ıÿÿÿÿ
+g
+java:S1104)"QMake title a static final constant or non-public and provide accessors if needed.(Å¬õ
+m
+java:S1104*"RMake picUrl a static final constant or non-public and provide accessors if needed.(šåüúÿÿÿÿ
+q
+java:S1104+"VMake messageUrl a static final constant or non-public and provide accessors if needed.(ª‚ÜËÿÿÿÿÿ
+o
+java:S11048"TMake photoURL a static final constant or non-public and provide accessors if needed.(“ˆÆ»ùÿÿÿÿ
+f
+java:S1104E"QMake title a static final constant or non-public and provide accessors if needed.(ğ¡Â#
+e
+java:S1104F"PMake text a static final constant or non-public and provide accessors if needed.( ÅÖ 
+f
+java:S1104S"QMake title a static final constant or non-public and provide accessors if needed.(ğ¡Â#
+k
+java:S1104T"PMake text a static final constant or non-public and provide accessors if needed.(öØÿÿÿÿÿ
+p
+java:S1104V"ZMake btnOrientation a static final constant or non-public and provide accessors if needed.(Í›ğ—
+r
+java:S1104X"WMake singleTitle a static final constant or non-public and provide accessors if needed.(†‹Àıÿÿÿÿ
+p
+java:S1104Y"UMake singleURL a static final constant or non-public and provide accessors if needed.( É¶üÿÿÿÿ
+f
+java:S1104["PMake btns a static final constant or non-public and provide accessors if needed.(áî¢¹
+g
+java:S1104_"QMake title a static final constant or non-public and provide accessors if needed.(£üÄ
+p
+java:S1104`"UMake actionURL a static final constant or non-public and provide accessors if needed.(†ªò¶ùÿÿÿÿ
+l
+java:S1104s"QMake links a static final constant or non-public and provide accessors if needed.(–›“ûÿÿÿÿ
+g
+java:S1104v"QMake title a static final constant or non-public and provide accessors if needed.(ÀĞ•è
+l
+java:S1104w"VMake messageURL a static final constant or non-public and provide accessors if needed.(ûË‰ó
+h
+java:S1104x"RMake picURL a static final constant or non-public and provide accessors if needed.(óªÅ£
+l
+java:S1104Š"UMake atMobiles a static final constant or non-public and provide accessors if needed.(Ü‚âá
+l
+java:S1104‹"UMake atUserIds a static final constant or non-public and provide accessors if needed.(Ü²—¯
+j
+java:S1104Œ"SMake isAtAll a static final constant or non-public and provide accessors if needed.(İäÅ
+o
+java:S1104›"YMake msg_param_map a static final constant or non-public and provide accessors if needed.(Å€ûe
+y
+java:S1104œ"bMake msg_media_id_param_map a static final constant or non-public and provide accessors if needed.(è¤æà
+q
+java:S1104Ÿ"UMake type_name a static final constant or non-public and provide accessors if needed.(õøÖÃûÿÿÿÿ
+t
+java:S1104¨"XMake img_media_id a static final constant or non-public and provide accessors if needed.(ÙÄ£†şÿÿÿÿ
+m	java:S116›"XRename this field "msg_param_map" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Å€ûe
+w	java:S116œ"aRename this field "msg_media_id_param_map" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(è¤æà
+o	java:S116Ÿ"TRename this field "type_name" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(õøÖÃûÿÿÿÿ
+r	java:S116¨"WRename this field "img_media_id" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÙÄ£†şÿÿÿÿ

@@ -1,0 +1,9 @@
+
+pkotlin:S117ƒ"SRename this local variable to match the regular expression ^`?[_a-z][a-zA-Z0-9]*`?$(êËø˜øÿÿÿÿ
+}kotlin:S100$"fRename function "getRealPathFromUri_AboveApi19" to match the regular expression ^[a-zA-Z][a-zA-Z0-9]*$(›ŞŠ
+kotlin:S100P"eRename function "getRealPathFromUri_Api11To18" to match the regular expression ^[a-zA-Z][a-zA-Z0-9]*$(Âæíøúÿÿÿÿ
+‚kotlin:S100a"fRename function "getRealPathFromUri_BelowApi11" to match the regular expression ^[a-zA-Z][a-zA-Z0-9]*$(ª‡´ÿÿÿÿÿ
+jkotlin:S3776$"RRefactor this method to reduce its Cognitive Complexity from 16 to the 15 allowed.(›ŞŠ
+Zkotlin:S6511%"=Merge chained "if" statements into a single "when" statement.(€½òşÿÿÿÿ
+Ukotlin:S6511&"=Merge chained "if" statements into a single "when" statement.(óö±Î
+Zkotlin:S65118"=Merge chained "if" statements into a single "when" statement.(ôÌØ şÿÿÿÿ

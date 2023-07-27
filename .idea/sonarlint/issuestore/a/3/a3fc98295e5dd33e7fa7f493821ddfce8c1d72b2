@@ -1,0 +1,23 @@
+
+C
+java:S1604!"(Make this anonymous inner class a lambda(ƒ¬÷úþÿÿÿÿ
+C
+java:S1604&"(Make this anonymous inner class a lambda(½ÖßÊþÿÿÿÿ
+>
+java:S1604"(Make this anonymous inner class a lambda(ùÊ‡¢
+C
+java:S16044"(Make this anonymous inner class a lambda(µä÷¢ùÿÿÿÿ
+C
+java:S1604:"(Make this anonymous inner class a lambda(²¶Êÿÿÿÿÿ
+>
+java:S1604C"(Make this anonymous inner class a lambda(óÓ¡½
+u	java:S116"[Rename this field "GROUP_ID_ANDROID" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(§‚‰ßúÿÿÿÿ
+o	java:S116"ZRename this field "TASK_NAME_TOKEN" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¥ä¢Ò
+p	java:S116"[Rename this field "TASK_NAME_UPLOAD" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(›Ò€Û
+<
+java:S1170"!Make this final field static too.(§‚‰ßúÿÿÿÿ
+7
+java:S1170"!Make this final field static too.(¥ä¢Ò
+7
+java:S1170"!Make this final field static too.(›Ò€Û
+Q	java:S125I"<This block of commented-out lines of code should be removed.(ØýóÌ

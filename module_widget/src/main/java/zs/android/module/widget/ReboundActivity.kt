@@ -58,7 +58,7 @@ class ReboundActivity : AppCompatActivity(), ItemListDialogFragment.Listener {
                     super.onSpringUpdate(spring)
                     val value = spring.currentValue
                     val scale = 1F - (value * 0.5F)
-                    with(mDataBinding.acImgView) {
+                    mDataBinding.acImgView.run {
                         scaleX = scale.toFloat()
                         scaleY = scale.toFloat()
                     }

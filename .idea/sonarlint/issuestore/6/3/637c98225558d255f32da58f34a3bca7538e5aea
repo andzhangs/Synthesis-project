@@ -1,0 +1,10 @@
+
+n
+java:S1104"XMake download_url a static final constant or non-public and provide accessors if needed.(ø€”ñ
+n
+java:S1104"XMake is_completed a static final constant or non-public and provide accessors if needed.(Üİ½­
+q
+java:S1104"VMake release_id a static final constant or non-public and provide accessors if needed.(ÜÊòüùÿÿÿÿ
+l	java:S116"WRename this field "download_url" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ø€”ñ
+l	java:S116"WRename this field "is_completed" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Üİ½­
+o	java:S116"URename this field "release_id" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÜÊòüùÿÿÿÿ

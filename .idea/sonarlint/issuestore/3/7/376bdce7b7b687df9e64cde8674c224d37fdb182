@@ -1,0 +1,14 @@
+
+Jkotlin:S6508¦"*Replace this usage of Void type with Unit.(§¨é8ëˆÒÀ”1
+Jkotlin:S6508´"*Replace this usage of Void type with Unit.(§¨é8ëˆÒÀ”1
+=kotlin:S125Z"Remove this commented out code.( “­Ì8óˆÒÀ”1
+=kotlin:S125l"Remove this commented out code.(ˆ…Œä8öˆÒÀ”1
+>kotlin:S125"Remove this commented out code.(û–Ï‹8÷ˆÒÀ”1
+>kotlin:S125ƒ"Remove this commented out code.(ìóƒò8øˆÒÀ”1
+>kotlin:S1128"Remove this unused import.(ü‘»¡ıÿÿÿÿ8’‰ÒÀ”1
+>kotlin:S1128"Remove this unused import.(½äœéüÿÿÿÿ8“‰ÒÀ”1
+9kotlin:S1128"Remove this unused import.(É¨¥Ú8“‰ÒÀ”1
+9kotlin:S1128	"Remove this unused import.(â˜¯¡8“‰ÒÀ”1
+9kotlin:S1128"Remove this unused import.(ÇĞ‰Û8“‰ÒÀ”1
+>kotlin:S1128"Remove this unused import.(ÍöêÊøÿÿÿÿ8“‰ÒÀ”1
+vkotlin:S3776K"RRefactor this method to reduce its Cognitive Complexity from 16 to the 15 allowed.(¡±¿¥ıÿÿÿÿ8˜‰ÒÀ”1

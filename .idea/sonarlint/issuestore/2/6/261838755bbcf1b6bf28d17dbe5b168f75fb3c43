@@ -1,0 +1,61 @@
+
+„
+java:S1104"oMake user_system_default_download_domain a static final constant or non-public and provide accessors if needed.(íáã[
+i
+java:S1104"NMake id a static final constant or non-public and provide accessors if needed.(Â¥Šˆøÿÿÿÿ
+k
+java:S1104"PMake type a static final constant or non-public and provide accessors if needed.(ÙşÓ¼ûÿÿÿÿ
+q
+java:S1104"[Make download_domain a static final constant or non-public and provide accessors if needed.(ûõÜù
+}
+java:S1104"gMake download_domain_https_ready a static final constant or non-public and provide accessors if needed.(½Øî
+m
+java:S1104"WMake app_user_id a static final constant or non-public and provide accessors if needed.(· ü¶
+n
+java:S1104"SMake storage a static final constant or non-public and provide accessors if needed.(Ì»›Äùÿÿÿÿ
+r
+java:S1104"WMake form_method a static final constant or non-public and provide accessors if needed.(öæ•±ÿÿÿÿÿ
+f
+java:S1104"PMake cert a static final constant or non-public and provide accessors if needed.(™ÎÊ‰
+f
+java:S1104"PMake icon a static final constant or non-public and provide accessors if needed.(·•çÖ
+m
+java:S1104"RMake binary a static final constant or non-public and provide accessors if needed.(Ï­€Òıÿÿÿÿ
+e
+java:S1104 "OMake mqc a static final constant or non-public and provide accessors if needed.(âø€£
+n
+java:S1104!"SMake support a static final constant or non-public and provide accessors if needed.(ŒëîĞüÿÿÿÿ
+h
+java:S1104""RMake prefix a static final constant or non-public and provide accessors if needed.(ïø…©
+j
+java:S1104%"OMake key a static final constant or non-public and provide accessors if needed.(·¢¼Òüÿÿÿÿ
+l
+java:S1104&"QMake token a static final constant or non-public and provide accessors if needed.(œ½Ë„ıÿÿÿÿ
+l
+java:S1104'"VMake upload_url a static final constant or non-public and provide accessors if needed.(¾éÙË
+u
+java:S1104("ZMake custom_headers a static final constant or non-public and provide accessors if needed.(±£çµüÿÿÿÿ
+j
+java:S11045"OMake key a static final constant or non-public and provide accessors if needed.(·¢¼Òüÿÿÿÿ
+l
+java:S11046"QMake token a static final constant or non-public and provide accessors if needed.(œ½Ë„ıÿÿÿÿ
+l
+java:S11047"VMake upload_url a static final constant or non-public and provide accessors if needed.(¾éÙË
+u
+java:S11048"ZMake custom_headers a static final constant or non-public and provide accessors if needed.(±£çµüÿÿÿÿ
+l
+java:S1104E"QMake total a static final constant or non-public and provide accessors if needed.(Õ€çøÿÿÿÿ
+f
+java:S1104F"PMake used a static final constant or non-public and provide accessors if needed.(¼“Ì
+s
+java:S1104G"]Make is_mqc_availabled a static final constant or non-public and provide accessors if needed.(ñ¡¼¾
+‚	java:S116"nRename this field "user_system_default_download_domain" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(íáã[
+o	java:S116"ZRename this field "download_domain" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ûõÜù
+{	java:S116"fRename this field "download_domain_https_ready" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(½Øî
+k	java:S116"VRename this field "app_user_id" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(· ü¶
+p	java:S116"VRename this field "form_method" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(öæ•±ÿÿÿÿÿ
+j	java:S116'"URename this field "upload_url" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¾éÙË
+s	java:S116("YRename this field "custom_headers" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(±£çµüÿÿÿÿ
+j	java:S1167"URename this field "upload_url" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¾éÙË
+s	java:S1168"YRename this field "custom_headers" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(±£çµüÿÿÿÿ
+q	java:S116G"\Rename this field "is_mqc_availabled" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ñ¡¼¾

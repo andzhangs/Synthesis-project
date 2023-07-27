@@ -11,6 +11,11 @@ pluginManagement {
         mavenCentral()
     }
 }
+
+// VERSION_CATALOGS当前并不是稳定版本功能
+// 所以需要预先开启功能预览 enableFeaturePreview('FEATURE')
+//enableFeaturePreview("VERSION_CATALOGS")
+
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
@@ -22,6 +27,12 @@ dependencyResolutionManagement {
         maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
         google()
         mavenCentral()
+    }
+
+    versionCatalogs {
+        libs {
+//            from(files('../gradle/libs.versions/toml'))
+        }
     }
 }
 rootProject.name = "Synthesis-project"
@@ -43,3 +54,7 @@ include ':module_pick'
 include ':module_notification'
 include ':module_service'
 include ':module_media3'
+include ':module_core_ktx'
+include ':module_other'
+include ':module_versions_catalog'
+include ':module_jdbc_mysql'

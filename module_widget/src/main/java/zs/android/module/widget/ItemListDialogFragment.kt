@@ -34,7 +34,6 @@ class ItemListDialogFragment : BottomSheetDialogFragment() {
         }
     }
 
-
     interface Listener {
         fun onItemClicked(position: Int)
     }

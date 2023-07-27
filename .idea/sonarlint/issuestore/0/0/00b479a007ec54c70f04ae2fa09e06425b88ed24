@@ -1,0 +1,18 @@
+
+Lkotlin:S1172",Remove this unused function parameter "uri".(²òş…8˜†ÒÀ”1
+@kotlin:S6615±" Remove this useless initializer.(ä¡¸ş8°†ÒÀ”1
+`kotlin:S6615°";Remove this variable, which is assigned but never accessed.(ïœ¯‡ıÿÿÿÿ8°†ÒÀ”1
+Kkotlin:S6615³"&The value assigned here is never used.(ê¨‹¯øÿÿÿÿ8±†ÒÀ”1
+Bkotlin:S125;"Remove this commented out code.(ëïÔÁüÿÿÿÿ8ş†ÒÀ”1
+Ckotlin:S125ü"Remove this commented out code.(¼¥şşÿÿÿÿ8Š‡ÒÀ”1
+>kotlin:S125à"Remove this commented out code.(¾œÂÕ8‡ÒÀ”1
+Mkotlin:S108Â")Either remove or fill this block of code.(€¸¦’üÿÿÿÿ8â‡ÒÀ”1
+Mkotlin:S108ñ")Either remove or fill this block of code.(€¸¦’üÿÿÿÿ8â‡ÒÀ”1
+Mkotlin:S108õ")Either remove or fill this block of code.(€¸¦’üÿÿÿÿ8â‡ÒÀ”1
+Rkotlin:S1481Ò"2Remove this unused "currentVolume" local variable.(½÷ê¾8ƒˆÒÀ”1
+>kotlin:S1128"Remove this unused import.(·øÓıÿÿÿÿ8¡ˆÒÀ”1
+>kotlin:S1128%"Remove this unused import.(æ”á°ıÿÿÿÿ8¡ˆÒÀ”1
+>kotlin:S1128&"Remove this unused import.(¼¡ÈÉøÿÿÿÿ8¡ˆÒÀ”1
+wkotlin:S3776Æ"RRefactor this method to reduce its Cognitive Complexity from 28 to the 15 allowed.(öÍæšøÿÿÿÿ8ÁˆÒÀ”1
+Rkotlin:S1066}".Merge this "if" statement with the nested one.(Š‘œùÿÿÿÿ8×ˆÒÀ”1
+Skotlin:S1066Í".Merge this "if" statement with the nested one.(Ù„ÿıÿÿÿÿ8×ˆÒÀ”1

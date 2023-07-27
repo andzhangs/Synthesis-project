@@ -38,6 +38,9 @@ import com.andorid.module.pick.selection.base.BaseItemKeyProvider
 import java.io.File
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var mShowInfo: AppCompatTextView
+
     private lateinit var mRecyclerView: RecyclerView
     private val mList = ArrayList<ImageBean>()
     private val mAdapter = ImageAdapter(mList)
@@ -59,6 +62,8 @@ class MainActivity : AppCompatActivity() {
 
             }
         }
+
+        mShowInfo = findViewById(R.id.acTv_selected_info)
 
         createFile()
         selectSingle()
@@ -86,7 +91,7 @@ class MainActivity : AppCompatActivity() {
                     val mUri = insert(MediaStore.Files.getContentUri("external"), contentValues)
                     mUri?.let { it1 ->
                         val outputStream = openOutputStream(it1)
-                        outputStream?.write("HelloWorld".toByteArray())
+                        outputStream?.write("${mShowInfo.text}".toByteArray())
                         outputStream?.close()
                         query(it1, null, null, null, null)?.also { cursor ->
                             while (cursor.moveToNext()) {
@@ -176,23 +181,22 @@ class MainActivity : AppCompatActivity() {
             BaseItemKeyProvider(mList),
             BaseItemDetailsLookup(mRecyclerView),
             StorageStrategy.createParcelableStorage(ImageBean::class.java)
-        ).withSelectionPredicate(SelectionPredicates.createSelectSingleAnything()).build()
+        ).withSelectionPredicate(SelectionPredicates.createSelectAnything()).build()
         //单选：SelectionPredicates.createSelectSingleAnything()
         //多选：SelectionPredicates.createSelectAnything()
         mAdapter.setSelectionTracker(mSelectionTracker)
 
-        mAdapter.setOnItemClickListener(object :
-            ImageAdapter.OnItemClickListener<ImageBean> {
-            override fun onClick(position: Int, bean: ImageBean) {
-                Log.i("print_logs", "onClick: $position, $bean")
+//        mAdapter.setOnItemClickListener(object :
+//            ImageAdapter.OnItemClickListener<ImageBean> {
+//            override fun onClick(position: Int, bean: ImageBean) {
+//                Log.i("print_logs", "onClick: $position, $bean")
 //                if (!mSelectionTracker.isSelected(bean)) {
 //                    Log.i("print_logs", "onClick: ")
 //                    mSelectionTracker.select(bean)
 //                }
-            }
-        })
+//            }
+//        })
 
-        var isClear = false
         mSelectionTracker.addObserver(object : SelectionTracker.SelectionObserver<ImageBean>() {
 
             private var mLastKey: ImageBean? = null
@@ -200,47 +204,41 @@ class MainActivity : AppCompatActivity() {
             override fun onItemStateChanged(key: ImageBean, currentSelected: Boolean) {
                 super.onItemStateChanged(key, currentSelected)
                 if (BuildConfig.DEBUG) {
-                    Log.i("print_logs", "当前选中状态： $key, $currentSelected")
+                    Log.i(
+                        "print_logs",
+                        "MainActivity::onItemStateChanged: ${key.uri}, $currentSelected"
+                    )
                 }
 
-                if (!isClear) { //栈溢出，会崩溃
-                    //方式一
-//                if (mLastKey != null && mLastKey != key) {
-//                    Log.i("print_logs", "onItemStateChanged: 移除上一个 $mLastKey")
-//                    mSelectionTracker.deselect(mLastKey!!)
-//                }
-//
-//                if (mSelectionTracker.selection.isEmpty && !currentSelected) {
-//                    if (BuildConfig.DEBUG) {
-//                        Log.i("print_logs", "onItemStateChanged: 空了，重选当前 $key")
-//                    }
-//                    mSelectionTracker.select(key)
-//                }
-
-
-                    //方式二
-//                    if (currentSelected) {
-//                        if (mLastKey != key) {
-//                            mLastKey?.let { mSelectionTracker.deselect(it) }
-//                        }
-//                    } else {
-//                        val isSelected = mSelectionTracker.hasSelection()
-//                        if (isSelected) {
-//                            mSelectionTracker.deselect(key)
-//                        } else {
-//                            if (mLastKey == key) {
-//                                mSelectionTracker.select(key)
-//                            } else {
-//                                mSelectionTracker.deselect(key)
-//                            }
-//                        }
-//                    }
-//                    mLastKey = key
-                } else {
-                    isClear = false
+                if (!mSelectionTracker.hasSelection()) {
+                    mSelectionTracker.select(key)
                 }
-                mLastKey = key
 
+
+                this.mLastKey = key
+            }
+
+            override fun onSelectionRefresh() {
+                super.onSelectionRefresh()
+                if (BuildConfig.DEBUG) {
+                    Log.i("print_logs", "MainActivity::onSelectionRefresh: ")
+                }
+            }
+
+            override fun onSelectionChanged() {
+                super.onSelectionChanged()
+                if (BuildConfig.DEBUG) {
+                    Log.i("print_logs", "MainActivity::onSelectionChanged: ")
+                }
+
+
+            }
+
+            override fun onSelectionRestored() {
+                super.onSelectionRestored()
+                if (BuildConfig.DEBUG) {
+                    Log.i("print_logs", "MainActivity::onSelectionRestored: ")
+                }
             }
         })
 
@@ -254,7 +252,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         //获取选中的数据
-        val tvInfo = findViewById<AppCompatTextView>(R.id.acTv_selected_info)
+
         findViewById<AppCompatButton>(R.id.acBtn_get_selected).setOnClickListener {
             val sb = StringBuilder()
             mSelectionTracker.selection.forEach {
@@ -263,7 +261,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
 
-            tvInfo.text = sb.toString()
+            mShowInfo.text = sb.toString()
         }
 
         //选中第二个
@@ -282,7 +280,6 @@ class MainActivity : AppCompatActivity() {
 
         //清除选中的
         findViewById<AppCompatButton>(R.id.acBtn_clear_selected).setOnClickListener {
-            isClear = true
             mSelectionTracker.clearSelection()
         }
 
@@ -319,14 +316,14 @@ class MainActivity : AppCompatActivity() {
             if (BuildConfig.DEBUG) {
                 Log.d("print_logs", "canSetStateAtPosition: $position, $nextState")
             }
-            return false
+            return true
         }
 
         override fun canSelectMultiple(): Boolean {
             if (BuildConfig.DEBUG) {
                 Log.d("print_logs", "canSelectMultiple: ")
             }
-            return false
+            return true
         }
     }
 

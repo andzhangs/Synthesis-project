@@ -1,0 +1,17 @@
+
+`	java:S112/"FDefine and throw a dedicated exception instead of using a generic one.(¦Ã÷äıÿÿÿÿ
+`	java:S1126"FDefine and throw a dedicated exception instead of using a generic one.(¦ªÌ¯üÿÿÿÿ
+E
+java:S3740'"/Provide the parametrized type for this generic.(‰ş£µ
+E
+java:S3740E"/Provide the parametrized type for this generic.(×¬¢
+w
+java:S1488F"\Immediately return this expression instead of assigning it to the temporary variable "ifoo".(å¹ùÚúÿÿÿÿ
+0
+java:S1220""Move this file to a named package.
+v
+java:S3008"[Rename this field "PATH_GROOVY_FILE" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(èÙØúÿÿÿÿ
+P
+java:S1118":Add a private constructor to hide the implicit public one.(±æ“Ã
+M	java:S106."9Replace this use of System.out or System.err by a logger.(ı–ø
+S	java:S1065"9Replace this use of System.out or System.err by a logger.(â½¶õùÿÿÿÿ

@@ -49,12 +49,19 @@ dependencies {
     // camera
     def camerax_version = "1.2.1"
     implementation "androidx.camera:camera-core:${camerax_version}"
+    //CameraX 库使用 Camera2 API 来访问相机硬件
     implementation "androidx.camera:camera-camera2:${camerax_version}"
+    //CameraX 库使用 Lifecycle 组件来管理相机的生命周期
     implementation "androidx.camera:camera-lifecycle:${camerax_version}"
     implementation "androidx.camera:camera-video:${camerax_version}"
+    //CameraX 库提供了一个名为 Viewfinder 的组件，它可以用来显示相机预览
     implementation "androidx.camera:camera-view:${camerax_version}"
     implementation "androidx.camera:camera-extensions:${camerax_version}"
 
     // To recognize Chinese script
     implementation 'com.google.mlkit:text-recognition-chinese:16.0.0'
+
+    //参考文档：https://juejin.cn/post/7250396163240673341
+    // MLKit Barcode Scanning依赖
+    implementation 'com.google.mlkit:barcode-scanning:17.1.0'
 }

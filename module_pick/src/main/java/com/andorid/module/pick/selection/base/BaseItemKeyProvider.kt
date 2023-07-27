@@ -9,7 +9,7 @@ import androidx.recyclerview.selection.ItemKeyProvider
  * @description
  */
 class BaseItemKeyProvider<K> constructor(private val mList: List<K>) :
-    ItemKeyProvider<K>(ItemKeyProvider.SCOPE_MAPPED) where K : Parcelable {
+    ItemKeyProvider<K>(ItemKeyProvider.SCOPE_CACHED) where K : Parcelable {
 
     override fun getKey(position: Int) = mList[position]
 

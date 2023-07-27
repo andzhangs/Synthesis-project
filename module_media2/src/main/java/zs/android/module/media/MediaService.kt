@@ -167,7 +167,7 @@ class MediaService : MediaBrowserServiceCompat() {
 
         initMediaPlayer()
 
-        loadNotification()
+//        loadNotification()
     }
 
     /**
@@ -317,7 +317,6 @@ class MediaService : MediaBrowserServiceCompat() {
         override fun onPrepare() {
             super.onPrepare()
             printLog("MediaSessionCompat.Callback::onPrepare: ")
-            mMediaPlayer.prepare()
         }
 
         //预备mediaId
@@ -437,7 +436,7 @@ class MediaService : MediaBrowserServiceCompat() {
 //            stopSelf()
         }
 
-        //快进/快退
+        //指定播放位置
         override fun onSeekTo(pos: Long) {
             super.onSeekTo(pos)
             printLog("MediaSessionCompat.Callback::onSeekTo: ")
