@@ -50,7 +50,7 @@ android {
         includeInApk true
         includeInBundle true
     }
-    ndkVersion '23.1.7779620'
+    ndkVersion '25.1.8937393'
 
     // 自定义打包名称
 //    android.applicationVariants.all { variant ->
@@ -76,7 +76,6 @@ android {
 //            }
 //        }
 //    }
-
 }
 
 dependencies {
@@ -96,7 +95,9 @@ dependencies {
 
     implementation 'com.google.net.cronet:cronet-okhttp:0.1.0'
 
-    implementation('androidx.activity:activity-ktx:1.6.0')
+    implementation('androidx.activity:activity-ktx:1.5.1')
     implementation('org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4')
     implementation('org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4')
+
+
 }
