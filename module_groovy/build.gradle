@@ -1,8 +1,8 @@
 plugins {
-    id 'com.android.application'
+    id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
 //    id 'maven-publish'
-//    id 'groovy'
+    id 'groovy'
 
 }
 
@@ -16,8 +16,8 @@ android {
         applicationId "zs.android.module.groovy"
         minSdk 21
         targetSdk 32
-        versionCode 1
-        versionName "1.0"
+//        versionCode 1
+//        versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -50,74 +50,16 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-    implementation gradleApi()
-    implementation localGroovy()
+//    implementation gradleApi()
+//    implementation localGroovy()
+    implementation 'org.codehaus.groovy:groovy:3.0.13'
 }
 
 /**
  * 遍历变体*/
-this.afterEvaluate {
-    this.android.applicationVariants.all { variant ->
-        def name = variant.name
-        def baseName = variant.baseName
-    }
-}
-
-//文件拷贝
-copy {
-    from file('app.iml')
-    into getRootProject().getBuildDir()
-}
-
-//文件夹拷贝
-copy {
-    from file('build/outputs/apk/')
-    into getRootProject().getBuildDir().path + '/apk/'
-}
-
-//对文件树遍历
-fileTree('build/outputs/apk/') { FileTree tree ->
-    tree.visit { FileTreeElement element ->
-        println element.file.name + '\t' + element.file.absolutePath
-        copy {
-            from element.file
-            into getRootProject().getBuildDir().path + '/apks/'
-        }
-    }
-}
-
-//Gradle执行外部命令
-task('ApkCopy') {
-    doLast {
-        //gradle的执行阶段去执行
-        def sourcePath = this.buildDir.path + '/outputs/apk'
-        def targetPath = '/Users/zhangshuai/IdeaProjects/'
-        def command = "mv -f ${sourcePath} ${targetPath}"
-        exec {
-            try {
-                executable 'bash'
-                args '-c' command
-                println 'the commands is execute success'
-            } catch (GradleException e) {
-                println 'the commands is execute failed'
-                e.printStackTrace()
-            }
-        }
-    }
-}
-
-ext {
-    configs = [compileSdkVersion: 28,
-               targetSdkVersion : 28,
-               versionCode      : 1,
-               versionName      : '1.0.0']
-    libs = [supportVersion: "28.0.0"]
-}
-
-def imoocReleaseInfo() {
-    versionCode = config.versionCode
-    versionName = config.versionName
-    versionInfo = '第1个版本。。。'
-    fileName = 'src/release/res/values/values.xml'
-}
-
+//this.afterEvaluate {
+//    this.android.applicationVariants.all { variant ->
+//        def name = variant.name
+//        def baseName = variant.baseName
+//    }
+//}

@@ -20,10 +20,9 @@
         <versionName>1.0.4</versionName>
         <versionInfo>App第4个版本</versionInfo>
     </release>
-
-<release>
-  <versionCode>105</versionCode>
-  <versionName>1.0.5</versionName>
-  <versionInfo>App第5个版本</versionInfo>
-</release>
+    <release>
+      <versionCode>105</versionCode>
+      <versionName>1.0.5</versionName>
+      <versionInfo>App第5个版本</versionInfo>
+    </release>
 </release>

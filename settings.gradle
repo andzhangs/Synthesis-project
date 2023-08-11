@@ -6,6 +6,10 @@ pluginManagement {
         maven { url 'https://maven.aliyun.com/repository/google' }
         maven { url 'https://maven.aliyun.com/repository/public' }
         maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
+        maven {
+            allowInsecureProtocol = true
+            url 'http://oss.jfrog.org/artifactory/oss-snapshot-local'
+        }
         gradlePluginPortal()
         google()
         mavenCentral()
@@ -25,13 +29,17 @@ dependencyResolutionManagement {
         maven { url 'https://maven.aliyun.com/repository/google' }
         maven { url 'https://maven.aliyun.com/repository/public' }
         maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
+        maven {
+            allowInsecureProtocol = true
+            url 'http://oss.jfrog.org/artifactory/oss-snapshot-local'
+        }
         google()
         mavenCentral()
     }
 
     versionCatalogs {
         libs {
-//            from(files('../gradle/libs.versions/toml'))
+//            from(files('../gradle/libs.versions.toml'))
         }
     }
 }
@@ -42,8 +50,8 @@ include ':module_material'
 include ':module_media2'
 include ':module_widget'
 include ':module_java8'
-include ':module_groovy'
-include ':CustomProjectPlugin'
+//include ':module_groovy'
+//include ':CustomProjectPlugin'
 include ':module_spi'
 include ':module_animation'
 include ':module_tensorflow'

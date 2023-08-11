@@ -21,7 +21,9 @@ buildscript {
     }
     dependencies {
 //        classpath 'com.android.tools.build:gradle:3.6.1'
-        classpath 'org.codehaus.groovy:groovy-android-gradle-plugin:1.0.0'
+//        classpath 'org.codehaus.groovy:groovy-android-gradle-plugin:1.0.0'
+        classpath 'org.codehaus.groovy:groovy-android-gradle-plugin:2.0.1'
+
         classpath "com.squareup.okhttp3:okhttp:3.14.9"
         classpath "com.squareup.retrofit2:retrofit:2.9.0"
         classpath "com.squareup.retrofit2:converter-gson:2.3.0"
