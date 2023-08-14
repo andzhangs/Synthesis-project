@@ -155,10 +155,17 @@
             android:layout_height="?attr/actionBarSize"
             android:text="相册列表" />
 
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/acBtn_getAllAlbum2"
+            android:layout_width="wrap_content"
+            android:layout_height="?attr/actionBarSize"
+            android:text="获取相册目录" />
+
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/acIv"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:visibility="gone" />
+
     </androidx.appcompat.widget.LinearLayoutCompat>
 </androidx.core.widget.NestedScrollView>

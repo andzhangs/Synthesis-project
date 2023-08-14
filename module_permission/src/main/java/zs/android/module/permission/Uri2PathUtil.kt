@@ -9,7 +9,10 @@ import android.os.Build
 import android.os.Environment
 import android.provider.DocumentsContract
 import android.provider.MediaStore
+import android.util.Log
 import androidx.loader.content.CursorLoader
+import java.io.File
+
 
 /**
  * @author zhangshuai@attrsense.com
@@ -161,5 +164,74 @@ object Uri2PathUtil {
      */
     fun isMediaDocument(uri: Uri): Boolean {
         return "com.android.providers.media.documents" == uri.authority
+    }
+
+    fun getAllImageFolders(context: Context): List<String> {
+        val folderPaths: MutableSet<String> = HashSet()
+        val projection =
+            arrayOf(MediaStore.Images.Media.DATA, MediaStore.Images.Media.BUCKET_DISPLAY_NAME)
+        val selection = MediaStore.Images.Media.MIME_TYPE + " LIKE ? "
+        val selectionArgs = arrayOf("image/%")
+        val sortOrder = MediaStore.Images.Media.DATE_MODIFIED + " DESC"
+        var cursor: Cursor? = null
+        try {
+            cursor = context.contentResolver.query(
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                projection,
+                selection,
+                selectionArgs,
+                sortOrder
+            )
+            if (cursor != null) {
+                val folderPathIndex = cursor.getColumnIndex(MediaStore.Images.Media.DATA)
+
+                while (cursor.moveToNext()) {
+                    val imagePath = cursor.getString(folderPathIndex)
+                    File(imagePath).parent?.also { folderPath ->
+                        if (!folderPaths.contains(folderPath)) {
+                            if (BuildConfig.DEBUG) {
+                                Log.d("print_logs", "folderPath: $folderPath")
+                            }
+                            getFileItem(folderPaths, File(folderPath))
+                        }
+                    }
+                }
+            }
+        } catch (e: java.lang.Exception) {
+            Log.e("print_logs", "Error retrieving image folders: " + e.message)
+        } finally {
+            cursor?.close()
+        }
+        return folderPaths.toList()
+    }
+
+    private fun getFileItem(folderPaths: MutableSet<String>, fileParent: File): Boolean {
+        val isDirectory = fileParent.isDirectory
+        if (isDirectory) {
+            fileParent.listFiles()?.forEach { childFile ->
+                if (getFileItem(folderPaths, childFile)) {
+                    folderPaths.add(childFile.toString())
+                } else {
+                    if (BuildConfig.DEBUG) {
+                        Log.i("print_logs", "childFile: ${childFile.name}")
+                    }
+                }
+            }
+        } else {
+            folderPaths.add(fileParent.absolutePath.substringBeforeLast("/"))
+        }
+        return isDirectory
+    }
+
+    @JvmStatic
+    fun getChildImage(parentPath: String): List<String> {
+        val images: MutableSet<String> = HashSet()
+        File(parentPath).listFiles()?.forEach {
+            images.add(it.absolutePath)
+            if (BuildConfig.DEBUG) {
+                Log.i("print_logs", "childImage: $it")
+            }
+        }
+        return images.toList()
     }
 }

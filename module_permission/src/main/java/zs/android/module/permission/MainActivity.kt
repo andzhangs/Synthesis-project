@@ -4,8 +4,6 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Intent
-import android.media.MediaSession2
-import android.media.session.MediaSession
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -262,7 +260,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        Log.i("print_logs", this.applicationContext.packageName)
 
 
         findViewById<AppCompatButton>(R.id.onTakePicture).setOnClickListener {
@@ -282,7 +279,7 @@ class MainActivity : AppCompatActivity() {
             val file = File(cameraPath).apply {
                 if (!this.exists()) {
                     this.mkdirs()
-                }else{
+                } else {
                     if (this.isDirectory) {
                         this.listFiles()?.forEach { file ->
                             if (file.isFile) {
@@ -417,6 +414,15 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<AppCompatButton>(R.id.acBtn_getAllAlbum).setOnClickListener {
             getAllAlbum(it)
+        }
+
+        findViewById<AppCompatButton>(R.id.acBtn_getAllAlbum2).setOnClickListener {
+            Uri2PathUtil.getAllImageFolders(this).forEach {
+                if (BuildConfig.DEBUG) {
+                    Log.i("print_logs", "目录-1: $it")
+                    Uri2PathUtil.getChildImage(it)
+                }
+            }
         }
     }
 

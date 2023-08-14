@@ -27,7 +27,6 @@ import androidx.core.animation.doOnStart
 import androidx.core.content.edit
 import androidx.core.graphics.applyCanvas
 import androidx.core.graphics.createBitmap
-import androidx.core.net.toFile
 import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import androidx.core.os.postAtTime
@@ -220,14 +219,25 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loadUri() {
-        val filePath = "/sdcard/image/9426826.jpg"
-        filePath.toUri()
+        try {
+            val filePath = "/sdcard/image/file/IMG_20230713_142243.jpg"
+            filePath.toUri()
 
-        val file = File(filePath)
-        file.toUri()
+            val file = File(filePath)
+            file.toUri()
 
-        val uri = Uri.parse(filePath)
-        uri.toFile()
+            val uri = Uri.parse(filePath)
+//            uri.toFile()
+            if (BuildConfig.DEBUG) {
+                Log.i("print_logs", "loadUri: ${uri.scheme}")
+            }
+
+        }catch (e:Exception){
+            e.printStackTrace()
+            if (BuildConfig.DEBUG) {
+                Log.i("print_logs", "loadUri error: $e ")
+            }
+        }
     }
 
     private fun loadViewGroup(view: View? = null) {
