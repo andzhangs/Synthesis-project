@@ -12,10 +12,16 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.text.SpannableStringBuilder
+import android.text.Spanned
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
 import android.util.Log
 import android.util.SparseArray
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.widget.AppCompatEditText
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.animation.addListener
 import androidx.core.animation.doOnCancel
@@ -72,9 +78,14 @@ import java.io.File
  */
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var mTv: AppCompatTextView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        mTv = findViewById<AppCompatTextView>(R.id.acTv)
+
         loadSharedPreferences()
         loadAnimator()
         loadEditView()
@@ -232,7 +243,7 @@ class MainActivity : AppCompatActivity() {
                 Log.i("print_logs", "loadUri: ${uri.scheme}")
             }
 
-        }catch (e:Exception){
+        } catch (e: Exception) {
             e.printStackTrace()
             if (BuildConfig.DEBUG) {
                 Log.i("print_logs", "loadUri error: $e ")
@@ -265,6 +276,17 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun SpannableStringBuilder.clickableSpan(text: String, onClick: (() -> Unit)? = null) {
+        val clickableSpan = object : ClickableSpan() {
+            override fun onClick(widget: View) {
+                onClick?.invoke()
+            }
+        }
+        val startIndex = length
+        append(text)
+        setSpan(clickableSpan, startIndex, length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+    }
+
     private fun loadSpannableStringBuilder() {
         val build = buildSpannedString {
             //操作各种Span
@@ -272,25 +294,48 @@ class MainActivity : AppCompatActivity() {
                 append("《隐私协议》")
             }
 
-            bold { }
-
-            color(Color.GRAY) {
-                append("请阅读")
+            bold {
+                append("你好呀")
             }
 
-            inSpans("真好", "哈哈哈", "你好") { }
+            color(Color.RED) {
+                backgroundColor(Color.YELLOW) {
+                    append("请阅读")
+                }
+            }
 
-            italic { }
+            inSpans("真好", "哈哈哈", "你好") {
 
-            scale(0.5F) { }
+            }
 
-            strikeThrough { }
+            italic {
+                append("斜体字")
+            }
 
-            subscript { }
+            scale(1.5F) {
+                append("放大1.5倍")
+            }
 
-            superscript { }
+            strikeThrough {
+                append("中位线")
+            }
 
-            underline { }
+            superscript {
+                append("上部分")
+            }
+
+            subscript {
+                append("下部分")
+            }
+
+            underline {
+                append("下划线")
+            }
+            backgroundColor(Color.WHITE) {
+                clickableSpan("点击我") {
+                    Toast.makeText(this@MainActivity, "我被点击了！", Toast.LENGTH_SHORT).show()
+                }
+            }
 
             //1、Spannable.clearSpans清理所有标识（包括各种Span）
             //clearSpans()
@@ -303,6 +348,9 @@ class MainActivity : AppCompatActivity() {
             //5、Spanned.toHtml()将富文本转换成同等效果显示的html代码
             //toHtml()
         }
+
+        mTv.text = build
+        mTv.movementMethod = LinkMovementMethod.getInstance()
     }
 
     private fun loadSparseArray() {

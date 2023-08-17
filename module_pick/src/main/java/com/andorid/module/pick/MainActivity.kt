@@ -2,32 +2,21 @@ package com.andorid.module.pick
 
 import android.Manifest
 import android.content.ContentValues
-import android.content.Context
-import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.os.SystemClock
 import android.provider.MediaStore
-import android.provider.MediaStore.Images.Media
-import android.provider.Settings
-import android.util.Base64
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.AppCompatButton
-import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
-import androidx.recyclerview.selection.BandPredicate
-import androidx.recyclerview.selection.FocusDelegate
-import androidx.recyclerview.selection.ItemDetailsLookup
-import androidx.recyclerview.selection.ItemKeyProvider
 import androidx.recyclerview.selection.SelectionPredicates
 import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.selection.StorageStrategy
-import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -133,7 +122,7 @@ class MainActivity : AppCompatActivity() {
         }
         findViewById<AppCompatButton>(R.id.onPickVisualMedia).setOnClickListener {
             //验证照片选择器在设备上是否可用
-            if (ActivityResultContracts.PickVisualMedia.isPhotoPickerAvailable(this)) {
+            if (ActivityResultContracts.PickVisualMedia.isPhotoPickerAvailable()) {
                 pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageAndVideo))
 //            pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
 //                pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.VideoOnly))
@@ -160,7 +149,7 @@ class MainActivity : AppCompatActivity() {
             }
         findViewById<AppCompatButton>(R.id.onPickMultipleVisualMedia).setOnClickListener {
             //验证照片选择器在设备上是否可用
-            if (ActivityResultContracts.PickVisualMedia.isPhotoPickerAvailable(this)) {
+            if (ActivityResultContracts.PickVisualMedia.isPhotoPickerAvailable()) {
                 pickMultipleMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageAndVideo))
             } else {
                 Log.i("print_logs", "setCallback: 系统不适用")
