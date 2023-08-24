@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             if (mBinding.videoView.isPlaying) {
-                mBinding.acSeekBar.progress =  mBinding.videoView.currentPosition
+                mBinding.acSeekBar.progress = mBinding.videoView.currentPosition
                 mPlayHandler.postDelayed(this, 1000)
             }
         }
@@ -92,9 +92,6 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
-                if (BuildConfig.DEBUG) {
-                    Log.i("print_logs", "MainActivity::onStartTrackingTouch: ")
-                }
                 //当用户开始拖动SeekBar时，暂停视频播放
                 if (mBinding.videoView.isPlaying) {
                     mBinding.videoView.pause()
@@ -102,9 +99,6 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onStopTrackingTouch(seekBar: SeekBar?) {
-                if (BuildConfig.DEBUG) {
-                    Log.i("print_logs", "MainActivity::onStopTrackingTouch: ${seekBar!!.progress}")
-                }
                 if (!mBinding.videoView.isPlaying) {
                     mBinding.videoView.seekTo(seekBar!!.progress)
                     mPlayHandler.postDelayed(seekRunnable, 0)
@@ -121,7 +115,12 @@ class MainActivity : AppCompatActivity() {
                 MediaStore.Files.FileColumns.DISPLAY_NAME,
                 MediaStore.Files.FileColumns.DATA,
                 MediaStore.Files.FileColumns.SIZE,
-                MediaStore.Files.FileColumns.MIME_TYPE
+                MediaStore.Files.FileColumns.MIME_TYPE,
+                MediaStore.Files.FileColumns.DURATION,
+                MediaStore.Files.FileColumns.DATE_MODIFIED,
+                MediaStore.Files.FileColumns.DATE_EXPIRES,
+                MediaStore.Files.FileColumns.DATE_ADDED,
+                MediaStore.Files.FileColumns.DATE_TAKEN
             )
             val selection: String =
                 (MediaStore.Files.FileColumns.MEDIA_TYPE + "=? OR " + MediaStore.Files.FileColumns.MEDIA_TYPE) + "=?"
@@ -166,15 +165,40 @@ class MainActivity : AppCompatActivity() {
                     // 处理路径和媒体类型
                     val hash = calculateImageHash(filePath)
 
-                    if (index == 2) {
+                    //视频时长
+                    val duration =
+                        cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.DURATION))
+
+                    val dateModified =
+                        cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.DATE_MODIFIED))
+
+                    val dateExpires =
+                        cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.DATE_EXPIRES))
+                    val dateAdded =
+                        cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.DATE_ADDED))
+                    val dateTaken =
+                        cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.DATE_TAKEN))
+
+
+                    if (index == 1 && mimeType.contains("video")) {
                         loadVideo(filePath)
                     }
                     ++index
 
-//                    Log.i(
-//                        "print_logs",
-//                        "getMedia: $fileName, $filePath, $fileSize, $mimeType, $hash，$fileUri"
-//                    )
+                    Log.i(
+                        "print_logs",
+                        "fileName: $fileName,\n" +
+                                "filePath: $filePath,\n" +
+                                "fileSize: $fileSize,\n" +
+                                "mimeType: $mimeType,\n" +
+                                "hash: $hash,\n" +
+                                "fileUri: $fileUri,\n" +
+                                "duration: $duration,\n" +
+                                "dateModified: $dateModified,\n" +
+                                "dateExpires: $dateExpires,\n" +
+                                "dateAdded: $dateAdded,\n" +
+                                "dateTaken: $dateTaken"
+                    )
                 }
                 cursor.close()
             } else {
@@ -201,9 +225,7 @@ class MainActivity : AppCompatActivity() {
 
             //保湿常亮
             it.setScreenOnWhilePlaying(true)
-            it.setWakeMode(this,PowerManager.PARTIAL_WAKE_LOCK)
-
-            it.setVolume(1.0f,0.0f)
+            it.setWakeMode(this, PowerManager.PARTIAL_WAKE_LOCK)
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 mBinding.acSeekBar.min = 0
