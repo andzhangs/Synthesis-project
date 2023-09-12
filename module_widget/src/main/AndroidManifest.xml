@@ -10,13 +10,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Synthesisproject">
         <activity
+            android:name=".ConstraintLayoutFlowActivity"
+            android:exported="false" />
+        <activity
             android:name=".ReboundActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-
         <activity
             android:name=".MainActivity"
             android:exported="true">

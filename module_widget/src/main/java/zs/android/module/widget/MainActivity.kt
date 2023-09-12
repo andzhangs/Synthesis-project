@@ -51,7 +51,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun clickListener() {
-
         mDataBinding.acBtnSnackBar.setOnClickListener {
             Snackbar.make(it, "你哈", 1000)
                 .setAction("取消") {
@@ -77,6 +76,10 @@ class MainActivity : AppCompatActivity() {
 
         mDataBinding.acBtnRebound.setOnClickListener {
             startActivity(Intent(this, ReboundActivity::class.java))
+        }
+
+        mDataBinding.acBtnFlow.setOnClickListener {
+            startActivity(Intent(this, ConstraintLayoutFlowActivity::class.java))
         }
 
     }

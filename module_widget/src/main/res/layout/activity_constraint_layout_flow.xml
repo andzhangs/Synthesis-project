@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include layout="@layout/flow_align" />
+
+        <include layout="@layout/flow_aligned" />
+
+        <include layout="@layout/flow_default" />
+
+        <include layout="@layout/flow_last_bias" />
+
+        <include layout="@layout/flow_last_style_chain" />
+
+        <include layout="@layout/flow_max_elements" />
+
+        <include layout="@layout/flow_mode_aligned" />
+
+        <include layout="@layout/flow_mode_chain" />
+
+        <include layout="@layout/flow_style_packed" />
+
+        <include layout="@layout/flow_style_spread" />
+
+        <include layout="@layout/flow_style_spread_inside" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.core.widget.NestedScrollView>
