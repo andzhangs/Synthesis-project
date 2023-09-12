@@ -34,7 +34,7 @@ class MediaContentObserver(private val mContext: Context) : ContentObserver(Hand
 
     private fun handleNewMedia() {
         // 查询MediaStore获取最新的图片和视频
-        val contentResolver: ContentResolver = mContext.getContentResolver()
+        val contentResolver: ContentResolver = mContext.contentResolver
         val projection = arrayOf(MediaStore.MediaColumns.DATA)
         val sortOrder = MediaStore.MediaColumns.DATE_ADDED + " DESC"
         val cursor = contentResolver.query(

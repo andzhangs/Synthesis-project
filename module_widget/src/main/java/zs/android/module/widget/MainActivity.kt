@@ -1,20 +1,15 @@
 package zs.android.module.widget
 
-import android.app.ProgressDialog.show
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.Point
-import android.graphics.PorterDuff
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
-import android.view.LayoutInflater
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatTextView
-import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import zs.android.module.widget.databinding.ActivityMainBinding
 

@@ -6,9 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.result.ActivityResultCaller
 import androidx.appcompat.widget.AppCompatButton
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.lifecycleScope
 import com.google.ambient.crossdevice.discovery.DevicePickerLauncher
 import com.google.ambient.crossdevice.discovery.Discovery
@@ -17,7 +15,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import zs.android.synthesis.R
 
-class CrossDeviceFragment : Fragment(), ActivityResultCaller {
+class CrossDeviceFragment : Fragment() {
 
     private lateinit var mRootView: View
 
@@ -39,7 +37,7 @@ class CrossDeviceFragment : Fragment(), ActivityResultCaller {
     }
 
     private fun launch() {
-        lifecycleScope.launch(Dispatchers.IO){
+        lifecycleScope.launch(Dispatchers.IO) {
             mDevicePickerLauncher.launchDevicePicker(listOf(), startComponentRequest {
                 action = "zs.android.synthesis.MAIN"
                 reason = "I want to say hello to you"

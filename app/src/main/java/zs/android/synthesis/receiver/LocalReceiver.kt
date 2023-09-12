@@ -42,35 +42,36 @@ class LocalReceiver private constructor() {
             }
         }
 
-
         /**
-         * 获取广播实例
-         */
-        @JvmStatic
-        fun get(action: String): LocalReceiver? = if (receiverMap.contains(action)) {
-            receiverMap[action]?.apply {
-                setSendAction(action)
-            }
-        } else {
-            Log.e("print_logs", "$action 未注册广播！")
-            null
-        }
-
-        /**
-         * 发送消息
+         * 发送新消息
          */
         @JvmStatic
         fun sendIntent(action: String, intent: Intent, isSync: Boolean = false) {
-            get(action)?.apply {
-                if (actionList.contains(action)) {
-                    intent.action = action
-                    if (isSync) {
-                        this.getReceiver.sendBroadcastSync(intent)
-                    } else {
-                        this.getReceiver.sendBroadcast(intent)
-                    }
-                }
-            }
+            get(action)?.sendIntent(intent, isSync)
+        }
+
+        /**
+         * 添加广播监听
+         */
+        @JvmStatic
+        fun addListener(action: String, listener: LocalReceiverListener) {
+            get(action)?.addListener(listener)
+        }
+
+        /**
+         * 移出广播监听
+         */
+        @JvmStatic
+        fun removeListener(action: String, listener: LocalReceiverListener) {
+            get(action)?.removeListener(listener)
+        }
+
+        /**
+         * 给制定广播添加新行为
+         */
+        @JvmStatic
+        fun addAction(targetAction:String,vararg action: String){
+            get(targetAction)?.addAction(*action)
         }
 
         /**
@@ -92,6 +93,19 @@ class LocalReceiver private constructor() {
                 }
                 lastReceiver = null
             }
+        }
+
+        /**
+         * 获取广播实例
+         */
+        @JvmStatic
+        private fun get(action: String): LocalReceiver? = if (receiverMap.contains(action)) {
+            receiverMap[action]?.apply {
+                setSendAction(action)
+            }
+        } else {
+            Log.e("print_logs", "$action 未注册广播！")
+            get(action)
         }
     }
 
@@ -131,21 +145,21 @@ class LocalReceiver private constructor() {
     /**
      * 添加额外的自定义行为
      */
-    fun addAction(vararg newAction: String) {
+    private fun addAction(vararg newAction: String) {
         actionList.addAll(newAction)
     }
 
     /**
      * 接收发送时的action
      */
-    fun setSendAction(action: String) {
+    private fun setSendAction(action: String) {
         sendAction = action
     }
 
     /**
      * 发送消息
      */
-    fun sendIntent(intent: Intent, isSync: Boolean = false) {
+    private fun sendIntent(intent: Intent, isSync: Boolean = false) {
         tryCatch {
             getReceiver.apply {
                 if (sendAction != null && actionList.contains(sendAction)) {
@@ -163,7 +177,7 @@ class LocalReceiver private constructor() {
     /**
      * 设置广播监听器
      */
-    fun addListener(listener: LocalReceiverListener) {
+    private fun addListener(listener: LocalReceiverListener) {
         tryCatch {
             if (!observer.contains(listener)) {
                 observer.add(listener)
@@ -171,20 +185,10 @@ class LocalReceiver private constructor() {
         }
     }
 
-//    fun addListener(block: (Intent) -> Unit) {
-//        tryCatch {
-//            this.addListener(object : LocalReceiverListener {
-//                override fun onCallback(intent: Intent) {
-//                    block.invoke(intent)
-//                }
-//            })
-//        }
-//    }
-
     /**
      * 移除指定监听器
      */
-    fun removeListener(listener: LocalReceiverListener) {
+    private fun removeListener(listener: LocalReceiverListener) {
         tryCatch {
             if (observer.contains(listener)) {
                 observer.remove(listener)
@@ -193,18 +197,11 @@ class LocalReceiver private constructor() {
     }
 
     /**
-     * 移除所有消息接收者
-     */
-    fun removeAll() {
-        observer.clear()
-    }
-
-    /**
      * 注销广播
      */
     private fun unRegisterReceiver() {
         tryCatch {
-            removeAll()
+            observer.clear()
             actionList.clear()
             getReceiver.unregisterReceiver(localBroadcastReceiver)
         }

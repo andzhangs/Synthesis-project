@@ -3,6 +3,7 @@ package zs.android.synthesis
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import zs.android.synthesis.fragment.CronetFragment
@@ -33,21 +34,31 @@ class MainActivity : AppCompatActivity() {
         }
         val ACTION_ENCODE_1 = "zs.android.synthesis.encode.action1"
         val ACTION_ENCODE_2 = "zs.android.synthesis.encode.action2"
-        val KEY="key"
-        val VALUE="value"
+        val KEY = "key"
+        val VALUE = "value"
 
         LocalReceiver.register(this, ACTION_ENCODE_1)
         LocalReceiver.register(this, ACTION_ENCODE_2)
-        LocalReceiver.get(ACTION_ENCODE_1)?.addListener(object :LocalReceiver.LocalReceiverListener{
+        LocalReceiver.addListener(ACTION_ENCODE_1, object : LocalReceiver.LocalReceiverListener {
             override fun onCallback(intent: Intent) {
-                Log.i("print_logs", "MainActivity::onCallback-1: ${intent.getStringExtra(KEY)}")
+                Log.i(
+                    "print_logs",
+                    "onCallback-1: key= ${intent.getStringExtra(KEY)}, value= ${
+                        intent.getStringExtra(VALUE)
+                    }"
+                )
             }
 
         })
 
-        LocalReceiver.get(ACTION_ENCODE_2)?.addListener(object :LocalReceiver.LocalReceiverListener{
+        LocalReceiver.addListener(ACTION_ENCODE_2, object : LocalReceiver.LocalReceiverListener {
             override fun onCallback(intent: Intent) {
-                Log.i("print_logs", "MainActivity::onCallback-2: ${intent.getStringExtra(KEY)}")
+                Log.i(
+                    "print_logs",
+                    "onCallback-2: key= ${intent.getStringExtra(KEY)}, value= ${
+                        intent.getStringExtra(VALUE)
+                    }"
+                )
             }
         })
 
@@ -56,14 +67,14 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<AppCompatButton>(R.id.acBtn_img_labeler).setOnClickListener {
             showFragment(0)
-            LocalReceiver.sendIntent(ACTION_ENCODE_1,Intent().apply {
+            LocalReceiver.sendIntent(ACTION_ENCODE_1, Intent().apply {
                 putExtra(KEY, "hello-1")
                 putExtra(VALUE, "world-1")
             })
         }
         findViewById<AppCompatButton>(R.id.acBtn_cross_device).setOnClickListener {
             showFragment(1)
-            LocalReceiver.sendIntent(ACTION_ENCODE_2,Intent().apply {
+            LocalReceiver.sendIntent(ACTION_ENCODE_2, Intent().apply {
                 putExtra(KEY, "hello-2")
                 putExtra(VALUE, "world-2")
             })
@@ -71,7 +82,23 @@ class MainActivity : AppCompatActivity() {
         findViewById<AppCompatButton>(R.id.acBtn_cronet).setOnClickListener {
             showFragment(2)
         }
+
+
+
+        val activityLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+                if (it.resultCode == RESULT_OK) {
+                    if (BuildConfig.DEBUG) {
+                        Log.i("print_logs", "MainActivity::onCreate: ${it.data?.getStringExtra(Viewpager2Activity.RESULT_VALUE)}")
+                    }
+                }
+            }
+
+        findViewById<AppCompatButton>(R.id.acBtn_viewpager2).setOnClickListener {
+            activityLauncher.launch(Intent(this, Viewpager2Activity::class.java))
+        }
     }
+
 
     private fun showFragment(position: Int) {
         val fragment = mFragments[position]

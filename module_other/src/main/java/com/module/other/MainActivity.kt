@@ -1,23 +1,13 @@
 package com.module.other
 
 import android.content.Context
-import android.hardware.Sensor
-import android.hardware.SensorEvent
-import android.hardware.SensorEventListener
 import android.hardware.SensorManager
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
-import android.os.Handler.Callback
-import android.os.HandlerThread
-import android.os.Message
 import android.util.Log
 import android.widget.Toast
-import android.window.OnBackInvokedCallback
-import android.window.OnBackInvokedDispatcher
 import androidx.activity.OnBackPressedCallback
-import androidx.annotation.RequiresApi
 import androidx.core.os.BuildCompat
 import androidx.databinding.DataBindingUtil
 import com.module.other.databinding.ActivityMainBinding
@@ -43,8 +33,7 @@ class MainActivity : AppCompatActivity() {
         handlerThread.start()
         val handler = Handler(handlerThread.looper) { msg ->
             Log.i(
-                "print_logs",
-                "MainActivity::handleMessage: ${msg.what}, ${msg.obj}, ${Thread.currentThread().name}"
+                "print_logs", "handleMessage: ${msg.what}, ${msg.obj}, ${Thread.currentThread().name}"
             )
             true
         }
@@ -59,8 +48,14 @@ class MainActivity : AppCompatActivity() {
         mDataBinding.acBtnHandlerThreadQuit.setOnClickListener {
             handlerThread.quitSafely()
 //            handlerThread.quit()
+
+            if (BuildConfig.DEBUG) {
+                Log.i("print_logs", "HandlerThread.isAlive: ${handlerThread.isAlive}")
+            }
         }
     }
+
+
 
     /**
      * 谷歌手机晃动检测库

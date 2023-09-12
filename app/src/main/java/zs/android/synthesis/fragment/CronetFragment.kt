@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.result.ActivityResultCaller
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatTextView
 import com.google.android.gms.net.CronetProviderInstaller
@@ -24,13 +23,13 @@ import java.util.concurrent.Executors
 /**
  * 使用 Cronet 执行网络操作
  */
-class CronetFragment : Fragment(), ActivityResultCaller {
+class CronetFragment : Fragment() {
 
     private lateinit var mRootView: View
     private lateinit var mInfoTv: AppCompatTextView
     private val executor = Executors.newSingleThreadExecutor()
 
-    private val mHandler=Handler(Looper.getMainLooper()) {
+    private val mHandler = Handler(Looper.getMainLooper()) {
         mInfoTv.text = it.obj.toString()
         true
     }
@@ -127,7 +126,7 @@ class CronetFragment : Fragment(), ActivityResultCaller {
             strBuilder.append("onSucceeded：$info")
 
             mHandler.sendMessage(Message().apply {
-                this.obj=strBuilder.toString()
+                this.obj = strBuilder.toString()
             })
         }
 
@@ -142,7 +141,7 @@ class CronetFragment : Fragment(), ActivityResultCaller {
             strBuilder.append("onFailed：$info, $error")
 
             mHandler.sendMessage(Message().apply {
-                this.obj=strBuilder.toString()
+                this.obj = strBuilder.toString()
             })
         }
 

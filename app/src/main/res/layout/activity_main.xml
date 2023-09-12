@@ -31,23 +31,30 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
+
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/acBtn_img_labeler"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="UI-识别图片" />
+                android:text="识别图片" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/acBtn_cross_device"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="UI-连接性-网络Cross" />
+                android:text="网络Cross" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/acBtn_cronet"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="UI-连接性-网络Cronet" />
+                android:text="网络Cronet" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/acBtn_viewpager2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Viewpager2"/>
         </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.core.widget.NestedScrollView>
 

@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
-import com.google.ambient.crossdevice.discovery.Discovery
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.label.ImageLabeling
 import com.google.mlkit.vision.label.defaults.ImageLabelerOptions
@@ -39,7 +38,7 @@ class ImageLabelerFragment : Fragment() {
         btnGetInfo.setOnClickListener {
             val labeler = ImageLabeling.getClient(ImageLabelerOptions.DEFAULT_OPTIONS)
             val image = InputImage.fromBitmap(bitmap!!, 0)
-            val stringBuilder=StringBuilder()
+            val stringBuilder = StringBuilder()
             labeler.process(image)
                 .addOnSuccessListener {
                     it.forEach { imageLabel ->

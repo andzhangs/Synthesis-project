@@ -34,13 +34,13 @@
                 android:id="@+id/acSeekBar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp" />
+                android:layout_marginTop="10dp"/>
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/acBtn_start"
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/acIv_start"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="播放" />
+                android:src="@drawable/icon_play" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/acBtn_pause"

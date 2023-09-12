@@ -8,7 +8,7 @@ import android.util.Log
  * @date 2023/7/21 10:31
  * @description
  */
-class MyHandlerThread(threadName: String) : HandlerThread(threadName) {
+class MyHandlerThread(threadName: String) : HandlerThread(threadName,Thread.MAX_PRIORITY) {
 
     override fun onLooperPrepared() {
         Log.i("print_logs", "MyHandlerThread::onLooperPrepared: ${Thread.currentThread().name}")

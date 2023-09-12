@@ -27,10 +27,6 @@ class MainActivity : AppCompatActivity() {
     private val mPlayHandler = Handler(Looper.getMainLooper())
     private val seekRunnable = object : Runnable {
         override fun run() {
-            if (BuildConfig.DEBUG) {
-                Log.i("print_logs", "MainActivity::isPlaying.run: ")
-            }
-
             if (mBinding.videoView.isPlaying) {
                 mBinding.acSeekBar.progress = mBinding.videoView.currentPosition
                 mPlayHandler.postDelayed(this, 1000)
@@ -44,6 +40,9 @@ class MainActivity : AppCompatActivity() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
+                if (BuildConfig.DEBUG) {
+                    Log.i("print_logs", "MainActivity::onCreate: ${it.isNotEmpty()}")
+                }
                 if (it.isNotEmpty()) {
                     if (it[Manifest.permission.READ_MEDIA_IMAGES]!! && it[Manifest.permission.READ_MEDIA_VIDEO]!!) {
                         initView()
@@ -60,9 +59,12 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun initView() {
+        if (BuildConfig.DEBUG) {
+            Log.i("print_logs", "MainActivity::initView: ")
+        }
         searchMediaData()
 
-        mBinding.acBtnStart.setOnClickListener {
+        mBinding.acIvStart.setOnClickListener {
             mPlayHandler.postDelayed(seekRunnable, 0)
             mBinding.videoView.start()
         }
@@ -116,6 +118,7 @@ class MainActivity : AppCompatActivity() {
                 MediaStore.Files.FileColumns.DATA,
                 MediaStore.Files.FileColumns.SIZE,
                 MediaStore.Files.FileColumns.MIME_TYPE,
+                MediaStore.Files.FileColumns.MEDIA_TYPE,
                 MediaStore.Files.FileColumns.DURATION,
                 MediaStore.Files.FileColumns.DATE_MODIFIED,
                 MediaStore.Files.FileColumns.DATE_EXPIRES,
@@ -141,7 +144,6 @@ class MainActivity : AppCompatActivity() {
             if (cursor != null) {
                 var index = 1
                 while (cursor.moveToNext()) {
-
                     //UriId
                     val ringtoneID =
                         cursor.getIntOrNull(cursor.getColumnIndex(MediaStore.Files.FileColumns._ID))
@@ -160,14 +162,20 @@ class MainActivity : AppCompatActivity() {
                     //获取图片的大小
                     val fileSize =
                         cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.SIZE))
+                    // 媒体类型
                     val mimeType =
                         cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.MIME_TYPE))
+
                     // 处理路径和媒体类型
+                    val mediaType =
+                        cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.MEDIA_TYPE))
+
+                    //hash值-文件唯一性
                     val hash = calculateImageHash(filePath)
 
                     //视频时长
                     val duration =
-                        cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.DURATION))
+                        cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.DURATION))
 
                     val dateModified =
                         cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.DATE_MODIFIED))
@@ -180,8 +188,12 @@ class MainActivity : AppCompatActivity() {
                         cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.DATE_TAKEN))
 
 
-                    if (index == 1 && mimeType.contains("video")) {
-                        loadVideo(filePath)
+                    if (fileName=="VID_20230825_183553.mp4" && mimeType.contains("video")) {
+                        if (BuildConfig.DEBUG) {
+                            Log.i("print_logs", "MainActivity::searchMediaData: 1")
+                        }
+
+                        loadVideo("/storage/emulated/0/DCIM/Camera/VID_20230825_183553.mp4")
                     }
                     ++index
 
@@ -191,6 +203,7 @@ class MainActivity : AppCompatActivity() {
                                 "filePath: $filePath,\n" +
                                 "fileSize: $fileSize,\n" +
                                 "mimeType: $mimeType,\n" +
+                                "mediaType：$mediaType,\n" +
                                 "hash: $hash,\n" +
                                 "fileUri: $fileUri,\n" +
                                 "duration: $duration,\n" +

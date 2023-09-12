@@ -51,6 +51,9 @@ android {
         includeInApk true
         includeInBundle true
     }
+    buildFeatures {
+        dataBinding true
+    }
     ndkVersion '25.1.8937393'
 
     // 自定义打包名称
