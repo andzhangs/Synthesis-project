@@ -30,6 +30,13 @@
             android:enabled="true"
             android:exported="false" />
 
+        <service android:name=".MyJobService"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE">
+
+        </service>
+
         <activity
             android:name=".MainActivity"
             android:exported="true">

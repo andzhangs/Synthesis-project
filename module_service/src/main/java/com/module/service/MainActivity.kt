@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.IBinder
 import android.util.Log
-import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.result.contract.ActivityResultContracts
 
 class MainActivity : AppCompatActivity() {
@@ -48,6 +47,10 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        if (BuildConfig.DEBUG) {
+            Log.w("print_logs", "MainActivity::onCreate: ")
+        }
+
         registerForActivityResult(ActivityResultContracts.RequestPermission()) {
             if (it) {
                 startService(Intent(this@MainActivity, MyTileService::class.java))
@@ -59,9 +62,8 @@ class MainActivity : AppCompatActivity() {
         
         bindService(mIntent,serviceConnection,Service.BIND_AUTO_CREATE)
 
-        if (BuildConfig.DEBUG) {
-            Log.w("print_logs", "MainActivity::onCreate: ")
-        }
+
+        MyJobService.start(this)
 
     }
 
