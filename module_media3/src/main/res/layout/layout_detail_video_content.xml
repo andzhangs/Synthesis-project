@@ -16,16 +16,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/acIv_thumb"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:contentDescription="缩率图"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/acTv_link"
             android:layout_width="wrap_content"

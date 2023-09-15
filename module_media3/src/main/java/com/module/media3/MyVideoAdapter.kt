@@ -147,42 +147,9 @@ class MyVideoAdapter(
 //                    seekTo(0)
                     }
                 }
-
-                mBinding.acIvThumb.setImageBitmap(getVideoThumbnail(context, fileUri))
-
                 mBinding.acTvLink.text = videoMediaItem?.mediaId
 
                 mBinding.surfaceView.setOnClickListener { }
-            }
-
-            // 创建一个方法来执行动画
-            private fun performAnimation(view: View) {
-                // 创建一个透明度属性动画
-                val animator = ObjectAnimator.ofFloat(view, "alpha", 1f, 0f)
-
-                // 设置动画的持续时间（以毫秒为单位）
-                animator.duration = 200
-
-                animator.addListener(object : Animator.AnimatorListener {
-                    override fun onAnimationStart(animation: Animator) {
-
-                    }
-
-                    override fun onAnimationEnd(animation: Animator) {
-                        view.visibility = View.GONE
-                    }
-
-                    override fun onAnimationCancel(animation: Animator) {
-
-                    }
-
-                    override fun onAnimationRepeat(animation: Animator) {
-
-                    }
-                })
-
-                // 开始动画
-                animator.start()
             }
 
             fun getVideoView(): SurfaceView = mBinding.surfaceView
@@ -193,7 +160,6 @@ class MyVideoAdapter(
 
             fun prepare() {
                 checkPlayer {
-                    performAnimation(mBinding.acIvThumb)
                     addListener(mPlayListener)
                     prepare()
                 }
@@ -233,30 +199,6 @@ class MyVideoAdapter(
             private fun checkPlayer(block: ExoPlayer.() -> Unit) {
                 mPlayer?.also(block)
             }
-
-            /**
-             * 获取视频缩略图（这里获取第一帧）
-             * @param filePath
-             * @return
-             */
-            private fun getVideoThumbnail(context: Context, fileUri: Uri?): Bitmap? {
-                var bitmap: Bitmap? = null
-                val retriever = MediaMetadataRetriever()
-                try {
-                    retriever.setDataSource(context, fileUri)
-                    bitmap = retriever.getFrameAtTime(TimeUnit.MILLISECONDS.toMicros(1))
-                } catch (e: IllegalArgumentException) {
-                    e.printStackTrace()
-                } finally {
-                    try {
-                        retriever.release()
-                    } catch (e: RuntimeException) {
-                        e.printStackTrace()
-                    }
-                }
-                return bitmap
-            }
-
 
             private val mPlayListener = @UnstableApi object : Player.Listener {
 
@@ -1030,6 +972,59 @@ class MyVideoAdapter(
                         Log.i("print_logs", "onMetadata: $metadata")
                     }
                 }
+            }
+
+            /**
+             * 获取视频缩略图（这里获取第一帧）
+             * @param filePath
+             * @return
+             */
+            private fun getVideoThumbnail(context: Context, fileUri: Uri?): Bitmap? {
+                var bitmap: Bitmap? = null
+                val retriever = MediaMetadataRetriever()
+                try {
+                    retriever.setDataSource(context, fileUri)
+                    bitmap = retriever.getFrameAtTime(TimeUnit.MILLISECONDS.toMicros(1))
+                } catch (e: IllegalArgumentException) {
+                    e.printStackTrace()
+                } finally {
+                    try {
+                        retriever.release()
+                    } catch (e: RuntimeException) {
+                        e.printStackTrace()
+                    }
+                }
+                return bitmap
+            }
+
+            // 创建一个方法来执行动画
+            private fun performAnimation(view: View) {
+                // 创建一个透明度属性动画
+                val animator = ObjectAnimator.ofFloat(view, "alpha", 1f, 0f)
+
+                // 设置动画的持续时间（以毫秒为单位）
+                animator.duration = 200
+
+                animator.addListener(object : Animator.AnimatorListener {
+                    override fun onAnimationStart(animation: Animator) {
+
+                    }
+
+                    override fun onAnimationEnd(animation: Animator) {
+
+                    }
+
+                    override fun onAnimationCancel(animation: Animator) {
+
+                    }
+
+                    override fun onAnimationRepeat(animation: Animator) {
+
+                    }
+                })
+
+                // 开始动画
+                animator.start()
             }
         }
     }

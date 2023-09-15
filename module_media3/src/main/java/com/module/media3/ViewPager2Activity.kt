@@ -37,6 +37,7 @@ class ViewPager2Activity : AppCompatActivity() {
 
         with(mDataBinding.viewPager) {
             offscreenPageLimit = 5
+            orientation=ViewPager2.ORIENTATION_VERTICAL
             mAdapter = MyVideoAdapter(this@ViewPager2Activity, this, list)
             adapter = mAdapter
             registerOnPageChangeCallback(mPagerChangeListener)
