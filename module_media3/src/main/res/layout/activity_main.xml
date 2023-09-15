@@ -3,163 +3,28 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <SurfaceView
-            android:id="@+id/surface_view"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintVertical_weight="1"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/ll_sheet_view"/>
-
-        <!--        <androidx.media3.ui.PlayerView-->
-        <!--            android:id="@+id/play_view"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="match_parent"-->
-        <!--            app:layout_constraintEnd_toEndOf="parent"-->
-        <!--            app:layout_constraintStart_toStartOf="parent" />-->
-
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/acBtn_choose_play_file"
+            android:id="@+id/acBtn_play_video_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="添加文件"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:text="播放视频-1" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/acBtn_choose_play_list"
+            android:id="@+id/acBtn_play_video_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="添加列表"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/acBtn_choose_play_file" />
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/acBtn_clear_play_list"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="清空列表"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/acBtn_choose_play_list" />
+            android:text="播放视频-2" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/acBtn_repeat_modes"
+            android:id="@+id/acBtn_play_video_3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:text="列表播放"
-            android:padding="10dp"/>
+            android:text="ViewPager2 Video" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/acBtn_shuffle_order"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/acBtn_repeat_modes"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:text="随机播放：关闭"
-            android:padding="10dp"/>
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/acBtn_volume_increase"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/acBtn_shuffle_order"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:text="音量+"
-            android:padding="10dp"/>
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/acBtn_volume_decrease"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/acBtn_volume_increase"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:text="音量-"
-            android:padding="10dp"/>
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/acBtn_volume_muted"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/acBtn_volume_decrease"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:text="静音：关闭"
-            android:padding="10dp"/>
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/acBtn_speed"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/acBtn_volume_muted"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:text="倍速"
-            android:padding="10dp"/>
-
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/ll_sheet_view"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/acIv_play_pre"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_weight="1"
-                android:contentDescription="上一条"
-                android:src="@drawable/icon_list_first"/>
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/acIv_play_back_increment"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_weight="1"
-                android:contentDescription="快退"
-                android:src="@drawable/icon_pre"/>
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/acIv_play_or_pause"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_weight="1"
-                android:contentDescription="播放/暂停"
-                android:src="@drawable/icon_pause"/>
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/acIv_play_forward"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_weight="1"
-                android:contentDescription="快进"
-                android:src="@drawable/icon_next"/>
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/acIv_play_next"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_weight="1"
-                android:contentDescription="下一条"
-                android:src="@drawable/icon_list_last" />
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/acIv_play_list"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_weight="1"
-                android:contentDescription="播放列表"
-                android:src="@drawable/icon_play_list" />
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>
