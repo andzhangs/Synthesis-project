@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.motion.widget.MotionLayout
+        android:id="@+id/motion_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layoutDescription="@xml/activity_motion_effect_scene"
+        tools:context=".MotionEffectActivity">
+
+        <androidx.constraintlayout.utils.widget.ImageFilterView
+            android:id="@+id/imgFv_1"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="10dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/n02007558_10737"
+            app:layout_constraintBottom_toTopOf="@id/imgFv_4"
+            app:layout_constraintEnd_toEndOf="@id/imgFv_4"
+            app:layout_constraintStart_toStartOf="@id/imgFv_4"
+            app:roundPercent="1" />
+
+        <androidx.constraintlayout.utils.widget.ImageFilterView
+            android:id="@+id/imgFv_2"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="10dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/n02007558_10737"
+            app:layout_constraintBottom_toTopOf="@id/imgFv_5"
+            app:layout_constraintEnd_toEndOf="@id/imgFv_5"
+            app:layout_constraintStart_toStartOf="@id/imgFv_5"
+            app:roundPercent="1" />
+
+        <androidx.constraintlayout.utils.widget.ImageFilterView
+            android:id="@+id/imgFv_3"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="10dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/n02007558_10737"
+            app:layout_constraintBottom_toTopOf="@id/imgFv_6"
+            app:layout_constraintEnd_toEndOf="@id/imgFv_6"
+            app:layout_constraintStart_toStartOf="@id/imgFv_6"
+            app:roundPercent="1" />
+
+        <androidx.constraintlayout.utils.widget.ImageFilterView
+            android:id="@+id/imgFv_4"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="10dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/n02007558_10737"
+            app:layout_constraintBottom_toBottomOf="@id/imgFv_5"
+            app:layout_constraintEnd_toStartOf="@id/imgFv_5"
+            app:layout_constraintTop_toTopOf="@id/imgFv_5"
+            app:roundPercent="1" />
+
+        <androidx.constraintlayout.utils.widget.ImageFilterView
+            android:id="@+id/imgFv_5"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/n02007558_10737"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:roundPercent="1" />
+
+        <androidx.constraintlayout.utils.widget.ImageFilterView
+            android:id="@+id/imgFv_6"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="10dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/n02007558_10737"
+            app:layout_constraintBottom_toBottomOf="@id/imgFv_5"
+            app:layout_constraintStart_toEndOf="@id/imgFv_5"
+            app:layout_constraintTop_toTopOf="@id/imgFv_5"
+            app:roundPercent="1" />
+
+        <androidx.constraintlayout.utils.widget.ImageFilterView
+            android:id="@+id/imgFv_7"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="10dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/n02007558_10737"
+            app:layout_constraintEnd_toEndOf="@id/imgFv_4"
+            app:layout_constraintStart_toStartOf="@id/imgFv_4"
+            app:layout_constraintTop_toBottomOf="@id/imgFv_4"
+            app:roundPercent="1" />
+
+        <androidx.constraintlayout.utils.widget.ImageFilterView
+            android:id="@+id/imgFv_8"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="10dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/n02007558_10737"
+            app:layout_constraintEnd_toEndOf="@id/imgFv_5"
+            app:layout_constraintStart_toStartOf="@id/imgFv_5"
+            app:layout_constraintTop_toBottomOf="@id/imgFv_5"
+            app:roundPercent="1" />
+
+        <androidx.constraintlayout.utils.widget.ImageFilterView
+            android:id="@+id/imgFv_9"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="10dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/n02007558_10737"
+            app:layout_constraintEnd_toEndOf="@id/imgFv_6"
+            app:layout_constraintStart_toStartOf="@id/imgFv_6"
+            app:layout_constraintTop_toBottomOf="@id/imgFv_6"
+            app:roundPercent="1" />
+
+        <androidx.constraintlayout.helper.widget.MotionEffect
+            android:id="@+id/fade"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="imgFv_1,imgFv_2,imgFv_3,imgFv_4,imgFv_5,imgFv_6,imgFv_7,imgFv_8,imgFv_9" />
+    </androidx.constraintlayout.motion.widget.MotionLayout>
+</layout>

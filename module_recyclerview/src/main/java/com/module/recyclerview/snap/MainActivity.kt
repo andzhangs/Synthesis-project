@@ -1,6 +1,7 @@
 package com.module.recyclerview.snap
 
 import android.Manifest
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
@@ -30,153 +31,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         mDataBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
-        val launcher =
-            registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
-                if (it[Manifest.permission.READ_MEDIA_IMAGES]!! && it[Manifest.permission.READ_MEDIA_VIDEO]!!) {
-                    val parentFolder =
-                        "${Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM)}${File.separator}Camera"
-                    File(parentFolder).also { file ->
-                        if (file.exists()) {
-                            file.listFiles()
-                                ?.let { it1 -> loadView(it1.toList() as ArrayList<File>) }
-                        }
-                    }
-                }
-
-            }
-        launcher.launch(
-            arrayOf(
-                Manifest.permission.READ_MEDIA_IMAGES,
-                Manifest.permission.READ_MEDIA_VIDEO
-            )
-        )
-
-
-
-        mDataBinding.acBtnJump.setOnClickListener {
-            mAdapter.removeItem(0)
-        }
-    }
-
-    private lateinit var mAdapter: FileAdapter
-    private fun loadView(list: ArrayList<File>) {
-        mAdapter = FileAdapter(list)
-        with(mDataBinding.recyclerView) {
-            layoutManager = LinearLayoutManager(
-                this@MainActivity,
-                LinearLayoutManager.HORIZONTAL,
-                false
-            ).apply {
-                initialPrefetchItemCount = 10
-            }
-            PagerSnapHelper().attachToRecyclerView(this)
-            adapter = mAdapter
+        mDataBinding.acBtnPagerSnapAdapter.setOnClickListener {
+            startActivity(Intent(this, PagerSnapActivity::class.java))
         }
 
-
-    }
-
-    private class FileAdapter(val mList: ArrayList<File>) :
-        RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
-        companion object {
-            const val VIEW_IMAGE = 1
-            const val VIEW_VIDEO = 2
-
-            class ImageViewHolder(private val binding: LayoutImageBinding) :
-                RecyclerView.ViewHolder(binding.root) {
-
-                fun bind(fileUrl: String) {
-                    if (BuildConfig.DEBUG) {
-                        Log.i("print_logs", "ImageViewHolder::bind: $fileUrl")
-                    }
-                    Glide.with(binding.acIvView.context)
-                        .load(fileUrl)
-                        .into(binding.acIvView)
-                }
-            }
-
-            class VideoViewHolder(private val binding: LayoutVideoBinding) :
-                RecyclerView.ViewHolder(binding.root) {
-
-                fun bind(fileUrl: String) {
-                    if (BuildConfig.DEBUG) {
-                        Log.i("print_logs", "VideoViewHolder::bind: $fileUrl")
-                    }
-                    val context = binding.videoView.context
-                    binding.videoView.setVideoPath(fileUrl)
-                    binding.videoView.requestFocus()
-                    binding.videoView.setOnPreparedListener {
-                        val videoWidth = it.videoWidth
-                        val videoHeight = it.videoHeight
-                        val videoProportion = videoWidth.toFloat() / videoHeight.toFloat()
-
-                        val screenWidth = context.resources.displayMetrics.widthPixels
-                        val screenHeight = context.resources.displayMetrics.heightPixels
-                        val screenProportion = screenWidth.toFloat() / screenHeight.toFloat()
-
-                        val layoutParams = binding.videoView.layoutParams
-                        if (videoProportion > screenProportion) {
-                            layoutParams.width = screenWidth
-                            layoutParams.height = (screenWidth.toFloat() / videoProportion).toInt()
-                        } else {
-                            layoutParams.width = (videoProportion * screenHeight.toFloat()).toInt()
-                            layoutParams.height = screenHeight
-                        }
-                        binding.videoView.layoutParams = layoutParams
-                        it.seekTo(0)
-                        //保持常亮
-                        it.setScreenOnWhilePlaying(true)
-                        it.setWakeMode(context, PowerManager.PARTIAL_WAKE_LOCK)
-                    }
-                }
-            }
-        }
-
-
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-            val inflater = LayoutInflater.from(parent.context)
-            return if (viewType == VIEW_IMAGE) {
-                val imageBinding = DataBindingUtil.inflate<LayoutImageBinding>(
-                    inflater,
-                    R.layout.layout_image,
-                    parent,
-                    false
-                )
-                ImageViewHolder(imageBinding)
-            } else {
-                val videoBinding = DataBindingUtil.inflate<LayoutVideoBinding>(
-                    inflater,
-                    R.layout.layout_video,
-                    parent,
-                    false
-                )
-                VideoViewHolder(videoBinding)
-            }
-        }
-
-        override fun getItemCount(): Int = mList.size
-
-        override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-            val fileUrl = mList[position].absolutePath
-            if (fileUrl.endsWith(".mp4")) {
-                (holder as VideoViewHolder).bind(fileUrl)
-            } else {
-                (holder as ImageViewHolder).bind(fileUrl)
-            }
-        }
-
-        override fun getItemViewType(position: Int): Int {
-            return if (mList[position].absolutePath.endsWith(".mp4")) {
-                VIEW_VIDEO
-            } else {
-                VIEW_IMAGE
-            }
-        }
-
-        fun removeItem(position: Int) {
-            mList.removeAt(position)
-            notifyItemRemoved(position)
+        mDataBinding.acBtnConcatAdapter.setOnClickListener {
+            startActivity(Intent(this, ConcatActivity::class.java))
         }
     }
 

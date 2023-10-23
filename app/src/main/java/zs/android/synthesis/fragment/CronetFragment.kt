@@ -79,6 +79,8 @@ class CronetFragment : Fragment() {
         }
 
         override fun onResponseStarted(request: UrlRequest?, info: UrlResponseInfo?) {
+            strBuilder.clear()
+
             printStatus(request, "onResponseStarted")
             Log.i("print_logs", "CronetFragment::onResponseStarted: $info")
 

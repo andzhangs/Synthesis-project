@@ -4,39 +4,14 @@
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
-        <option name="delegatedBuild" value="false" />
         <option name="testRunner" value="GRADLE" />
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="gradleJvm" value="jbrsdk_jcef-17" />
+        <option name="gradleJvm" value="jbr-17 (4)" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/module_animation" />
-            <option value="$PROJECT_DIR$/module_core_ktx" />
-            <option value="$PROJECT_DIR$/module_java8" />
-            <option value="$PROJECT_DIR$/module_jdbc_mysql" />
-            <option value="$PROJECT_DIR$/module_koin" />
-            <option value="$PROJECT_DIR$/module_ktor" />
-            <option value="$PROJECT_DIR$/module_leakcanray" />
-            <option value="$PROJECT_DIR$/module_material" />
-            <option value="$PROJECT_DIR$/module_media2" />
-            <option value="$PROJECT_DIR$/module_media3" />
-            <option value="$PROJECT_DIR$/module_mediastore" />
-            <option value="$PROJECT_DIR$/module_mlkit" />
-            <option value="$PROJECT_DIR$/module_notification" />
-            <option value="$PROJECT_DIR$/module_other" />
-            <option value="$PROJECT_DIR$/module_permission" />
-            <option value="$PROJECT_DIR$/module_pick" />
-            <option value="$PROJECT_DIR$/module_recyclerview" />
-            <option value="$PROJECT_DIR$/module_service" />
-            <option value="$PROJECT_DIR$/module_share" />
-            <option value="$PROJECT_DIR$/module_spi" />
-            <option value="$PROJECT_DIR$/module_splash_screen" />
-            <option value="$PROJECT_DIR$/module_tensorflow" />
-            <option value="$PROJECT_DIR$/module_versions_catalog" />
-            <option value="$PROJECT_DIR$/module_widget" />
+            <option value="$PROJECT_DIR$/module_constraintlayout" />
           </set>
         </option>
       </GradleProjectSettings>

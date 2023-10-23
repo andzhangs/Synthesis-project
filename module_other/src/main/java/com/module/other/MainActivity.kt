@@ -5,6 +5,7 @@ import android.hardware.SensorManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.os.Message
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
@@ -19,6 +20,8 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var mDataBinding: ActivityMainBinding
 
+    private var handlerThread: MyHandlerThread? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mDataBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
@@ -29,32 +32,29 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loadHandlerThread() {
-        val handlerThread = MyHandlerThread("Thread_MainActivity")
-        handlerThread.start()
-        val handler = Handler(handlerThread.looper) { msg ->
-            Log.i(
-                "print_logs", "handleMessage: ${msg.what}, ${msg.obj}, ${Thread.currentThread().name}"
-            )
-            true
-        }
 
         mDataBinding.acBtnHandlerThreadStart.setOnClickListener {
-            handler.sendMessage(handler.obtainMessage(1, "Hello，I am from MainActivity"))
-            handler.post {
-                handler.sendMessage(handler.obtainMessage(2, "Hello，I am from MainActivity,too!"))
+            handlerThread = MyHandlerThread("Thread_MainActivity").apply {
+                start()
+
+                sendMessage(Message.obtain().also {
+                    it.arg1 = 200
+                    it.arg2 = 2001
+                    it.what = 20002
+                    it.obj = "Hello，I'm from MainActivity."
+                })
             }
         }
 
         mDataBinding.acBtnHandlerThreadQuit.setOnClickListener {
-            handlerThread.quitSafely()
-//            handlerThread.quit()
-
             if (BuildConfig.DEBUG) {
-                Log.i("print_logs", "HandlerThread.isAlive: ${handlerThread.isAlive}")
+                Log.i("print_logs", "HandlerThread.isAlive-1: ${handlerThread?.isAlive}")
             }
+
+            handlerThread?.quitSafely()
+//            handlerThread.quit()
         }
     }
-
 
 
     /**
@@ -108,7 +108,14 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-    
+
+    override fun onPause() {
+        super.onPause()
+        if (BuildConfig.DEBUG) {
+            Log.i("print_logs", "HandlerThread.isAlive-2: ${handlerThread?.isAlive}")
+        }
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         if (BuildConfig.DEBUG) {

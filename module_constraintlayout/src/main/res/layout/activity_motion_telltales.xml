@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.motion.widget.MotionLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layoutDescription="@xml/activity_motion_telltales_scene"
+        tools:context=".MotionLabelActivity">
+
+        <androidx.constraintlayout.utils.widget.MotionTelltales
+            android:id="@+id/motion_label"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            app:telltales_tailColor="@android:color/holo_purple"
+            app:telltales_tailScale="0.5"
+            android:text="Hello World"
+            android:textSize="60sp"
+            android:background="@drawable/n01608432_1032"
+            app:telltales_velocityMode="staticPostLayout" />
+
+    </androidx.constraintlayout.motion.widget.MotionLayout>
+</layout>

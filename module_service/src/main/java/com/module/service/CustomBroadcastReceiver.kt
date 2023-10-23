@@ -53,6 +53,9 @@ class CustomBroadcastReceiver : BroadcastReceiver() {
     }
 
     override fun onReceive(context: Context, intent: Intent?) {
+        if (BuildConfig.DEBUG) {
+            Log.i("print_logs", "CustomBroadcastReceiver::onReceive")
+        }
         intent?.also {
 
             val isBinding = it.getBooleanExtra(KEY_BINDING, false)

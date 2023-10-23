@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
+import zs.android.synthesis.able.ResponseCloseable
 import zs.android.synthesis.databinding.ActivityViewpager2Binding
 import zs.android.synthesis.fragment.CronetFragment
 import zs.android.synthesis.fragment.CrossDeviceFragment
@@ -32,7 +33,6 @@ class Viewpager2Activity : AppCompatActivity() {
     private lateinit var mAdapter: ViewPager2Adapter
 
     private var mCurrentPosition = 0
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,7 +71,7 @@ class Viewpager2Activity : AppCompatActivity() {
             super.onPageSelected(position)
             mCurrentPosition = position
             if (BuildConfig.DEBUG) {
-                Log.i("print_logs", "onPageSelected.mCurrentPosition: $mCurrentPosition")
+//                Log.i("print_logs", "onPageSelected.mCurrentPosition: $mCurrentPosition")
             }
         }
     }

@@ -13,6 +13,7 @@ import com.google.ambient.crossdevice.discovery.Discovery
 import com.google.ambient.crossdevice.wakeup.startComponentRequest
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import zs.android.synthesis.BuildConfig
 import zs.android.synthesis.R
 
 class CrossDeviceFragment : Fragment() {
@@ -38,10 +39,18 @@ class CrossDeviceFragment : Fragment() {
 
     private fun launch() {
         lifecycleScope.launch(Dispatchers.IO) {
-            mDevicePickerLauncher.launchDevicePicker(listOf(), startComponentRequest {
-                action = "zs.android.synthesis.MAIN"
-                reason = "I want to say hello to you"
-            })
+            try {
+                mDevicePickerLauncher.launchDevicePicker(listOf(), startComponentRequest {
+                    action = "zs.android.synthesis.MAIN"
+                    reason = "I want to say hello to you"
+                })
+            }catch (e:Exception){
+                e.printStackTrace()
+                if (BuildConfig.DEBUG) {
+                    Log.e("print_logs", "CrossDeviceFragment::launch: $e")
+                }
+            }
+
         }
     }
 
@@ -51,9 +60,7 @@ class CrossDeviceFragment : Fragment() {
         }
     }
 
-
     companion object {
-
         @JvmStatic
         fun newInstance() = CrossDeviceFragment()
     }

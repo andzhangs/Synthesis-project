@@ -123,7 +123,7 @@ class MainActivity : AppCompatActivity() {
         findViewById<AppCompatButton>(R.id.onPickVisualMedia).setOnClickListener {
             //验证照片选择器在设备上是否可用
             if (ActivityResultContracts.PickVisualMedia.isPhotoPickerAvailable()) {
-                pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageAndVideo))
+                pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
 //            pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
 //                pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.VideoOnly))
 
@@ -150,7 +150,7 @@ class MainActivity : AppCompatActivity() {
         findViewById<AppCompatButton>(R.id.onPickMultipleVisualMedia).setOnClickListener {
             //验证照片选择器在设备上是否可用
             if (ActivityResultContracts.PickVisualMedia.isPhotoPickerAvailable()) {
-                pickMultipleMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageAndVideo))
+                pickMultipleMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
             } else {
                 Log.i("print_logs", "setCallback: 系统不适用")
             }

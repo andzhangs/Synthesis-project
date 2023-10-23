@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.motion.widget.MotionLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layoutDescription="@xml/activity_motion_label_scene"
+        tools:context=".MotionLabelActivity">
+
+        <androidx.constraintlayout.utils.widget.MotionLabel
+            android:id="@+id/motion_label"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@drawable/n02007558_10737"
+            android:padding="10dp"
+            android:text="Hello World"
+            android:textSize="60sp"
+            android:textStyle="bold"
+            app:borderRoundPercent="1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:textBackground="@drawable/n01608432_1032"
+            app:textBackgroundPanX="-300"
+            app:textBackgroundPanY="50"
+            app:textOutlineColor="@color/white"
+            app:textOutlineThickness="2dp"
+            app:textPanX="-1"
+            app:textPanY="0"
+            app:textureHeight="10dp"
+            app:textureWidth="10dp" />
+
+    </androidx.constraintlayout.motion.widget.MotionLayout>
+</layout>

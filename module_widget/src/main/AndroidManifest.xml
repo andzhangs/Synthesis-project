@@ -10,7 +10,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Synthesisproject">
         <activity
-            android:name=".ConstraintLayoutFlowActivity"
+            android:name=".DragSelectActivity"
+            android:exported="false" />
+        <activity
+            android:name="zs.android.module.constraintlayout.ConstraintLayoutFlowActivity"
             android:exported="false" />
         <activity
             android:name=".ReboundActivity"

@@ -78,9 +78,8 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, ReboundActivity::class.java))
         }
 
-        mDataBinding.acBtnFlow.setOnClickListener {
-            startActivity(Intent(this, ConstraintLayoutFlowActivity::class.java))
+        mDataBinding.acBtnDragSelect.setOnClickListener {
+            startActivity(Intent(this,DragSelectActivity::class.java))
         }
-
     }
 }

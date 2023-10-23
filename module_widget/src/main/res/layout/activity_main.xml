@@ -26,10 +26,11 @@
         android:layout_height="wrap_content"
         android:text="Rebound" />
 
+
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/acBtn_flow"
+        android:id="@+id/acBtn_drag_select"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="ConstraintLayout Flow" />
+        android:text="滑动多选图片" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>

@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
+import zs.android.synthesis.able.ResponseCloseable
 import zs.android.synthesis.fragment.CronetFragment
 import zs.android.synthesis.fragment.CrossDeviceFragment
 import zs.android.synthesis.fragment.ImageLabelerFragment
@@ -23,6 +24,18 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val responseCloseable = ResponseCloseable()
+        responseCloseable.name = "Hello ROwld!"
+        responseCloseable.age = 18
+        responseCloseable.toString()
+        try {
+            responseCloseable.use {
+                it.toString()
+            }
+        }catch (e:Exception){
+            e.printStackTrace()
+        }
 
         Log.i("print_logs", "输出json: ${stringFromJNI()}")
 

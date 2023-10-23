@@ -11,7 +11,7 @@ import android.os.IBinder
 import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), ServiceConnection {
 
     private val mIntent: Intent by lazy {
         Intent(this, CustomLifecycleService::class.java).apply {
@@ -21,36 +21,12 @@ class MainActivity : AppCompatActivity() {
 
     private var mBinder: CustomLifecycleService.LifeBinder? = null
 
-    private val serviceConnection = object : ServiceConnection {
-        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-            if (BuildConfig.DEBUG) {
-                Log.i("print_logs", "MainActivity::onServiceConnected: ")
-            }
-            service?.also {
-                mBinder = it as CustomLifecycleService.LifeBinder
-                mBinder?.getService()
-//                mBinder?.printLog()
-                CustomBroadcastReceiver.send(this@MainActivity,true)
-
-            }
-        }
-
-        override fun onServiceDisconnected(name: ComponentName?) {
-            if (BuildConfig.DEBUG) {
-                Log.i("print_logs", "MainActivity::onServiceDisconnected: ")
-            }
-        }
-    }
-
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         if (BuildConfig.DEBUG) {
             Log.w("print_logs", "MainActivity::onCreate: ")
         }
-
         registerForActivityResult(ActivityResultContracts.RequestPermission()) {
             if (it) {
                 startService(Intent(this@MainActivity, MyTileService::class.java))
@@ -59,11 +35,10 @@ class MainActivity : AppCompatActivity() {
             launch(Manifest.permission.BIND_QUICK_SETTINGS_TILE)
         }
 
-        
-        bindService(mIntent,serviceConnection,Service.BIND_AUTO_CREATE)
-
+        bindService(mIntent, this, Service.BIND_AUTO_CREATE)
 
         MyJobService.start(this)
+
 
     }
 
@@ -75,16 +50,43 @@ class MainActivity : AppCompatActivity() {
         }
 //        startService(mIntent)
         CustomBroadcastReceiver.register(this)
+
     }
 
     override fun onStop() {
         super.onStop()
         CustomBroadcastReceiver.unregister(this)
 //        stopService(mIntent)
-        unbindService(serviceConnection)
+        unbindService(this)
         if (BuildConfig.DEBUG) {
             Log.w("print_logs", "MainActivity::onStop: ")
         }
+
     }
 
+    override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+        if (BuildConfig.DEBUG) {
+            Log.i("print_logs", "MainActivity::onServiceConnected: ")
+        }
+        service?.also {
+            mBinder = it as CustomLifecycleService.LifeBinder
+            mBinder?.getService()
+//                mBinder?.printLog()
+            CustomBroadcastReceiver.send(this@MainActivity, true)
+
+        }
+    }
+
+    override fun onServiceDisconnected(name: ComponentName?) {
+        if (BuildConfig.DEBUG) {
+            Log.i("print_logs", "MainActivity::onServiceDisconnected: ")
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (BuildConfig.DEBUG) {
+            Log.e("print_logs", "MainActivity::onDestroy: ")
+        }
+    }
 }

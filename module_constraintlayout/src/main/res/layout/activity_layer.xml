@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.constraintlayout.helper.widget.Layer
+                    android:id="@+id/layer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/holo_purple"
+                    app:constraint_referenced_ids="acTv,imgFv,shape_iv"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/acTv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/holo_red_light"
+                    android:text="哈哈哈哈哈哈"
+                    android:textColor="@android:color/white"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.constraintlayout.utils.widget.ImageFilterView
+                    android:id="@+id/imgFv"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:background="@android:color/holo_red_light"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/n01608432_1031"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/acTv"
+                    app:round="15dp" />
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/shape_iv"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/n01608432_1018"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/imgFv"
+                    app:shapeAppearanceOverlay="@style/CircleImageStyle" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp">
+
+                <androidx.constraintlayout.helper.widget.Layer
+                    android:id="@+id/layer1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/holo_purple"
+                    app:constraint_referenced_ids="acTv1,imgFv1,shape_iv1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/acTv1"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/holo_red_light"
+                    android:text="哈哈哈哈哈哈"
+                    android:textColor="@android:color/white"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.constraintlayout.utils.widget.ImageFilterView
+                    android:id="@+id/imgFv1"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:background="@android:color/holo_red_light"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/n01608432_1031"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/acTv1"
+                    app:round="15dp" />
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/shape_iv1"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/n01608432_1018"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/imgFv1"
+                    app:shapeAppearanceOverlay="@style/CircleImageStyle" />
+
+                <GridLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:background="@android:color/holo_purple"
+                    android:columnCount="3"
+                    android:padding="10dp"
+                    android:rowCount="4"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/shape_iv1">
+
+                    <androidx.constraintlayout.utils.widget.ImageFilterView
+                        android:id="@+id/ImgFv_1"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_margin="10dp"
+                        android:background="@android:color/holo_red_light"
+                        android:contentDescription="取值0-1之间，超过1就没什么意义了，默认0就是方形，1是圆形图片。和app:round意思一样，只不过一个是具体的大小，一个是百分比。"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/n01608432_1031"
+                        app:round="16dp" />
+
+                    <androidx.constraintlayout.utils.widget.ImageFilterView
+                        android:id="@+id/ImgFv_2"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:background="@android:color/holo_red_light"
+                        android:contentDescription="取值0-size/2之间，超过就没什么意义了，默认0，就是方形；对于正方形来说，取值size/2就是圆形, 圆角是针对View的, 将View绘制成圆角."
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/n01608432_1031"
+                        app:roundPercent="1" />
+
+                    <androidx.constraintlayout.utils.widget.ImageFilterView
+                        android:id="@+id/ImgFv_3"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:background="@android:color/holo_red_light"
+                        android:contentDescription="放大或缩小图片大小，比如：2表示图片放大到原来的2倍，0.5表示图片缩小到原来的一半。View的大小不变，只是显示的图片缩放了。"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/n01608432_1031"
+                        app:imageZoom="0.5" />
+
+                    <androidx.constraintlayout.utils.widget.ImageFilterView
+                        android:id="@+id/ImgFv_4"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:background="@android:color/holo_red_light"
+                        android:contentDescription="旋转图片的角度，比如90，表示图片旋转90度。View的角度和大小是不变的。交叉图：需要跟app:crossfade共同使用，app:crossfade取值0-1,默认0为交叉图完全透明，不展示。取值1交叉图完全展示，覆盖到src上。"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/n02007558_10737"
+                        app:imageRotate="100" />
+
+                    <androidx.constraintlayout.utils.widget.ImageFilterView
+                        android:id="@+id/ImgFv_5"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_margin="10dp"
+                        android:background="@android:color/holo_red_light"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/n02007558_10737"
+                        app:altSrc="@drawable/n01608432_1013"
+                        app:crossfade="0.5" />
+
+                    <androidx.constraintlayout.utils.widget.ImageFilterView
+                        android:id="@+id/ImgFv_6"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:background="@android:color/holo_red_light"
+                        android:contentDescription="float型，默认1，取值0为灰阶样式，大于1的数值都是超饱和状态，色彩非常艳丽，有点辣眼睛。"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/n02007558_10737"
+                        app:saturation="0" />
+
+                    <androidx.constraintlayout.utils.widget.ImageFilterView
+                        android:id="@+id/ImgFv_7"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:background="@android:color/holo_red_light"
+                        android:contentDescription="float型，默认1，值越大亮度越高。"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/n02007558_10737"
+                        app:brightness="3" />
+
+                    <androidx.constraintlayout.utils.widget.ImageFilterView
+                        android:id="@+id/ImgFv_8"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_margin="10dp"
+                        android:background="@android:color/holo_red_light"
+                        android:contentDescription="float型，默认值1，小于1是冷色调，大于1是暖色调。"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/n02007558_10737"
+                        app:warmth="0" />
+
+                    <androidx.constraintlayout.utils.widget.ImageFilterView
+                        android:id="@+id/ImgFv_9"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:background="@android:color/holo_red_light"
+                        android:contentDescription="float型，默认1，取值0相当于图片变全黑，大于1都是高对比度状态。"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/n02007558_10737"
+                        app:contrast="3" />
+
+                    <androidx.constraintlayout.utils.widget.ImageFilterView
+                        android:id="@+id/ImgFv_10"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_margin="10dp"
+                        android:background="@android:color/holo_red_light"
+                        android:contentDescription="定义alt图像是在原始图像的顶部淡入，还是与其交叉淡入。默认值为true。对于半透明对象设置为false。"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/n02007558_10737"
+                        app:altSrc="@drawable/n01608432_1013"
+                        app:crossfade="0.5"
+                        app:overlay="true" />
+
+                    <androidx.constraintlayout.utils.widget.ImageFilterView
+                        android:id="@+id/ImgFv_11"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_margin="10dp"
+                        android:background="@android:color/holo_red_light"
+                        android:contentDescription="定义alt图像是在原始图像的顶部淡入，还是与其交叉淡入。默认值为true。对于半透明对象设置为false。"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/n02007558_10737"
+                        app:altSrc="@drawable/n01608432_1013"
+                        app:crossfade="0.5"
+                        app:overlay="false" />
+
+                </GridLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.core.widget.NestedScrollView>
+</layout>
