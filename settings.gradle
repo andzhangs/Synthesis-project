@@ -51,7 +51,7 @@ rootProject.name = "Synthesis-project"
 //include ':module_widget'
 //include ':module_java8'
 ////include ':module_groovy'
-//include ':module_spi'
+include ':module_spi'
 //include ':module_animation'
 //include ':module_tensorflow'
 //include ':module_splash_screen'
@@ -73,3 +73,4 @@ rootProject.name = "Synthesis-project"
 //include ':module_share'
 //include ':tangram'
 include ':module_constraintlayout'
+include ':module_wifip2p2'

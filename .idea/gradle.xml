@@ -12,6 +12,8 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/module_constraintlayout" />
+            <option value="$PROJECT_DIR$/module_spi" />
+            <option value="$PROJECT_DIR$/module_wifip2p2" />
           </set>
         </option>
       </GradleProjectSettings>

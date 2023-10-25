@@ -1,15 +1,17 @@
 package zs.android.module.spi.loader
 
 import android.util.Log
-import zs.android.module.spi.loader.ISayHello
+import com.google.auto.service.AutoService
+
 
 /**
  * @author zhangshuai@attrsense.com
  * @date 2023/2/6 16:03
  * @description
  */
-class ISayHelloWithEnglish: ISayHello {
+@AutoService(value = [ISayHello::class])
+class ISayHelloWithEnglish : ISayHello {
     override fun sayHello() {
-        Log.i("print_logs", "ISayHelloWithEnglish::sayHello：Hello")
+        Log.d("print_logs", "ISayHelloWithEnglish::sayHello：Hello")
     }
 }
