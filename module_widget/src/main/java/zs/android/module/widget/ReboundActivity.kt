@@ -132,6 +132,4 @@ class ReboundActivity : AppCompatActivity(), ItemListDialogFragment.Listener {
 //        });
 //        spring.setEndValue(to);
 //    }
-
-
 }

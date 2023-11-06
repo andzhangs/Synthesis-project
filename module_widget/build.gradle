@@ -5,12 +5,12 @@ plugins {
 
 android {
     namespace 'zs.android.module.widget'
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "zs.android.module.widget"
-        minSdk 21
-        targetSdk 32
+        minSdk 23
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 
@@ -45,4 +45,30 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     implementation 'com.facebook.rebound:rebound:0.3.8'
+
+    implementation 'com.davemorrissey.labs:subsampling-scale-image-view-androidx:3.10.0'
+
+    implementation 'com.github.piasy:GlideImageLoader:1.8.1'
+
+    //https://github.com/wasabeef/Blurry
+    implementation 'jp.wasabeef:blurry:4.0.1'
+
+    //https://github.com/Dimezis/BlurView
+    implementation 'com.github.Dimezis:BlurView:version-2.0.3'
+
+    //https://github.com/centerzx/ShapeBlurView
+    implementation 'com.github.centerzx:ShapeBlurView:1.0.5'
+
+    //https://github.com/mmin18/RealtimeBlurView
+    implementation 'com.github.mmin18:realtimeblurview:1.2.1'
+
+    //https://github.com/davemorrissey/subsampling-scale-image-view
+    implementation 'com.davemorrissey.labs:subsampling-scale-image-view-androidx:3.10.0'
+
+    //https://github.com/Piasy/BigImageViewer
+    implementation 'com.github.piasy:BigImageViewer:1.8.1'
+    implementation 'com.github.piasy:GlideImageLoader:1.8.1'
+    implementation 'com.github.piasy:GlideImageViewFactory:1.8.1'
+
+    implementation(project(':lib_base'))
 }

@@ -7,13 +7,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view"
+        <eightbitlab.com.blurview.BlurView
+            android:id="@+id/blur_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:itemCount="5"
-            tools:listitem="@layout/item_main_layout" />
+            app:blurOverlayColor="@color/purple_200">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/acIv_66"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/img_66" />
+        </eightbitlab.com.blurview.BlurView>
+
     </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>
