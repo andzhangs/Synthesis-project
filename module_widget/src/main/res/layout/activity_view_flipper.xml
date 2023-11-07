@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/white"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="向上："
+                android:textColor="@color/purple_200"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="?android:attr/actionBarSize"
+                android:layout_margin="10dp"
+                app:cardCornerRadius="15dp"
+                app:cardElevation="1dp">
+
+                <ViewFlipper
+                    android:id="@+id/view_flipper_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="?android:attr/actionBarSize"
+                    android:autoStart="true"
+                    android:background="#F7F7F7"
+                    android:flipInterval="1000"
+                    android:inAnimation="@anim/anim_up_in"
+                    android:outAnimation="@anim/anim_up_out" />
+            </androidx.cardview.widget.CardView>
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="向上缩放："
+                android:textColor="@color/purple_200"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="?android:attr/actionBarSize"
+                android:layout_margin="10dp"
+                app:cardCornerRadius="15dp"
+                app:cardElevation="1dp">
+
+                <ViewFlipper
+                    android:id="@+id/view_flipper_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="?android:attr/actionBarSize"
+                    android:autoStart="true"
+                    android:background="#F7F7F7"
+                    android:flipInterval="1000"
+                    android:inAnimation="@anim/anim_up_scale_in"
+                    android:outAnimation="@anim/anim_up_scale_out" />
+            </androidx.cardview.widget.CardView>
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="向上 and 层叠："
+                android:textColor="@color/purple_200"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="?android:attr/actionBarSize"
+                android:layout_margin="10dp"
+                app:cardCornerRadius="15dp"
+                app:cardElevation="1dp">
+
+                <ViewFlipper
+                    android:id="@+id/view_flipper_3"
+                    android:layout_width="match_parent"
+                    android:layout_height="?android:attr/actionBarSize"
+                    android:autoStart="true"
+                    android:background="#F7F7F7"
+                    android:flipInterval="1000"
+                    android:inAnimation="@anim/anim_up_stack_in"
+                    android:outAnimation="@anim/anim_up_stack_out" />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="风车："
+                android:textColor="@color/purple_200"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="?android:attr/actionBarSize"
+                android:layout_margin="10dp"
+                app:cardCornerRadius="15dp"
+                app:cardElevation="1dp">
+
+                <ViewFlipper
+                    android:id="@+id/view_flipper_4"
+                    android:layout_width="match_parent"
+                    android:layout_height="?android:attr/actionBarSize"
+                    android:autoStart="true"
+                    android:background="#F7F7F7"
+                    android:flipInterval="1000"
+                    android:inAnimation="@anim/anim_up_rotate_in"
+                    android:outAnimation="@anim/anim_up_rotate_out" />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="向左："
+                android:textColor="@color/purple_200"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="?android:attr/actionBarSize"
+                android:layout_margin="10dp"
+                app:cardCornerRadius="15dp"
+                app:cardElevation="1dp">
+
+                <ViewFlipper
+                    android:id="@+id/view_flipper_5"
+                    android:layout_width="match_parent"
+                    android:layout_height="?android:attr/actionBarSize"
+                    android:autoStart="true"
+                    android:background="#F7F7F7"
+                    android:flipInterval="1000"
+                    android:inAnimation="@anim/anim_left_in"
+                    android:outAnimation="@anim/anim_left_out" />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="向左 and 挤压："
+                android:textColor="@color/purple_200"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="?android:attr/actionBarSize"
+                android:layout_margin="10dp"
+                app:cardCornerRadius="15dp"
+                app:cardElevation="1dp">
+
+                <ViewFlipper
+                    android:id="@+id/view_flipper_6"
+                    android:layout_width="match_parent"
+                    android:layout_height="?android:attr/actionBarSize"
+                    android:autoStart="true"
+                    android:background="#F7F7F7"
+                    android:flipInterval="1000"
+                    android:inAnimation="@anim/anim_left_pressing_in"
+                    android:outAnimation="@anim/anim_left_pressing_out" />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="向左 and 缩放："
+                android:textColor="@color/purple_200"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="?android:attr/actionBarSize"
+                android:layout_margin="10dp"
+                app:cardCornerRadius="15dp"
+                app:cardElevation="1dp">
+
+                <ViewFlipper
+                    android:id="@+id/view_flipper_7"
+                    android:layout_width="match_parent"
+                    android:layout_height="?android:attr/actionBarSize"
+                    android:autoStart="true"
+                    android:background="#F7F7F7"
+                    android:flipInterval="1000"
+                    android:inAnimation="@anim/anim_left_scale_in"
+                    android:outAnimation="@anim/anim_left_scale_out" />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="自定义"
+                android:textColor="@color/purple_200"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="?android:attr/actionBarSize"
+                android:layout_margin="10dp"
+                app:cardCornerRadius="15dp"
+                app:cardElevation="1dp">
+
+                <zs.android.module.widget.widget.AutoScrollView
+                    android:id="@+id/view_flipper_8"
+                    android:layout_width="match_parent"
+                    android:layout_height="?android:attr/actionBarSize"
+                    android:background="#F7F7F7"/>
+            </androidx.cardview.widget.CardView>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.core.widget.NestedScrollView>
+</layout>
