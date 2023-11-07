@@ -13,6 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Synthesisproject">
         <activity
+            android:name=".AlertActivity"
+            android:exported="false" />
+        <activity
             android:name=".GlideScaleActivity"
             android:exported="false" />
         <activity

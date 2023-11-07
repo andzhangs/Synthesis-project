@@ -43,7 +43,8 @@ class MainActivity : AppCompatActivity() {
             "RealtimeBlurView",
             "ShapeBlurView",
             "ScaleActivity",
-            "GlideScaleActivity"
+            "GlideScaleActivity",
+            "AlertActivity"
         )
     }
     private val mAdapter = RvAdapter(mList)
@@ -109,6 +110,10 @@ class MainActivity : AppCompatActivity() {
                                 100
                             )
                         }
+                    }
+
+                    10 -> {
+                        jumpActivity(AlertActivity::class.java)
                     }
 
                     else -> {}

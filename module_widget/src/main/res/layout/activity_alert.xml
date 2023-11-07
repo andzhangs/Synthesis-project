@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/acBtn_1"
+                android:layout_width="match_parent"
+                android:layout_height="?android:attr/actionBarSize"
+                android:text="基本使用" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/acBtn_2"
+                android:layout_width="match_parent"
+                android:layout_height="?android:attr/actionBarSize"
+                android:text="自定义背景色" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/acBtn_3"
+                android:layout_width="match_parent"
+                android:layout_height="?android:attr/actionBarSize"
+                android:text="自定义图标" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/acBtn_4"
+                android:layout_width="match_parent"
+                android:layout_height="?android:attr/actionBarSize"
+                android:text="自定义时长" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/acBtn_5"
+                android:layout_width="match_parent"
+                android:layout_height="?android:attr/actionBarSize"
+                android:text="无标题" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/acBtn_6"
+                android:layout_width="match_parent"
+                android:layout_height="?android:attr/actionBarSize"
+                android:text="添加点击事件" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/acBtn_7"
+                android:layout_width="match_parent"
+                android:layout_height="?android:attr/actionBarSize"
+                android:text="过长文字" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/acBtn_8"
+                android:layout_width="match_parent"
+                android:layout_height="?android:attr/actionBarSize"
+                android:text="自定义进出动画" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/acBtn_9"
+                android:layout_width="match_parent"
+                android:layout_height="?android:attr/actionBarSize"
+                android:text="监听显示-隐藏" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/acBtn_10"
+                android:layout_width="match_parent"
+                android:layout_height="?android:attr/actionBarSize"
+                android:text="自定义字体" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/acBtn_11"
+                android:layout_width="match_parent"
+                android:layout_height="?android:attr/actionBarSize"
+                android:text="滑动删除" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/acBtn_12"
+                android:layout_width="match_parent"
+                android:layout_height="?android:attr/actionBarSize"
+                android:text="增加进度条" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/acBtn_13"
+                android:layout_width="match_parent"
+                android:layout_height="?android:attr/actionBarSize"
+                android:text="增加按钮" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/acBtn_14"
+                android:layout_width="match_parent"
+                android:layout_height="?android:attr/actionBarSize"
+                android:text="显示自定义布局" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.core.widget.NestedScrollView>
+</layout>

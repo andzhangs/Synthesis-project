@@ -70,5 +70,7 @@ dependencies {
     implementation 'com.github.piasy:GlideImageLoader:1.8.1'
     implementation 'com.github.piasy:GlideImageViewFactory:1.8.1'
 
+    implementation 'com.github.tapadoo:alerter:7.2.4'
+
     implementation(project(':lib_base'))
 }
