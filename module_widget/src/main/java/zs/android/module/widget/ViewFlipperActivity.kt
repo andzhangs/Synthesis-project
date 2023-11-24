@@ -33,6 +33,8 @@ class ViewFlipperActivity : AppCompatActivity() {
             }
             start(arrayListOf("哈哈哈哈","哈哈哈","哈哈","哈","哈哈","哈哈哈","哈哈哈哈"))
         }
+
+
     }
 
     private fun initViewFlipper(viewFlipper: ViewFlipper) {

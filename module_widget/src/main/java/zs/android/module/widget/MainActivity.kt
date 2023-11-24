@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
             "SnackBar-底部提示信息",
             "自定义Toast",
             "Rebound",
-            "滑动多选图片",
+            "滑动多选图片-DragSelectActivity",
             "Blurry",
             "BlurView",
             "RealtimeBlurView",
@@ -45,7 +45,9 @@ class MainActivity : AppCompatActivity() {
             "ScaleActivity",
             "GlideScaleActivity",
             "AlertActivity",
-            "ViewFlipperActivity"
+            "ViewFlipperActivity",
+            "BannerActivity",
+            "DragLayoutActivity"
         )
     }
     private val mAdapter = RvAdapter(mList)
@@ -116,8 +118,17 @@ class MainActivity : AppCompatActivity() {
                     10 -> {
                         jumpActivity(AlertActivity::class.java)
                     }
-                    11->{
+
+                    11 -> {
                         jumpActivity(ViewFlipperActivity::class.java)
+                    }
+
+                    12 -> {
+                        jumpActivity(BannerActivity::class.java)
+                    }
+
+                    13 -> {
+                        jumpActivity(DragLayoutActivity::class.java)
                     }
 
                     else -> {}

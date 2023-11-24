@@ -22,3 +22,14 @@
 
 -keep class android.support.v8.renderscript.** { *; }
 -keep class androidx.renderscript.** { *; }
+
+-dontwarn dalvik.**
+-dontwarn com.tencent.smtt.**
+
+-keep class com.tencent.smtt.** {
+    *;
+}
+
+-keep class com.tencent.tbs.** {
+    *;
+}

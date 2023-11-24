@@ -2,7 +2,6 @@ package zs.android.module.widget.widget
 
 import android.content.Context
 import android.util.AttributeSet
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.animation.Animation
@@ -11,7 +10,6 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
-import zs.android.module.widget.BuildConfig
 import zs.android.module.widget.R
 import zs.android.module.widget.databinding.LayoutViewFlipperBinding
 
@@ -90,15 +88,11 @@ class AutoScrollView @JvmOverloads constructor(
                 }
 
                 override fun onAnimationStart(anim: Animation?) {
-                    if (BuildConfig.DEBUG) {
-                        Log.i("print_logs", "AutoScrollView::onAnimationStart: ")
-                    }
+
                 }
 
                 override fun onAnimationEnd(anim: Animation?) {
-                    if (BuildConfig.DEBUG) {
-                        Log.i("print_logs", "AutoScrollView::onAnimationEnd: ")
-                    }
+
                     if (list.isNotEmpty()) {
                         val info = (currentView as AppCompatTextView).text.toString()
                         mCallbackBlock?.invoke(info)
@@ -106,9 +100,7 @@ class AutoScrollView @JvmOverloads constructor(
                 }
 
                 override fun onAnimationRepeat(anim: Animation?) {
-                    if (BuildConfig.DEBUG) {
-                        Log.i("print_logs", "AutoScrollView::onAnimationRepeat: ")
-                    }
+
                 }
             })
         }
