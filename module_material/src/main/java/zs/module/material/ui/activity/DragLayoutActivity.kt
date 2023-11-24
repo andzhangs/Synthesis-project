@@ -1,10 +1,11 @@
-package zs.android.module.widget
+package zs.module.material.ui.activity
 
 import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
-import zs.android.module.widget.databinding.ActivityDragLayoutBinding
+import zs.module.material.R
+import zs.module.material.databinding.ActivityDragLayoutBinding
 
 class DragLayoutActivity : AppCompatActivity() {
 

@@ -1,5 +1,6 @@
 package zs.module.material.ui.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,6 +11,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import zs.module.material.R
 import zs.module.material.base.BaseMaterialFragment
+import zs.module.material.ui.activity.BottomSheetDragHandleActivity
 
 class MaterialBottomSheetDialogFragment private constructor(mIndexName: String) :
     BaseMaterialFragment(mIndexName) {
@@ -28,6 +30,11 @@ class MaterialBottomSheetDialogFragment private constructor(mIndexName: String) 
         mRootView.findViewById<AppCompatButton?>(R.id.acBtn_BottomSheetDialogFragment)
             .setOnClickListener {
                 createBottomSheetDialogFragment()
+            }
+
+        mRootView.findViewById<AppCompatButton?>(R.id.acBtn_BottomSheetBehavior)
+            .setOnClickListener {
+                startActivity(Intent(requireActivity(), BottomSheetDragHandleActivity::class.java))
             }
     }
 

@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <zs.android.module.widget.widget.DragLayoutView
+        <zs.module.material.widget.DragLayoutView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -65,7 +65,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-        </zs.android.module.widget.widget.DragLayoutView>
+        </zs.module.material.widget.DragLayoutView>
 
         <View
             android:layout_width="1dp"

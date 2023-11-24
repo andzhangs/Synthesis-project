@@ -1,4 +1,4 @@
-package zs.android.module.widget.widget
+package zs.module.material.widget
 
 import android.content.Context
 import android.util.AttributeSet
@@ -8,8 +8,8 @@ import android.view.View
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.customview.widget.ViewDragHelper
-import zs.android.module.widget.BuildConfig
-import zs.android.module.widget.R
+import com.blankj.utilcode.BuildConfig
+import zs.module.material.R
 
 /**
  * https://www.cnblogs.com/guanxinjing/p/17463237.html
@@ -230,28 +230,44 @@ class DragLayoutView(context: Context, attrs: AttributeSet?) : ConstraintLayout(
 
             override fun onEdgeLock(edgeFlags: Int): Boolean {
                 if (BuildConfig.DEBUG) {
-                    Log.i("print_logs", "DragLayoutView::onEdgeLock: ${super.onEdgeLock(edgeFlags)}")
+                    Log.i(
+                        "print_logs",
+                        "DragLayoutView::onEdgeLock: ${super.onEdgeLock(edgeFlags)}"
+                    )
                 }
                 return super.onEdgeLock(edgeFlags)
             }
 
             override fun getOrderedChildIndex(index: Int): Int {
                 if (BuildConfig.DEBUG) {
-                    Log.i("print_logs", "DragLayoutView::getOrderedChildIndex: ${super.getOrderedChildIndex(index)}")
+                    Log.i(
+                        "print_logs",
+                        "DragLayoutView::getOrderedChildIndex: ${super.getOrderedChildIndex(index)}"
+                    )
                 }
                 return super.getOrderedChildIndex(index)
             }
 
             override fun getViewHorizontalDragRange(child: View): Int {
                 if (BuildConfig.DEBUG) {
-                    Log.i("print_logs", "DragLayoutView::getViewHorizontalDragRange: ${ super.getViewHorizontalDragRange(child)}")
+                    Log.i(
+                        "print_logs",
+                        "DragLayoutView::getViewHorizontalDragRange: ${
+                            super.getViewHorizontalDragRange(child)
+                        }"
+                    )
                 }
                 return super.getViewHorizontalDragRange(child)
             }
 
             override fun getViewVerticalDragRange(child: View): Int {
                 if (BuildConfig.DEBUG) {
-                    Log.i("print_logs", "DragLayoutView::getViewVerticalDragRange: ${super.getViewVerticalDragRange(child)}")
+                    Log.i(
+                        "print_logs",
+                        "DragLayoutView::getViewVerticalDragRange: ${
+                            super.getViewVerticalDragRange(child)
+                        }"
+                    )
                 }
                 return super.getViewVerticalDragRange(child)
             }

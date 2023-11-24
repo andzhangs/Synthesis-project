@@ -15,9 +15,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Synthesisproject">
         <activity
-            android:name=".DragLayoutActivity"
-            android:exported="false" />
-        <activity
             android:name=".BannerActivity"
             android:exported="false" />
 

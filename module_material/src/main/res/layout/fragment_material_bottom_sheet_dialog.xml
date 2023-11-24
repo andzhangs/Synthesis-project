@@ -19,4 +19,10 @@
         android:layout_height="wrap_content"
         android:text="BottomSheetDialogFragment" />
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/acBtn_BottomSheetBehavior"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="BottomSheetBehavior" />
+
 </androidx.appcompat.widget.LinearLayoutCompat>

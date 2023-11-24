@@ -46,8 +46,7 @@ class MainActivity : AppCompatActivity() {
             "GlideScaleActivity",
             "AlertActivity",
             "ViewFlipperActivity",
-            "BannerActivity",
-            "DragLayoutActivity"
+            "BannerActivity"
         )
     }
     private val mAdapter = RvAdapter(mList)
@@ -128,7 +127,9 @@ class MainActivity : AppCompatActivity() {
                     }
 
                     13 -> {
-                        jumpActivity(DragLayoutActivity::class.java)
+                    }
+
+                    14 -> {
                     }
 
                     else -> {}
@@ -149,7 +150,6 @@ class MainActivity : AppCompatActivity() {
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-
         if (requestCode == 100) {
             jumpActivity(GlideScaleActivity::class.java)
         }

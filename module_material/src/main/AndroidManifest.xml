@@ -9,6 +9,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SoAndroid">
         <activity
+            android:name=".ui.activity.BottomSheetDragHandleActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.DragLayoutActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.activity.DragActivity"
             android:exported="false">
             <meta-data

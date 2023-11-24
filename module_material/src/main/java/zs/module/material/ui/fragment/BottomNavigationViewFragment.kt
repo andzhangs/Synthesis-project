@@ -9,6 +9,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import zs.module.material.R
 import zs.module.material.base.BaseMaterialFragment
 import zs.module.material.ui.activity.DragActivity
+import zs.module.material.ui.activity.DragLayoutActivity
 
 class BottomNavigationViewFragment private constructor(mIndexName: String) :
     BaseMaterialFragment(mIndexName) {
@@ -26,6 +27,12 @@ class BottomNavigationViewFragment private constructor(mIndexName: String) :
         mRootView.findViewById<AppCompatButton>(R.id.acBtn_jump).setOnClickListener {
             startActivity(Intent(activity, DragActivity::class.java))
         }
+
+        mRootView.findViewById<AppCompatButton>(R.id.acBtn_jump2).setOnClickListener {
+            startActivity(Intent(activity, DragLayoutActivity::class.java))
+        }
+
+
         mNavigationView = mRootView.findViewById(R.id.navigation_view)
         mNavigationView.setOnItemReselectedListener {
             when (it.itemId) {
