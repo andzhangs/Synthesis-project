@@ -17,6 +17,12 @@ import com.google.android.material.shape.TriangleEdgeTreatment
 import zs.module.material.R
 import zs.module.material.base.BaseMaterialFragment
 
+/**
+ * 参考链接
+ *
+ * Chip
+ * https://blog.csdn.net/weixin_42473228/article/details/125845336
+ */
 class MaterialShapeDrawableFragment private constructor(mIndexName: String) :
     BaseMaterialFragment(mIndexName) {
 

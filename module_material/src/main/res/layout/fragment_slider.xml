@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="默认方式一" />
+
+        <com.google.android.material.slider.Slider
+            android:id="@+id/slider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:value="8.09"
+            android:valueFrom="0.0"
+            android:valueTo="11.0" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="默认方式二" />
+        <com.google.android.material.slider.RangeSlider
+            android:id="@+id/rangeSlider1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:valueFrom="0.0"
+            android:valueTo="11.0"
+            app:values="@array/initial_slider_values" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+
+            android:text="修改轨道主题" />
+        <com.google.android.material.slider.Slider
+            android:id="@+id/rangeSlider2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/ThemeOverlay.PrimaryPalette.Green"
+            android:value="5.0"
+            android:valueFrom="0.0"
+            android:valueTo="11.0" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+
+            android:text="添加步长" />
+        <com.google.android.material.slider.Slider
+            android:id="@+id/rangeSlider3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:stepSize="0.25"
+            android:theme="@style/ThemeOverlay.PrimaryPalette.Green"
+            android:valueFrom="0.0"
+            android:valueTo="5.75"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="添加步长并去掉步长间隔" />
+        <com.google.android.material.slider.Slider
+            android:id="@+id/rangeSlider4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:stepSize="1"
+            android:theme="@style/ThemeOverlay.PrimaryPalette.Green"
+            android:valueFrom="0.0"
+            android:valueTo="10"
+            app:tickVisible="false" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="改变步长颜色" />
+        <com.google.android.material.slider.Slider
+            android:id="@+id/rangeSlider5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:stepSize="0.25"
+            android:valueFrom="0.0"
+            android:valueTo="5.75"
+            app:tickColorActive="@android:color/holo_red_light"
+            app:tickColorInactive="@color/white" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="slider 滑动时顶部是否显示变化效果+样式" />
+        <com.google.android.material.slider.Slider
+            android:id="@+id/rangeSlider6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:labelBehavior="withinBounds"
+            app:labelStyle="@style/ThemeOverlay.Label.Style"
+            android:valueFrom="0.0"
+            android:valueTo="10.0" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</androidx.core.widget.NestedScrollView>

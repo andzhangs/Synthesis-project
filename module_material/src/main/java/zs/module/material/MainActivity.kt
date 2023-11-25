@@ -7,6 +7,7 @@ import android.content.IntentFilter
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
@@ -27,12 +28,17 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+
         mList = arrayListOf(
+            CircularRevealFragment.newInstance(),
             ShapeableImageViewFragment.newInstance(),
             MaterialShapeDrawableFragment.newInstance(),
+            ChipFragment.newInstance(),
             MaterialToolbarFragment.newInstance(),
             BottomNavigationViewFragment.newInstance(),
-            MaterialBottomSheetDialogFragment.newInstance()
+            MaterialBottomSheetDialogFragment.newInstance(),
+            SliderFragment.newInstance(),
+            SwipeDismissBehaviorFragment.newInstance()
         )
         mList.forEach { _ -> mBinding.tabLayout.addTab(mBinding.tabLayout.newTab()) }
 
@@ -66,7 +72,20 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        mBinding.viewPager2
+        mBinding.tabLayout.getTabAt(0)?.let {
+            it.orCreateBadge.apply {
+                backgroundColor = ContextCompat.getColor(this@MainActivity, R.color.teal_200)
+                badgeTextColor = ContextCompat.getColor(this@MainActivity, R.color.white)
+                number = 6
+            }
+        }
+        mBinding.tabLayout.getTabAt(1)?.let {
+            it.orCreateBadge.apply {
+                backgroundColor = ContextCompat.getColor(this@MainActivity, R.color.purple_700)
+                badgeTextColor = ContextCompat.getColor(this@MainActivity, R.color.white)
+                number = 10
+            }
+        }
     }
 
     /**
@@ -84,7 +103,7 @@ class MainActivity : AppCompatActivity() {
                 it.putString("msg", msg)
             })
             putExtras(Bundle().apply {
-                putString("msg2",msg)
+                putString("msg2", msg)
             })
         }
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
@@ -108,7 +127,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        val intentFilter=IntentFilter().apply {
+        val intentFilter = IntentFilter().apply {
             addAction(RECEIVER_ACTION)
         }
         LocalBroadcastManager.getInstance(this).registerReceiver(myReceiver, intentFilter)

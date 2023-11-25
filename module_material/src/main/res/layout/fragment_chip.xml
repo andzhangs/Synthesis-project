@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!--
+        使用style=“@style/Widget.MaterialComponents.Chip.Action”
+        前后图标都不展示点击后没有选中状态
+      -->
+    <com.google.android.material.chip.Chip
+        style="@style/Widget.MaterialComponents.Chip.Action"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Action-Chip"
+        android:textColor="@color/white"
+        app:chipBackgroundColor="@color/teal_200"
+        app:chipCornerRadius="25dp"
+        app:chipEndPadding="10dp"
+        app:chipIconSize="20dp"
+        app:chipStartPadding="10dp"
+        app:closeIcon="@drawable/icon_close_chip"
+        app:closeIconVisible="true" />
+
+    <!--
+        使用style=“@style/Widget . Materia lComponents . Chip. Choice”
+        初始状态下，不展示前后图标。但是具有选中状态
+      -->
+    <com.google.android.material.chip.Chip
+        style="@style/Widget.MaterialComponents.Chip.Choice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Choice-Chip"
+        android:textColor="@color/white"
+        app:chipBackgroundColor="@color/teal_200"
+        app:chipCornerRadius="25dp"
+        app:chipEndPadding="10dp"
+        app:chipIconSize="20dp"
+        app:chipStartPadding="10dp" />
+
+    <!--
+        使用style=“@style/Widget.MaterialComponents.Chip.Filter”
+        初始状态下,不展示前后图标,击之后会展示前面的选中图标,并且具有选中状态
+     -->
+    <com.google.android.material.chip.Chip
+        style="@style/Widget.MaterialComponents.Chip.Filter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Filter-Chip"
+        android:textColor="@color/white"
+        app:chipBackgroundColor="@color/teal_200"
+        app:chipCornerRadius="25dp"
+        app:chipEndPadding="10dp"
+        app:chipIconSize="20dp"
+        app:chipStartPadding="10dp" />
+
+    <!--
+        使用style=“@style/Widget. MaterialComponents . Chip. Entry”
+        默认在末尾展示删除按钮;点击后前面展示选中图标，有选中状态
+      -->
+    <com.google.android.material.chip.Chip
+        style="@style/Widget.MaterialComponents.Chip.Entry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="标签-1"
+        android:textColor="@color/white"
+        app:chipBackgroundColor="@color/teal_200"
+        app:chipCornerRadius="25dp"
+        app:chipEndPadding="10dp"
+        app:chipIconSize="20dp"
+        app:chipStartPadding="10dp" />
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chip_group_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/purple_200"
+        app:checkedChip="@id/chip_1"
+        app:chipSpacingHorizontal="10dp"
+        app:chipSpacingVertical="10dp"
+        app:singleLine="false"
+        app:singleSelection="true">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_1"
+            style="@style/Widget.MaterialComponents.Chip.Action"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="标签-1"
+            android:textColor="@color/white"
+            app:chipBackgroundColor="@color/teal_200"
+            app:chipCornerRadius="25dp"
+            app:chipEndPadding="10dp"
+            app:chipIconSize="20dp"
+            app:chipStartPadding="10dp"
+            app:closeIcon="@drawable/icon_close_chip"
+            app:closeIconVisible="true" />
+
+        <com.google.android.material.chip.Chip
+            style="@style/Widget.MaterialComponents.Chip.Action"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="标签-2"
+            android:textColor="@color/white"
+            app:chipBackgroundColor="@color/teal_200"
+            app:chipCornerRadius="25dp"
+            app:chipEndPadding="10dp"
+            app:chipIconSize="20dp"
+            app:chipStartPadding="10dp"
+            app:closeIcon="@drawable/icon_close_chip"
+            app:closeIconVisible="true" />
+
+        <com.google.android.material.chip.Chip
+            style="@style/Widget.MaterialComponents.Chip.Action"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="标签-10"
+            android:textColor="@color/white"
+            app:chipBackgroundColor="@color/teal_200"
+            app:chipCornerRadius="25dp"
+            app:chipEndPadding="10dp"
+            app:chipIconSize="20dp"
+            app:chipStartPadding="10dp"
+            app:closeIcon="@drawable/icon_close_chip"
+            app:closeIconVisible="true" />
+
+        <com.google.android.material.chip.Chip
+            style="@style/Widget.MaterialComponents.Chip.Action"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="标签-4"
+            android:textColor="@color/white"
+            app:chipBackgroundColor="@color/teal_200"
+            app:chipCornerRadius="25dp"
+            app:chipEndPadding="10dp"
+            app:chipIconSize="20dp"
+            app:chipStartPadding="10dp"
+            app:closeIcon="@drawable/icon_close_chip"
+            app:closeIconVisible="true" />
+
+        <com.google.android.material.chip.Chip
+            style="@style/Widget.MaterialComponents.Chip.Action"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="标签-14"
+            android:textColor="@color/white"
+            app:chipBackgroundColor="@color/teal_200"
+            app:chipCornerRadius="25dp"
+            app:chipEndPadding="10dp"
+            app:chipIconSize="20dp"
+            app:chipStartPadding="10dp"
+            app:closeIcon="@drawable/icon_close_chip"
+            app:closeIconVisible="true" />
+
+        <com.google.android.material.chip.Chip
+            style="@style/Widget.MaterialComponents.Chip.Action"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="标签-40"
+            android:textColor="@color/white"
+            app:chipBackgroundColor="@color/teal_200"
+            app:chipCornerRadius="25dp"
+            app:chipEndPadding="10dp"
+            app:chipIconSize="20dp"
+            app:chipStartPadding="10dp"
+            app:closeIcon="@drawable/icon_close_chip"
+            app:closeIconVisible="true" />
+
+        <com.google.android.material.chip.Chip
+            style="@style/Widget.MaterialComponents.Chip.Action"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="标签-999"
+            android:textColor="@color/white"
+            app:chipBackgroundColor="@color/teal_200"
+            app:chipCornerRadius="25dp"
+            app:chipEndPadding="10dp"
+            app:chipIconSize="20dp"
+            app:chipStartPadding="10dp"
+            app:closeIcon="@drawable/icon_close_chip"
+            app:closeIconVisible="true" />
+    </com.google.android.material.chip.ChipGroup>
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chip_group_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/purple_200"
+        app:checkedChip="@id/chip_1"
+        app:chipSpacingHorizontal="10dp"
+        app:chipSpacingVertical="10dp"
+        android:layout_marginTop="20dp"
+        app:singleLine="false"
+        app:singleSelection="true"/>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

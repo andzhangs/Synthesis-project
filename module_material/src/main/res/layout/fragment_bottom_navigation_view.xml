@@ -5,23 +5,68 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.fragment.BottomNavigationViewFragment">
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/acBtn_jump"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="跳转到拖拽页面"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:text="跳转到拖拽页面"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/acBtn_jump2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="跳转到拖拽页面2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/acBtn_jump"
-        android:text="跳转到拖拽页面2"/>
+        app:layout_constraintTop_toBottomOf="@id/acBtn_jump" />
+
+    <com.google.android.material.button.MaterialButtonToggleGroup
+        android:id="@+id/toggle_button_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/acBtn_jump2">
+
+        <com.google.android.material.button.MaterialButton
+            style="?attr/materialButtonToggleGroupStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tab-1" />
+
+        <com.google.android.material.button.MaterialButton
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tab-2" />
+
+        <com.google.android.material.button.MaterialButton
+            style="?attr/materialButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tab-3" />
+
+        <com.google.android.material.button.MaterialButton
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tab-4" />
+
+    </com.google.android.material.button.MaterialButtonToggleGroup>
+
 
     <!--app:itemBackground="@android:color/white"-->
+    <com.google.android.material.navigationrail.NavigationRailView
+        android:layout_width="wrap_content"
+        android:layout_height="300dp"
+        android:layout_marginTop="20dp"
+        app:headerLayout="@layout/my_navigation_rail_fab"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toggle_button_group"
+        app:menu="@menu/menu_navigation_items_2" />
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/navigation_view"
         android:layout_width="match_parent"
@@ -32,4 +77,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/menu_navigation_items" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

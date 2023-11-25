@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">SynthesisMaterial</string>
+    <string-array name="initial_slider_values">
+        <item>2.0</item>
+        <item>7.0</item>
+    </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
