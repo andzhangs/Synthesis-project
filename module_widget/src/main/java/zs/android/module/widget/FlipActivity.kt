@@ -2,6 +2,7 @@ package zs.android.module.widget
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.databinding.DataBindingUtil
 import zs.android.module.widget.databinding.ActivityFlipBinding
@@ -17,6 +18,21 @@ class FlipActivity : AppCompatActivity() {
 
         mDataBinding = DataBindingUtil.setContentView(this, R.layout.activity_flip)
         mFlipLayout = findViewById(R.id.flip_layout)
+
+        mFlipLayout.setOnFlipListener(object :FlipGroupLayout.OnFlipListener{
+            override fun onFlipStart(parent: FlipGroupLayout, isFront: Boolean) {
+                if (BuildConfig.DEBUG) {
+                    Log.i("print_logs", "FlipActivity::onFlipStart: isFront= $isFront")
+                }
+            }
+
+            override fun onFlipEnd(parent: FlipGroupLayout, isFront: Boolean) {
+                if (BuildConfig.DEBUG) {
+                    Log.i("print_logs", "FlipActivity::onFlipEnd: isFront= $isFront")
+                }
+            }
+        })
+
     }
 
     fun clickToggleLeft(view: View) {

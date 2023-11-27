@@ -27,9 +27,9 @@ class FlipGroupLayout @JvmOverloads constructor(
 
     interface OnFlipListener {
 
-        fun onFlipStart(parent: FlipGroupLayout)
+        fun onFlipStart(parent: FlipGroupLayout, isFront: Boolean)
 
-        fun onFlipEnd(parent: FlipGroupLayout)
+        fun onFlipEnd(parent: FlipGroupLayout, isFront: Boolean)
     }
 
     private enum class Direction {
@@ -90,22 +90,22 @@ class FlipGroupLayout @JvmOverloads constructor(
         backView?.visibility = View.GONE
     }
 
-    fun toggleUp() {
+    override fun toggleUp() {
         direction = Direction.UP
         startAnimation()
     }
 
-    fun toggleDown() {
+    override fun toggleDown() {
         direction = Direction.DOWN
         startAnimation()
     }
 
-    fun toggleLeft() {
+    override fun toggleLeft() {
         direction = Direction.LEFT
         startAnimation()
     }
 
-    fun toggleRight() {
+    override fun toggleRight() {
         direction = Direction.RIGHT
         startAnimation()
     }
@@ -116,30 +116,15 @@ class FlipGroupLayout @JvmOverloads constructor(
     }
 
     //----------------------------------------------------------------------------------------------
-    override fun onSwipeLeft() {
-        toggleLeft()
-    }
-
-    override fun onSwipeRight() {
-        toggleRight()
-    }
-
-    override fun onSwipeUp() {
-        toggleUp()
-    }
-
-    override fun onSwipeDown() {
-        toggleDown()
-    }
-
-    //----------------------------------------------------------------------------------------------
 
     override fun onAnimationStart(animation: Animation?) {
-        mOnFlipListener?.onFlipStart(this)
+        val isFront = frontView?.visibility == View.VISIBLE
+        mOnFlipListener?.onFlipStart(this, isFront)
     }
 
     override fun onAnimationEnd(animation: Animation?) {
-        mOnFlipListener?.onFlipEnd(this)
+        val isFront = frontView?.visibility == View.VISIBLE
+        mOnFlipListener?.onFlipEnd(this, isFront)
 
         direction = when (direction) {
             Direction.UP -> Direction.DOWN
@@ -153,15 +138,14 @@ class FlipGroupLayout @JvmOverloads constructor(
 
     }
 
-
     //----------------------------------------------------------------------------------------------
 
     override fun onClick(v: View?) {
-
+        toggleDown()
     }
 
     //----------------------------------------------------------------------------------------------
-    fun setOnFlipListener(listener: OnFlipListener?) {
+    fun setOnFlipListener(listener: FlipGroupLayout.OnFlipListener?) {
         mOnFlipListener = listener
     }
 

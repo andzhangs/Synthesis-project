@@ -8,11 +8,11 @@ package zs.android.module.widget.widget.flip
  */
 interface OnSwipeListener {
 
-    fun onSwipeLeft()
+    fun toggleLeft()
 
-    fun onSwipeRight()
+    fun toggleRight()
 
-    fun onSwipeUp()
+    fun toggleUp()
 
-    fun onSwipeDown()
+    fun toggleDown()
 }

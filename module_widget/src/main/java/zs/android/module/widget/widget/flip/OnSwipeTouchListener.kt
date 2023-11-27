@@ -44,14 +44,14 @@ class OnSwipeTouchListener(context: Context) : OnTouchListener {
                             if (abs(diffX) > SWIPE_THRESHOLD && abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
                                 if (diffX > 0) {
                                     swipeListeners.forEach {
-                                        it.onSwipeRight()
+                                        it.toggleRight()
                                         if (BuildConfig.DEBUG) {
                                             Log.i("print_logs", "onFling: onSwipeRight")
                                         }
                                     }
                                 } else {
                                     swipeListeners.forEach {
-                                        it.onSwipeLeft()
+                                        it.toggleLeft()
                                         if (BuildConfig.DEBUG) {
                                             Log.i("print_logs", "onFling: onSwipeLeft")
                                         }
@@ -61,14 +61,14 @@ class OnSwipeTouchListener(context: Context) : OnTouchListener {
                         } else if (abs(diffY) > SWIPE_THRESHOLD && abs(diffY) > SWIPE_VELOCITY_THRESHOLD) {
                             if (diffY > 0) {
                                 swipeListeners.forEach {
-                                    it.onSwipeDown()
+                                    it.toggleDown()
                                     if (BuildConfig.DEBUG) {
                                         Log.i("print_logs", "onFling: onSwipeDown")
                                     }
                                 }
                             } else {
                                 swipeListeners.forEach {
-                                    it.onSwipeUp()
+                                    it.toggleUp()
                                     if (BuildConfig.DEBUG) {
                                         Log.i("print_logs", "onFling: onSwipeUp")
                                     }
