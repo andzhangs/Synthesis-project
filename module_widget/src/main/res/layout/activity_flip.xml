@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <zs.android.module.widget.widget.flip.FlipGroupLayout
+            android:id="@+id/flip_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="300dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:scaleType="fitXY"
+                android:src="@drawable/icon_scale" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="300dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:scaleType="fitXY"
+                android:src="@drawable/icon_10188041" />
+
+        </zs.android.module.widget.widget.flip.FlipGroupLayout>
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="clickToggleLeft"
+            android:text="toggle-left" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="clickToggleRight"
+            android:text="toggle-right" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="clickToggleUp"
+            android:text="toggle-up" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="clickToggleDown"
+            android:text="toggle-down" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</layout>

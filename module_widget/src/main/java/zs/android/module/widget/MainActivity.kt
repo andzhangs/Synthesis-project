@@ -46,7 +46,8 @@ class MainActivity : AppCompatActivity() {
             "GlideScaleActivity",
             "AlertActivity",
             "ViewFlipperActivity",
-            "BannerActivity"
+            "BannerActivity",
+            "FlipActivity"
         )
     }
     private val mAdapter = RvAdapter(mList)
@@ -127,6 +128,7 @@ class MainActivity : AppCompatActivity() {
                     }
 
                     13 -> {
+                        jumpActivity(FlipActivity::class.java)
                     }
 
                     14 -> {

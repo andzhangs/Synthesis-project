@@ -15,6 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Synthesisproject">
         <activity
+            android:name=".FlipActivity"
+            android:exported="false" />
+        <activity
             android:name=".BannerActivity"
             android:exported="false" />
 
