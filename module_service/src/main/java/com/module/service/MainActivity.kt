@@ -28,6 +28,9 @@ class MainActivity : AppCompatActivity(), ServiceConnection {
             Log.w("print_logs", "MainActivity::onCreate: ")
         }
         registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+            if (BuildConfig.DEBUG) {
+                Log.i("print_logs", "onCreate:权限-  $it")
+            }
             if (it) {
                 startService(Intent(this@MainActivity, MyTileService::class.java))
             }
@@ -38,8 +41,6 @@ class MainActivity : AppCompatActivity(), ServiceConnection {
         bindService(mIntent, this, Service.BIND_AUTO_CREATE)
 
         MyJobService.start(this)
-
-
     }
 
 

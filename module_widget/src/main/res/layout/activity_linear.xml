@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@android:color/darker_gray">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/acBtn_toggle"
+            android:layout_width="wrap_content"
+            android:layout_height="?android:attr/actionBarSize"
+            android:gravity="center"
+            android:text="展开"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardUseCompatPadding="true"
+            app:cardCornerRadius="15dp"
+            app:cardBackgroundColor="@color/white">
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:animateLayoutChanges="true"
+                android:clipChildren="true"
+                android:clipToPadding="true"
+                android:orientation="vertical"
+                app:divider="@android:color/darker_gray"
+                app:dividerPadding="15dp"
+                app:showDividers="middle">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/acTv_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="?android:attr/actionBarSize"
+                    android:gravity="center"
+                    android:text="哈哈哈哈哈"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:visibility="gone"
+                    tools:visibility="visible"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/acTv_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="?android:attr/actionBarSize"
+                    android:gravity="center"
+                    android:text="哈哈哈哈哈"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:visibility="gone"
+                    tools:visibility="visible"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/acTv_3"
+                    android:layout_width="match_parent"
+                    android:layout_height="?android:attr/actionBarSize"
+                    android:gravity="center"
+                    android:text="哈哈哈哈哈"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:visibility="gone"
+                    tools:visibility="visible"/>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardUseCompatPadding="true"
+            app:cardCornerRadius="15dp"
+            app:cardBackgroundColor="@color/white">
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:animateLayoutChanges="true"
+                android:clipChildren="true"
+                android:clipToPadding="true"
+                android:orientation="vertical"
+                app:divider="@android:color/darker_gray"
+                app:dividerPadding="15dp"
+                app:showDividers="middle">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/acTv_4"
+                    android:layout_width="match_parent"
+                    android:layout_height="?android:attr/actionBarSize"
+                    android:gravity="center"
+                    android:text="哈哈哈哈哈"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:visibility="gone"
+                    tools:visibility="visible"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/acTv_5"
+                    android:layout_width="match_parent"
+                    android:layout_height="?android:attr/actionBarSize"
+                    android:gravity="center"
+                    android:text="哈哈哈哈哈"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:visibility="gone"
+                    tools:visibility="visible"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/acTv_6"
+                    android:layout_width="match_parent"
+                    android:layout_height="?android:attr/actionBarSize"
+                    android:gravity="center"
+                    android:text="哈哈哈哈哈"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:visibility="gone"
+                    tools:visibility="visible"/>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardUseCompatPadding="true"
+            app:cardCornerRadius="15dp"
+            app:cardBackgroundColor="@color/white">
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:animateLayoutChanges="true"
+                android:clipChildren="true"
+                android:clipToPadding="true"
+                android:orientation="vertical"
+                app:divider="@android:color/darker_gray"
+                app:dividerPadding="15dp"
+                app:showDividers="middle">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/acTv_7"
+                    android:layout_width="match_parent"
+                    android:layout_height="?android:attr/actionBarSize"
+                    android:gravity="center"
+                    android:text="哈哈哈哈哈"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:visibility="gone"
+                    tools:visibility="visible"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/acTv_8"
+                    android:layout_width="match_parent"
+                    android:layout_height="?android:attr/actionBarSize"
+                    android:gravity="center"
+                    android:text="哈哈哈哈哈"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:visibility="gone"
+                    tools:visibility="visible"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/acTv_9"
+                    android:layout_width="match_parent"
+                    android:layout_height="?android:attr/actionBarSize"
+                    android:gravity="center"
+                    android:text="哈哈哈哈哈"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:visibility="gone"
+                    tools:visibility="visible"/>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </androidx.cardview.widget.CardView>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</layout>

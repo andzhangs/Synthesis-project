@@ -16,14 +16,23 @@ class MyTileService : TileService() {
 
     override fun onCreate() {
         super.onCreate()
+        if (BuildConfig.DEBUG) {
+            Log.i("print_logs", "MyTileService::onCreate: ")
+        }
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        if (BuildConfig.DEBUG) {
+            Log.i("print_logs", "MyTileService::onStartCommand: ")
+        }
         return super.onStartCommand(intent, flags, startId)
     }
 
     override fun onClick() {
         super.onClick()
+//        if (BuildConfig.DEBUG) {
+//            Log.d("print_logs", "MyTileService::onClick: ${Thread.currentThread().name}")
+//        }
         if (BuildConfig.DEBUG) {
             Log.i("print_logs", "MyTileService::onClick:起始状态： ${qsTile.state}")
         }
@@ -35,8 +44,11 @@ class MyTileService : TileService() {
             Log.i("print_logs", "MyTileService::onClick:当前状态：${qsTile.state}")
         }
 
-        qsTile.icon = Icon.createWithResource(this, R.drawable.ic_launcher_foreground)
+        //方式一：动态代码设置
+        qsTile.icon = Icon.createWithResource(this, R.drawable.icon_tile_default)
         qsTile.label = this.getString(R.string.label_tile_service)
+
+        //方式二：AndroidManifest.xml中设置
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             val state = if (qsTile.state == Tile.STATE_ACTIVE) "开启" else "关闭"
@@ -52,7 +64,7 @@ class MyTileService : TileService() {
     override fun onTileAdded() {
         super.onTileAdded()
         if (BuildConfig.DEBUG) {
-            Log.i("print_logs", "MyTileService::onTileAdded: ")
+            Log.i("print_logs", "MyTileService::onTileAdded: ${Thread.currentThread().name}")
         }
     }
 
@@ -62,7 +74,7 @@ class MyTileService : TileService() {
     override fun onTileRemoved() {
         super.onTileRemoved()
         if (BuildConfig.DEBUG) {
-            Log.i("print_logs", "MyTileService::onTileRemoved: ")
+            Log.i("print_logs", "MyTileService::onTileRemoved: ${Thread.currentThread().name}")
         }
     }
 
@@ -73,7 +85,7 @@ class MyTileService : TileService() {
     override fun onStartListening() {
         super.onStartListening()
         if (BuildConfig.DEBUG) {
-            Log.i("print_logs", "MyTileService::onStartListening: ")
+            Log.i("print_logs", "MyTileService::onStartListening: ${Thread.currentThread().name}")
         }
     }
 
@@ -83,7 +95,7 @@ class MyTileService : TileService() {
     override fun onStopListening() {
         super.onStopListening()
         if (BuildConfig.DEBUG) {
-            Log.i("print_logs", "MyTileService::onStopListening: ")
+            Log.i("print_logs", "MyTileService::onStopListening: ${Thread.currentThread().name}")
         }
     }
 

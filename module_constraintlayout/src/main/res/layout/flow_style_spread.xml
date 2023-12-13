@@ -31,22 +31,22 @@
         android:layout_height="80dp"
         android:background="@android:color/holo_green_dark" />
 
-    <View
-        android:id="@+id/view5"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:background="@android:color/black" />
+<!--    <View-->
+<!--        android:id="@+id/view5"-->
+<!--        android:layout_width="80dp"-->
+<!--        android:layout_height="80dp"-->
+<!--        android:background="@android:color/black" />-->
 
-    <View
-        android:id="@+id/view6"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:background="@android:color/holo_orange_light" />
+<!--    <View-->
+<!--        android:id="@+id/view6"-->
+<!--        android:layout_width="80dp"-->
+<!--        android:layout_height="80dp"-->
+<!--        android:background="@android:color/holo_orange_light" />-->
 
     <androidx.constraintlayout.helper.widget.Flow
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="view1,view2,view3,view4,view5,view6"
+        app:constraint_referenced_ids="view1,view2,view3,view4"
         app:flow_horizontalGap="5dp"
         app:flow_verticalGap="5dp"
         app:flow_wrapMode="chain"

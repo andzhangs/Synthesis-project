@@ -47,7 +47,8 @@ class MainActivity : AppCompatActivity() {
             "AlertActivity",
             "ViewFlipperActivity",
             "BannerActivity",
-            "FlipActivity"
+            "FlipActivity",
+            "LinearActivity"
         )
     }
     private val mAdapter = RvAdapter(mList)
@@ -132,6 +133,7 @@ class MainActivity : AppCompatActivity() {
                     }
 
                     14 -> {
+                        jumpActivity(LinearActivity::class.java)
                     }
 
                     else -> {}
