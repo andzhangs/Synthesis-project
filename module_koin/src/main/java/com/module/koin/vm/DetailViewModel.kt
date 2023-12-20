@@ -10,4 +10,7 @@ import androidx.lifecycle.ViewModel
  * @mark 自定义类描述
  */
 class DetailViewModel(handler:SavedStateHandle): ViewModel() {
+    init {
+        handler.keys()
+    }
 }

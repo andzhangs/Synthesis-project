@@ -6,8 +6,8 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="@android:color/darker_gray">
+        android:background="@android:color/darker_gray"
+        android:orientation="vertical">
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/acBtn_toggle"
@@ -22,15 +22,14 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardUseCompatPadding="true"
+            app:cardBackgroundColor="@color/white"
             app:cardCornerRadius="15dp"
-            app:cardBackgroundColor="@color/white">
+            app:cardUseCompatPadding="true">
+
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:animateLayoutChanges="true"
-                android:clipChildren="true"
-                android:clipToPadding="true"
                 android:orientation="vertical"
                 app:divider="@android:color/darker_gray"
                 app:dividerPadding="15dp"
@@ -46,7 +45,7 @@
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:visibility="gone"
-                    tools:visibility="visible"/>
+                    tools:visibility="visible" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/acTv_2"
@@ -58,7 +57,7 @@
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:visibility="gone"
-                    tools:visibility="visible"/>
+                    tools:visibility="visible" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/acTv_3"
@@ -70,23 +69,23 @@
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:visibility="gone"
-                    tools:visibility="visible"/>
+                    tools:visibility="visible" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
         </androidx.cardview.widget.CardView>
+
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardUseCompatPadding="true"
+            app:cardBackgroundColor="@color/white"
             app:cardCornerRadius="15dp"
-            app:cardBackgroundColor="@color/white">
+            app:cardUseCompatPadding="true">
+
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:animateLayoutChanges="true"
-                android:clipChildren="true"
-                android:clipToPadding="true"
                 android:orientation="vertical"
                 app:divider="@android:color/darker_gray"
                 app:dividerPadding="15dp"
@@ -102,7 +101,7 @@
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:visibility="gone"
-                    tools:visibility="visible"/>
+                    tools:visibility="visible" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/acTv_5"
@@ -114,7 +113,7 @@
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:visibility="gone"
-                    tools:visibility="visible"/>
+                    tools:visibility="visible" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/acTv_6"
@@ -126,23 +125,23 @@
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:visibility="gone"
-                    tools:visibility="visible"/>
+                    tools:visibility="visible" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
         </androidx.cardview.widget.CardView>
+
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardUseCompatPadding="true"
+            app:cardBackgroundColor="@color/white"
             app:cardCornerRadius="15dp"
-            app:cardBackgroundColor="@color/white">
+            app:cardUseCompatPadding="true">
+
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:animateLayoutChanges="true"
-                android:clipChildren="true"
-                android:clipToPadding="true"
                 android:orientation="vertical"
                 app:divider="@android:color/darker_gray"
                 app:dividerPadding="15dp"
@@ -158,7 +157,7 @@
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:visibility="gone"
-                    tools:visibility="visible"/>
+                    tools:visibility="visible" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/acTv_8"
@@ -170,7 +169,7 @@
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:visibility="gone"
-                    tools:visibility="visible"/>
+                    tools:visibility="visible" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/acTv_9"
@@ -182,11 +181,10 @@
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:visibility="gone"
-                    tools:visibility="visible"/>
+                    tools:visibility="visible" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
         </androidx.cardview.widget.CardView>
-
     </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>

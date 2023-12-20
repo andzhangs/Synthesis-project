@@ -38,7 +38,8 @@ class MainActivity : AppCompatActivity() {
             BottomNavigationViewFragment.newInstance(),
             MaterialBottomSheetDialogFragment.newInstance(),
             SliderFragment.newInstance(),
-            SwipeDismissBehaviorFragment.newInstance()
+            SwipeDismissBehaviorFragment.newInstance(),
+            CarouseFragment.newInstance()
         )
         mList.forEach { _ -> mBinding.tabLayout.addTab(mBinding.tabLayout.newTab()) }
 

@@ -7,8 +7,8 @@ import org.koin.android.ext.android.getKoin
 /**
  *
  * @author zhangshuai
- * @date 2023/8/18 14:54
- * @mark 自定义类描述
+ * @date 2023/12/20 16:20
+ * @description 自定义类描述
  */
 fun Application.setupWorkManagerFactory() {
     getKoin().getAll<WorkerFactory>().forEach {

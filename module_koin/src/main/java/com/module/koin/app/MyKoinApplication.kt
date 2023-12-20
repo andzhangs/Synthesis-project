@@ -12,6 +12,7 @@ import org.koin.android.ext.koin.androidFileProperties
 import org.koin.android.ext.koin.androidLogger
 import org.koin.androidx.fragment.koin.fragmentFactory
 import org.koin.androidx.workmanager.koin.workManagerFactory
+import org.koin.core.annotation.KoinExperimentalAPI
 import org.koin.core.component.KoinComponent
 import org.koin.core.context.startKoin
 import org.koin.core.extension.coroutinesEngine
@@ -24,13 +25,14 @@ import org.koin.core.logger.Level
  * @date 2023/8/18 11:05
  * @mark 自定义类描述
  */
-class KoinApplication : Application(), KoinComponent {
+class MyKoinApplication : Application(), KoinComponent {
 
+    @OptIn(KoinExperimentalAPI::class)
     override fun onCreate() {
         super.onCreate()
         startKoin {
             androidLogger(Level.DEBUG)
-            androidContext(this@KoinApplication)
+            androidContext(this@MyKoinApplication)
             androidFileProperties()
             // setup a KoinFragmentFactory instance
             fragmentFactory()
@@ -41,6 +43,6 @@ class KoinApplication : Application(), KoinComponent {
             modules(appModule, dlsModule, parentModule, m1, fragmentModule)
             lazyModules(m2)
         }
-       setupWorkManagerFactory()
+        setupWorkManagerFactory()
     }
 }

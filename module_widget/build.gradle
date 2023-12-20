@@ -77,8 +77,10 @@ dependencies {
     //https://github.com/zhpanvip/BannerViewPager/wiki/01.Quick-Starts
     implementation 'com.github.zhpanvip:bannerviewpager:3.5.12'
 
-
     implementation 'com.ypx.yimagepicker:androidx:3.1.4'
+
+    //https://github.com/lihangleo2/ViewPager2Demo
+    implementation 'com.github.lihangleo2:SmartViewPager2Adapter:2.1.2'
 
     implementation(project(':lib_base'))
 }

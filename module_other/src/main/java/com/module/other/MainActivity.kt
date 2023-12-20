@@ -15,7 +15,6 @@ import com.module.other.databinding.ActivityMainBinding
 import com.module.other.handlerthread.MyHandlerThread
 import com.squareup.seismic.ShakeDetector
 
-@BuildCompat.PrereleaseSdkCheck
 class MainActivity : AppCompatActivity() {
 
     private lateinit var mDataBinding: ActivityMainBinding
@@ -47,9 +46,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         mDataBinding.acBtnHandlerThreadQuit.setOnClickListener {
-            if (BuildConfig.DEBUG) {
-                Log.i("print_logs", "HandlerThread.isAlive-1: ${handlerThread?.isAlive}")
-            }
+
+            Log.i("print_logs", "HandlerThread.isAlive-1: ${handlerThread?.isAlive}")
 
             handlerThread?.quitSafely()
 //            handlerThread.quit()
@@ -91,35 +89,34 @@ class MainActivity : AppCompatActivity() {
 
     private fun loadBackPressed() {
         mDataBinding.acBtnBackPressed.setOnClickListener {
-            if (BuildConfig.DEBUG) {
-                Log.i(
-                    "print_logs",
-                    "handleOnBackPressed: ${backPressedCallback.handleOnBackPressed()}"
-                )
-            }
+            Log.i(
+                "print_logs",
+                "handleOnBackPressed: ${backPressedCallback.handleOnBackPressed()}"
+            )
             backPressedCallback.remove()
         }
     }
 
     private val backPressedCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
-            if (BuildConfig.DEBUG) {
-                Log.i("print_logs", "MainActivity::handleOnBackPressed: ")
-            }
+            Log.i("print_logs", "MainActivity::handleOnBackPressed: ")
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.i("print_logs", "MainActivity::onResume: ${getString()}")
     }
 
     override fun onPause() {
         super.onPause()
-        if (BuildConfig.DEBUG) {
-            Log.i("print_logs", "HandlerThread.isAlive-2: ${handlerThread?.isAlive}")
-        }
+        Log.i("print_logs", "HandlerThread.isAlive-2: ${handlerThread?.isAlive}")
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        if (BuildConfig.DEBUG) {
-            Log.i("print_logs", "MainActivity::onDestroy: ")
-        }
+        Log.i("print_logs", "MainActivity::onDestroy: ")
     }
+
+    external fun getString(): String
 }

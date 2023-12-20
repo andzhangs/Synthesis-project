@@ -48,7 +48,9 @@ class MainActivity : AppCompatActivity() {
             "ViewFlipperActivity",
             "BannerActivity",
             "FlipActivity",
-            "LinearActivity"
+            "LinearActivity",
+            "Coordinator+Nested",
+            "PagerActivity"
         )
     }
     private val mAdapter = RvAdapter(mList)
@@ -134,6 +136,14 @@ class MainActivity : AppCompatActivity() {
 
                     14 -> {
                         jumpActivity(LinearActivity::class.java)
+                    }
+
+                    15 -> {
+                        jumpActivity(CoordinatorLayoutNestedScrollViewActivity::class.java)
+                    }
+
+                    16 -> {
+                        jumpActivity(PagerActivity::class.java)
                     }
 
                     else -> {}

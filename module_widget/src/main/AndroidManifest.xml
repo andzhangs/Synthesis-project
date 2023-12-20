@@ -15,6 +15,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Synthesisproject">
         <activity
+            android:name=".PagerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CoordinatorLayoutNestedScrollViewActivity"
+            android:exported="false" />
+        <activity
             android:name=".LinearActivity"
             android:exported="false" />
         <activity
