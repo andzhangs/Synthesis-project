@@ -61,10 +61,11 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
-    def koin_android_version = '3.4.3'
+
 //    implementation "io.insert-koin:koin-bom:3.5.0" //使用它，会自动升级所有库版本
 //    implementation 'io.insert-koin:koin-compose:1.1.2'
 
+    def koin_android_version = '3.4.3'
     implementation "io.insert-koin:koin-core:$koin_android_version"
     implementation "io.insert-koin:koin-core-coroutines:$koin_android_version"
     implementation "io.insert-koin:koin-android:$koin_android_version"
