@@ -18,6 +18,7 @@ import org.koin.core.context.startKoin
 import org.koin.core.extension.coroutinesEngine
 import org.koin.core.lazyModules
 import org.koin.core.logger.Level
+import org.koin.logger.slf4jLogger
 
 /**
  *
@@ -38,7 +39,8 @@ class MyKoinApplication : Application(), KoinComponent {
             fragmentFactory()
             workManagerFactory()
             coroutinesEngine()
-            createEagerInstances()
+            slf4jLogger(Level.DEBUG)
+//            createEagerInstances()
 
             modules(appModule, dlsModule, parentModule, m1, fragmentModule)
             lazyModules(m2)
