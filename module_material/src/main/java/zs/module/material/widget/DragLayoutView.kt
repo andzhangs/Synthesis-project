@@ -77,6 +77,60 @@ class DragLayoutView(context: Context, private val attrs: AttributeSet?) : Const
         }
     }
 
+    override fun onFinishInflate() {
+        super.onFinishInflate()
+        mAcIvAny = this.findViewById(R.id.acIv_any)
+        mAcIvResilienceTop = this.findViewById(R.id.acIv_resilience_top)
+        mAcIvResilienceBottom = this.findViewById(R.id.acIv_resilience_bottom)
+        mAcIvSideLeft = this.findViewById(R.id.acIv_side_left)
+        mAcIvSideRight = this.findViewById(R.id.acIv_side_right)
+    }
+
+    override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
+        super.onLayout(changed, left, top, right, bottom)
+
+        mDefaultTopX = mAcIvResilienceTop.left
+        mDefaultTopY = mAcIvResilienceTop.top
+
+        mDefaultBottomX = mAcIvResilienceBottom.left
+        mDefaultBottomY = mAcIvResilienceBottom.top
+
+        mCurrentLeftX = mAcIvSideLeft.left
+        mCurrentLeftY = mAcIvSideLeft.top
+
+
+        mCurrentRightX = mAcIvSideRight.left
+        mCurrentRightY = mAcIvSideRight.top
+
+        Log.i("print_logs", "DragLayoutView::onLayout: ")
+    }
+
+    /**
+     * 注意这个重写的computeScroll与设置的continueSettling是关键，如果不重写此方法，settleCapturedViewAt方法就没有效果
+     */
+    override fun computeScroll() {
+        super.computeScroll()
+        if (mViewDragHelper.continueSettling(true)) {
+            invalidate()
+        }
+    }
+
+    /**
+     * 注意，你需要重写onInterceptTouchEvent方法并且将触摸拦截交予ViewDragHelper的shouldInterceptTouchEvent，使其可以重新分配触控事件
+     */
+    override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {
+        return mViewDragHelper.shouldInterceptTouchEvent(ev)
+    }
+
+    /**
+     * 注意，你需要重写onTouchEvent，并且将mViewDragHelper的processTouchEvent实现，使其可以实现拖动子view的效果
+     */
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+        mViewDragHelper.processTouchEvent(event)
+        return true
+    }
+
+
     private fun loadScroll() {
         /**
          * 第一个参数是实现拖动的ViewGroup父类布局，第二个参数是拖动时的灵敏度，拖动开始的敏感程度的乘数。值越大越敏感。1.0f是正常的。
@@ -347,7 +401,6 @@ class DragLayoutView(context: Context, private val attrs: AttributeSet?) : Const
         mViewDragHelper.setEdgeTrackingEnabled(ViewDragHelper.EDGE_ALL)
     }
 
-
     private fun setIds(idList: String) {
         var begin = 0
         while (true) {
@@ -431,58 +484,5 @@ class DragLayoutView(context: Context, private val attrs: AttributeSet?) : Const
             return
         }
 
-    }
-
-    override fun onFinishInflate() {
-        super.onFinishInflate()
-        mAcIvAny = this.findViewById(R.id.acIv_any)
-        mAcIvResilienceTop = this.findViewById(R.id.acIv_resilience_top)
-        mAcIvResilienceBottom = this.findViewById(R.id.acIv_resilience_bottom)
-        mAcIvSideLeft = this.findViewById(R.id.acIv_side_left)
-        mAcIvSideRight = this.findViewById(R.id.acIv_side_right)
-    }
-
-    override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
-        super.onLayout(changed, left, top, right, bottom)
-
-        mDefaultTopX = mAcIvResilienceTop.left
-        mDefaultTopY = mAcIvResilienceTop.top
-
-        mDefaultBottomX = mAcIvResilienceBottom.left
-        mDefaultBottomY = mAcIvResilienceBottom.top
-
-        mCurrentLeftX = mAcIvSideLeft.left
-        mCurrentLeftY = mAcIvSideLeft.top
-
-
-        mCurrentRightX = mAcIvSideRight.left
-        mCurrentRightY = mAcIvSideRight.top
-
-        Log.i("print_logs", "DragLayoutView::onLayout: ")
-    }
-
-    /**
-     * 注意这个重写的computeScroll与设置的continueSettling是关键，如果不重写此方法，settleCapturedViewAt方法就没有效果
-     */
-    override fun computeScroll() {
-        super.computeScroll()
-        if (mViewDragHelper.continueSettling(true)) {
-            invalidate()
-        }
-    }
-
-    /**
-     * 注意，你需要重写onInterceptTouchEvent方法并且将触摸拦截交予ViewDragHelper的shouldInterceptTouchEvent，使其可以重新分配触控事件
-     */
-    override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {
-        return mViewDragHelper.shouldInterceptTouchEvent(ev)
-    }
-
-    /**
-     * 注意，你需要重写onTouchEvent，并且将mViewDragHelper的processTouchEvent实现，使其可以实现拖动子view的效果
-     */
-    override fun onTouchEvent(event: MotionEvent): Boolean {
-        mViewDragHelper.processTouchEvent(event)
-        return true
     }
 }
