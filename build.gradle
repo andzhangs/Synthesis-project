@@ -3,7 +3,7 @@ buildscript {
 
     ext {
         kotlin_version = '1.8.0'
-        ksp_version ='1.8.21-1.0.11'
+        ksp_version = '1.8.21-1.0.11'
     }
     repositories {
         mavenCentral()
@@ -29,14 +29,16 @@ buildscript {
         classpath "com.squareup.retrofit2:retrofit:2.9.0"
         classpath "com.squareup.retrofit2:converter-gson:2.9.0"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.kotlin:kotlin-serialization:$kotlin_version"
+    }
+
 
 //        classpath "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin:1.8.21-1.0.11"
 
 
-        //模拟远程仓库依赖
+    //模拟远程仓库依赖
 //        classpath 'cn.andzhang.android:android-plugin:1.0.0'
 //        classpath 'cn.andzhang.groovy:groovy-plugin:1.0.0'
-    }
 }
 
 plugins {

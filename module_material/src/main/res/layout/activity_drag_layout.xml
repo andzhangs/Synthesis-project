@@ -10,7 +10,8 @@
 
         <zs.module.material.widget.DragLayoutView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            app:drag_referenced_ids="acIv_any,acIv_resilience_top,acIv_resilience_bottom,acIv_side_left,acIv_side_right">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/acIv_any"

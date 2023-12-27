@@ -14,7 +14,7 @@ import zs.module.material.R
 /**
  * https://www.cnblogs.com/guanxinjing/p/17463237.html
  */
-class DragLayoutView(context: Context, attrs: AttributeSet?) : ConstraintLayout(context, attrs) {
+class DragLayoutView(context: Context, private val attrs: AttributeSet?) : ConstraintLayout(context, attrs) {
 
 
     private lateinit var mViewDragHelper: ViewDragHelper
@@ -56,7 +56,28 @@ class DragLayoutView(context: Context, attrs: AttributeSet?) : ConstraintLayout(
     private var mCurrentRightX = 0
     private var mCurrentRightY = 0
 
+    private val mMap = HashMap<Int, String>()
+    private val mResChildView = arrayListOf<View>()
+
     init {
+        attrs?.also {
+            val typedArray = context.obtainStyledAttributes(it, R.styleable.DragLayoutView)
+            val childCount = typedArray.indexCount
+            for (i in 0 until childCount) {
+                val attr = typedArray.getIndex(i)
+                if (attr == R.styleable.DragLayoutView_drag_referenced_ids) {
+                    typedArray.getString(attr)?.also { idListString ->
+                        setIds(idListString)
+                    }
+                }
+            }
+            typedArray.recycle()
+
+            loadScroll()
+        }
+    }
+
+    private fun loadScroll() {
         /**
          * 第一个参数是实现拖动的ViewGroup父类布局，第二个参数是拖动时的灵敏度，拖动开始的敏感程度的乘数。值越大越敏感。1.0f是正常的。
          */
@@ -65,20 +86,19 @@ class DragLayoutView(context: Context, attrs: AttributeSet?) : ConstraintLayout(
              * 是否允许view的拖动功能，返回true是允许拖动，返回false是不允许拖动
              */
             override fun tryCaptureView(child: View, pointerId: Int): Boolean {
-                if (BuildConfig.DEBUG) {
-                    Log.i("print_logs", "DragLayoutView::tryCaptureView: ")
+                Log.i("print_logs", "DragLayoutView::tryCaptureView: ${mResChildView.size}")
+                mResChildView.forEach {
+                    Log.i("print_logs", "DragLayoutView::tryCaptureView:${child.id}, ${it==child}")
                 }
-                return true
+                return mMap.contains(child.id)
             }
 
             override fun onViewCaptured(capturedChild: View, activePointerId: Int) {
                 super.onViewCaptured(capturedChild, activePointerId)
-                if (BuildConfig.DEBUG) {
-                    Log.i(
-                        "print_logs",
-                        "DragLayoutView::onViewCaptured: activePointerId= $activePointerId"
-                    )
-                }
+                Log.w(
+                    "print_logs",
+                    "DragLayoutView::onViewCaptured: capturedChild= ${capturedChild.id}, activePointerId= $activePointerId"
+                )
             }
 
             /**
@@ -327,6 +347,92 @@ class DragLayoutView(context: Context, attrs: AttributeSet?) : ConstraintLayout(
         mViewDragHelper.setEdgeTrackingEnabled(ViewDragHelper.EDGE_ALL)
     }
 
+
+    private fun setIds(idList: String) {
+        var begin = 0
+        while (true) {
+            val end = idList.indexOf(',', begin)
+            if (end == -1) {
+                addID(idList.substring(begin))
+                break
+            }
+            addID(idList.substring(begin, end))
+            begin = end + 1
+        }
+    }
+
+    private fun addID(idString: String) {
+        if (idString.isNotEmpty()) {
+            val idName = idString.trim()
+
+            val rscId = findId(idName)
+            if (rscId != 0) {
+                mMap[rscId] = idName
+//                addRscID(rscId)
+                mResChildView.add(getViewById(rscId))
+            } else {
+            }
+        }
+    }
+
+    private fun findId(referenceId: String): Int {
+
+        var rscId = 0
+
+        if (isInEditMode) { // && parent != null
+            val value = getDesignInformation(0, referenceId)
+            rscId = value as Int
+        }
+
+        if (rscId == 0) { // && parent != null
+            rscId = findId(this, referenceId)
+        }
+
+        if (rscId == 0) {
+            try {
+                val res: Class<*> = androidx.constraintlayout.widget.R.id::class.java
+                val field = res.getField(referenceId)
+                rscId = field.getInt(null)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+
+        if (rscId == 0) {
+            rscId = context.resources.getIdentifier(referenceId, "id", context.packageName)
+        }
+        return rscId
+    }
+
+    private fun findId(container: ConstraintLayout, idString: String): Int {
+        val resources = context.resources //?: return 0
+        val count = container.childCount
+        for (i in 0 until count) {
+            val child: View = container.getChildAt(i)
+            mResChildView.add(child)
+            if (child.id != -1) {
+                var res: String? = null
+                try {
+                    res = resources.getResourceEntryName(child.id)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+                if (idString == res) {
+                    return child.id
+                }
+            }
+        }
+        return 0
+    }
+
+    private fun addRscID(id: Int) {
+        Log.i("print_logs", "DragLayoutView::addRscID: $id")
+        if (id == getId()) {
+            return
+        }
+
+    }
+
     override fun onFinishInflate() {
         super.onFinishInflate()
         mAcIvAny = this.findViewById(R.id.acIv_any)
@@ -348,10 +454,12 @@ class DragLayoutView(context: Context, attrs: AttributeSet?) : ConstraintLayout(
         mCurrentLeftX = mAcIvSideLeft.left
         mCurrentLeftY = mAcIvSideLeft.top
 
+
         mCurrentRightX = mAcIvSideRight.left
         mCurrentRightY = mAcIvSideRight.top
-    }
 
+        Log.i("print_logs", "DragLayoutView::onLayout: ")
+    }
 
     /**
      * 注意这个重写的computeScroll与设置的continueSettling是关键，如果不重写此方法，settleCapturedViewAt方法就没有效果
