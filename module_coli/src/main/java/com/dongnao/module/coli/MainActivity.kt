@@ -3,25 +3,35 @@ package com.dongnao.module.coli
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.ViewGroup
+import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import coil.load
 import com.dongnao.module.coli.databinding.ActivityMainBinding
 import com.dongnao.module.coli.databinding.LayoutItemBinding
+import com.dongnao.module.coli.model.movie.DataBean
+import com.dongnao.module.coli.model.wanandroid.DataX
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var mDataBinding: ActivityMainBinding
+    private val mViewModel: MainViewModel by viewModels()
 
     //add("https://api.isoyu.com/uploads/beibei/beibei_059$i.jpg")
-    private val mList: ArrayList<String> by lazy {
-        arrayListOf<String>().apply {
-            for (i in 0..15) {
-                add("https://img.xjh.me/random_img.php")
-            }
-        }
-    }
+//    private val mMovieList: ArrayList<String> by lazy {
+//        arrayListOf<String>().apply {
+//            for (i in 0..15) {
+//                add("https://img.xjh.me/random_img.php")
+//            }
+//        }
+//    }
+
+    private var mCheckedSourceWan = false
+    private var mCheckedTypeWan = false
+    
+    private val mMovieList = arrayListOf<DataBean>()
+    private val mWanAndroidList = arrayListOf<DataX>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,8 +39,53 @@ class MainActivity : AppCompatActivity() {
         mDataBinding.lifecycleOwner = this
 
         with(mDataBinding.recyclerView) {
-            layoutManager = StaggeredGridLayoutManager(2, RecyclerView.VERTICAL)
-            adapter = mAdapter
+            layoutManager =
+                LinearLayoutManager(this@MainActivity, RecyclerView.VERTICAL, false)
+            mDataBinding.recyclerView.adapter = mAdapter
+        }
+
+        mViewModel.movieLiveData.observe(this) { bean ->
+            val imgList = bean.data
+            if (imgList.isNotEmpty()) {
+                mMovieList.clear()
+            }
+            mMovieList.addAll(imgList)
+            mAdapter.notifyDataSetChanged()
+        }
+
+
+        mViewModel.wanAndroidLiveData.observe(this) { bean ->
+            val list = bean.data.datas
+            if (list.isNotEmpty()) {
+                mWanAndroidList.clear()
+            }
+            mWanAndroidList.addAll(list)
+            mAdapter.notifyDataSetChanged()
+        }
+
+        mDataBinding.switchRemoteOrLocal.setOnCheckedChangeListener { buttonView, isChecked ->
+            buttonView.text = if (isChecked) "本地" else "网络"
+            this.mCheckedSourceWan=isChecked
+            updateUI()
+        }
+        
+        mDataBinding.switchType.setOnCheckedChangeListener { buttonView, isChecked ->
+            buttonView.text = if (isChecked) "玩安卓" else "电影"
+            this.mCheckedTypeWan = isChecked
+            updateUI()
+        }
+
+        mViewModel.getMovieData(false)
+    }
+
+    private fun updateUI(){
+
+        mDataBinding.recyclerView.adapter = mAdapter
+
+        if (mCheckedTypeWan) {
+            mViewModel.getWanAndroidData(mCheckedSourceWan)
+        } else {
+            mViewModel.getMovieData(mCheckedSourceWan)
         }
     }
 
@@ -45,17 +100,32 @@ class MainActivity : AppCompatActivity() {
             return ItemViewHolder(itemBinding)
         }
 
-        override fun getItemCount() = mList.size
+        override fun getItemCount() = if (mCheckedTypeWan) mWanAndroidList.size else mMovieList.size
 
         override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-            holder.bind(mList[position])
+            if (mCheckedTypeWan) {
+                holder.bindADesk(mWanAndroidList[position])
+            } else {
+                holder.bindMovie(mMovieList[position])
+            }
         }
     }
 
     private inner class ItemViewHolder(private val itemBinding: LayoutItemBinding) :
         RecyclerView.ViewHolder(itemBinding.root) {
-        fun bind(imgUrl: String) {
-            itemBinding.ifvImg.load(imgUrl)
+
+        fun bindMovie(data: DataBean) {
+            itemBinding.ifvImg.load(data.info.imgurl)
+            itemBinding.acTvTitle.text = data.title
+            itemBinding.acTvDesc.text = data.info.yanyuan
+            itemBinding.acTvBottom.text = data.info.getMsg()
+        }
+
+        fun bindADesk(data: DataX) {
+            itemBinding.ifvImg.load(data.envelopePic)
+            itemBinding.acTvTitle.text = data.title
+            itemBinding.acTvDesc.text = data.desc
+            itemBinding.acTvBottom.text = data.author
         }
     }
 
