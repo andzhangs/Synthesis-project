@@ -55,12 +55,13 @@ class MainActivity : AppCompatActivity() {
 
 
         mViewModel.wanAndroidLiveData.observe(this) { bean ->
-            val list = bean.data.datas
-            if (list.isNotEmpty()) {
-                mWanAndroidList.clear()
+            bean.data?.datas?.also {list->
+                if (list.isNotEmpty()) {
+                    mWanAndroidList.clear()
+                }
+                mWanAndroidList.addAll(list)
+                mAdapter.notifyDataSetChanged()
             }
-            mWanAndroidList.addAll(list)
-            mAdapter.notifyDataSetChanged()
         }
 
         mDataBinding.switchRemoteOrLocal.setOnCheckedChangeListener { buttonView, isChecked ->
@@ -115,10 +116,10 @@ class MainActivity : AppCompatActivity() {
         RecyclerView.ViewHolder(itemBinding.root) {
 
         fun bindMovie(data: DataBean) {
-            itemBinding.ifvImg.load(data.info.imgurl)
+            itemBinding.ifvImg.load(data.info?.imgurl)
             itemBinding.acTvTitle.text = data.title
-            itemBinding.acTvDesc.text = data.info.yanyuan
-            itemBinding.acTvBottom.text = data.info.getMsg()
+            itemBinding.acTvDesc.text = data.info?.yanyuan
+            itemBinding.acTvBottom.text = data.info?.getMsg()
         }
 
         fun bindADesk(data: DataX) {

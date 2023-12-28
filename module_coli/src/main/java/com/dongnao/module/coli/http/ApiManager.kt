@@ -7,15 +7,18 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonParser
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.localebro.okhttpprofiler.OkHttpProfilerInterceptor
 import com.orhanobut.logger.Logger
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.json.Json
 import okhttp3.Dns
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Protocol
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
-import retrofit2.converter.gson.GsonConverterFactory
 import java.net.Inet4Address
 import java.net.InetAddress
 import java.net.UnknownHostException
@@ -43,6 +46,7 @@ object ApiManager {
         return singleRetrofit.create(t)
     }
 
+    @OptIn(ExperimentalSerializationApi::class)
     private fun createRetrofit(baseUrl:String,): Retrofit {
 
         //允许不合规的json格式
@@ -51,7 +55,8 @@ object ApiManager {
         return Retrofit.Builder()
             .baseUrl(baseUrl)
             .client(createOkHttpClient())
-            .addConverterFactory(GsonConverterFactory.create())
+//            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
 //            .addConverterFactory(MoshiConverterFactory.create())
             .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
             .addCallAdapterFactory(CoroutineCallAdapterFactory.invoke())
