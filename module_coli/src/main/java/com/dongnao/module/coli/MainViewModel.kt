@@ -7,6 +7,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.dongnao.module.coli.http.ApiAWanAndroidService
+import com.dongnao.module.coli.http.ApiGithubService
 import com.dongnao.module.coli.http.ApiManager
 import com.dongnao.module.coli.http.ApiMovieService
 import com.dongnao.module.coli.model.movie.MovieBean
@@ -42,8 +43,19 @@ class MainViewModel constructor(private val application: Application) :
         )
     }
 
-    private val mGson: Gson by lazy { Gson() }
+    private val mApiGithubService: ApiGithubService by lazy {
+        ApiManager.getService("https://api.github.com//", ApiGithubService::class.java)
+    }
 
+    fun getUserData() {
+        viewModelScope.launch(Dispatchers.IO) {
+//            mApiGithubService.getData()?.also {
+//                Log.i("print_logs", "MainViewModel::getUserData: $it")
+//            }
+        }
+    }
+
+    private val mGson: Gson by lazy { Gson() }
 
     val movieLiveData = MutableLiveData<MovieBean>()
 

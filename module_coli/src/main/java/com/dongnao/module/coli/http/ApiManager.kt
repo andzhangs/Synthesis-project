@@ -19,6 +19,9 @@ import okhttp3.Protocol
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
+import retrofit2.converter.jaxb.JaxbConverterFactory
+import retrofit2.converter.protobuf.ProtoConverterFactory
+import retrofit2.converter.wire.WireConverterFactory
 import java.net.Inet4Address
 import java.net.InetAddress
 import java.net.UnknownHostException
@@ -55,9 +58,12 @@ object ApiManager {
         return Retrofit.Builder()
             .baseUrl(baseUrl)
             .client(createOkHttpClient())
+            .addConverterFactory(WireConverterFactory.create())
+            .addConverterFactory(JaxbConverterFactory.create())
+            .addConverterFactory(ProtoConverterFactory.create())
 //            .addConverterFactory(GsonConverterFactory.create())
-            .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
 //            .addConverterFactory(MoshiConverterFactory.create())
+            .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
             .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
             .addCallAdapterFactory(CoroutineCallAdapterFactory.invoke())
             .build()

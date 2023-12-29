@@ -4,6 +4,7 @@ plugins {
     id 'kotlin-kapt'
     id 'kotlin-parcelize'
     id 'kotlinx-serialization'
+//    id 'com.google.protobuf'
 }
 
 android {
@@ -26,6 +27,14 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+//    sourceSets {
+//        main{
+//            proto {
+//                srcDirs 'src/main/proto'
+//            }
+//        }
+//    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
@@ -37,6 +46,23 @@ android {
         dataBinding true
     }
 }
+
+// 添加ProtoBuf插件
+//protobuf {
+//    protoc {
+//        artifact = 'com.google.protobuf:protoc:3.25.1'
+//    }
+//    generateProtoTasks {
+//        all().each { task ->
+//            task.builtins {
+//                remove java
+//            }
+//            task.builtins {
+//                java {}// 生产java源码
+//            }
+//        }
+//    }
+//}
 
 dependencies {
 
@@ -76,9 +102,13 @@ dependencies {
     //转换器
     implementation "com.squareup.retrofit2:converter-moshi:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
-//    implementation 'com.squareup.retrofit2:converter-protobuf:$retrofit_version"
-    implementation "com.squareup.retrofit2:converter-simplexml:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-wire:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-jaxb:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-protobuf:$retrofit_version"
+
+    implementation 'com.google.protobuf:protobuf-java:3.25.1'
+    implementation 'com.google.protobuf:protoc:3.25.1'
+
     //适配器
     implementation "com.squareup.retrofit2:adapter-rxjava3:$retrofit_version"
     //https://github.com/JakeWharton/retrofit2-kotlin-coroutines-adapter

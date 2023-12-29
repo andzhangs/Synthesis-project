@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
 
     private var mCheckedSourceWan = false
     private var mCheckedTypeWan = false
-    
+
     private val mMovieList = arrayListOf<DataBean>()
     private val mWanAndroidList = arrayListOf<DataX>()
 
@@ -37,6 +37,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         mDataBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         mDataBinding.lifecycleOwner = this
+        mDataBinding.vm = mViewModel
 
         with(mDataBinding.recyclerView) {
             layoutManager =
@@ -53,9 +54,8 @@ class MainActivity : AppCompatActivity() {
             mAdapter.notifyDataSetChanged()
         }
 
-
         mViewModel.wanAndroidLiveData.observe(this) { bean ->
-            bean.data?.datas?.also {list->
+            bean.data?.datas?.also { list ->
                 if (list.isNotEmpty()) {
                     mWanAndroidList.clear()
                 }
@@ -65,21 +65,21 @@ class MainActivity : AppCompatActivity() {
         }
 
         mDataBinding.switchRemoteOrLocal.setOnCheckedChangeListener { buttonView, isChecked ->
-            buttonView.text = if (isChecked) "本地" else "网络"
-            this.mCheckedSourceWan=isChecked
+            buttonView.text = if (isChecked) "网络" else "本地"
+            this.mCheckedSourceWan = isChecked
             updateUI()
         }
-        
+
         mDataBinding.switchType.setOnCheckedChangeListener { buttonView, isChecked ->
             buttonView.text = if (isChecked) "玩安卓" else "电影"
             this.mCheckedTypeWan = isChecked
             updateUI()
         }
 
-        mViewModel.getMovieData(false)
+        mViewModel.getMovieData(true)
     }
 
-    private fun updateUI(){
+    private fun updateUI() {
 
         mDataBinding.recyclerView.adapter = mAdapter
 

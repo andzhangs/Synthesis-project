@@ -3,16 +3,31 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="vm"
+            type="com.dongnao.module.coli.MainViewModel" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{()->vm.getUserData()}"
+            android:text="Get Protobuf"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/switch_remote_or_local"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="20dp"
-            android:text="网络"
+            android:text="本地"
             app:layout_constraintEnd_toStartOf="@id/switch_type"
             app:layout_constraintTop_toTopOf="parent"
             app:switchPadding="5dp" />
