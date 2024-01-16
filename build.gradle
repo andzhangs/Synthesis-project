@@ -4,23 +4,61 @@ buildscript {
     ext {
         kotlin_version = '1.8.0'
         ksp_version = '1.8.21-1.0.11'
+//        debug = gradle.startParameter.taskNames.any {
+//            it.contains('debug') || it.contains('Debug')
+//        }
     }
     repositories {
         mavenCentral()
-
-//        mavenCentral()
-//        google()
-//        jcenter()
+        google()
+        jcenter()
 //        maven { url 'https://jitpack.io' }
 //        maven { url 'https://maven.aliyun.com/repository/google/'}
 //        maven { url 'https://maven.aliyun.com/repository/jcenter/'}
 ////        maven() { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
         //maven本地仓库路径
-//        mavenLocal()
+        mavenLocal()
         //自定义仓库路径
 //        maven { url = 'CustomProjectPlugin/repo' }
+
+
+        maven { url 'https://oss.sonatype.org/content/repositories/public/' }
+        maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
     }
     dependencies {
+        def booster_version = "4.16.3"
+        classpath "com.didiglobal.booster:booster-gradle-plugin:$booster_version"
+        classpath "com.didiglobal.booster:booster-task-analyser:$booster_version"
+
+        //PNG图片压缩
+        classpath "com.didiglobal.booster:booster-task-compression-pngquant:$booster_version"
+        classpath "io.johnsonlee.booster:booster-pngquant-provider:2.3.0"
+
+        //Webp图片压缩
+        classpath "com.didiglobal.booster:booster-task-compression-cwebp:$booster_version"
+
+        //ZIP 文件压缩
+        classpath "com.didiglobal.booster:booster-task-compression-processed-res:$booster_version"
+
+        //资源索引内联
+        classpath "com.didiglobal.booster:booster-transform-r-inline:$booster_version"
+
+        //移出冗余资源
+        classpath "com.didiglobal.booster:booster-task-resource-deredundancy:$booster_version"
+
+        //
+        classpath "com.didiglobal.booster:booster-transform-activity-thread:$booster_version"
+
+        //Finalizer 的问题导致的 TimeoutException
+        classpath "com.didiglobal.booster:booster-transform-finalizer-watchdog-daemon:$booster_version"
+
+        //资源为null的问题
+        classpath "com.didiglobal.booster:booster-transform-res-check:$booster_version"
+
+        //android-7.0的Toast崩溃
+        classpath "com.didiglobal.booster:booster-transform-toast:$booster_version"
+
+
 //        classpath 'com.android.tools.build:gradle:3.6.1'
 //        classpath 'org.codehaus.groovy:groovy-android-gradle-plugin:1.0.0'
         classpath 'org.codehaus.groovy:groovy-android-gradle-plugin:2.0.1'
