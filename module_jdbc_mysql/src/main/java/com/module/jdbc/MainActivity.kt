@@ -3,7 +3,12 @@ package com.module.jdbc
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.module.jdbc.databinding.ActivityMainBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
@@ -13,13 +18,36 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         mDataBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         mDataBinding.acBtnStart.setOnClickListener {
-            Thread{
+            init()
+        }
+
+        mDataBinding.acBtnStop.setOnClickListener {
+            load()
+        }
+    }
+
+    private fun init() {
+        lifecycleScope.launch(Dispatchers.IO) {
+            repeatOnLifecycle(Lifecycle.State.CREATED) {
                 JdbcUtils.init {
-                    runOnUiThread{
+                    runOnUiThread {
                         mDataBinding.acTvContent.text = it
                     }
                 }
-            }.start()
+            }
         }
     }
+
+    private fun load() {
+        lifecycleScope.launch(Dispatchers.IO) {
+            repeatOnLifecycle(Lifecycle.State.CREATED) {
+                JdbcUtils.load(this@MainActivity) {
+                    runOnUiThread {
+                        mDataBinding.acTvContent.text = it
+                    }
+                }
+            }
+        }
+    }
+
 }
