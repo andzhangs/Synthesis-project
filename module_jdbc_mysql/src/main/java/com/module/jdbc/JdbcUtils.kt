@@ -103,7 +103,7 @@ object JdbcUtils {
             // 2. 将 SSH 隧道绑定到本地端口
             val assignedPort = privateKey.setPortForwardingL(localPort, remoteHost, remotePort)
 
-            val ip = "206.168.2.57:$assignedPort"
+            val ip = "206.168.2.259:$assignedPort"
 
             if (BuildConfig.DEBUG) {
                 Log.i("print_logs", "SSH连接成功：${privateKey.isConnected}, $ip")

@@ -19,7 +19,7 @@ class CoordinatorLayoutNestedScrollViewActivity : AppCompatActivity() {
      * expandedOffset：展开后距离顶部的高度
      * halfExpandedRatio：半展开占比
      * setState：设置当前状态：隐藏、半展开、全展开等等
-     * setPeekHeight：设置初始显示高度
+     * setPeekHeight：设置初始显示高度xx
      */
 
     private lateinit var mDataBinding: ActivityCoordinatorLayoutNestedScrollViewBinding

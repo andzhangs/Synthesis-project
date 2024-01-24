@@ -44,6 +44,8 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+
+
     implementation 'com.facebook.rebound:rebound:0.3.8'
 
     implementation 'com.davemorrissey.labs:subsampling-scale-image-view-androidx:3.10.0'
@@ -81,6 +83,9 @@ dependencies {
 
     //https://github.com/lihangleo2/ViewPager2Demo
     implementation 'com.github.lihangleo2:SmartViewPager2Adapter:2.1.2'
+
+    //version 34 or later of the
+//    implementation("androidx.webkit:webkit:1.8.0")
 
     implementation(project(':lib_base'))
 }

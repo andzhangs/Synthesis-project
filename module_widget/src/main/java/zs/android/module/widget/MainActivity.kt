@@ -22,6 +22,9 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
+import zs.android.base.lib.util.DataSize.Companion.BYTES
+import zs.android.base.lib.util.DataSize.Companion.toDataSize
+import zs.android.base.lib.util.DataUnit
 import zs.android.module.widget.blur.BlurViewActivity
 import zs.android.module.widget.blur.BlurryActivity
 import zs.android.module.widget.blur.RealtimeBlurViewActivity
@@ -67,7 +70,13 @@ class MainActivity : AppCompatActivity() {
             override fun onClick(position: Int, item: View) {
                 when (position) {
                     0 -> {
-                        showSnackBar(item)
+
+
+
+                        if (BuildConfig.DEBUG) {
+                            val result = (100.0.BYTES + 200.0.BYTES).toLong(DataUnit.BYTES)
+                            Toast.makeText(this@MainActivity, "DataSize：$result， ${1024.0.toDataSize(DataUnit.KILOBYTES)}", Toast.LENGTH_SHORT).show()
+                        }
                     }
 
                     1 -> {
@@ -197,10 +206,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    interface OnItemClickListener {
-        fun onClick(position: Int, item: View)
-    }
-
     private class ItemViewHolder(private val mBinding: ItemMainLayoutBinding) :
         RecyclerView.ViewHolder(mBinding.root) {
 
@@ -224,10 +229,14 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+    interface OnItemClickListener {
+        fun onClick(position: Int, item: View)
+    }
+
     //----------------------------------------------------------------------------------------------
 
     private fun showSnackBar(view: View) {
-        Snackbar.make(view, "你哈", 1000)
+        Snackbar.make(this, view, "你哈", Snackbar.LENGTH_SHORT)
             .setAction("取消") {
                 Toast.makeText(this@MainActivity, "触发 点击", Toast.LENGTH_SHORT).show()
             }
@@ -277,5 +286,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun jumpActivity(targetActivity: Class<*>) {
         startActivity(Intent(this, targetActivity))
+
     }
 }

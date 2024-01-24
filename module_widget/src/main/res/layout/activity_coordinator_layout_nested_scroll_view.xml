@@ -10,7 +10,7 @@
         <androidx.appcompat.widget.AppCompatButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="弹出"/>
+            android:text="顶部文案"/>
 
         <androidx.core.widget.NestedScrollView
             android:id="@+id/nested_scroll_view"
