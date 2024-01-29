@@ -53,7 +53,8 @@ class MainActivity : AppCompatActivity() {
             "FlipActivity",
             "LinearActivity",
             "Coordinator+Nested",
-            "PagerActivity"
+            "PagerActivity",
+            "DownloadActivity"
         )
     }
     private val mAdapter = RvAdapter(mList)
@@ -70,12 +71,9 @@ class MainActivity : AppCompatActivity() {
             override fun onClick(position: Int, item: View) {
                 when (position) {
                     0 -> {
-
-
-
                         if (BuildConfig.DEBUG) {
                             val result = (100.0.BYTES + 200.0.BYTES).toLong(DataUnit.BYTES)
-                            Toast.makeText(this@MainActivity, "DataSize：$result， ${1024.0.toDataSize(DataUnit.KILOBYTES)}", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this@MainActivity, "DataSize：$result， ${1024.0.toDataSize(DataUnit.BYTES)}", Toast.LENGTH_SHORT).show()
                         }
                     }
 
@@ -154,7 +152,9 @@ class MainActivity : AppCompatActivity() {
                     16 -> {
                         jumpActivity(PagerActivity::class.java)
                     }
-
+                    17->{
+                        jumpActivity(DownloadActivity::class.java)
+                    }
                     else -> {}
                 }
             }
@@ -286,6 +286,5 @@ class MainActivity : AppCompatActivity() {
 
     private fun jumpActivity(targetActivity: Class<*>) {
         startActivity(Intent(this, targetActivity))
-
     }
 }
