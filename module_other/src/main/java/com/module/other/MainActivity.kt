@@ -4,12 +4,10 @@ import android.content.Context
 import android.hardware.SensorManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
 import android.os.Message
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
-import androidx.core.os.BuildCompat
 import androidx.databinding.DataBindingUtil
 import com.module.other.databinding.ActivityMainBinding
 import com.module.other.handlerthread.MyHandlerThread
@@ -24,7 +22,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mDataBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        onBackPressedDispatcher.addCallback(backPressedCallback)
         loadHandlerThread()
         loadSeismic()
         loadBackPressed()
@@ -33,6 +30,7 @@ class MainActivity : AppCompatActivity() {
     private fun loadHandlerThread() {
 
         mDataBinding.acBtnHandlerThreadStart.setOnClickListener {
+            onBackPressedDispatcher.addCallback(backPressedCallback)
             handlerThread = MyHandlerThread("Thread_MainActivity").apply {
                 start()
 

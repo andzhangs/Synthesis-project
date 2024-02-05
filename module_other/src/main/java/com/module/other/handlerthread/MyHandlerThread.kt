@@ -4,7 +4,6 @@ import android.os.Handler
 import android.os.HandlerThread
 import android.os.Message
 import android.util.Log
-import com.module.other.BuildConfig
 
 /**
  * @author zhangshuai@attrsense.com
@@ -26,21 +25,20 @@ class MyHandlerThread(threadName: String) : HandlerThread(threadName, Thread.MAX
     }
 
     override fun handleMessage(msg: Message): Boolean {
-        if (BuildConfig.DEBUG) {
-            Log.i("print_logs", "handleMessage: ${msg.arg1}, ${msg.arg2}, ${msg.what}, ${msg.obj}")
-        }
+        Log.i("print_logs", "handleMessage: ${msg.arg1}, ${msg.arg2}, ${msg.what}, ${msg.obj}")
         return true
     }
 
+
     fun sendMessage(msg: Message?) {
-        if (BuildConfig.DEBUG) {
-            Log.i("print_logs", "sendMessage: mHandler==null: ${mHandler == null}")
-        }
+
+        Log.i("print_logs", "sendMessage: mHandler==null: ${mHandler == null}")
+
         msg?.also {
             mHandler?.sendMessage(it)
         }
         mMsg = if (mHandler == null) {
-           msg
+            msg
         } else {
             null
         }

@@ -87,5 +87,11 @@ dependencies {
     //version 34 or later of the
 //    implementation("androidx.webkit:webkit:1.8.0")
 
+    //https://github.com/ssseasonnn/DownloadX/blob/main/README.ch.md
+    implementation "com.github.ssseasonnn:DownloadX:1.0.5"
+
+    //https://ahdm.coolerfall.com/#/quickstart
+    implementation 'com.coolerfall:android-http-download-manager:2.0.0'
+
     implementation(project(':lib_base'))
 }
