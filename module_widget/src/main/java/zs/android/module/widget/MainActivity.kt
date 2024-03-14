@@ -54,7 +54,8 @@ class MainActivity : AppCompatActivity() {
             "LinearActivity",
             "Coordinator+Nested",
             "PagerActivity",
-            "DownloadActivity"
+            "DownloadActivity",
+            "TextBytesActivity"
         )
     }
     private val mAdapter = RvAdapter(mList)
@@ -73,7 +74,11 @@ class MainActivity : AppCompatActivity() {
                     0 -> {
                         if (BuildConfig.DEBUG) {
                             val result = (100.0.BYTES + 200.0.BYTES).toLong(DataUnit.BYTES)
-                            Toast.makeText(this@MainActivity, "DataSize：$result， ${1024.0.toDataSize(DataUnit.BYTES)}", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                this@MainActivity,
+                                "DataSize：$result， ${1024.0.toDataSize(DataUnit.BYTES)}",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                     }
 
@@ -152,9 +157,15 @@ class MainActivity : AppCompatActivity() {
                     16 -> {
                         jumpActivity(PagerActivity::class.java)
                     }
-                    17->{
+
+                    17 -> {
                         jumpActivity(DownloadActivity::class.java)
                     }
+
+                    18 -> {
+                        jumpActivity(TextBytesActivity::class.java)
+                    }
+
                     else -> {}
                 }
             }

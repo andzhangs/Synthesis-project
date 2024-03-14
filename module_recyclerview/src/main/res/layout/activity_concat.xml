@@ -3,31 +3,94 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+
+    <!--    <androidx.constraintlayout.widget.ConstraintLayout-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent">-->
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fitsSystemWindows="true">
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:contentScrim="@android:color/transparent"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                app:titleEnabled="false"
+                app:toolbarId="@id/toolbar">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/img_841" />
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?android:attr/actionBarSize"
+                    android:background="@android:color/transparent"
+                    app:layout_collapseMode="pin">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/acTv_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="我是toolbar"
+                        android:textColor="@color/black" />
+                </androidx.appcompat.widget.Toolbar>
+
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="?android:attr/actionBarSize"
+                android:background="@color/white"
+                android:gravity="center"
+                android:text="appbar之内,collap之外"
+                android:textColor="#0f0"
+                android:textSize="20sp" />
+
+            <!--            <androidx.viewpager2.widget.ViewPager2-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="?android:attr/actionBarSize"-->
+            <!--                android:background="@color/white"/>-->
+
+        </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical" />
+            android:orientation="vertical"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/acBtn_add_one"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:text="添加样式一"/>
+            android:layout_gravity="bottom">
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/acBtn_add_one"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="添加样式一"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/acBtn_add_two"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/acBtn_add_one"
-            android:text="添加样式二"/>
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/acBtn_add_two"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="添加样式二"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/acBtn_add_one" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

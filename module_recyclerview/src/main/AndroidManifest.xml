@@ -23,6 +23,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Synthesisproject">
         <activity
+            android:name=".MainActivity2"
+            android:exported="false" />
+        <activity
             android:name=".ConcatActivity"
             android:exported="false" />
         <activity

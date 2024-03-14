@@ -1,11 +1,13 @@
 package com.module.recyclerview.snap
 
-import android.database.DatabaseUtils
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,7 +26,7 @@ class ConcatActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         mDataBinding = DataBindingUtil.setContentView(this, R.layout.activity_concat)
 
-        for (i in 0 until 5) {
+        for (i in 0 until 20) {
             mOneList.add("Hello - $i")
             mTwoList.add("World : $i")
         }
@@ -39,6 +41,7 @@ class ConcatActivity : AppCompatActivity() {
             adapter = concatAdapter
         }
 
+
         mDataBinding.acBtnAddOne.setOnClickListener {
             oneAdapter.addData("Hello ${System.currentTimeMillis()}")
         }
@@ -46,20 +49,31 @@ class ConcatActivity : AppCompatActivity() {
         mDataBinding.acBtnAddTwo.setOnClickListener {
             twoAdapter.addData("World ${System.currentTimeMillis()}")
         }
+
+        mDataBinding.acTvTitle.setOnClickListener {
+            Toast.makeText(this, "点击到了", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    inner class CustomViewHolder(private val view: View) :
+        RecyclerView.ViewHolder(view) {
+
+        fun bind(info: String) {
+            view.setOnClickListener {
+                if (BuildConfig.DEBUG) {
+                    //优先获取 absoluteAdapterPosition此值
+                    Log.i("print_logs", "bind: $absoluteAdapterPosition， $bindingAdapterPosition, $layoutPosition, $oldPosition")
+                }
+            }
+
+            view.findViewById<AppCompatTextView>(R.id.acTv_info).text = info
+        }
     }
 
     private inner class OneAdapter(private val mList: ArrayList<String>) :
-        RecyclerView.Adapter<OneAdapter.OneViewHolder>() {
+        RecyclerView.Adapter<CustomViewHolder>() {
 
-        inner class OneViewHolder(private val mBinding: ItemOneBinding) :
-            RecyclerView.ViewHolder(mBinding.root) {
-
-            fun bind(info: String) {
-                mBinding.acTvInfo.text = info
-            }
-        }
-
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OneViewHolder {
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
             val layoutInflater = LayoutInflater.from(parent.context)
             val view = DataBindingUtil.inflate<ItemOneBinding>(
                 layoutInflater,
@@ -67,12 +81,12 @@ class ConcatActivity : AppCompatActivity() {
                 parent,
                 false
             )
-            return OneViewHolder(view)
+            return CustomViewHolder(view.root)
         }
 
         override fun getItemCount(): Int = mList.size
 
-        override fun onBindViewHolder(holder: OneViewHolder, position: Int) {
+        override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
             holder.bind(mList[position])
         }
 
@@ -83,17 +97,9 @@ class ConcatActivity : AppCompatActivity() {
     }
 
     private inner class TwoAdapter(private val mList: ArrayList<String>) :
-        RecyclerView.Adapter<TwoAdapter.TwoViewHolder>() {
+        RecyclerView.Adapter<CustomViewHolder>() {
 
-        inner class TwoViewHolder(private val mBinding: ItemTwoBinding) :
-            RecyclerView.ViewHolder(mBinding.root) {
-
-            fun bind(info: String) {
-                mBinding.acTvInfo.text = info
-            }
-        }
-
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TwoViewHolder {
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
             val layoutInflater = LayoutInflater.from(parent.context)
             val view = DataBindingUtil.inflate<ItemTwoBinding>(
                 layoutInflater,
@@ -101,12 +107,12 @@ class ConcatActivity : AppCompatActivity() {
                 parent,
                 false
             )
-            return TwoViewHolder(view)
+            return CustomViewHolder(view.root)
         }
 
         override fun getItemCount(): Int = mList.size
 
-        override fun onBindViewHolder(holder: TwoViewHolder, position: Int) {
+        override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
             holder.bind(mList[position])
         }
 

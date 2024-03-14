@@ -17,7 +17,9 @@
             <option value="$PROJECT_DIR$/module_jdbc_mysql" />
             <option value="$PROJECT_DIR$/module_koin" />
             <option value="$PROJECT_DIR$/module_material" />
+            <option value="$PROJECT_DIR$/module_media3" />
             <option value="$PROJECT_DIR$/module_other" />
+            <option value="$PROJECT_DIR$/module_recyclerview" />
             <option value="$PROJECT_DIR$/module_splash_screen" />
             <option value="$PROJECT_DIR$/module_widget" />
           </set>

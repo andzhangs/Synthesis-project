@@ -1,7 +1,6 @@
 package com.module.recyclerview.snap
 
 import android.Manifest
-import android.app.Activity
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -36,8 +35,11 @@ class PagerSnapActivity : AppCompatActivity() {
                             "${Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM)}${File.separator}Camera"
                         File(parentFolder).also { file ->
                             if (file.exists()) {
-                                file.listFiles()
-                                    ?.let { it1 -> loadView(it1.toList() as ArrayList<File>) }
+                                file.listFiles()?.let { it1 ->
+                                    if (it1.isNotEmpty()) {
+                                        loadView(it1.toList() as ArrayList<File>)
+                                    }
+                                }
                             }
                         }
                     }
@@ -103,9 +105,7 @@ class PagerSnapActivity : AppCompatActivity() {
                 RecyclerView.ViewHolder(binding.root) {
 
                 fun bind(fileUrl: String) {
-                    if (BuildConfig.DEBUG) {
-                        Log.i("print_logs", "ImageViewHolder::bind: $fileUrl")
-                    }
+                    Log.i("print_logs", "ImageViewHolder::bind: $fileUrl")
                     Glide.with(binding.acIvView.context)
                         .load(fileUrl)
                         .into(binding.acIvView)
@@ -116,9 +116,7 @@ class PagerSnapActivity : AppCompatActivity() {
                 RecyclerView.ViewHolder(binding.root) {
 
                 fun bind(fileUrl: String) {
-                    if (BuildConfig.DEBUG) {
                         Log.i("print_logs", "VideoViewHolder::bind: $fileUrl")
-                    }
                     val context = binding.videoView.context
                     binding.videoView.setVideoPath(fileUrl)
                     binding.videoView.requestFocus()

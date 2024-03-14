@@ -9,7 +9,7 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
     <uses-permission android:name="android.permission.DOWNLOAD_COMPLETE" />
-    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY"/>
+    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
 
     <application
         android:name=".WidgetApplication"
@@ -21,6 +21,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Synthesisproject"
         tools:targetApi="n">
+        <activity
+            android:name=".TextBytesActivity"
+            android:exported="false" />
         <activity
             android:name=".DownloadActivity"
             android:exported="false" />

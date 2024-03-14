@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".TextBytesActivity">
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/acEt_write"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="请输入文字"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/acTv_read"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@color/purple_200"
+            android:hint="这是输出的文字"
+            android:minHeight="100dp"
+            android:padding="10dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/acEt_write" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/acBtn_write"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="写入文字"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/acBtn_read"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/acBtn_read"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="读取文字"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/acBtn_write" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
