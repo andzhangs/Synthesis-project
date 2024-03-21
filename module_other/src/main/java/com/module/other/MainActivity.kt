@@ -4,7 +4,6 @@ import android.content.Context
 import android.hardware.SensorManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Message
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
@@ -34,12 +33,12 @@ class MainActivity : AppCompatActivity() {
             handlerThread = MyHandlerThread("Thread_MainActivity").apply {
                 start()
 
-                sendMessage(Message.obtain().also {
-                    it.arg1 = 200
-                    it.arg2 = 2001
-                    it.what = 20002
-                    it.obj = "Hello，I'm from MainActivity."
-                })
+//                sendMessage(Message.obtain().also {
+//                    it.arg1 = 200
+//                    it.arg2 = 2001
+//                    it.what = 20002
+//                    it.obj = "Hello，I'm from MainActivity."
+//                })
             }
         }
 

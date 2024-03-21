@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SynthesisMaterial</string>
+    <string name="app_name">module_Material</string>
     <string-array name="initial_slider_values">
         <item>2.0</item>
         <item>7.0</item>

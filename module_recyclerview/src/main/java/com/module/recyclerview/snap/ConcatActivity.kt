@@ -41,7 +41,6 @@ class ConcatActivity : AppCompatActivity() {
             adapter = concatAdapter
         }
 
-
         mDataBinding.acBtnAddOne.setOnClickListener {
             oneAdapter.addData("Hello ${System.currentTimeMillis()}")
         }
