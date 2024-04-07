@@ -55,7 +55,12 @@ class MainActivity : AppCompatActivity() {
             "Coordinator+Nested",
             "PagerActivity",
             "DownloadActivity",
-            "TextBytesActivity"
+            "TextBytesActivity",
+            "ImageLabelerActivity",
+            "CronetActivity",
+            "CrossDeviceActivity",
+            "BatteryFlowActivity",
+            "NetworkFlowActivity"
         )
     }
     private val mAdapter = RvAdapter(mList)
@@ -164,6 +169,26 @@ class MainActivity : AppCompatActivity() {
 
                     18 -> {
                         jumpActivity(TextBytesActivity::class.java)
+                    }
+
+                    19 -> {
+                        jumpActivity(ImageLabelerActivity::class.java)
+                    }
+
+                    20 -> {
+                        jumpActivity(CronetActivity::class.java)
+                    }
+
+                    21 -> {
+                        jumpActivity(CrossDeviceActivity::class.java)
+                    }
+
+                    22 -> {
+                        jumpActivity(BatteryFlowActivity::class.java)
+                    }
+
+                    23 -> {
+                        jumpActivity(NetworkFlowActivity::class.java)
                     }
 
                     else -> {}

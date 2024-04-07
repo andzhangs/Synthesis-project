@@ -96,6 +96,17 @@ dependencies {
     //https://github.com/pirrip90/CeilingLayout
     implementation 'com.github.xubo.ceilinglayout:CeilingLayout:1.1.1'
 
+    implementation 'androidx.cardview:cardview:1.0.0'
+
+    implementation 'com.google.mlkit:image-labeling:17.0.7'
+    implementation 'com.google.ambient.crossdevice:crossdevice:0.1.0-preview01'
+    implementation 'com.google.android.gms:play-services-cronet:18.0.1'
+
+    implementation 'com.google.net.cronet:cronet-okhttp:0.1.0'
+
+    implementation('androidx.activity:activity-ktx:1.5.1')
+    implementation('org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4')
+    implementation('org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4')
 
     implementation(project(':lib_base'))
 }

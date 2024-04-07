@@ -1,6 +1,6 @@
 plugins {
     id 'com.android.application'
-    id 'com.didiglobal.booster'
+//    id 'com.didiglobal.booster'
     id 'org.jetbrains.kotlin.android'
 }
 

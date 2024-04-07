@@ -10,9 +10,15 @@
     <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
     <uses-permission android:name="android.permission.DOWNLOAD_COMPLETE" />
     <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+    <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
+    <uses-permission
+        android:name="android.permission.ACCESS_FINE_LOCATION"
+        tools:ignore="CoarseFineLocation" />
 
     <application
-        android:name=".WidgetApplication"
+        android:name=".app.WidgetApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -21,6 +27,21 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Synthesisproject"
         tools:targetApi="n">
+        <activity
+            android:name=".NetworkFlowActivity"
+            android:exported="false" />
+        <activity
+            android:name=".BatteryFlowActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CrossDeviceActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CronetActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ImageLabelerActivity"
+            android:exported="false" />
         <activity
             android:name=".TextBytesActivity"
             android:exported="false" />

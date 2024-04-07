@@ -132,11 +132,13 @@ class MainActivity : AppCompatActivity() {
             addAction(RECEIVER_ACTION)
         }
         LocalBroadcastManager.getInstance(this).registerReceiver(myReceiver, intentFilter)
+        mBinding.progressCircular.show()
     }
 
     override fun onStop() {
         super.onStop()
         LocalBroadcastManager.getInstance(this).unregisterReceiver(myReceiver)
+        mBinding.progressCircular.hide()
     }
 
     override fun onDestroy() {

@@ -8,6 +8,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.databinding.DataBindingUtil
+import com.module.other.able.ResponseCloseable
 import com.module.other.databinding.ActivityMainBinding
 import com.module.other.handlerthread.MyHandlerThread
 import com.squareup.seismic.ShakeDetector
@@ -24,6 +25,7 @@ class MainActivity : AppCompatActivity() {
         loadHandlerThread()
         loadSeismic()
         loadBackPressed()
+        loadCloseableAndCloneable()
     }
 
     private fun loadHandlerThread() {
@@ -50,7 +52,6 @@ class MainActivity : AppCompatActivity() {
 //            handlerThread.quit()
         }
     }
-
 
     /**
      * 谷歌手机晃动检测库
@@ -83,7 +84,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
     private fun loadBackPressed() {
         mDataBinding.acBtnBackPressed.setOnClickListener {
             Log.i(
@@ -91,6 +91,20 @@ class MainActivity : AppCompatActivity() {
                 "handleOnBackPressed: ${backPressedCallback.handleOnBackPressed()}"
             )
             backPressedCallback.remove()
+        }
+    }
+
+    private fun loadCloseableAndCloneable(){
+        val responseCloseable = ResponseCloseable()
+        responseCloseable.name = "Hello World!"
+        responseCloseable.age = 18
+        responseCloseable.toString()
+        try {
+            responseCloseable.use {
+                it.toString()
+            }
+        }catch (e:Exception){
+            e.printStackTrace()
         }
     }
 
