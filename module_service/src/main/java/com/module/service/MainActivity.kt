@@ -48,8 +48,8 @@ class MainActivity : AppCompatActivity() {
 //        MyJobService.start(this)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onStop() {
+        super.onStop()
         unbindService(mLifecycleServiceConnection)
         CustomBroadcastReceiver.unregister(this)
     }
