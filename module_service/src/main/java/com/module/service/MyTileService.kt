@@ -30,15 +30,12 @@ class MyTileService : TileService() {
 
     override fun onClick() {
         super.onClick()
-//        if (BuildConfig.DEBUG) {
-//            Log.d("print_logs", "MyTileService::onClick: ${Thread.currentThread().name}")
-//        }
         if (BuildConfig.DEBUG) {
             Log.i("print_logs", "MyTileService::onClick:起始状态： ${qsTile.state}")
         }
 
-        qsTile.state = if (qsTile.state == Tile.STATE_INACTIVE) Tile.STATE_ACTIVE else Tile.STATE_INACTIVE
-//        qsTile.updateTile()
+        qsTile.state =
+            if (qsTile.state == Tile.STATE_INACTIVE) Tile.STATE_ACTIVE else Tile.STATE_INACTIVE
 
         if (BuildConfig.DEBUG) {
             Log.i("print_logs", "MyTileService::onClick:当前状态：${qsTile.state}")
@@ -49,14 +46,29 @@ class MyTileService : TileService() {
         qsTile.label = this.getString(R.string.label_tile_service)
 
         //方式二：AndroidManifest.xml中设置
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             val state = if (qsTile.state == Tile.STATE_ACTIVE) "开启" else "关闭"
             qsTile.subtitle = "已$state"
         }
         qsTile.updateTile()
 
+        mOnServiceCallback?.onCallback(qsTile.state == Tile.STATE_ACTIVE)
     }
+
+    //----------------------------------------------------------------------------------------------
+
+    interface OnServiceCallback {
+        fun onCallback(isActive: Boolean)
+    }
+
+    private var mOnServiceCallback: OnServiceCallback? = null
+
+    fun setOnServiceCallback(listener: OnServiceCallback) {
+        this.mOnServiceCallback = listener
+    }
+
+    //----------------------------------------------------------------------------------------------
+
 
     /**
      * 用户将 Tile 从 Edit 中添加到设定栏中
@@ -99,11 +111,6 @@ class MyTileService : TileService() {
         }
     }
 
-
-    override fun onDestroy() {
-        super.onDestroy()
-    }
-
     override fun onUnbind(intent: Intent?): Boolean {
         return super.onUnbind(intent)
     }
@@ -122,5 +129,9 @@ class MyTileService : TileService() {
 
     override fun onTaskRemoved(rootIntent: Intent?) {
         super.onTaskRemoved(rootIntent)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
     }
 }

@@ -17,7 +17,8 @@ import androidx.lifecycle.LifecycleService
 class CustomLifecycleService : LifecycleService() {
 
     companion object {
-        const val KEY_SERVICE_PARAMS = "key_service_params_1"
+        const val KEY_SERVICE_PARAMS_1 = "key_service_params_1"
+        const val KEY_SERVICE_PARAMS_2 = "key_service_params_2"
     }
 
     private inner class MyObserver : DefaultLifecycleObserver {
@@ -67,6 +68,8 @@ class CustomLifecycleService : LifecycleService() {
 
     }
 
+    private val mMyObserver by lazy { MyObserver() }
+
     inner class LifeBinder : Binder() {
 
         fun getService(): CustomLifecycleService {
@@ -81,52 +84,22 @@ class CustomLifecycleService : LifecycleService() {
                 Log.i("print_logs", "LifeBinder::printLog: $string")
             }
 
-            this@CustomLifecycleService.startService(Intent(context, CustomLifecycleService::class.java))
+            this@CustomLifecycleService.startService(Intent(context, CustomLifecycleService::class.java).apply {
+                putExtra(CustomLifecycleService.KEY_SERVICE_PARAMS_2, string)
+            })
         }
     }
-
-    private lateinit var mMyObserver: MyObserver
-    private lateinit var mLifeBinder: LifeBinder
-
-    override fun attachBaseContext(newBase: Context?) {
-        super.attachBaseContext(newBase)
-        if (BuildConfig.DEBUG) {
-            Log.i("print_logs", "CustomLifecycleService::attachBaseContext: ")
-        }
-    }
-
-    override fun onCreate() {
-        super.onCreate()
-        if (BuildConfig.DEBUG) {
-            Log.i("print_logs", "CustomLifecycleService::onCreate: ")
-        }
-        mLifeBinder = LifeBinder()
-        mMyObserver = MyObserver()
-        lifecycle.addObserver(mMyObserver)
-    }
-
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        if (BuildConfig.DEBUG) {
-            Log.i(
-                "print_logs",
-                "CustomLifecycleService::onStartCommand: ${intent?.getStringExtra(KEY_SERVICE_PARAMS)}"
-            )
-        }
-        return super.onStartCommand(intent, flags, startId)
-    }
-
 
     override fun onBind(intent: Intent): IBinder {
         super.onBind(intent)
         if (BuildConfig.DEBUG) {
             Log.i(
                 "print_logs",
-                "CustomLifecycleService::onBind: ${intent.getStringExtra(KEY_SERVICE_PARAMS)}"
+                "CustomLifecycleService::onBind: ${intent.getStringExtra(KEY_SERVICE_PARAMS_1)}"
             )
         }
-        return mLifeBinder
+        return LifeBinder()
     }
-
 
     override fun onRebind(intent: Intent?) {
         super.onRebind(intent)
@@ -140,6 +113,35 @@ class CustomLifecycleService : LifecycleService() {
             Log.i("print_logs", "CustomLifecycleService::onUnbind: ")
         }
         return super.onUnbind(intent)
+    }
+
+
+    //----------------------------------------------------------------------------------------------
+
+
+    override fun attachBaseContext(newBase: Context?) {
+        super.attachBaseContext(newBase)
+        if (BuildConfig.DEBUG) {
+            Log.i("print_logs", "CustomLifecycleService::attachBaseContext: ")
+        }
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        if (BuildConfig.DEBUG) {
+            Log.i("print_logs", "CustomLifecycleService::onCreate: ")
+        }
+        lifecycle.addObserver(mMyObserver)
+    }
+
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        if (BuildConfig.DEBUG) {
+            Log.d(
+                "print_logs",
+                "CustomLifecycleService::onStartCommand：${intent?.getStringExtra(KEY_SERVICE_PARAMS_2)}"
+            )
+        }
+        return super.onStartCommand(intent, flags, startId)
     }
 
     override fun onTaskRemoved(rootIntent: Intent?) {

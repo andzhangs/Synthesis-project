@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.os.IBinder
 import android.util.Log
 
 /**
@@ -54,7 +53,7 @@ class CustomBroadcastReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent?) {
         if (BuildConfig.DEBUG) {
-            Log.i("print_logs", "CustomBroadcastReceiver::onReceive")
+            Log.d("print_logs", "CustomBroadcastReceiver::onReceive")
         }
         intent?.also {
 
@@ -69,8 +68,7 @@ class CustomBroadcastReceiver : BroadcastReceiver() {
 
             if (isBinding) {
                 val serviceIntent = Intent(context, CustomLifecycleService::class.java)
-                val serviceBinder =
-                    peekService(context, serviceIntent) as CustomLifecycleService.LifeBinder
+                val serviceBinder = peekService(context, serviceIntent) as CustomLifecycleService.LifeBinder
                 serviceBinder.printLog(context,"I am from CustomBroadcastReceiver")
             }
         }

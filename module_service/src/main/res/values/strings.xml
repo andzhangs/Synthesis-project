@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">module_service</string>
 
-    <string name="label_tile_service">Anf自动压缩</string>
+    <string name="label_tile_service">自定义Tile</string>
 </resources>
