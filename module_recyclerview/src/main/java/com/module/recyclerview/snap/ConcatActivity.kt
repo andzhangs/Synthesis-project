@@ -26,7 +26,7 @@ class ConcatActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         mDataBinding = DataBindingUtil.setContentView(this, R.layout.activity_concat)
 
-        for (i in 0 until 20) {
+        for (i in 0 until 5) {
             mOneList.add("Hello - $i")
             mTwoList.add("World : $i")
         }

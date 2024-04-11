@@ -24,10 +24,6 @@ class MainActivity : AppCompatActivity() {
         mDataBinding.acBtnConcatAdapter.setOnClickListener {
             startActivity(Intent(this, ConcatActivity::class.java))
         }
-
-        mDataBinding.acBtnCoor.setOnClickListener {
-            startActivity(Intent(this, MainActivity2::class.java))
-        }
     }
 
     override fun onDestroy() {

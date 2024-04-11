@@ -48,6 +48,14 @@ class MainActivity : AppCompatActivity() {
         mDataBinding.acBtnMotionTelltales.setOnClickListener {
             startActivity(Intent(this, MotionTelltalesActivity::class.java))
         }
+
+        mDataBinding.acBtnCoordinatorLayout.setOnClickListener {
+            startActivity(Intent(this, CoordinatorLayoutActivity::class.java))
+        }
+
+        mDataBinding.acBtnWeb.setOnClickListener {
+            startActivity(Intent(this, WebActivity::class.java))
+        }
     }
 
     override fun onDestroy() {
