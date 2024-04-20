@@ -13,6 +13,7 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/lib_base" />
             <option value="$PROJECT_DIR$/module_animation" />
+            <option value="$PROJECT_DIR$/module_anko" />
             <option value="$PROJECT_DIR$/module_booster" />
             <option value="$PROJECT_DIR$/module_coli" />
             <option value="$PROJECT_DIR$/module_constraintlayout" />
@@ -38,6 +39,8 @@
             <option value="$PROJECT_DIR$/module_share" />
             <option value="$PROJECT_DIR$/module_spi" />
             <option value="$PROJECT_DIR$/module_splash_screen" />
+            <option value="$PROJECT_DIR$/module_splitties" />
+            <option value="$PROJECT_DIR$/module_sqldelight" />
             <option value="$PROJECT_DIR$/module_tensorflow" />
             <option value="$PROJECT_DIR$/module_versions_catalog" />
             <option value="$PROJECT_DIR$/module_widget" />
