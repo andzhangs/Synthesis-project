@@ -1,4 +1,4 @@
-package com.module.other.handlerthread
+package zs.android.module.thread.thread
 
 import android.os.Handler
 import android.os.HandlerThread

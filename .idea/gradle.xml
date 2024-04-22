@@ -35,6 +35,7 @@
             <option value="$PROJECT_DIR$/module_permission" />
             <option value="$PROJECT_DIR$/module_pick" />
             <option value="$PROJECT_DIR$/module_recyclerview" />
+            <option value="$PROJECT_DIR$/module_seismic" />
             <option value="$PROJECT_DIR$/module_service" />
             <option value="$PROJECT_DIR$/module_share" />
             <option value="$PROJECT_DIR$/module_spi" />
@@ -42,6 +43,8 @@
             <option value="$PROJECT_DIR$/module_splitties" />
             <option value="$PROJECT_DIR$/module_sqldelight" />
             <option value="$PROJECT_DIR$/module_tensorflow" />
+            <option value="$PROJECT_DIR$/module_thread" />
+            <option value="$PROJECT_DIR$/module_transition" />
             <option value="$PROJECT_DIR$/module_versions_catalog" />
             <option value="$PROJECT_DIR$/module_widget" />
             <option value="$PROJECT_DIR$/tangram" />
