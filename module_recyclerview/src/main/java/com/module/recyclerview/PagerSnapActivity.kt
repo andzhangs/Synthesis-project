@@ -1,4 +1,4 @@
-package com.module.recyclerview.snap
+package com.module.recyclerview
 
 import android.Manifest
 import android.os.Build
@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.module.recyclerview.snap.R
 import com.module.recyclerview.snap.databinding.ActivityPagerSnapBinding
 import com.module.recyclerview.snap.databinding.LayoutImageBinding
 import com.module.recyclerview.snap.databinding.LayoutVideoBinding

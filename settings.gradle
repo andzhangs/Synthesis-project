@@ -44,7 +44,7 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "Synthesis-project"
-//include ':app'
+include ':app'
 include ':lib_base'
 include ':module_permission'
 include ':module_material'

@@ -1,4 +1,4 @@
-package com.module.recyclerview.snap
+package com.module.recyclerview
 
 import android.content.Intent
 import android.os.Build
@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import com.module.recyclerview.snap.R
 import com.module.recyclerview.snap.databinding.ActivityMainBinding
 
 
@@ -23,6 +24,10 @@ class MainActivity : AppCompatActivity() {
 
         mDataBinding.acBtnConcatAdapter.setOnClickListener {
             startActivity(Intent(this, ConcatActivity::class.java))
+        }
+
+        mDataBinding.acBtnDiffCallback.setOnClickListener {
+            startActivity(Intent(this, DiffActivity::class.java))
         }
     }
 

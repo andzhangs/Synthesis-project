@@ -75,6 +75,7 @@ class BatteryFlowActivity : AppCompatActivity() {
             IntentFilter(Intent.ACTION_BATTERY_CHANGED)
         )
 
+
         awaitClose {
             context.applicationContext.unregisterReceiver(batterStatusReceiver)
         }

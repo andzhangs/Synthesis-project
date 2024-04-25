@@ -1,4 +1,4 @@
-package com.module.recyclerview.snap
+package com.module.recyclerview
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -12,6 +12,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.module.recyclerview.snap.BuildConfig
+import com.module.recyclerview.snap.R
 import com.module.recyclerview.snap.databinding.ActivityConcatBinding
 import com.module.recyclerview.snap.databinding.ItemOneBinding
 import com.module.recyclerview.snap.databinding.ItemTwoBinding

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.module.recyclerview.DiffActivity">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/acBtn_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="新增数据"
+            android:onClick="onAdd"
+            app:layout_constraintEnd_toStartOf="@id/acBtn_update"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/acBtn_update"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="更新数据"
+            android:onClick="onUpdate"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/acBtn_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="删除"
+            android:onClick="onDelete"
+            app:layout_constraintStart_toEndOf="@id/acBtn_update"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/acBtn_update"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:itemCount="4"
+            android:divider="@android:drawable/divider_horizontal_dark"
+            android:dividerHeight="1dp"
+            tools:listitem="@layout/item_diff_callback_layout"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

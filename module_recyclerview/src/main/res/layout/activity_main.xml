@@ -12,17 +12,19 @@
             android:id="@+id/acBtn_pager_snap_adapter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="PagerSnapAdapter"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:text="PagerSnapAdapter" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/acBtn_concat_Adapter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ConcatAdapter"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:text="ConcatAdapter" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/acBtn_diff_callback"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="DiffCallback" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>
