@@ -21,6 +21,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Synthesisproject">
         <activity
+            android:name=".NetWorkActivity"
+            android:exported="false" />
+        <activity
             android:name=".ViewPager2Activity"
             android:exported="false" />
         <activity

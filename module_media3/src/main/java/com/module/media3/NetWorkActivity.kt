@@ -1,15 +1,13 @@
 package com.module.media3
 
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.PickVisualMediaRequest
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
+import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.media3.common.AudioAttributes
+import androidx.media3.common.C
 import androidx.media3.common.DeviceInfo
-import androidx.media3.common.Format
 import androidx.media3.common.MediaItem
 import androidx.media3.common.MediaMetadata
 import androidx.media3.common.Metadata
@@ -22,91 +20,120 @@ import androidx.media3.common.Tracks
 import androidx.media3.common.VideoSize
 import androidx.media3.common.text.CueGroup
 import androidx.media3.common.util.UnstableApi
-import androidx.media3.exoplayer.DecoderCounters
-import androidx.media3.exoplayer.DecoderReuseEvaluation
+import androidx.media3.datasource.DefaultHttpDataSource
 import androidx.media3.exoplayer.ExoPlayer
-import androidx.media3.exoplayer.analytics.AnalyticsListener
-import androidx.media3.exoplayer.source.LoadEventInfo
-import androidx.media3.exoplayer.source.MediaLoadData
-import com.module.media3.databinding.ActivityMedia3SampleBinding
-import java.io.IOException
-import java.util.UUID
+import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
+import androidx.media3.exoplayer.source.ProgressiveMediaSource
+import com.module.media3.databinding.ActivityNetWorkBinding
 
-class Media3SampleActivity : AppCompatActivity() {
+class NetWorkActivity : AppCompatActivity() {
 
-    private lateinit var mDataBinding: ActivityMedia3SampleBinding
-    private lateinit var mPickPlayFile: ActivityResultLauncher<PickVisualMediaRequest>
-    private lateinit var mPlayer: ExoPlayer
-    private var videoMediaItem: MediaItem? = null
+    private lateinit var mDataBinding: ActivityNetWorkBinding
+    private val videoUrl =
+        "https://album-dev.attrsense.com/cloud/v1/multifile/0f4edba49db82026be5511c7498b4b675648a4af9e5b063e2697a4a248706dda"
+    private val userToken =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo1NDgzODE4Nzc4NzA3OTI3MDQsImlzcyI6ImF0dHJzZW5zZSIsImV4cCI6MTcyMjc1NTQyMH0.JzBY1D1FtcqB7ZrQ1KGrVPw76zM7kJlvC3d8Kji2fJI"
+
+    val videoUrl2 = "https://minigame.vip/Uploads/images/2021/09/18/1631951892_page_img.mp4"
+
+    private val mHeaders = mapOf(
+        "Platform" to "Android",
+        "Authorization" to userToken
+    )
 
 
-    @UnstableApi
+    private lateinit var mPayer: ExoPlayer
+
+    @androidx.annotation.OptIn(androidx.media3.common.util.UnstableApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mDataBinding = DataBindingUtil.setContentView(this, R.layout.activity_media3_sample)
+        mDataBinding = DataBindingUtil.setContentView(this, R.layout.activity_net_work)
 
-        mPlayer = ExoPlayer.Builder(this).build().apply {
-            addListener(mPlayListener)
-            addAnalyticsListener(mAnalyticsListener)
+        mPayer = ExoPlayer.Builder(this)
+            .setMediaSourceFactory(DefaultMediaSourceFactory(this))
+            .setWakeMode(C.WAKE_MODE_NETWORK)
+            .build()
+            .also {
+                it.addListener(mPlayListener)
+                it.repeatMode = Player.REPEAT_MODE_ONE
 
-            repeatMode = Player.REPEAT_MODE_OFF
-        }
-        //单个文件
-        mPickPlayFile = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) {
-            it?.also { uri ->
-                videoMediaItem = MediaItem.Builder().let { builder ->
-                    builder.setMediaId("$uri")
-                    builder.setUri(uri)
-                    builder.setDrmConfiguration(
-                        MediaItem.DrmConfiguration.Builder(UUID.randomUUID())
-                            .setLicenseRequestHeaders(
-                                mapOf(
-                                    "" to "",
-                                    "" to ""
-                                )
-                            )
-                            .build()
-                    )
-                    builder.build()
-                }
-                loadVideo()
+                //播放带请求头的网络视频
+                val dataSource=DefaultHttpDataSource.Factory()
+                    .setDefaultRequestProperties(mHeaders)
+                    .setAllowCrossProtocolRedirects(true)
+                    .setConnectTimeoutMs(30000)
+                    .setReadTimeoutMs(30000)
+//                    .createDataSource()
+
+                val mediaSource=ProgressiveMediaSource.Factory(dataSource)
+                    .createMediaSource(MediaItem.fromUri(videoUrl))
+                it.setMediaSource(mediaSource)
+
+//                val dataSpec=DataSpec(Uri.parse(videoUrl))
+//                dataSpec.buildUpon()
+//                    .setHttpRequestHeaders(mHeaders)
+//                    .build()
+//                dataSource.open(dataSpec)
+
+
+
+                //方式一：
+//                val mediaItem = MediaItem.Builder().apply {
+//                    setUri(Uri.parse(videoUrl2))
+//                    setMediaMetadata(MediaMetadata.Builder().setTitle("播放网络视频").build())
+//                    setMimeType("video/mp4")
+//                }.build()
+//                it.setMediaItem(mediaItem)
+
+
+                //方式二：
+//                val dataSourceFactory=DefaultDataSource.Factory(this)
+//                val mediaSource=ProgressiveMediaSource.Factory(dataSourceFactory)
+//                    .createMediaSource(MediaItem.fromUri(videoUrl2))
+//                it.setMediaSource(mediaSource)
+
+                it.setVideoTextureView(mDataBinding.textureView)
+                it.prepare()
             }
-        }
+    }
 
-        mDataBinding.acBtnSearch.setOnClickListener {
-            //验证照片选择器在设备上是否可用
-            if (ActivityResultContracts.PickVisualMedia.isPhotoPickerAvailable()) {
-                mPickPlayFile.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.VideoOnly))
-            } else {
-                Log.i("print_logs", "setCallback: 系统不适用")
-            }
-        }
+    fun onClickPlay(view: View) {
+        mPayer.play()
+    }
 
-        mDataBinding.acBtnPlay.setOnClickListener {
-            mPlayer.prepare()
-            mPlayer.play()
-        }
-
-        mDataBinding.acBtnPause.setOnClickListener {
-            mPlayer.pause()
-        }
-
-        mDataBinding.acBtnStop.setOnClickListener {
-            mPlayer.stop()
+    fun onClickPause(view: View) {
+        if (mPayer.isPlaying) {
+            mPayer.pause()
         }
     }
 
-    @UnstableApi
-    private fun loadVideo() {
-        videoMediaItem?.also {
-            with(mPlayer) {
-                setMediaItem(it)
-                prepare()
-//                playWhenReady = true  // 设置当缓冲完毕后直接播放视频
-                setVideoSurfaceView(mDataBinding.surfaceView)
-                seekTo(0)
-            }
+    fun onClickStop(view: View) {
+        if (mPayer.isPlaying) {
+            mPayer.stop()
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        if (mPayer.isPlaying) {
+            mPayer.pause()
+        }
+
+    }
+
+    override fun onStop() {
+        super.onStop()
+        if (mPayer.isPlaying) {
+            mPayer.stop()
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        mPayer.release()
+
+        mDataBinding.unbind()
     }
 
     private val mPlayListener = @UnstableApi object : Player.Listener {
@@ -779,11 +806,11 @@ class Media3SampleActivity : AppCompatActivity() {
                 Player.STATE_ENDED -> {
                     if (BuildConfig.DEBUG) {
                         Log.i("print_logs", "onPlaybackStateChanged: Player.STATE_ENDED")
-                        with(mPlayer) {
-                            pause()
-                            clearMediaItems()
-                        }
-                        loadVideo()
+//                        with(mPlayer) {
+//                            pause()
+//                            clearMediaItems()
+//                        }
+//                        loadVideo()
                     }
                 }
 
@@ -1103,9 +1130,11 @@ class Media3SampleActivity : AppCompatActivity() {
             if (BuildConfig.DEBUG) {
                 Log.i(
                     "print_logs",
-                    "onRenderedFirstFrame: ${mPlayer.duration}, ${mPlayer.contentDuration}, ${mPlayer.currentPosition}, ${mPlayer.totalBufferedDuration}"
+                    "onRenderedFirstFrame: "
                 )
             }
+
+            //${mPlayer.duration}, ${mPlayer.contentDuration}, ${mPlayer.currentPosition}, ${mPlayer.totalBufferedDuration}
         }
 
         override fun onCues(cueGroup: CueGroup) {
@@ -1123,462 +1152,4 @@ class Media3SampleActivity : AppCompatActivity() {
         }
     }
 
-    private val mAnalyticsListener = @UnstableApi object : AnalyticsListener {
-
-        override fun onPlaybackStateChanged(eventTime: AnalyticsListener.EventTime, state: Int) {
-            super.onPlaybackStateChanged(eventTime, state)
-        }
-
-        override fun onPlayWhenReadyChanged(
-            eventTime: AnalyticsListener.EventTime,
-            playWhenReady: Boolean,
-            reason: Int
-        ) {
-            super.onPlayWhenReadyChanged(eventTime, playWhenReady, reason)
-        }
-
-        override fun onPlaybackSuppressionReasonChanged(
-            eventTime: AnalyticsListener.EventTime,
-            playbackSuppressionReason: Int
-        ) {
-            super.onPlaybackSuppressionReasonChanged(eventTime, playbackSuppressionReason)
-        }
-
-        override fun onIsPlayingChanged(
-            eventTime: AnalyticsListener.EventTime,
-            isPlaying: Boolean
-        ) {
-            super.onIsPlayingChanged(eventTime, isPlaying)
-        }
-
-        override fun onTimelineChanged(eventTime: AnalyticsListener.EventTime, reason: Int) {
-            super.onTimelineChanged(eventTime, reason)
-        }
-
-        override fun onMediaItemTransition(
-            eventTime: AnalyticsListener.EventTime,
-            mediaItem: MediaItem?,
-            reason: Int
-        ) {
-            super.onMediaItemTransition(eventTime, mediaItem, reason)
-        }
-
-        override fun onPositionDiscontinuity(
-            eventTime: AnalyticsListener.EventTime,
-            oldPosition: Player.PositionInfo,
-            newPosition: Player.PositionInfo,
-            reason: Int
-        ) {
-            super.onPositionDiscontinuity(eventTime, oldPosition, newPosition, reason)
-        }
-
-        override fun onPlaybackParametersChanged(
-            eventTime: AnalyticsListener.EventTime,
-            playbackParameters: PlaybackParameters
-        ) {
-            super.onPlaybackParametersChanged(eventTime, playbackParameters)
-        }
-
-        override fun onSeekBackIncrementChanged(
-            eventTime: AnalyticsListener.EventTime,
-            seekBackIncrementMs: Long
-        ) {
-            super.onSeekBackIncrementChanged(eventTime, seekBackIncrementMs)
-        }
-
-        override fun onSeekForwardIncrementChanged(
-            eventTime: AnalyticsListener.EventTime,
-            seekForwardIncrementMs: Long
-        ) {
-            super.onSeekForwardIncrementChanged(eventTime, seekForwardIncrementMs)
-        }
-
-        override fun onMaxSeekToPreviousPositionChanged(
-            eventTime: AnalyticsListener.EventTime,
-            maxSeekToPreviousPositionMs: Long
-        ) {
-            super.onMaxSeekToPreviousPositionChanged(eventTime, maxSeekToPreviousPositionMs)
-        }
-
-        override fun onRepeatModeChanged(eventTime: AnalyticsListener.EventTime, repeatMode: Int) {
-            super.onRepeatModeChanged(eventTime, repeatMode)
-        }
-
-        override fun onShuffleModeChanged(
-            eventTime: AnalyticsListener.EventTime,
-            shuffleModeEnabled: Boolean
-        ) {
-            super.onShuffleModeChanged(eventTime, shuffleModeEnabled)
-        }
-
-        override fun onIsLoadingChanged(
-            eventTime: AnalyticsListener.EventTime,
-            isLoading: Boolean
-        ) {
-            super.onIsLoadingChanged(eventTime, isLoading)
-        }
-
-        override fun onAvailableCommandsChanged(
-            eventTime: AnalyticsListener.EventTime,
-            availableCommands: Player.Commands
-        ) {
-            super.onAvailableCommandsChanged(eventTime, availableCommands)
-        }
-
-        override fun onPlayerError(
-            eventTime: AnalyticsListener.EventTime,
-            error: PlaybackException
-        ) {
-            super.onPlayerError(eventTime, error)
-        }
-
-        override fun onPlayerErrorChanged(
-            eventTime: AnalyticsListener.EventTime,
-            error: PlaybackException?
-        ) {
-            super.onPlayerErrorChanged(eventTime, error)
-        }
-
-        override fun onTracksChanged(eventTime: AnalyticsListener.EventTime, tracks: Tracks) {
-            super.onTracksChanged(eventTime, tracks)
-        }
-
-        override fun onTrackSelectionParametersChanged(
-            eventTime: AnalyticsListener.EventTime,
-            trackSelectionParameters: TrackSelectionParameters
-        ) {
-            super.onTrackSelectionParametersChanged(eventTime, trackSelectionParameters)
-        }
-
-        override fun onMediaMetadataChanged(
-            eventTime: AnalyticsListener.EventTime,
-            mediaMetadata: MediaMetadata
-        ) {
-            super.onMediaMetadataChanged(eventTime, mediaMetadata)
-        }
-
-        override fun onPlaylistMetadataChanged(
-            eventTime: AnalyticsListener.EventTime,
-            playlistMetadata: MediaMetadata
-        ) {
-            super.onPlaylistMetadataChanged(eventTime, playlistMetadata)
-        }
-
-        override fun onLoadStarted(
-            eventTime: AnalyticsListener.EventTime,
-            loadEventInfo: LoadEventInfo,
-            mediaLoadData: MediaLoadData
-        ) {
-            super.onLoadStarted(eventTime, loadEventInfo, mediaLoadData)
-        }
-
-        override fun onLoadCompleted(
-            eventTime: AnalyticsListener.EventTime,
-            loadEventInfo: LoadEventInfo,
-            mediaLoadData: MediaLoadData
-        ) {
-            super.onLoadCompleted(eventTime, loadEventInfo, mediaLoadData)
-        }
-
-        override fun onLoadCanceled(
-            eventTime: AnalyticsListener.EventTime,
-            loadEventInfo: LoadEventInfo,
-            mediaLoadData: MediaLoadData
-        ) {
-            super.onLoadCanceled(eventTime, loadEventInfo, mediaLoadData)
-        }
-
-        override fun onLoadError(
-            eventTime: AnalyticsListener.EventTime,
-            loadEventInfo: LoadEventInfo,
-            mediaLoadData: MediaLoadData,
-            error: IOException,
-            wasCanceled: Boolean
-        ) {
-            super.onLoadError(eventTime, loadEventInfo, mediaLoadData, error, wasCanceled)
-        }
-
-        override fun onDownstreamFormatChanged(
-            eventTime: AnalyticsListener.EventTime,
-            mediaLoadData: MediaLoadData
-        ) {
-            super.onDownstreamFormatChanged(eventTime, mediaLoadData)
-        }
-
-        override fun onUpstreamDiscarded(
-            eventTime: AnalyticsListener.EventTime,
-            mediaLoadData: MediaLoadData
-        ) {
-            super.onUpstreamDiscarded(eventTime, mediaLoadData)
-        }
-
-        override fun onBandwidthEstimate(
-            eventTime: AnalyticsListener.EventTime,
-            totalLoadTimeMs: Int,
-            totalBytesLoaded: Long,
-            bitrateEstimate: Long
-        ) {
-            super.onBandwidthEstimate(eventTime, totalLoadTimeMs, totalBytesLoaded, bitrateEstimate)
-        }
-
-        override fun onMetadata(eventTime: AnalyticsListener.EventTime, metadata: Metadata) {
-            super.onMetadata(eventTime, metadata)
-        }
-
-        override fun onCues(eventTime: AnalyticsListener.EventTime, cueGroup: CueGroup) {
-            super.onCues(eventTime, cueGroup)
-        }
-
-        override fun onAudioEnabled(
-            eventTime: AnalyticsListener.EventTime,
-            decoderCounters: DecoderCounters
-        ) {
-            super.onAudioEnabled(eventTime, decoderCounters)
-        }
-
-        override fun onAudioDecoderInitialized(
-            eventTime: AnalyticsListener.EventTime,
-            decoderName: String,
-            initializedTimestampMs: Long,
-            initializationDurationMs: Long
-        ) {
-            super.onAudioDecoderInitialized(
-                eventTime,
-                decoderName,
-                initializedTimestampMs,
-                initializationDurationMs
-            )
-        }
-
-
-        override fun onAudioInputFormatChanged(
-            eventTime: AnalyticsListener.EventTime,
-            format: Format,
-            decoderReuseEvaluation: DecoderReuseEvaluation?
-        ) {
-            super.onAudioInputFormatChanged(eventTime, format, decoderReuseEvaluation)
-        }
-
-        override fun onAudioPositionAdvancing(
-            eventTime: AnalyticsListener.EventTime,
-            playoutStartSystemTimeMs: Long
-        ) {
-            super.onAudioPositionAdvancing(eventTime, playoutStartSystemTimeMs)
-        }
-
-        override fun onAudioUnderrun(
-            eventTime: AnalyticsListener.EventTime,
-            bufferSize: Int,
-            bufferSizeMs: Long,
-            elapsedSinceLastFeedMs: Long
-        ) {
-            super.onAudioUnderrun(eventTime, bufferSize, bufferSizeMs, elapsedSinceLastFeedMs)
-        }
-
-        override fun onAudioDecoderReleased(
-            eventTime: AnalyticsListener.EventTime,
-            decoderName: String
-        ) {
-            super.onAudioDecoderReleased(eventTime, decoderName)
-        }
-
-        override fun onAudioDisabled(
-            eventTime: AnalyticsListener.EventTime,
-            decoderCounters: DecoderCounters
-        ) {
-            super.onAudioDisabled(eventTime, decoderCounters)
-        }
-
-        override fun onAudioSessionIdChanged(
-            eventTime: AnalyticsListener.EventTime,
-            audioSessionId: Int
-        ) {
-            super.onAudioSessionIdChanged(eventTime, audioSessionId)
-        }
-
-        override fun onAudioAttributesChanged(
-            eventTime: AnalyticsListener.EventTime,
-            audioAttributes: AudioAttributes
-        ) {
-            super.onAudioAttributesChanged(eventTime, audioAttributes)
-        }
-
-        override fun onSkipSilenceEnabledChanged(
-            eventTime: AnalyticsListener.EventTime,
-            skipSilenceEnabled: Boolean
-        ) {
-            super.onSkipSilenceEnabledChanged(eventTime, skipSilenceEnabled)
-        }
-
-        override fun onAudioSinkError(
-            eventTime: AnalyticsListener.EventTime,
-            audioSinkError: Exception
-        ) {
-            super.onAudioSinkError(eventTime, audioSinkError)
-        }
-
-        override fun onAudioCodecError(
-            eventTime: AnalyticsListener.EventTime,
-            audioCodecError: Exception
-        ) {
-            super.onAudioCodecError(eventTime, audioCodecError)
-        }
-
-        override fun onVolumeChanged(eventTime: AnalyticsListener.EventTime, volume: Float) {
-            super.onVolumeChanged(eventTime, volume)
-        }
-
-        override fun onDeviceInfoChanged(
-            eventTime: AnalyticsListener.EventTime,
-            deviceInfo: DeviceInfo
-        ) {
-            super.onDeviceInfoChanged(eventTime, deviceInfo)
-        }
-
-        override fun onDeviceVolumeChanged(
-            eventTime: AnalyticsListener.EventTime,
-            volume: Int,
-            muted: Boolean
-        ) {
-            super.onDeviceVolumeChanged(eventTime, volume, muted)
-        }
-
-        override fun onVideoEnabled(
-            eventTime: AnalyticsListener.EventTime,
-            decoderCounters: DecoderCounters
-        ) {
-            super.onVideoEnabled(eventTime, decoderCounters)
-        }
-
-        override fun onVideoDecoderInitialized(
-            eventTime: AnalyticsListener.EventTime,
-            decoderName: String,
-            initializedTimestampMs: Long,
-            initializationDurationMs: Long
-        ) {
-            super.onVideoDecoderInitialized(
-                eventTime,
-                decoderName,
-                initializedTimestampMs,
-                initializationDurationMs
-            )
-        }
-
-
-        override fun onVideoInputFormatChanged(
-            eventTime: AnalyticsListener.EventTime,
-            format: Format,
-            decoderReuseEvaluation: DecoderReuseEvaluation?
-        ) {
-            super.onVideoInputFormatChanged(eventTime, format, decoderReuseEvaluation)
-        }
-
-        override fun onDroppedVideoFrames(
-            eventTime: AnalyticsListener.EventTime,
-            droppedFrames: Int,
-            elapsedMs: Long
-        ) {
-            super.onDroppedVideoFrames(eventTime, droppedFrames, elapsedMs)
-        }
-
-        override fun onVideoDecoderReleased(
-            eventTime: AnalyticsListener.EventTime,
-            decoderName: String
-        ) {
-            super.onVideoDecoderReleased(eventTime, decoderName)
-        }
-
-        override fun onVideoDisabled(
-            eventTime: AnalyticsListener.EventTime,
-            decoderCounters: DecoderCounters
-        ) {
-            super.onVideoDisabled(eventTime, decoderCounters)
-        }
-
-        override fun onVideoFrameProcessingOffset(
-            eventTime: AnalyticsListener.EventTime,
-            totalProcessingOffsetUs: Long,
-            frameCount: Int
-        ) {
-            super.onVideoFrameProcessingOffset(eventTime, totalProcessingOffsetUs, frameCount)
-        }
-
-        override fun onVideoCodecError(
-            eventTime: AnalyticsListener.EventTime,
-            videoCodecError: Exception
-        ) {
-            super.onVideoCodecError(eventTime, videoCodecError)
-        }
-
-        override fun onRenderedFirstFrame(
-            eventTime: AnalyticsListener.EventTime,
-            output: Any,
-            renderTimeMs: Long
-        ) {
-            super.onRenderedFirstFrame(eventTime, output, renderTimeMs)
-        }
-
-        override fun onVideoSizeChanged(
-            eventTime: AnalyticsListener.EventTime,
-            videoSize: VideoSize
-        ) {
-            super.onVideoSizeChanged(eventTime, videoSize)
-        }
-
-
-        override fun onSurfaceSizeChanged(
-            eventTime: AnalyticsListener.EventTime,
-            width: Int,
-            height: Int
-        ) {
-            super.onSurfaceSizeChanged(eventTime, width, height)
-        }
-
-        override fun onDrmSessionAcquired(eventTime: AnalyticsListener.EventTime, state: Int) {
-            super.onDrmSessionAcquired(eventTime, state)
-        }
-
-        override fun onDrmKeysLoaded(eventTime: AnalyticsListener.EventTime) {
-            super.onDrmKeysLoaded(eventTime)
-        }
-
-        override fun onDrmSessionManagerError(
-            eventTime: AnalyticsListener.EventTime,
-            error: Exception
-        ) {
-            super.onDrmSessionManagerError(eventTime, error)
-        }
-
-        override fun onDrmKeysRestored(eventTime: AnalyticsListener.EventTime) {
-            super.onDrmKeysRestored(eventTime)
-        }
-
-        override fun onDrmKeysRemoved(eventTime: AnalyticsListener.EventTime) {
-            super.onDrmKeysRemoved(eventTime)
-        }
-
-        override fun onDrmSessionReleased(eventTime: AnalyticsListener.EventTime) {
-            super.onDrmSessionReleased(eventTime)
-        }
-
-        override fun onPlayerReleased(eventTime: AnalyticsListener.EventTime) {
-            super.onPlayerReleased(eventTime)
-        }
-
-        override fun onEvents(player: Player, events: AnalyticsListener.Events) {
-            super.onEvents(player, events)
-        }
-    }
-
-    override fun onPause() {
-        super.onPause()
-        if (mPlayer.isPlaying) {
-            mPlayer.stop()
-        }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        mPlayer.release()
-    }
 }

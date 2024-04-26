@@ -26,5 +26,11 @@
             android:layout_height="wrap_content"
             android:text="ViewPager2 Video" />
 
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/acBtn_play_video_4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="网络视频播放" />
+
     </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>

@@ -25,5 +25,9 @@ class MainActivity : AppCompatActivity() {
         mDataBinding.acBtnPlayVideo3.setOnClickListener {
             startActivity(Intent(this, ViewPager2Activity::class.java))
         }
+
+        mDataBinding.acBtnPlayVideo4.setOnClickListener {
+            startActivity(Intent(this,NetWorkActivity::class.java))
+        }
     }
 }
