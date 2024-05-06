@@ -27,7 +27,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         mDataBinding.acBtnPlayVideo4.setOnClickListener {
-            startActivity(Intent(this,NetWorkActivity::class.java))
+            startActivity(Intent(this, NetWorkActivity::class.java))
+        }
+
+        mDataBinding.acBtnPlayVideo5.setOnClickListener {
+            startActivity(Intent(this, AssetsActivity::class.java))
         }
     }
 }

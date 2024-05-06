@@ -14,12 +14,16 @@
         tools:ignore="ProtectedPermissions" />
 
     <application
+        android:name=".Media3Application"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Synthesisproject">
+        <activity
+            android:name=".AssetsActivity"
+            android:exported="false" />
         <activity
             android:name=".NetWorkActivity"
             android:exported="false" />
