@@ -16,6 +16,7 @@ import androidx.media3.common.VideoSize
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.datasource.AssetDataSource
 import androidx.media3.datasource.DataSource
+import androidx.media3.datasource.DataSpec
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.exoplayer.source.ProgressiveMediaSource
@@ -53,14 +54,14 @@ class AssetsActivity : AppCompatActivity() {
 
             //方式一：
             val assetDataSource = AssetDataSource(this)
-//            assetDataSource.open(DataSpec(Uri.parse("asset:///video_01.mp4")))
+            assetDataSource.open(DataSpec(Uri.parse("asset:///video_01.mp4")))
 
             val dataSourceFactory = DataSource.Factory { assetDataSource }
 
             val mediaSource = ProgressiveMediaSource.Factory(dataSourceFactory)
                 .createMediaSource(
                     MediaItem.Builder()
-                        .setUri(Uri.parse("asset:///video_01.mp4"))
+                        .setUri(assetDataSource.uri)
                         .setClippingConfiguration(MediaItem.ClippingConfiguration.Builder().setEndPositionMs(1000).build())
                         .build()
                 )
