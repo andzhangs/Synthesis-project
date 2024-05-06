@@ -65,10 +65,11 @@ class AssetsActivity : AppCompatActivity() {
                         .setClippingConfiguration(MediaItem.ClippingConfiguration.Builder().setEndPositionMs(1000).build())
                         .build()
                 )
+            //自定义DataSource方式
             mPayer.setMediaSource(mediaSource)
 
 
-            //方式二：
+            //方式二：推荐使用
 //            mPayer.setMediaItem(MediaItem.Builder()
 //                .setUri(Uri.parse("asset:///video_01.mp4"))
 //                .build())
