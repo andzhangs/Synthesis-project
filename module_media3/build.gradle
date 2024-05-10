@@ -24,11 +24,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '17'
     }
 
     buildFeatures {
@@ -49,14 +49,6 @@ dependencies {
 
     def media3_version = "1.1.1"
 
-//    implementation("androidx.media3:media3-common:$media3_version")
-//    implementation("androidx.media3:media3-transformer:$media3_version")
-//    implementation("androidx.media3:media3-effect:$media3_version")
-//    implementation("androidx.media3:media3-exoplayer:$media3_version")
-//    implementation("androidx.media3:media3-exoplayer-dash:$media3_version")
-//    implementation("androidx.media3:media3-ui:$media3_version")
-//    implementation("androidx.media3:media3-session:$media3_version")
-
     // For media playback using ExoPlayer
     implementation "androidx.media3:media3-exoplayer:$media3_version"
 
@@ -74,6 +66,18 @@ dependencies {
     // For ad insertion using the Interactive Media Ads SDK with ExoPlayer
 //    implementation "androidx.media3:media3-exoplayer-ima:$media3_version"
 
+    // Common functionality used across multiple media libraries
+    implementation "androidx.media3:media3-common:$media3_version"
+    // Common functionality for reading and writing media containers
+    implementation "androidx.media3:media3-container:$media3_version"
+    // Common functionality for media database components
+    implementation "androidx.media3:media3-database:$media3_version"
+    // Common functionality for media decoders
+    implementation "androidx.media3:media3-decoder:$media3_version"
+
+
+    // Common functionality for loading data
+    implementation "androidx.media3:media3-datasource:$media3_version"
     // For loading data using the Cronet network stack
     implementation "androidx.media3:media3-datasource-cronet:$media3_version"
     // For loading data using the OkHttp network stack
@@ -111,15 +115,4 @@ dependencies {
     implementation "androidx.media3:media3-test-utils:$media3_version"
     // Utilities for testing media components (including ExoPlayer components) via Robolectric
     implementation "androidx.media3:media3-test-utils-robolectric:$media3_version"
-
-    // Common functionality for reading and writing media containers
-    implementation "androidx.media3:media3-container:$media3_version"
-    // Common functionality for media database components
-    implementation "androidx.media3:media3-database:$media3_version"
-    // Common functionality for media decoders
-    implementation "androidx.media3:media3-decoder:$media3_version"
-    // Common functionality for loading data
-    implementation "androidx.media3:media3-datasource:$media3_version"
-    // Common functionality used across multiple media libraries
-    implementation "androidx.media3:media3-common:$media3_version"
 }

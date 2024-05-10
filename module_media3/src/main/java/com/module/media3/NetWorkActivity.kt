@@ -23,9 +23,9 @@ class NetWorkActivity : AppCompatActivity() {
 
     private lateinit var mDataBinding: ActivityNetWorkBinding
     private val videoUrl =
-        "https://album-dev.attrsense.com/cloud/v1/multifile/9e541dfaa77345fd0472f6948eddfa78341642446e1f7ec3f24e4a6761873610"
+        "https://album-dev.attrsense.com/cloud/v1/multifile/3bcbe3c812887a021816a584340d29a1bbe054e99a0f421f901c345b1a49a6e1"
     private val userToken =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo1NDgzODE4Nzc4NzA3OTI3MDQsImlzcyI6ImF0dHJzZW5zZSIsImV4cCI6MTcyMzEwMzAzOH0.EalcSnv-I6hfepoT5b7N-c1YHBqykbNZQcvlBJsRqkY"
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo1NDgzODE4Nzc4NzA3OTI3MDQsImlzcyI6ImF0dHJzZW5zZSIsImV4cCI6MTcyMzc4Njc4NX0.l805rUrtx6wxIe7NaNsE7Jd78QFarZ4jVtBFUugSO74"
 
     val videoUrl2 = "https://minigame.vip/Uploads/images/2021/09/18/1631951892_page_img.mp4"
 
@@ -35,14 +35,14 @@ class NetWorkActivity : AppCompatActivity() {
     )
 
 
-    private lateinit var mPayer: ExoPlayer
+    private lateinit var mPlayer: ExoPlayer
 
     @androidx.annotation.OptIn(androidx.media3.common.util.UnstableApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mDataBinding = DataBindingUtil.setContentView(this, R.layout.activity_net_work)
 
-        mPayer = ExoPlayer.Builder(this)
+        mPlayer = ExoPlayer.Builder(this)
             .setMediaSourceFactory(DefaultMediaSourceFactory(this))
             .setWakeMode(C.WAKE_MODE_NETWORK)
             .build()
@@ -86,51 +86,54 @@ class NetWorkActivity : AppCompatActivity() {
 //                it.setMediaSource(mediaSource)
 //
                 it.setVideoTextureView(mDataBinding.textureView)
+//                it.playWhenReady = true
                 it.prepare()
             }
     }
 
     fun onClickPlay(view: View) {
-        mPayer.play()
+        mPlayer.play()
     }
 
     fun onClickPause(view: View) {
-        if (mPayer.isPlaying) {
-            mPayer.pause()
+        if (mPlayer.isPlaying) {
+            mPlayer.pause()
         }
     }
 
     fun onClickStop(view: View) {
-        if (mPayer.isPlaying) {
-            mPayer.stop()
+        if (mPlayer.isPlaying) {
+            mPlayer.stop()
         }
     }
 
     fun onClickRetry(view: View) {
-        mPayer.prepare()
+        if (mPlayer.playbackState == Player.STATE_IDLE) {
+            mPlayer.prepare()
+        }
     }
 
 
     override fun onPause() {
         super.onPause()
-        if (mPayer.isPlaying) {
-            mPayer.pause()
-            mPayer.removeListener(mPlayListener)
+        if (mPlayer.isPlaying) {
+            mPlayer.pause()
+            mPlayer.removeListener(mPlayListener)
         }
     }
 
     override fun onStop() {
         super.onStop()
-        if (mPayer.isPlaying) {
-            mPayer.stop()
+        if (mPlayer.isPlaying) {
+            mPlayer.stop()
         }
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        mPayer.removeMediaItem(0)
-
-        mPayer.release()
+        mPlayer.removeMediaItem(0)
+        mPlayer.removeListener(mPlayListener)
+        mPlayer.release()
 
         mDataBinding.unbind()
     }
@@ -233,7 +236,7 @@ class NetWorkActivity : AppCompatActivity() {
         private val mProgressRunnable = object : Runnable {
             override fun run() {
                 if (BuildConfig.DEBUG) {
-                    Log.e("print_logs", "当前播放进度: ${mPayer.currentPosition}")
+                    Log.e("print_logs", "当前播放进度: ${mPlayer.currentPosition}")
 
                     mHandler.postDelayed(this, 1000L)
                 }
@@ -299,6 +302,4 @@ class NetWorkActivity : AppCompatActivity() {
             //${mPlayer.duration}, ${mPlayer.contentDuration}, ${mPlayer.currentPosition}, ${mPlayer.totalBufferedDuration}
         }
     }
-
-
 }

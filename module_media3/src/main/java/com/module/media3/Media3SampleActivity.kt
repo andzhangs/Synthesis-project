@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.OptIn
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.media3.common.AudioAttributes
@@ -28,16 +29,21 @@ import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.analytics.AnalyticsListener
 import androidx.media3.exoplayer.source.LoadEventInfo
 import androidx.media3.exoplayer.source.MediaLoadData
+import androidx.media3.transformer.Composition
+import androidx.media3.transformer.ExportException
+import androidx.media3.transformer.ExportResult
+import androidx.media3.transformer.TransformationRequest
+import androidx.media3.transformer.Transformer
 import com.module.media3.databinding.ActivityMedia3SampleBinding
 import java.io.IOException
-import java.util.UUID
 
-class Media3SampleActivity : AppCompatActivity() {
+@UnstableApi class Media3SampleActivity : AppCompatActivity() {
 
     private lateinit var mDataBinding: ActivityMedia3SampleBinding
     private lateinit var mPickPlayFile: ActivityResultLauncher<PickVisualMediaRequest>
     private lateinit var mPlayer: ExoPlayer
-    private var videoMediaItem: MediaItem? = null
+    private lateinit var videoMediaItem: MediaItem
+    private val mTransformerBuilder by lazy{Transformer.Builder(this)}
 
 
     @UnstableApi
@@ -57,16 +63,16 @@ class Media3SampleActivity : AppCompatActivity() {
                 videoMediaItem = MediaItem.Builder().let { builder ->
                     builder.setMediaId("$uri")
                     builder.setUri(uri)
-                    builder.setDrmConfiguration(
-                        MediaItem.DrmConfiguration.Builder(UUID.randomUUID())
-                            .setLicenseRequestHeaders(
-                                mapOf(
-                                    "" to "",
-                                    "" to ""
-                                )
-                            )
-                            .build()
-                    )
+//                    builder.setDrmConfiguration(
+//                        MediaItem.DrmConfiguration.Builder(UUID.randomUUID())
+//                            .setLicenseRequestHeaders(
+//                                mapOf(
+//                                    "" to "",
+//                                    "" to ""
+//                                )
+//                            )
+//                            .build()
+//                    )
                     builder.build()
                 }
                 loadVideo()
@@ -80,6 +86,20 @@ class Media3SampleActivity : AppCompatActivity() {
             } else {
                 Log.i("print_logs", "setCallback: 系统不适用")
             }
+        }
+
+        mDataBinding.acBtnTransformer.setOnClickListener {
+//            val mTransformer=mTransformerBuilder.let {
+//                it.setTransformationRequest(
+//                    TransformationRequest.Builder()
+//                        .setAudioMimeType(MimeTypes.VIDEO_H265)
+//                    .build()
+//                )
+//                it.addListener(mTransformerListener)
+//                it.build()
+//            }
+//
+//            mTransformer.start(videoMediaItem,"${this.getExternalFilesDir("")?.absolutePath.toString()}")
         }
 
         mDataBinding.acBtnPlay.setOnClickListener {
@@ -98,7 +118,7 @@ class Media3SampleActivity : AppCompatActivity() {
 
     @UnstableApi
     private fun loadVideo() {
-        videoMediaItem?.also {
+        videoMediaItem.also {
             with(mPlayer) {
                 setMediaItem(it)
                 prepare()
@@ -1123,6 +1143,33 @@ class Media3SampleActivity : AppCompatActivity() {
         }
     }
 
+    private val mTransformerListener= @UnstableApi object :Transformer.Listener{
+
+        override fun onCompleted(composition: Composition, exportResult: ExportResult) {
+            super.onCompleted(composition, exportResult)
+        }
+
+        override fun onError(
+            composition: Composition,
+            exportResult: ExportResult,
+            exportException: ExportException
+        ) {
+            super.onError(composition, exportResult, exportException)
+        }
+
+        override fun onFallbackApplied(
+            composition: Composition,
+            originalTransformationRequest: TransformationRequest,
+            fallbackTransformationRequest: TransformationRequest
+        ) {
+            super.onFallbackApplied(
+                composition,
+                originalTransformationRequest,
+                fallbackTransformationRequest
+            )
+        }
+    }
+
     private val mAnalyticsListener = @UnstableApi object : AnalyticsListener {
 
         override fun onPlaybackStateChanged(eventTime: AnalyticsListener.EventTime, state: Int) {
@@ -1577,8 +1624,11 @@ class Media3SampleActivity : AppCompatActivity() {
         }
     }
 
+    @OptIn(UnstableApi::class)
     override fun onDestroy() {
         super.onDestroy()
+        mPlayer.removeListener(mPlayListener)
+//        mTransformerBuilder.removeListener(mTransformerListener)
         mPlayer.release()
     }
 }

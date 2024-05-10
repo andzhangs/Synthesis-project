@@ -44,17 +44,17 @@ class AssetsActivity : AppCompatActivity() {
             .build()
             .also {
                 it.addListener(mPlayListener)
-                it.repeatMode = Player.REPEAT_MODE_ONE
+//                it.repeatMode = Player.REPEAT_MODE_ONE
                 it.videoScalingMode = C.VIDEO_SCALING_MODE_SCALE_TO_FIT_WITH_CROPPING
             }
-        assets.openFd("video_01.mp4").let {
+        assets.openFd("video_02.mp4").let {
             if (BuildConfig.DEBUG) {
                 Log.i("print_logs", "文件大小: ${it.declaredLength}")
             }
 
             //方式一：
             val assetDataSource = AssetDataSource(this)
-            assetDataSource.open(DataSpec(Uri.parse("asset:///video_01.mp4")))
+            assetDataSource.open(DataSpec(Uri.parse("asset:///video_02.mp4")))
 
             val dataSourceFactory = DataSource.Factory { assetDataSource }
 
@@ -74,7 +74,6 @@ class AssetsActivity : AppCompatActivity() {
 //                .setUri(Uri.parse("asset:///video_01.mp4"))
 //                .build())
 
-
             mPayer.setVideoTextureView(mDataBinding.textureView)
             mPayer.prepare()
         }
@@ -85,7 +84,11 @@ class AssetsActivity : AppCompatActivity() {
     }
 
     fun onClickPlay(view: View) {
-        mPayer.play()
+        if (mPayer.playbackState==Player.STATE_IDLE) {
+            mPayer.prepare()
+        }else{
+            mPayer.play()
+        }
     }
 
     fun onClickPause(view: View) {
