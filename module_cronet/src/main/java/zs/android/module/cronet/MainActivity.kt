@@ -1,4 +1,4 @@
-package zs.android.module.widget
+package zs.android.module.cronet
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -8,7 +8,6 @@ import android.os.Message
 import android.util.Log
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatTextView
-import com.google.android.gms.net.CronetProviderInstaller
 import org.chromium.net.CronetEngine
 import org.chromium.net.CronetException
 import org.chromium.net.UrlRequest
@@ -16,39 +15,50 @@ import org.chromium.net.UrlResponseInfo
 import java.nio.ByteBuffer
 import java.util.concurrent.Executors
 
-/**
- * 使用 Cronet 执行网络操作
- */
-class CronetActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity() {
 
-    private lateinit var mAcTvInfo: AppCompatTextView
-    private val executor = Executors.newSingleThreadExecutor()
+    private val mAcTvInfo by lazy { findViewById<AppCompatTextView>(R.id.acTv_net_info) }
 
     private val mHandler = Handler(Looper.getMainLooper()) {
         mAcTvInfo.text = it.obj.toString()
         true
     }
 
+    private val executor = Executors.newSingleThreadExecutor()
+
+    private var mRequest: UrlRequest? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_cronet)
-
-        mAcTvInfo = findViewById(R.id.acTv_net_info)
+        setContentView(R.layout.activity_main)
 
         findViewById<AppCompatButton>(R.id.acBtn_load).setOnClickListener {
-            CronetProviderInstaller.installProvider(this)
-            val myBuilder = CronetEngine.Builder(this)
-            val cronetEngine: CronetEngine = myBuilder.build()
-            val requestBuilder = cronetEngine.newUrlRequestBuilder(
-                "https://api.github.com/",
-                mUrlRequestCallback,
-                executor
-            )
-            val request = requestBuilder.build()
-            request.start()
+            if (mRequest != null) {
+                if (mRequest?.isDone==false) {
+                    mRequest?.cancel()
+                }
+                mRequest = null
+            }
 
-//            request.cancel()
+            mRequest = CronetEngine.Builder(this).build()
+                .newUrlRequestBuilder(
+                    "https://api.github.com/users/andzhangs",
+                    mUrlRequestCallback,
+                    executor
+                )
+                .setHttpMethod("GET")
+                .allowDirectExecutor()
+                .addHeader("Content-Type", "application/json")
+                .disableCache()
+                .build()
+            mRequest?.start()
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        mRequest?.cancel()
+        mRequest = null
     }
 
     private val mUrlRequestCallback = object : UrlRequest.Callback() {
@@ -61,21 +71,23 @@ class CronetActivity : AppCompatActivity() {
             info: UrlResponseInfo?,
             newLocationUrl: String?
         ) {
-            printStatus(request, "onRedirectReceived")
-            Log.i("print_logs", "CronetFragment::onRedirectReceived: $info")
-            strBuilder.append("onRedirectReceived").append("\n")
+//            printStatus(request, "onRedirectReceived")
+//            Log.i("print_logs", "CronetFragment::onRedirectReceived: $info")
+//            strBuilder.append("onRedirectReceived").append("\n")
 
             request?.followRedirect()
         }
 
         override fun onResponseStarted(request: UrlRequest?, info: UrlResponseInfo?) {
-            strBuilder.clear()
-
-            printStatus(request, "onResponseStarted")
-            Log.i("print_logs", "CronetFragment::onResponseStarted: $info")
-
-            strBuilder.append("onResponseStarted").append("\n")
-
+//            strBuilder.clear()
+//
+//            printStatus(request, "onResponseStarted")
+//            Log.i(
+//                "print_logs",
+//                "CronetFragment::onResponseStarted: ${info?.toString()?.replace(", ", "\n")}"
+//            )
+//
+//            strBuilder.append("onResponseStarted").append("\n")
             info?.also {
                 when (it.httpStatusCode) {
                     200 -> {
@@ -103,9 +115,10 @@ class CronetActivity : AppCompatActivity() {
             info: UrlResponseInfo?,
             byteBuffer: ByteBuffer?
         ) {
-            printStatus(request, "onReadCompleted")
-            Log.i("print_logs", "CronetFragment::onReadCompleted: $info")
-            strBuilder.append("onReadCompleted：$info")
+            strBuilder.clear()
+//            printStatus(request, "onReadCompleted")
+//            Log.i("print_logs", "CronetFragment::onReadCompleted: $info")
+//            strBuilder.append("onReadCompleted：$info")
 
             byteBuffer?.clear()
             request?.read(byteBuffer) //ByteBuffer.allocateDirect(102400)
@@ -113,9 +126,15 @@ class CronetActivity : AppCompatActivity() {
 
         override fun onSucceeded(request: UrlRequest?, info: UrlResponseInfo?) {
             printStatus(request, "onSucceeded")
-            Log.i("print_logs", "CronetFragment::onSucceeded: $info")
 
-            strBuilder.append("onSucceeded：$info")
+            val newInfo= info?.toString()?.replace(", ", "\n")
+
+            Log.i(
+                "print_logs",
+                "CronetFragment::onSucceeded: \n$newInfo"
+            )
+
+            strBuilder.append("onSucceeded：\n" + "$newInfo")
 
             mHandler.sendMessage(Message().apply {
                 this.obj = strBuilder.toString()

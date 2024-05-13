@@ -19,6 +19,7 @@
             <option value="$PROJECT_DIR$/module_coli" />
             <option value="$PROJECT_DIR$/module_constraintlayout" />
             <option value="$PROJECT_DIR$/module_core_ktx" />
+            <option value="$PROJECT_DIR$/module_cronet" />
             <option value="$PROJECT_DIR$/module_java11" />
             <option value="$PROJECT_DIR$/module_java8" />
             <option value="$PROJECT_DIR$/module_jdbc_mysql" />
@@ -31,6 +32,7 @@
             <option value="$PROJECT_DIR$/module_media3" />
             <option value="$PROJECT_DIR$/module_mediastore" />
             <option value="$PROJECT_DIR$/module_mlkit" />
+            <option value="$PROJECT_DIR$/module_nearby" />
             <option value="$PROJECT_DIR$/module_notification" />
             <option value="$PROJECT_DIR$/module_other" />
             <option value="$PROJECT_DIR$/module_permission" />

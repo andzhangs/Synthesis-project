@@ -37,9 +37,6 @@
             android:name=".CrossDeviceActivity"
             android:exported="false" />
         <activity
-            android:name=".CronetActivity"
-            android:exported="false" />
-        <activity
             android:name=".ImageLabelerActivity"
             android:exported="false" />
         <activity
