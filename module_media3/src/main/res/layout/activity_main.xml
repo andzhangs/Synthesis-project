@@ -36,6 +36,18 @@
             android:id="@+id/acBtn_play_video_5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="网络视频播放+缓存" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/acBtn_play_video_6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="下载网络视频" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/acBtn_play_video_7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="Assets视频播放" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>

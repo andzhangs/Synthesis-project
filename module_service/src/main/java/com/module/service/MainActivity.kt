@@ -45,6 +45,7 @@ class MainActivity : AppCompatActivity() {
 
         bindService(mBindIntent, mLifecycleServiceConnection, Service.BIND_AUTO_CREATE)
 
+
 //        MyJobService.start(this)
     }
 

@@ -115,4 +115,6 @@ dependencies {
     implementation "androidx.media3:media3-test-utils:$media3_version"
     // Utilities for testing media components (including ExoPlayer components) via Robolectric
     implementation "androidx.media3:media3-test-utils-robolectric:$media3_version"
+
+    implementation 'com.danikula:videocache:2.7.1'
 }

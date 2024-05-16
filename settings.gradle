@@ -4,7 +4,6 @@ pluginManagement {
         maven { url 'https://maven.aliyun.com/repository/public' }
         maven { url 'https://maven.aliyun.com/repository/central' }
         maven { url 'https://maven.aliyun.com/repository/google' }
-        maven { url 'https://maven.aliyun.com/repository/public' }
         maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
         maven {
             allowInsecureProtocol = true
@@ -27,7 +26,6 @@ dependencyResolutionManagement {
         maven { url 'https://maven.aliyun.com/repository/public' }
         maven { url 'https://maven.aliyun.com/repository/central' }
         maven { url 'https://maven.aliyun.com/repository/google' }
-        maven { url 'https://maven.aliyun.com/repository/public' }
         maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
         maven {
             allowInsecureProtocol = true
@@ -43,6 +41,29 @@ dependencyResolutionManagement {
         }
     }
 }
+// 自定义打包名称
+//    android.applicationVariants.all { variant ->
+//        variant.getPackageApplication().outputDirectory = new File(project.rootDir.absolutePath + "/apks")
+//        variant.outputs.all {
+//            outputFileName = "${buildType.name}_v${defaultConfig.versionName}_${defaultConfig.versionCode}.apk"
+//        }
+//    }
+//    applicationVariants.all { variant ->
+//        // 打包完成后复制到的目录
+//        def outputFileDir = "${project.projectDir.absolutePath}/release"
+//        // 打包完成后做的一些事,复制apk到指定文件夹
+//        variant.assemble.doLast {
+//            File out = new File(outputFileDir)
+//            copy {
+//                variant.outputs.forEach { file ->
+//                    copy {
+//                        from file.outputFile
+//                        into out
+//                    }1
+//                }
+//            }
+//        }
+//    }
 rootProject.name = "Synthesis-project"
 include ':app'
 include ':lib_base'

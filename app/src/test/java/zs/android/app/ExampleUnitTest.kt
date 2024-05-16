@@ -1,4 +1,4 @@
-package zs.android.synthesis
+package zs.android.app
 
 import org.junit.Test
 
