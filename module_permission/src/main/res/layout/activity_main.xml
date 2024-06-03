@@ -26,6 +26,13 @@
             android:gravity="center"
             android:text="StartIntentSenderForResult"
             android:textSize="12sp" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/managerAllFile"
+            android:layout_width="wrap_content"
+            android:layout_height="?attr/actionBarSize"
+            android:gravity="center"
+            android:text="ManagerAllFile"
+            android:textSize="12sp" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/onRequestPermission"

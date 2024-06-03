@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.ContactsContract
 import android.provider.MediaStore
+import android.provider.Settings
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
@@ -30,12 +31,14 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var startActivityForResult: ActivityResultLauncher<Intent>
     private lateinit var startIntentSenderForResult: ActivityResultLauncher<IntentSenderRequest>
+    private lateinit var startManagerAllFile:ActivityResultLauncher<Intent>
     private lateinit var requestPermission: ActivityResultLauncher<String>
     private lateinit var requestMultiplePermissions: ActivityResultLauncher<Array<String>>
     private lateinit var openDocument: ActivityResultLauncher<Array<String>>
     private lateinit var openMultipleDocuments: ActivityResultLauncher<Array<String>>
     private lateinit var openDocumentTree: ActivityResultLauncher<Uri?>
     private lateinit var takePicturePreview: ActivityResultLauncher<Void?>
+    private lateinit var requestCameraPermission: ActivityResultLauncher<String>
     private lateinit var takePicture: ActivityResultLauncher<Uri>
     private lateinit var captureVideo: ActivityResultLauncher<Uri>
     private lateinit var pickContact: ActivityResultLauncher<Void?>
@@ -83,6 +86,23 @@ class MainActivity : AppCompatActivity() {
             }
         findViewById<AppCompatButton>(R.id.onStartIntentSenderForResult).setOnClickListener {
 //            startIntentSenderForResult.launch(IntentSenderRequest.Builder().build())
+        }
+
+
+        //请求所有文件权限
+        startManagerAllFile=registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+            if (BuildConfig.DEBUG) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                    Log.i("print_logs", "setCallback: ${Environment.isExternalStorageManager()}")
+                }
+            }
+        }
+        findViewById<AppCompatButton>(R.id.managerAllFile).setOnClickListener {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                startManagerAllFile.launch(Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION).also {
+                    it.data=Uri.parse("package:${this.applicationContext.packageName}")
+                })
+            }
         }
 
 
@@ -227,6 +247,77 @@ class MainActivity : AppCompatActivity() {
             )
         }
 
+        var takePicturePreviewState=false
+        var takePictureState=false
+        val cameraPath: String =
+            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).absolutePath + File.separator + "Camera"
+
+        requestCameraPermission = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+            if (it) {
+                Log.i("print_logs", "requestPermission 同意：WRITE_EXTERNAL_STORAGE")
+
+                if (takePicturePreviewState){
+                    takePicturePreviewState=false
+                    takePicturePreview.launch(null)
+                }
+
+                if (takePictureState) {
+                    takePictureState=false
+//                    uri = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+//                        val values = ContentValues().apply {
+//                            put(
+//                                MediaStore.MediaColumns.DISPLAY_NAME,
+//                                "IMG_${System.currentTimeMillis()}.jpg"
+//                            )
+//                            put(MediaStore.MediaColumns.RELATIVE_PATH, "${Environment.DIRECTORY_DCIM}/Camera")
+//                        }
+//                        contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
+//                    } else {
+//                      null
+//                    }
+
+                    val file = File(cameraPath).apply {
+                        if (!this.exists()) {
+                            this.mkdirs()
+                        } else {
+                            if (this.isDirectory) {
+                                this.listFiles()?.forEach { file ->
+                                    if (file.isFile) {
+                                        file.delete()
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    val photoFile = File.createTempFile("IMG_", ".jpg", file)
+                    uri = FileProvider.getUriForFile(
+                        this,
+                        "${BuildConfig.APPLICATION_ID}.providers",
+                        photoFile
+                    )
+
+//                    cameraPath?.let { folder ->
+//                        if (folder.exists() && folder.isDirectory) {
+//                            Log.i("print_logs", "MainActivity::setCallback: 文件夹已经存在")
+//                            folder.listFiles().forEach { file->
+//                                Log.i("print_logs", "文件:: ${file.name}")
+//                                if (file.isFile) {
+//                                    Log.i("print_logs", "删除文件： ${file.name}")
+//                                    file.delete()
+//                                }
+//                            }
+//                        }
+//                    }
+
+                    takePicture.launch(uri)
+                }
+            } else {
+                Log.e("print_logs", "requestPermission 拒绝：WRITE_EXTERNAL_STORAGE")
+
+            }
+        }
+
 
         //调用MediaStore.ACTION_IMAGE_CAPTURE拍照，返回值为Bitmap图片
         takePicturePreview =
@@ -239,12 +330,10 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         findViewById<AppCompatButton>(R.id.onTakePicturePreview).setOnClickListener {
-            takePicturePreview.launch(null)
+            takePicturePreviewState=true
+            requestCameraPermission.launch(Manifest.permission.CAMERA)
         }
 
-
-        val cameraPath: String =
-            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).absolutePath + File.separator + "Camera"
         //调用MediaStore.ACTION_IMAGE_CAPTURE拍照，并将图片保存到给定的Uri地址，返回true表示保存成功
         takePicture = registerForActivityResult(ActivityResultContracts.TakePicture()) {
             Log.i("print_logs", "状态:: $it ,uri=$uri")
@@ -259,59 +348,12 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-
-
-
         findViewById<AppCompatButton>(R.id.onTakePicture).setOnClickListener {
-//            uri = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-//                val values = ContentValues().apply {
-//                    put(
-//                        MediaStore.MediaColumns.DISPLAY_NAME,
-//                        "IMG_${System.currentTimeMillis()}.jpg"
-//                    )
-//                    put(MediaStore.MediaColumns.RELATIVE_PATH, "${Environment.DIRECTORY_DCIM}/Camera")
-//                }
-//                contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
-//            } else {
-//              null
-//            }
-
-            val file = File(cameraPath).apply {
-                if (!this.exists()) {
-                    this.mkdirs()
-                } else {
-                    if (this.isDirectory) {
-                        this.listFiles()?.forEach { file ->
-                            if (file.isFile) {
-                                file.delete()
-                            }
-                        }
-                    }
-                }
-            }
-
-            val photoFile = File.createTempFile("IMG_", ".jpg", file)
-            uri = FileProvider.getUriForFile(
-                this,
-                "${BuildConfig.APPLICATION_ID}.providers",
-                photoFile
-            )
-
-//            cameraPath?.let { folder ->
-//                if (folder.exists() && folder.isDirectory) {
-//                    Log.i("print_logs", "MainActivity::setCallback: 文件夹已经存在")
-//                    folder.listFiles().forEach { file->
-//                        Log.i("print_logs", "文件:: ${file.name}")
-//                        if (file.isFile) {
-//                            Log.i("print_logs", "删除文件： ${file.name}")
-//                            file.delete()
-//                        }
-//                    }
-//                }
-//            }
-
-            takePicture.launch(uri)
+            takePictureState=true
+            requestCameraPermission.launch(Manifest.permission.CAMERA)
         }
+
+
 
         //调用MediaStore.ACTION_VIDEO_CAPTURE 拍摄视频，保存到给定的Uri地址，返回一张缩略图
         captureVideo = registerForActivityResult(ActivityResultContracts.CaptureVideo()) {
@@ -524,5 +566,25 @@ class MainActivity : AppCompatActivity() {
             }
         }
         return fileList
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        startActivityForResult.unregister()
+        startIntentSenderForResult.unregister()
+        startManagerAllFile.unregister()
+        requestPermission.unregister()
+        requestMultiplePermissions.unregister()
+        openDocument.unregister()
+        openMultipleDocuments.unregister()
+        openDocumentTree.unregister()
+        takePicturePreview.unregister()
+        requestCameraPermission.unregister()
+        takePicture.unregister()
+        captureVideo.unregister()
+        pickContact.unregister()
+        getContent.unregister()
+        createDocument.unregister()
+        getMultipleContents.unregister()
     }
 }
