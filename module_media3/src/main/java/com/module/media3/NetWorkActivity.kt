@@ -23,9 +23,9 @@ class NetWorkActivity : AppCompatActivity() {
 
     private lateinit var mDataBinding: ActivityNetWorkBinding
     private val videoUrl =
-        "https://album-dev.attrsense.com/cloud/v1/multifile/3bcbe3c812887a021816a584340d29a1bbe054e99a0f421f901c345b1a49a6e1"
+        "https://album-dev.attrsense.com/cloud/v1/multifile/5a2fefd47ea17992c2bd72e9691c0f89f8d3cb5ba5ff6457914655e8b6ea36a7"
     private val userToken =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo1NDgzODE4Nzc4NzA3OTI3MDQsImlzcyI6ImF0dHJzZW5zZSIsImV4cCI6MTcyMzc4Njc4NX0.l805rUrtx6wxIe7NaNsE7Jd78QFarZ4jVtBFUugSO74"
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo1NDgzODE4Nzc4NzA3OTI3MDQsImlzcyI6ImF0dHJzZW5zZSIsImV4cCI6MTcyNjEyNjIyNH0.3f-fR5KiA_Aw701-_hjrO5zuP17rJy6SUPwHgrScKaU"
 
     val videoUrl2 = "https://minigame.vip/Uploads/images/2021/09/18/1631951892_page_img.mp4"
 
@@ -48,7 +48,7 @@ class NetWorkActivity : AppCompatActivity() {
             .build()
             .also {
                 it.addListener(mPlayListener)
-                it.repeatMode = Player.REPEAT_MODE_ONE
+//                it.repeatMode = Player.REPEAT_MODE_ONE
 
                 //播放带请求头的网络视频
                 val dataSource = DefaultHttpDataSource.Factory()
@@ -130,9 +130,9 @@ class NetWorkActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
-        super.onDestroy()
-        mPlayer.removeMediaItem(0)
         mPlayer.removeListener(mPlayListener)
+        mPlayer.removeMediaItem(0)
+        super.onDestroy()
         mPlayer.release()
 
         mDataBinding.unbind()
@@ -140,6 +140,18 @@ class NetWorkActivity : AppCompatActivity() {
 
     private val mPlayListener = @UnstableApi object : Player.Listener {
 
+        override fun onPositionDiscontinuity(
+            oldPosition: Player.PositionInfo,
+            newPosition: Player.PositionInfo,
+            reason: Int
+        ) {
+            super.onPositionDiscontinuity(oldPosition, newPosition, reason)
+            if (BuildConfig.DEBUG) {
+                Log.i("print_logs", "NetWorkActivity::onPositionDiscontinuity: ${mPlayer.currentPosition}")
+            }
+
+
+        }
         override fun onPlaybackStateChanged(playbackState: Int) {
             super.onPlaybackStateChanged(playbackState)
             when (playbackState) {
@@ -165,6 +177,8 @@ class NetWorkActivity : AppCompatActivity() {
                     if (BuildConfig.DEBUG) {
                         Log.i("print_logs", "onPlaybackStateChanged: Player.STATE_ENDED")
                     }
+                    mPlayer.seekTo(0)
+                    mPlayer.pause()
                 }
 
                 else -> {}
@@ -243,6 +257,12 @@ class NetWorkActivity : AppCompatActivity() {
             }
         }
 
+        override fun onIsLoadingChanged(isLoading: Boolean) {
+            super.onIsLoadingChanged(isLoading)
+            if (BuildConfig.DEBUG) {
+                Log.i("print_logs", "NetWorkActivity::onIsLoadingChanged: $isLoading")
+            }
+        }
         override fun onIsPlayingChanged(isPlaying: Boolean) {
             super.onIsPlayingChanged(isPlaying)
             if (BuildConfig.DEBUG) {
