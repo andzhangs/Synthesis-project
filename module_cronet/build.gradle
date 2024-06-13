@@ -42,7 +42,7 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
-    implementation 'com.google.ambient.crossdevice:crossdevice:0.1.0-preview01'
+
     implementation 'org.chromium.net:cronet-api:101.4951.41'
     implementation 'com.google.android.gms:play-services-cronet:18.0.1'
 

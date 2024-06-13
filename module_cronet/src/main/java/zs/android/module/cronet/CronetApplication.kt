@@ -2,7 +2,6 @@ package zs.android.module.cronet
 
 import android.app.Application
 import android.util.Log
-import com.google.ambient.crossdevice.BuildConfig
 import com.google.android.gms.net.CronetProviderInstaller
 
 /**

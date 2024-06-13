@@ -57,7 +57,6 @@ class MainActivity : AppCompatActivity() {
             "DownloadActivity",
             "TextBytesActivity",
             "ImageLabelerActivity",
-            "CronetActivity",
             "CrossDeviceActivity",
             "BatteryFlowActivity",
             "NetworkFlowActivity"
@@ -176,18 +175,14 @@ class MainActivity : AppCompatActivity() {
                     }
 
                     20 -> {
-                        jumpActivity(CronetActivity::class.java)
-                    }
-
-                    21 -> {
                         jumpActivity(CrossDeviceActivity::class.java)
                     }
 
-                    22 -> {
+                    21 -> {
                         jumpActivity(BatteryFlowActivity::class.java)
                     }
 
-                    23 -> {
+                    22 -> {
                         jumpActivity(NetworkFlowActivity::class.java)
                     }
 

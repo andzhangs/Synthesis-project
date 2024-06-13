@@ -10,9 +10,9 @@ import android.os.Looper
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.DefaultLifecycleObserver
-import zlc.season.claritypotion.ClarityPotion.activity
 import zs.android.module.widget.BuildConfig
 import java.lang.ref.WeakReference
+import java.text.DecimalFormat
 
 /**
  *
@@ -26,7 +26,7 @@ class DownloadUtils private constructor(private val mContext: Context) :
 
     interface OnDownloadEventListener {
         fun onPending()
-        fun onRunning(percent: Int)
+        fun onRunning(percent: String)
         fun onSuccessful()
         fun onPaused()
         fun onFailed()
@@ -61,8 +61,12 @@ class DownloadUtils private constructor(private val mContext: Context) :
         const val DOWNLOAD_IMAGE_URL_2 ="https://cn.bing.com/th?id=OHR.AlpineMarmot_ZH-CN3818584615_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&pid=hp"
         const val DOWNLOAD_IMAGE_URL_3 ="https://cn.bing.com/th?id=OHR.VeniceCarnival_ZH-CN4965898587_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&pid=hp"
 
-        const val DOWNLOAD_VIDEO_URL =
-            "https://album-qcloud.attrsense.com/test/CFC53499-8DE2-40CD-BA58-81F622D144FF.MOV?e=1706521273&token=1-CoIfYUGlIz7hsCSPnzaeL5ou0g_nRDdTHiKBQr:mo7AeDMnZIVs30MzflOOzNP-nmo="
+
+        //https://cdn.pixabay.com/video/2024/02/21/201308-915375262_tiny.mp4
+        //https://videos.pexels.com/video-files/20718819/20718819-sd_540_960_30fps.mp4
+        //https://cdn.pixabay.com/video/2024/05/30/214582_tiny.mp4
+        //
+        const val DOWNLOAD_VIDEO_URL = "https://cdn.pixabay.com/video/2024/02/21/201308-915375262_tiny.mp4"
     }
 
     private var mWeakContext: WeakReference<Context>? = null
@@ -75,6 +79,7 @@ class DownloadUtils private constructor(private val mContext: Context) :
     private var mListener: OnDownloadEventListener? = null
 
     private val mHandler = Handler(Looper.getMainLooper())
+    private val mDecimalFormat = DecimalFormat("#.#%")
 
     fun start(linkUrl: String?,fileName:String, listener: OnDownloadEventListener?) {
         mWeakContext = WeakReference(mContext)
@@ -83,30 +88,21 @@ class DownloadUtils private constructor(private val mContext: Context) :
         val request = DownloadManager.Request(Uri.parse(linkUrl))
             .setAllowedOverMetered(true) //按流量计费的网络连接进行
             .setAllowedOverRoaming(false) //下载是否可以通过漫游连接继续
-            .setTitle("我正在下载文件...")
+            .setTitle("下载文件...")
             .setDescription("我是描述")
             .setMimeType("image/${fileName.substringAfterLast(".")}")
             .setDestinationInExternalFilesDir(  //存储目录
-                activity,
+                mContext,
                 Environment.DIRECTORY_DOWNLOADS,
                 "system/$fileName"
             )
 //            .setRequiresCharging(true) //设备充电时
 //            .setRequiresDeviceIdle(true) //设备空闲时
 //            .setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI)
-//            .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+            .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
 
         mDownloadId = mDownloadManager.enqueue(request)
-        mHandler.postDelayed(this, 200L)
-    }
-
-    override fun run() {
-        mWeakContext?.get()?.apply {
-            if (BuildConfig.DEBUG) {
-                Log.i("print_logs", "run: 轮询...")
-            }
-            queryStatus()
-        }
+        mHandler.post(this)
     }
 
     fun stop() {
@@ -115,6 +111,14 @@ class DownloadUtils private constructor(private val mContext: Context) :
         this.mListener?.onPaused()
     }
 
+    override fun run() {
+        mWeakContext?.get()?.apply {
+//            if (BuildConfig.DEBUG) {
+//                Log.i("print_logs", "run: 轮询...")
+//            }
+            queryStatus()
+        }
+    }
 
     @SuppressLint("Range")
     private fun queryStatus() {
@@ -125,27 +129,25 @@ class DownloadUtils private constructor(private val mContext: Context) :
             try {
                 if (cursor.moveToFirst()) {
 
-                    val bytesDownloaded =
-                        cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR))
-                    val bytesTotal =
-                        cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES))
-                    val progress = (bytesDownloaded * 100L / bytesTotal).toInt()
+                    val bytesDownloaded = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR))
+                    val bytesTotal = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES))
+                    val progress = bytesDownloaded.toDouble() / bytesTotal
 
-                    when (val status =
-                        cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS))) {
+                    val state=cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS))
+
+                    if (BuildConfig.DEBUG) {
+                        Log.i("print_logs", "bytesTotal = $bytesTotal, bytesDownloaded = $bytesDownloaded, state = $state")
+                    }
+
+                    when (state) {
                         DownloadManager.STATUS_PENDING -> {
-                            if (BuildConfig.DEBUG) {
-                                Log.i("print_logs", "下载等待中: ")
-                            }
                             this.mListener?.onPending()
+                            mHandler.postDelayed(this, 1000L)
                         }
 
                         DownloadManager.STATUS_RUNNING -> {
-                            if (BuildConfig.DEBUG) {
-                                Log.i("print_logs", "下载进行中: $progress")
-                            }
-                            this.mListener?.onRunning(progress)
-                            mHandler.postDelayed(this, 200L)
+                            this.mListener?.onRunning(mDecimalFormat.format(progress))
+                            mHandler.postDelayed(this, 1000L)
                         }
 
                         DownloadManager.STATUS_SUCCESSFUL -> {
@@ -153,37 +155,30 @@ class DownloadUtils private constructor(private val mContext: Context) :
                             val fileUri = mDownloadManager.getUriForDownloadedFile(mDownloadId)
 
                             this.mListener?.onSuccessful()
-                            if (BuildConfig.DEBUG) {
-                                Log.i("print_logs", "下载成功！ 文件Uri：$fileUri, ${fileUri.path}")
-                            }
+//                            if (BuildConfig.DEBUG) {
+//                                Log.i("print_logs", "下载成功！ 文件Uri：$fileUri, ${fileUri.path}")
+//                            }
                             mHandler.removeCallbacks(this)
                         }
 
                         DownloadManager.STATUS_PAUSED -> {
-                            if (BuildConfig.DEBUG) {
-                                Log.i("print_logs", "下载暂停!")
-                            }
                             this.mListener?.onPaused()
                             mHandler.removeCallbacks(this)
                         }
 
                         DownloadManager.STATUS_FAILED -> {
 
-                            val reason =
-                                cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_REASON))
+                            val reason = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_REASON))
                             // 处理状态和原因
 
-                            if (BuildConfig.DEBUG) {
-                                Log.e("print_logs", "下载失败！$reason")
-                            }
+//                            if (BuildConfig.DEBUG) {
+//                                Log.e("print_logs", "下载失败！$reason")
+//                            }
                             this.mListener?.onFailed()
                             mHandler.removeCallbacks(this)
                         }
 
                         else -> {
-                            if (BuildConfig.DEBUG) {
-                                Log.e("print_logs", "未知: $status")
-                            }
                             this.mListener?.onOther()
                             mHandler.removeCallbacks(this)
                         }

@@ -107,21 +107,15 @@ class DownloadActivity : AppCompatActivity() {
     private fun systemDownload() {
         printLog("系统：------------------")
         DownloadUtils.getInstance(this)?.start(
-            DownloadUtils.DOWNLOAD_IMAGE_URL_1,
-            "OHR.DevetashkaCave_ZH-CN5186222166_1920x1080.jpg",
+            DownloadUtils.DOWNLOAD_VIDEO_URL,
+            "214582_tiny.mp4",
             object : DownloadUtils.OnDownloadEventListener {
                 override fun onPending() {
-                    if (BuildConfig.DEBUG) {
-                        Log.d("print_logs", "下载等待中...")
-                    }
                     printLog("系统：下载等待中...")
                 }
 
-                override fun onRunning(percent: Int) {
-                    if (BuildConfig.DEBUG) {
-                        Log.i("print_logs", "下载中...")
-                    }
-                    printLog("系统：下载中...")
+                override fun onRunning(percent: String) {
+                    printLog("系统：下载中：$percent")
                 }
 
                 override fun onSuccessful() {
@@ -136,7 +130,7 @@ class DownloadActivity : AppCompatActivity() {
 
                 override fun onFailed() {
                     Toast.makeText(this@DownloadActivity, "下载失败！", Toast.LENGTH_SHORT).show()
-                    printLog("系统：下载失败!")
+                    printLog("系统：下载失败！")
                 }
             })
     }
