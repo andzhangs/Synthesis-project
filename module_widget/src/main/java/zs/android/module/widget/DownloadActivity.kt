@@ -102,13 +102,16 @@ class DownloadActivity : AppCompatActivity() {
         }
     }
 
+    private val mDownloadFileUrl=DownloadUtils.DOWNLOAD_VIDEO_URL
+    private val mDownloadFileName="201308-915375262_tiny.mp4"
+
     //----------------------------------------------------------------------------------------------
 
     private fun systemDownload() {
         printLog("系统：------------------")
         DownloadUtils.getInstance(this)?.start(
-            DownloadUtils.DOWNLOAD_VIDEO_URL,
-            "214582_tiny.mp4",
+            mDownloadFileUrl,
+            mDownloadFileName,
             object : DownloadUtils.OnDownloadEventListener {
                 override fun onPending() {
                     printLog("系统：下载等待中...")
@@ -145,67 +148,50 @@ class DownloadActivity : AppCompatActivity() {
             val cachePath =
                 "${this.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)?.absolutePath}${File.separator}downloadx"
 
-            File(cachePath).apply {
-                if (!exists()) {
-                    mkdirs()
-                } else {
-                    if (BuildConfig.DEBUG) {
-                        Log.d("print_logs", "DownloadActivity::onCreate: 文件夹已经存在!")
-                    }
+            val folder=File(cachePath)
+            if (!folder.exists()) {
+                folder.mkdirs()
+            }else{
+                val file = File("${cachePath}${File.separator}}${File.separator}$mDownloadFileName")
+                if (file.exists()) {
                     printLog("DownloadX：$cachePath 文件夹已经存在!")
+                    return
                 }
             }
 
             mTask = lifecycleScope.download(
-                DownloadUtils.DOWNLOAD_IMAGE_URL_2,
-                "OHR.AlpineMarmot_ZH-CN3818584615_1920x1080.jpg",
+                mDownloadFileUrl,
+                mDownloadFileName,
                 cachePath
             )
             mTask?.state(mIntervalTime)?.onEach {
                 when (it) {
                     is State.Downloading -> {
-
-                        if (BuildConfig.DEBUG) {
-                            Log.d(
-                                "print_logs",
-                                "下载中...${it.progress.downloadSize},${it.progress.totalSize},进度：${it.progress.percent()}%"
-                            )
-                        }
-                        printLog("DownloadX：下载中...${it.progress.downloadSize},${it.progress.totalSize},进度：${it.progress.percent()}%")
+                        printLog("DownloadX：下载中...进度：${it.progress.percent()}%")
                     }
 
                     is State.Failed -> {
-                        if (BuildConfig.DEBUG) {
-                            Log.e("print_logs", "下载失败")
-                        }
+
                         printLog("DownloadX：下载失败!")
                     }
 
                     is State.None -> {
-                        if (BuildConfig.DEBUG) {
-                            Log.i("print_logs", "预备下载")
-                        }
+
                         printLog("DownloadX：预备下载")
                     }
 
                     is State.Stopped -> {
-                        if (BuildConfig.DEBUG) {
-                            Log.i("print_logs", "停止下载")
-                        }
+
                         printLog("DownloadX：停止下载")
                     }
 
                     is State.Succeed -> {
-                        if (BuildConfig.DEBUG) {
-                            Log.i("print_logs", "下载完成！")
-                        }
+
                         printLog("DownloadX：下载完成")
                     }
 
                     is State.Waiting -> {
-                        if (BuildConfig.DEBUG) {
-                            Log.i("print_logs", "待下载")
-                        }
+
                         printLog("DownloadX：待下载")
                     }
                 }
@@ -234,73 +220,56 @@ class DownloadActivity : AppCompatActivity() {
 //            .threadPoolSize(5)
             .log("print_logs")
             .logger { message ->
-                if (BuildConfig.DEBUG) {
-                    Log.i("print_logs", "打印日志: $message")
-                }
                 printLog("coolerfall.日志：$message")
             }
             .build()
 
-        //https://album-qcloud.attrsense.com/449469511100272640/barry.jpg?e=1706545951&token=1-CoIfYUGlIz7hsCSPnzaeL5ou0g_nRDdTHiKBQr:azUDVjDW9PeAVx6BIFP2FzfOuho=
-
-        val downloadUrl = DownloadUtils.DOWNLOAD_IMAGE_URL_3
-
-        val fileName =
-            "OHR.VeniceCarnival_ZH-CN4965898587_1920x1080.jpg"//getFileNameFromUrl(downloadUrl)
+//        val fileName = "201308-915375262_tiny.mp4"//getFileNameFromUrl(downloadUrl)
 
         val request = DownloadRequest.Builder()
-            .url(downloadUrl)
-            .relativeDirectory("/image")
+            .url(mDownloadFileUrl)
+            .relativeDirectory("http")
             .progressInterval(mIntervalTime, TimeUnit.MILLISECONDS)
             .downloadCallback(object : DownloadCallback {
                 override fun onFailure(downloadId: Int, statusCode: Int, errMsg: String?) {
                     super.onFailure(downloadId, statusCode, errMsg)
-                    if (BuildConfig.DEBUG) {
-                        Log.d("print_logs", "下载失败: $downloadId, $statusCode, $errMsg")
-                    }
                     printLog("coolerfall：下载失败- $downloadId, $statusCode, $errMsg")
                 }
 
                 override fun onProgress(downloadId: Int, bytesWritten: Long, totalBytes: Long) {
                     super.onProgress(downloadId, bytesWritten, totalBytes)
                     if (BuildConfig.DEBUG) {
-                        Log.i(
-                            "print_logs",
-                            "当前进度: $downloadId, $bytesWritten - $totalBytes, ${bytesWritten ratio totalBytes}%"
-                        )
-                        printLog("coolerfall：当前进度: $downloadId, $bytesWritten - $totalBytes, ${bytesWritten ratio totalBytes}%")
+                        printLog("coolerfall：当前进度: ${bytesWritten ratio totalBytes}%")
                     }
                 }
 
                 override fun onRetry(downloadId: Int) {
                     super.onRetry(downloadId)
-                    if (BuildConfig.DEBUG) {
-                        Log.w("print_logs", "重新下载: $downloadId")
-                    }
                     printLog("重新下载: $downloadId")
                 }
 
                 override fun onStart(downloadId: Int, totalBytes: Long) {
                     super.onStart(downloadId, totalBytes)
-                    if (BuildConfig.DEBUG) {
-                        Log.i("print_logs", "开始下载: $downloadId, $totalBytes")
-                    }
                     printLog("开始下载: $downloadId, $totalBytes")
                 }
 
                 override fun onSuccess(downloadId: Int, filepath: String) {
                     super.onSuccess(downloadId, filepath)
-                    if (BuildConfig.DEBUG) {
-                        Log.i("print_logs", "下载成功: $downloadId, $filepath")
-                    }
                     val downloadFile = File(filepath)
-                    val newFile = File(downloadFile.parent, fileName)
+                    val newFile = File(downloadFile.parent, mDownloadFileName)
                     val renamed = downloadFile.renameTo(newFile)
                     if (BuildConfig.DEBUG) {
                         Log.i("print_logs", "重命名: $renamed，${newFile.path}")
                     }
 
-                    printLog("下载成功: $downloadId, $filepath, \n重命名：$renamed，${newFile.path}")
+                    printLog("""
+                        下载成功: 
+                            $downloadId, 
+                            $filepath, 
+                        重命名：
+                            $renamed，
+                            ${newFile.path}
+                    """.trimIndent())
                 }
             })
 

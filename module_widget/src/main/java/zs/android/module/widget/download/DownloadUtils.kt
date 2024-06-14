@@ -13,12 +13,15 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import zs.android.module.widget.BuildConfig
 import java.lang.ref.WeakReference
 import java.text.DecimalFormat
+import kotlin.math.abs
 
 /**
  *
  * @author zhangshuai
  * @date 2024/1/26 16:53
  * @description 自定义类描述
+ *
+ * https://developer.android.google.cn/reference/kotlin/android/app/DownloadManager?hl=en
  */
 class DownloadUtils private constructor(private val mContext: Context) :
     DefaultLifecycleObserver,
@@ -99,7 +102,7 @@ class DownloadUtils private constructor(private val mContext: Context) :
 //            .setRequiresCharging(true) //设备充电时
 //            .setRequiresDeviceIdle(true) //设备空闲时
 //            .setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI)
-            .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+            .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
 
         mDownloadId = mDownloadManager.enqueue(request)
         mHandler.post(this)
@@ -107,6 +110,7 @@ class DownloadUtils private constructor(private val mContext: Context) :
 
     fun stop() {
         mDownloadManager.remove(mDownloadId)
+
         mHandler.removeCallbacks(this)
         this.mListener?.onPaused()
     }
@@ -131,7 +135,7 @@ class DownloadUtils private constructor(private val mContext: Context) :
 
                     val bytesDownloaded = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR))
                     val bytesTotal = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES))
-                    val progress = bytesDownloaded.toDouble() / bytesTotal
+                    val progress = abs(bytesDownloaded.toDouble() / bytesTotal)
 
                     val state=cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS))
 
@@ -151,6 +155,7 @@ class DownloadUtils private constructor(private val mContext: Context) :
                         }
 
                         DownloadManager.STATUS_SUCCESSFUL -> {
+                            this.mListener?.onRunning(mDecimalFormat.format(progress))
 
                             val fileUri = mDownloadManager.getUriForDownloadedFile(mDownloadId)
 
