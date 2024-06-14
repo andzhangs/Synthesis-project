@@ -128,7 +128,7 @@ class DownloadUtils private constructor(private val mContext: Context) :
     private fun queryStatus() {
         val mQuery = DownloadManager.Query()
         mQuery.setFilterById(mDownloadId)
-
+        val parcelFileDescriptor=mDownloadManager.openDownloadedFile(mDownloadId)
         mDownloadManager.query(mQuery)?.also { cursor ->
             try {
                 if (cursor.moveToFirst()) {
