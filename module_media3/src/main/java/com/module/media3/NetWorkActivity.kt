@@ -23,11 +23,13 @@ class NetWorkActivity : AppCompatActivity() {
 
     private lateinit var mDataBinding: ActivityNetWorkBinding
     private val videoUrl =
-        "https://album-dev.attrsense.com/cloud/v1/multifile/5a2fefd47ea17992c2bd72e9691c0f89f8d3cb5ba5ff6457914655e8b6ea36a7"
+        "https://album-dev.attrsense.com/cloud/v1/multifile/760ebe199c9a17cfd518432d7db5dfdf2de2eb892d4a29685e040861e06a7dfd"
+
     private val userToken =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo1NDgzODE4Nzc4NzA3OTI3MDQsImlzcyI6ImF0dHJzZW5zZSIsImV4cCI6MTcyNjEyNjIyNH0.3f-fR5KiA_Aw701-_hjrO5zuP17rJy6SUPwHgrScKaU"
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozMjMzOTk1ODcyOTg3NTE2OTI4LCJpc3MiOiJhdHRyc2Vuc2UiLCJleHAiOjE3MjczMTU5MjJ9.aY08V22SGxLtptxBzqZAlHdaM850h9qdN82oQQQfSTY"
 
     val videoUrl2 = "https://minigame.vip/Uploads/images/2021/09/18/1631951892_page_img.mp4"
+
 
     private val mHeaders = mapOf(
         "Platform" to "Android",

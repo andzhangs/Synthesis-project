@@ -1,94 +1,143 @@
 package zs.android.app
 
+import android.content.Intent
+import android.graphics.Bitmap
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
+import android.os.Environment
 import android.util.Log
 import android.view.View
-import androidx.collection.LruCache
-import kotlin.math.min
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.databinding.DataBindingUtil
+import com.canhub.cropper.CropImageContract
+import com.yalantis.ucrop.UCrop
+import com.yalantis.ucrop.UCropActivity
+import zs.android.app.databinding.ActivityMainBinding
+import java.io.File
+import java.io.FileOutputStream
 
 class MainActivity : AppCompatActivity() {
 
-    private val mLruCache = LruCache<String, String>((1L * 1024 * 1024 * 1024).toInt())
-
-    private val mHandler: Handler by lazy { Handler(Looper.getMainLooper()) }
-    private val mList = ArrayList<List<Int>>()
+    private lateinit var mDataBinding: ActivityMainBinding
+    private lateinit var launchPick: ActivityResultLauncher<PickVisualMediaRequest>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        for (i in 1..10) {
-            mLruCache.put("key-$i", "value-$i")
+        mDataBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        mDataBinding.lifecycleOwner = this
+
+        launchPick = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) {
+//            loadUCrop(it)
+            mDataBinding.cropIv.setImageUriAsync(it)
+            mDataBinding.cropIv.visibility = View.VISIBLE
+
         }
 
-        val list = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9)
-        val chunkSize = 3
-        var index = 0
-        while (index < list.size) {
-            val endIndex = min(index + chunkSize, list.size)
-            val chunk = list.subList(index, endIndex)
-            if (BuildConfig.DEBUG) {
-                Log.i("print_logs", "onCreate: $chunk")
-            }
-            mList.addAll(listOf(chunk))
-            index += chunkSize
-        }
-        mHandler.post(mRestoreRunnable)
-
-        offlineNetWork<String>("你好"){
-            if (BuildConfig.DEBUG) {
-                Log.i("print_logs", "MainActivity::onCreate: $it")
-            }
-        }
-    }
-
-    inline fun <reified T> offlineNetWork(url: String, crossinline callBack: (t: T?) -> Unit){
-        if (BuildConfig.DEBUG) {
-            Log.i("print_logs", "MainActivity::offlineNetWork: $url, ")
-        }
-        val t=T::class.java.newInstance()
-        callBack(t)
-    }
-
-    private var mCurrentIndex=0
-    private val mRestoreRunnable = object : Runnable {
-        override fun run() {
-            if (mCurrentIndex < mList.size){
+        val cropLaunch = registerForActivityResult(CropImageContract()) {
+            if (it.isSuccessful) {
                 if (BuildConfig.DEBUG) {
-                    Log.i("print_logs", "run: ${mList[mCurrentIndex]} ，开始执行")
+                    Log.i("print_logs", ":onCreate: ${it.originalUri}")
                 }
-                Thread.sleep(1000L)
+            } else {
+                if (BuildConfig.DEBUG) {
+                    Log.e("print_logs", "onCreate: ${it.error}")
+                }
+            }
+        }
 
-                if (mCurrentIndex == mList.size-1){
-                    if (BuildConfig.DEBUG) {
-                        Log.i("print_logs", "MainActivity::run: 执行完了")
-                    }
-                    mList.clear()
-                    mHandler.removeCallbacks(this)
-                }else{
-                    if (BuildConfig.DEBUG) {
-                        Log.i("print_logs", "MainActivity::run: 下一个")
-                    }
-                    ++mCurrentIndex
-                    mHandler.post(this)
+        mDataBinding.acBtnSelect.setOnClickListener {
+
+            if (mDataBinding.cropIv.visibility == View.GONE) {
+                mDataBinding.cropIv.visibility = View.VISIBLE
+                mDataBinding.acIvCrop.visibility = View.GONE
+            }
+
+            launchPick.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+
+//            cropLaunch.launch(
+//                CropImageContractOptions(
+//                    uri = null,
+//                    CropImageOptions(
+//                        guidelines = CropImageView.Guidelines.OFF,
+//                        minCropResultWidth = 2000,
+//                        minCropResultHeight = 2000,
+//                        maxCropResultWidth = 2000,
+//                        maxCropResultHeight = 2000,
+//                        imageSourceIncludeCamera = false,
+//                        imageSourceIncludeGallery = true,
+//                        outputCompressFormat = Bitmap.CompressFormat.JPEG,
+//                        cropShape = CropImageView.CropShape.OVAL
+//
+//                    )
+//                )
+//            )
+        }
+
+        mDataBinding.acBtnCrop.setOnClickListener {
+            mDataBinding.cropIv.visibility = View.GONE
+            mDataBinding.cropIv.getCroppedImage()?.also {
+                mDataBinding.acIvCrop.setImageBitmap(it)
+                mDataBinding.acIvCrop.visibility = View.VISIBLE
+                try {
+                    val saveFile = File(getExternalFilesDir("crop"), "crop_${System.currentTimeMillis()}.jpeg")
+                    val fos = FileOutputStream(saveFile)
+                    it.compress(Bitmap.CompressFormat.JPEG, 30, fos)
+                    fos.close()
+                }catch (e:Exception){
+                    e.printStackTrace()
                 }
             }
         }
     }
 
-    fun getCacheClick(view: View) {
-        mLruCache.snapshot().forEach { (t, u) ->
-            if (BuildConfig.DEBUG) {
-                Log.i("print_logs", "打印: $t, $u")
-            }
 
+    private fun loadUCrop(uri: Uri?) {
+        val cacheFolder =
+            "${this.applicationContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES)?.absoluteFile}"
+        uri?.also {
+            UCrop.of(
+                it,
+                Uri.fromFile(File(cacheFolder, "img_${System.currentTimeMillis()}_crop.jpeg"))
+            )
+                .withAspectRatio(1f, 1f)
+                .withOptions(UCrop.Options().apply {
+                    setCompressionFormat(Bitmap.CompressFormat.JPEG)
+//                        setCompressionQuality(5)
+                    setHideBottomControls(true)
+//                        setFreeStyleCropEnabled(true)
+                    setAllowedGestures(UCropActivity.SCALE, UCropActivity.ROTATE, UCropActivity.ALL)
+                    setMaxBitmapSize(640)
+                    setMaxScaleMultiplier(5f)
+                    setShowCropGrid(false)
+                    setShowCropFrame(false)
+//                        setImageToCropBoundsAnimDuration(666)
+                    setCircleDimmedLayer(true)
+//                        setShowCropFrame(true)
+//                        setCropFrameStrokeWidth(20)
+//                        setCropGridColor(Color.GREEN)
+//                        setCropGridColumnCount(2)
+//                        setCropGridRowCount(1)
+                    useSourceImageAspectRatio()
+                })
+                .start(this)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == RESULT_OK && requestCode == UCrop.REQUEST_CROP) {
+            data?.let {
+                val cropImgUri = UCrop.getOutput(it)
+                mDataBinding.acIvCrop.setImageURI(cropImgUri)
+            }
         }
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        mLruCache.evictAll()
+        mDataBinding.unbind()
     }
 }
