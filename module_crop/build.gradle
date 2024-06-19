@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace 'zs.android.app'
+    namespace 'com.example.module.crop'
     compileSdk 33
 
     defaultConfig {
-        applicationId "zs.android.app"
+        applicationId "com.example.module.crop"
         minSdk 24
         targetSdk 33
         versionCode 1
@@ -44,4 +44,19 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+
+    //https://github.com/Yalantis/uCrop
+    implementation 'com.github.yalantis:ucrop:2.2.9'
+
+    //https://github.com/CanHub/Android-Image-Cropper
+    implementation 'com.vanniktech:android-image-cropper:4.5.0'
+
+    //https://github.com/TakuSemba/CropMe
+    implementation 'com.github.takusemba:cropme:2.0.8'
+
+    //https://github.com/lyrebirdstudio/Croppy
+    implementation 'com.github.lyrebirdstudio:Croppy:0.2'
+
+    //https://github.com/steelkiwi/cropiwa
+    implementation 'com.steelkiwi:cropiwa:1.0.3'
 }

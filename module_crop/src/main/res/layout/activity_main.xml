@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/acBtn_ucrop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="UCrop"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/acBtn_cropper_select"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="cropper选择图片"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/acBtn_ucrop" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/acBtn_cropper"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="确定裁剪"
+            app:layout_constraintStart_toEndOf="@id/acBtn_cropper_select"
+            app:layout_constraintTop_toBottomOf="@id/acBtn_ucrop" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/acBtn_crop_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CropLayout选择图片"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/acBtn_cropper_select" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/acBtn_layout_crop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CropLayout裁剪图片"
+            app:layout_constraintStart_toEndOf="@id/acBtn_crop_layout"
+            app:layout_constraintTop_toBottomOf="@id/acBtn_cropper_select" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/acBtn_croppy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Croppy选择图片"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/acBtn_crop_layout" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/acBtn_crop_view_select"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CropView选择图片"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/acBtn_croppy" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/acBtn_crop_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CropView裁剪图片"
+            app:layout_constraintStart_toEndOf="@id/acBtn_crop_view_select"
+            app:layout_constraintTop_toBottomOf="@id/acBtn_croppy" />
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/acBtn_krop_select"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="KropView选择图片"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/acBtn_crop_view_select" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/acBtn_krop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CropView裁剪图片"
+            app:layout_constraintStart_toEndOf="@id/acBtn_krop_select"
+            app:layout_constraintTop_toBottomOf="@id/acBtn_crop_view_select" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/acIv_show_crop"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <com.canhub.cropper.CropImageView
+            android:id="@+id/crop_iv"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <com.takusemba.cropme.CropLayout
+            android:id="@+id/crop_layout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:cropme_background_alpha="80%"
+            app:cropme_frame_height_percent="80%"
+            app:cropme_frame_width_percent="80%"
+            app:cropme_overlay_shape="circle"
+            app:layout_constraintDimensionRatio="h,1:1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.steelkiwi.cropiwa.CropIwaView
+            android:id="@+id/crop_view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:ci_scale_enabled="true"
+            app:ci_translation_enabled="true"
+            app:ci_crop_shape="oval"
+            app:ci_draw_grid="false"
+            app:ci_corner_color="@color/white"
+            app:ci_dynamic_aspect_ratio="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="h,1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
