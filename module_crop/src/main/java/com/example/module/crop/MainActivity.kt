@@ -1,16 +1,24 @@
 package com.example.module.crop
 
+import android.Manifest
+import android.content.ComponentName
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
+import android.os.Build
 import android.os.Bundle
+import android.os.Environment.DIRECTORY_DCIM
+import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
 import com.example.module.crop.databinding.ActivityMainBinding
 import com.lyrebirdstudio.croppylib.Croppy
@@ -21,6 +29,7 @@ import com.takusemba.cropme.OnCropListener
 import com.yalantis.ucrop.UCrop
 import java.io.File
 import java.io.FileOutputStream
+
 
 class MainActivity : AppCompatActivity() {
     companion object {
@@ -88,7 +97,9 @@ class MainActivity : AppCompatActivity() {
 
                         mDataBinding.cropView.setImageUri(it)
                     }
-
+                    5->{
+                        cropPhoto(it)
+                    }
                     else -> {
 
                     }
@@ -184,6 +195,22 @@ class MainActivity : AppCompatActivity() {
                 showCropImage()
             }
         }
+
+        /**
+         * 系统裁剪
+         */
+        mDataBinding.acBtnSystemCrop.setOnClickListener {
+            if (ActivityCompat.checkSelfPermission(this,Manifest.permission.READ_MEDIA_IMAGES) == PackageManager.PERMISSION_GRANTED) {
+                mSelectType = 5
+                launchPick.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+            }else{
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_MEDIA_IMAGES,Manifest.permission.MANAGE_EXTERNAL_STORAGE),101)
+                }else{
+                    ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),101)
+                }
+            }
+        }
     }
 
     private fun loadUCrop(uri: Uri?) {
@@ -255,6 +282,7 @@ class MainActivity : AppCompatActivity() {
                 )
             val fos = FileOutputStream(saveFile)
             bitmap.compress(Bitmap.CompressFormat.JPEG, 10, fos)
+            fos.flush()
             fos.close()
         } catch (e: Exception) {
             e.printStackTrace()
@@ -265,5 +293,55 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
         launchPick.unregister()
         mDataBinding.unbind()
+    }
+
+    /**
+     * 裁剪图片
+     */
+    private fun cropPhoto(uri: Uri) {
+        val intent = Intent("com.android.camera.action.CROP")
+        // Intent intent = new Intent("android.intent.action.EDIT");
+        // intent.setAction("android.intent.action.EDIT");
+        //  intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+        intent.setDataAndType(uri, "image/*")
+//        intent.data = uri
+
+        intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+        intent.putExtra("crop", "true")
+        intent.putExtra("aspectX", 1)
+        intent.putExtra("aspectY", 1)
+        intent.putExtra("outputX", 300)
+        intent.putExtra("outputY", 300)
+        intent.putExtra("return-data", false)
+        val cropTemp = getExternalFilesDir(DIRECTORY_DCIM)
+        val cropTempName = File(cropTemp, "crop_temp_${System.currentTimeMillis()}.png")
+        Log.e("getPath", cropTempName.absolutePath)
+        val uriForFile = FileProvider.getUriForFile(this, "${this.applicationContext.packageName}.fileprovider", cropTempName)
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, uriForFile)
+        grantPermissionFix(intent, uriForFile)
+
+        if (intent.resolveActivity(packageManager) != null) {
+            startActivityForResult(intent, 200)
+        }else{
+
+        }
+    }
+
+    private fun grantPermissionFix(intent: Intent, uri: Uri) {
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+        val resolveInfos =
+            packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY)
+        for (resolveInfo in resolveInfos) {
+            val packageName = resolveInfo.activityInfo.packageName
+            grantUriPermission(
+                packageName,
+                uri,
+                Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+            )
+            intent.action = null
+            intent.component =
+                ComponentName(resolveInfo.activityInfo.packageName, resolveInfo.activityInfo.name)
+            break
+        }
     }
 }

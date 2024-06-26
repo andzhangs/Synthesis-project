@@ -6,4 +6,8 @@
     </style>
 
     <style name="Theme.Synthesisproject" parent="Base.Theme.Synthesisproject" />
+
+    <style name="AppFontTheme">
+        <item name="android:fontFamily">@font/roboto_spell</item>
+    </style>
 </resources>
