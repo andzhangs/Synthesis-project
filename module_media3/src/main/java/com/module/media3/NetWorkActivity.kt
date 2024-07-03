@@ -1,11 +1,24 @@
 package com.module.media3
 
+import android.app.PendingIntent
+import android.app.PictureInPictureParams
+import android.app.RemoteAction
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
+import android.content.res.Configuration
+import android.graphics.Rect
+import android.graphics.drawable.Icon
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.util.Rational
 import android.view.View
+import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
 import androidx.media3.common.C
 import androidx.media3.common.MediaItem
@@ -19,6 +32,11 @@ import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.exoplayer.source.ProgressiveMediaSource
 import com.module.media3.databinding.ActivityNetWorkBinding
 
+/**
+ * 播放网络视频
+ * 增加画中画模式：https://github.com/android/media-samples
+ * https://mp.weixin.qq.com/s?__biz=MzA5MzI3NjE2MA==&mid=2650275972&idx=1&sn=ac1a10d8df6927d7e1e20eb028f5eb61&chksm=886cf1ebbf1b78fd8256cbcb91adb2ea4c6d3725b3cbcfe4da7f113ff335c36b5990fddf3dae&scene=27
+ */
 class NetWorkActivity : AppCompatActivity() {
 
     private lateinit var mDataBinding: ActivityNetWorkBinding
@@ -28,7 +46,8 @@ class NetWorkActivity : AppCompatActivity() {
     private val userToken =
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozMjMzOTk1ODcyOTg3NTE2OTI4LCJpc3MiOiJhdHRyc2Vuc2UiLCJleHAiOjE3MjczMTU5MjJ9.aY08V22SGxLtptxBzqZAlHdaM850h9qdN82oQQQfSTY"
 
-    val videoUrl2 = "https://minigame.vip/Uploads/images/2021/09/18/1631951892_page_img.mp4"
+    val videoUrl2 =
+        "https://vfx.mtime.cn/Video/2019/01/15/mp4/190115161611510728_480.mp4"//"https://minigame.vip/Uploads/images/2021/09/18/1631951892_page_img.mp4"
 
 
     private val mHeaders = mapOf(
@@ -61,7 +80,7 @@ class NetWorkActivity : AppCompatActivity() {
 //                    .createDataSource()
 
                 val mediaSource = ProgressiveMediaSource.Factory(dataSource)
-                    .createMediaSource(MediaItem.fromUri(videoUrl))
+                    .createMediaSource(MediaItem.fromUri(videoUrl2))
                 it.setMediaSource(mediaSource)
 //
 //                val dataSpec=DataSpec(Uri.parse(videoUrl))
@@ -91,6 +110,17 @@ class NetWorkActivity : AppCompatActivity() {
 //                it.playWhenReady = true
                 it.prepare()
             }
+
+        registerReceiver(mRemoteReceiver, IntentFilter(ACTION_STOPWATCH_CONTROL))
+
+        //方式一
+//        addOnPictureInPictureModeChangedListener {
+//            if (BuildConfig.DEBUG) {
+//                Log.i("print_logs", "PictureInPictureModeChangedListener: ${it.isInPictureInPictureMode}")
+//            }
+//
+//            mDataBinding.hideView = it.isInPictureInPictureMode
+//        }
     }
 
     fun onClickPlay(view: View) {
@@ -115,32 +145,8 @@ class NetWorkActivity : AppCompatActivity() {
         }
     }
 
-
-    override fun onPause() {
-        super.onPause()
-        if (mPlayer.isPlaying) {
-            mPlayer.pause()
-            mPlayer.removeListener(mPlayListener)
-        }
-    }
-
-    override fun onStop() {
-        super.onStop()
-        if (mPlayer.isPlaying) {
-            mPlayer.stop()
-        }
-    }
-
-    override fun onDestroy() {
-        mPlayer.removeListener(mPlayListener)
-        mPlayer.removeMediaItem(0)
-        super.onDestroy()
-        mPlayer.release()
-
-        mDataBinding.unbind()
-    }
-
     private val mPlayListener = @UnstableApi object : Player.Listener {
+
 
         override fun onPositionDiscontinuity(
             oldPosition: Player.PositionInfo,
@@ -149,11 +155,15 @@ class NetWorkActivity : AppCompatActivity() {
         ) {
             super.onPositionDiscontinuity(oldPosition, newPosition, reason)
             if (BuildConfig.DEBUG) {
-                Log.i("print_logs", "NetWorkActivity::onPositionDiscontinuity: ${mPlayer.currentPosition}")
+                Log.i(
+                    "print_logs",
+                    "NetWorkActivity::onPositionDiscontinuity: ${mPlayer.currentPosition}"
+                )
             }
 
 
         }
+
         override fun onPlaybackStateChanged(playbackState: Int) {
             super.onPlaybackStateChanged(playbackState)
             when (playbackState) {
@@ -265,6 +275,7 @@ class NetWorkActivity : AppCompatActivity() {
                 Log.i("print_logs", "NetWorkActivity::onIsLoadingChanged: $isLoading")
             }
         }
+
         override fun onIsPlayingChanged(isPlaying: Boolean) {
             super.onIsPlayingChanged(isPlaying)
             if (BuildConfig.DEBUG) {
@@ -273,7 +284,6 @@ class NetWorkActivity : AppCompatActivity() {
                     "onIsPlayingChanged-${System.currentTimeMillis()}，是否播放: $isPlaying"
                 )
             }
-
             if (isPlaying) {
                 mHandler.postDelayed(mProgressRunnable, 1000L)
             } else {
@@ -323,5 +333,153 @@ class NetWorkActivity : AppCompatActivity() {
 
             //${mPlayer.duration}, ${mPlayer.contentDuration}, ${mPlayer.currentPosition}, ${mPlayer.totalBufferedDuration}
         }
+    }
+
+
+    //----------------------------------------------------------------------------------------------
+
+    private  val ACTION_STOPWATCH_CONTROL = "stopwatch_control"
+
+    /** Intent extra for stopwatch controls from Picture-in-Picture mode.  */
+    private  val EXTRA_CONTROL_TYPE = "control_type"
+    private  val CONTROL_TYPE_START_OR_PAUSE = 1
+
+    fun onClickPiP(view: View) {
+        loadPip()
+    }
+
+    private fun loadPip(){
+        createRemoteAction(true)
+    }
+
+
+    // 实现点击 Home 键进入 PiP
+    override fun onUserLeaveHint() {
+        super.onUserLeaveHint()
+        if (BuildConfig.DEBUG) {
+            Log.i("print_logs", "onUserLeaveHint: ")
+        }
+        if (mPlayer.isPlaying) {
+            loadPip()
+        }
+    }
+
+    private val mRemoteReceiver=object :BroadcastReceiver(){
+        override fun onReceive(context: Context?, intent: Intent?) {
+            intent?.also {
+                if (it.action==ACTION_STOPWATCH_CONTROL && it.getIntExtra(EXTRA_CONTROL_TYPE,CONTROL_TYPE_START_OR_PAUSE) == 1){
+                    if (mPlayer.isPlaying) {
+                        mPlayer.pause()
+                    }else{
+                        mPlayer.play()
+                    }
+                    createRemoteAction(false)
+                }
+            }
+        }
+    }
+
+    private fun createRemoteAction(showPip:Boolean){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val params = PictureInPictureParams.Builder().also {builder->
+                builder.setAspectRatio(Rational(16, 9))//设置宽高比为16:9
+
+                // 2、将播放视频的控件binding.movie设置为 PiP 中要展示的部分
+                val visibleRect = Rect()
+                builder.setSourceRectHint(visibleRect)
+                mDataBinding.textureView.getLocalVisibleRect(visibleRect)
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    builder.setTitle("画中画")
+                    builder.setSubtitle("我是子标题")
+                }
+
+                //从 Android 12 开始，setAutoEnterEnabled 标志为使用手势导航
+                //（例如从全屏向上滑动到主屏幕时）过渡到画中画模式下的视频内容时提供更流畅的动画。
+                if (mPlayer.isPlaying) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                        //手势导航启用 setAutoEnterEnabled 后，您无需在 onUserLeaveHint 中明确调用 enterPictureInPictureMode。
+                        builder.setAutoEnterEnabled(true)
+
+                        builder.setSeamlessResizeEnabled(true)
+                    }
+                }
+
+                val iconResId = if (mPlayer.isPlaying) {
+                    if (BuildConfig.DEBUG) {
+                        Log.i("print_logs", "createRemoteAction: 播放")
+                    }
+                    R.drawable.icon_playing
+                } else {
+                    if (BuildConfig.DEBUG) {
+                        Log.i("print_logs", "createRemoteAction: 暂停")
+                    }
+                    R.drawable.icon_pause
+                }
+                val pendingIntent = PendingIntent.getBroadcast(
+                    this,
+                    100,
+                    Intent(ACTION_STOPWATCH_CONTROL).putExtra(EXTRA_CONTROL_TYPE, CONTROL_TYPE_START_OR_PAUSE),
+                    PendingIntent.FLAG_IMMUTABLE
+                )
+                val mRemoteAction = RemoteAction(Icon.createWithResource(this,  iconResId), "播放视频", "Play Video", pendingIntent)
+                builder.setActions(listOf(mRemoteAction))
+            }
+            if (showPip) {
+                if (BuildConfig.DEBUG) {
+                    Log.i("print_logs", "createRemoteAction: 启动画中画")
+                }
+                enterPictureInPictureMode(params.build())
+            }else{
+                if (BuildConfig.DEBUG) {
+                    Log.i("print_logs", "createRemoteAction: 修改参数")
+                }
+                setPictureInPictureParams(params.build())
+            }
+
+        }
+    }
+
+    //方式二
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun onPictureInPictureModeChanged(
+        isInPictureInPictureMode: Boolean,
+        newConfig: Configuration
+    ) {
+        super.onPictureInPictureModeChanged(isInPictureInPictureMode, newConfig)
+        mDataBinding.hideView = isInPictureInPictureMode
+
+    }
+    //----------------------------------------------------------------------------------------------
+
+    override fun onPause() {
+        super.onPause()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            if (isInPictureInPictureMode){
+                if (mPlayer.isPlaying) {
+                    return
+                }
+            }
+        }
+        if (mPlayer.isPlaying) {
+            mPlayer.pause()
+            mPlayer.removeListener(mPlayListener)
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        if (mPlayer.isPlaying) {
+            mPlayer.stop()
+        }
+    }
+
+    override fun onDestroy() {
+        mPlayer.removeListener(mPlayListener)
+        mPlayer.removeMediaItem(0)
+        super.onDestroy()
+        mPlayer.release()
+        mDataBinding.unbind()
+        unregisterReceiver(mRemoteReceiver)
     }
 }
