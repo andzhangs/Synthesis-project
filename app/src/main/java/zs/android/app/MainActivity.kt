@@ -1,9 +1,10 @@
 package zs.android.app
 
 import android.graphics.Typeface
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
@@ -20,6 +21,10 @@ class MainActivity : AppCompatActivity() {
         mDataBinding.lifecycleOwner = this
 
         mDataBinding.acBtnSetFont.setOnClickListener {
+
+            if (mDataBinding.llRoot.childCount != 0){
+                mDataBinding.llRoot.removeAllViews()
+            }
 
             val folderPath = "${getExternalFilesDir("")?.absolutePath}${File.separator}fonts"
 
@@ -47,11 +52,26 @@ class MainActivity : AppCompatActivity() {
 
                 mDataBinding.llRoot.addView(this)
             }
+
+
+            val result=IntTransformer().invoke(9)
+            if (BuildConfig.DEBUG) {
+                Log.i("print_logs", "IntTransformer: $result")
+            }
         }
     }
 
     override fun onDestroy() {
         super.onDestroy()
         mDataBinding.unbind()
+    }
+
+    /**
+     * 使用实现函数类型作为接口的自定义类的实例：
+     */
+    class IntTransformer : (Int) -> Int {
+        override operator fun invoke(p1: Int): Int {
+            return p1 * 10
+        }
     }
 }

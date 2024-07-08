@@ -5,11 +5,13 @@ import android.content.ComponentName
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment.DIRECTORY_DCIM
 import android.provider.MediaStore
+import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -27,6 +29,11 @@ import com.lyrebirdstudio.croppylib.main.StorageType
 import com.steelkiwi.cropiwa.config.CropIwaSaveConfig
 import com.takusemba.cropme.OnCropListener
 import com.yalantis.ucrop.UCrop
+import com.yalantis.ucrop.UCropActivity
+import com.yuyh.library.imgsel.ISNav
+import com.yuyh.library.imgsel.config.ISListConfig
+import top.zibin.luban.Luban
+import top.zibin.luban.OnCompressListener
 import java.io.File
 import java.io.FileOutputStream
 
@@ -34,10 +41,15 @@ import java.io.FileOutputStream
 class MainActivity : AppCompatActivity() {
     companion object {
         const val REQUEST_CROPPY = 100
+
+        const val SYSTEM_CROP_REQUEST_CODE = 101
+
+        const val SELECTOR_REQUEST_CODE = 102
     }
 
     private lateinit var mDataBinding: ActivityMainBinding
     private lateinit var launchPick: ActivityResultLauncher<PickVisualMediaRequest>
+    private lateinit var launchReadPermission : ActivityResultLauncher<String>
     private var mSelectType = 0
 
 
@@ -47,7 +59,6 @@ class MainActivity : AppCompatActivity() {
         mDataBinding.lifecycleOwner = this
 
         launchPick = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) {
-            Log.i("print_logs", "onCreate: $it, $mSelectType")
 
             mDataBinding.acIvShowCrop.visibility = View.GONE
 
@@ -68,7 +79,7 @@ class MainActivity : AppCompatActivity() {
                         mDataBinding.cropLayout.visibility = View.GONE
                         mDataBinding.cropView.visibility = View.GONE
 
-                        mDataBinding.cropIv.setImageUriAsync(it)
+//                        mDataBinding.cropIv.setImageUriAsync(it)
 
                     }
 
@@ -106,6 +117,13 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+
+        launchReadPermission=registerForActivityResult(ActivityResultContracts.RequestPermission()){
+            if (it) {
+                selectFile()
+            }
+        }
+
         /**
          * UCrop
          */
@@ -205,36 +223,51 @@ class MainActivity : AppCompatActivity() {
                 launchPick.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
             }else{
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_MEDIA_IMAGES,Manifest.permission.MANAGE_EXTERNAL_STORAGE),101)
+                    ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_MEDIA_IMAGES,Manifest.permission.MANAGE_EXTERNAL_STORAGE),SYSTEM_CROP_REQUEST_CODE)
                 }else{
-                    ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),101)
+                    ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),SYSTEM_CROP_REQUEST_CODE)
                 }
             }
+        }
+
+        /**
+         * 选择图片
+         */
+        mDataBinding.acBtnImageSelector.setOnClickListener {
+            launchReadPermission.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
         }
     }
 
     private fun loadUCrop(uri: Uri?) {
-        val cacheFolder =
+
+        if (BuildConfig.DEBUG) {
+            Log.i("print_logs", "loadUCrop: $uri")
+        }
+
+        val cacheFolder1="${applicationContext.externalCacheDir?.absoluteFile}${File.separator}ucrop"
+
+        File(cacheFolder1).apply {
+            if (!this.exists()) {
+                this.mkdirs()
+            }
+        }
+
+        val cacheFolder2 =
             "${this.applicationContext.getExternalFilesDir("ucrop")?.absoluteFile}"
-        uri?.also {
-            UCrop.of(
-                it,
-                Uri.fromFile(File(cacheFolder, "ucrop_${System.currentTimeMillis()}.jpeg"))
-            )
-                .withAspectRatio(1f, 1f)
-                .withOptions(UCrop.Options().apply {
-                    setCompressionFormat(Bitmap.CompressFormat.JPEG)
-                    setCompressionQuality(50)
-                    setHideBottomControls(true)
-                    setFreeStyleCropEnabled(false)
-//                    setAllowedGestures(UCropActivity.SCALE, UCropActivity.ROTATE, UCropActivity.ALL)
-//                    setMaxBitmapSize(1000)
-//                    withMaxResultSize(500,500)
-//                    withAspectRatio(3f,2f)
-                    setMaxScaleMultiplier(5f)
-                    setShowCropGrid(false)
-                    setShowCropFrame(false)
-                    setCircleDimmedLayer(true)
+
+        val options=UCrop.Options().apply {
+            setCompressionFormat(Bitmap.CompressFormat.PNG)
+            setCompressionQuality(100)
+            setHideBottomControls(true)
+            setFreeStyleCropEnabled(false)
+            setAllowedGestures(UCropActivity.SCALE, UCropActivity.ROTATE, UCropActivity.ALL)
+            setMaxBitmapSize(1000)
+            withMaxResultSize(500,500)
+//            withAspectRatio(3f,2f)    //裁剪比例
+            setMaxScaleMultiplier(5f)
+            setShowCropGrid(false)
+            setShowCropFrame(false)
+            setCircleDimmedLayer(true)
 //                        setShowCropFrame(true)
 //                        setCropFrameStrokeWidth(20)
 //                        setCropGridColor(Color.GREEN)
@@ -242,7 +275,12 @@ class MainActivity : AppCompatActivity() {
 //                        setCropGridRowCount(1)
 //                        setImageToCropBoundsAnimDuration(666)
 //                    useSourceImageAspectRatio()
-                })
+        }
+
+        uri?.also {
+            UCrop.of(it, Uri.fromFile(File(cacheFolder1, "ucrop_${System.currentTimeMillis()}.png")))
+                .withAspectRatio(1f, 1f) //裁剪比例
+                .withOptions(options)
                 .start(this)
         }
     }
@@ -251,19 +289,97 @@ class MainActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_OK) {
             data?.let {
-                if (requestCode == UCrop.REQUEST_CROP) {
-                    UCrop.getOutput(it)?.also { cropImgUri ->
-                        mDataBinding.acIvShowCrop.setImageURI(cropImgUri)
+                when (requestCode) {
+                    UCrop.REQUEST_CROP -> {
+                        UCrop.getOutput(it)?.also { cropImgUri ->
+                            if (BuildConfig.DEBUG) {
+                                Log.i("print_logs", "onActivityResult: $cropImgUri")
+                            }
+                            mDataBinding.acIvShowCrop.setImageURI(cropImgUri)
+                            compressImage(cropImgUri)
+                            showCropImage()
+                        }
+                    }
+                    REQUEST_CROPPY -> {
+                        mDataBinding.acIvShowCrop.setImageURI(it.data)
                         showCropImage()
                     }
-                } else if (requestCode == REQUEST_CROPPY) {
-                    mDataBinding.acIvShowCrop.setImageURI(it.data)
-                    showCropImage()
-                } else {
+                    SELECTOR_REQUEST_CODE->{
+                        it.getStringArrayListExtra("result")?.let {mList->
+                            if (mList.isNotEmpty()) {
+                                if (BuildConfig.DEBUG) {
+                                    Log.i("print_logs", "MainActivity::onActivityResult: ${mList[0]}")
+                                }
+                                mDataBinding.acIvShowCrop.setImageURI(Uri.parse(mList[0]))
+                                showCropImage()
+                            }
+                        }
+                    }
+                    else -> {
 
+                    }
                 }
             }
         }
+    }
+
+    private fun selectFile(){
+        val config = ISListConfig.Builder()
+            // 是否多选, 默认true
+            .multiSelect(true)
+            // 是否记住上次选中记录, 仅当multiSelect为true的时候配置，默认为true
+            .rememberSelected(false)
+            // “确定”按钮背景色
+            .btnBgColor(Color.TRANSPARENT)
+            // “确定”按钮文字颜色
+            .btnTextColor(Color.BLUE)
+            // 使用沉浸式状态栏
+            .statusBarColor(Color.WHITE)
+            // 返回图标ResId
+            .backResId(R.drawable.icon_back) // 标题
+            .title("图片")
+            // 标题文字颜色
+            .titleColor(Color.BLACK)
+            // TitleBar背景色
+            .titleBgColor(Color.WHITE)
+            // 裁剪大小。needCrop为true的时候配置
+//                .cropSize(1, 1, 200, 200)
+//                .needCrop(false)
+            // 第一个是否显示相机，默认true
+            .needCamera(false)
+            // 最大选择图片数量，默认9
+            .maxNum(1)
+            .build()
+        ISNav.getInstance().toListActivity(this, config, SELECTOR_REQUEST_CODE)
+    }
+
+    private fun compressImage(uri: Uri){
+        Luban.with(this)
+            .load(uri)
+            .ignoreBy(1024)
+            .filter {
+                !TextUtils.isEmpty(it) || it.lowercase().endsWith(".gif")
+            }
+            .setTargetDir("${applicationContext.externalCacheDir?.absoluteFile}${File.separator}ucrop")
+            .setCompressListener(object :OnCompressListener{
+                override fun onStart() {
+                    if (BuildConfig.DEBUG) {
+                        Log.i("print_logs", "onStart: ")
+                    }
+                }
+
+                override fun onSuccess(file: File?) {
+                    if (BuildConfig.DEBUG) {
+                        Log.i("print_logs", "onSuccess: ${file?.path}")
+                    }
+                }
+
+                override fun onError(e: Throwable?) {
+                    if (BuildConfig.DEBUG) {
+                        Log.e("print_logs", "onError: $e")
+                    }
+                }
+            }).launch()
     }
 
     private fun showCropImage() {
