@@ -1,11 +1,10 @@
 package com.example.acra
 
 import android.app.Application
-import android.content.Context
-import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
-import android.os.Build
 import android.util.Log
+import com.simple.spiderman.SpiderMan
+import com.simple.spiderman.utils.SpiderManUtils
 import org.json.JSONObject
 import xcrash.ICrashCallback
 import xcrash.TombstoneManager
@@ -23,17 +22,13 @@ import java.io.PrintWriter
  */
 class AcraApplication : Application() {
 
-    override fun attachBaseContext(base: Context?) {
-        super.attachBaseContext(base)
-    }
+    private val mAppInfo by lazy { AppUtils.getAppVersion(this) }
+    private val mRootFolder by lazy{ "${this.applicationContext.getExternalFilesDir("Log")?.absolutePath}${File.separator}crash${File.separator}"}
 
     override fun onCreate() {
         super.onCreate()
-        initXCrash(this)
-        if (BuildConfig.DEBUG) {
-            Log.i("print_logs", "AcraApplication::onCreate: ")
-        }
-
+        initXCrash()
+        initSpiderMan()
 //        initAcra {
 //            ACRA.DEV_LOGGING = BuildConfig.DEBUG
 //            buildConfigClass = BuildConfig::class.java
@@ -43,17 +38,34 @@ class AcraApplication : Application() {
 //                text = "我是崩溃的提示！"
 //            }
 //        }
+
     }
 
-    private fun initXCrash(it: Context) {
-        if (BuildConfig.DEBUG) {
-            Log.i("print_logs", "LibBaseAppLoader::initXCrash: ")
-        }
+    private fun initSpiderMan(){
+        SpiderMan.setOnCrashListener { thread, ex ->
+            try {
+                val model = SpiderManUtils.parseCrash(this, ex)
+                val text = SpiderManUtils.getShareText(this, model)
+                if (BuildConfig.DEBUG) {
+                    Log.e("print_logs", "SpiderManCrash: $thread-> $text")
+                }
 
+                val time = System.currentTimeMillis().toString()
+                val logPath = "${mRootFolder}spiderMan${File.separator}${mAppInfo.first}"
+
+                val parentFile=File("${mRootFolder}spiderMan${File.separator}${mAppInfo.first}").create()
+                SpiderManUtils.saveTextToFile(text, "${parentFile.absolutePath}${File.separator}log_${time}.txt")
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    private fun initXCrash() {
         // callback for java crash, native crash and ANR
         val callback = ICrashCallback { logPath, emergency ->
             if (emergency != null) {
-                debug(it, logPath, emergency)
+                debug(logPath, emergency)
 
                 // Disk is exhausted, send crash report immediately.
                 sendThenDeleteCrashLog(logPath, emergency)
@@ -70,7 +82,7 @@ class AcraApplication : Application() {
 
                 // Invalid. (Do NOT include multiple consecutive newline characters ("\n\n") in the content string.)
                 // TombstoneManager.appendSection(logPath, "expanded_key_3", "expanded_content_row_1\n\nexpanded_content_row_2");
-                debug(it, logPath, null)
+                debug(logPath, null)
             }
         }
 
@@ -78,17 +90,10 @@ class AcraApplication : Application() {
 //            Log.e("print_logs", "anr 异常: $logPath, $emergency")
 //        }
         try {
-            val packageInfo: PackageInfo = it.packageManager.getPackageInfo(it.packageName, 0)
-            val versionName = packageInfo.versionName
-            val versionCode = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                packageInfo.longVersionCode
-            } else {
-                packageInfo.versionCode
-            }
 
             // 在这里使用 versionCode 或 versionName
-            XCrash.init(it, XCrash.InitParameters().apply {
-                setAppVersion("$versionName - $versionCode")
+            XCrash.init(this, XCrash.InitParameters().apply {
+                setAppVersion("${mAppInfo.first} - ${mAppInfo.second}")
                 setJavaRethrow(true)
                 setJavaLogCountMax(10)
                 setJavaDumpAllThreadsWhiteList(arrayOf("^main$", "^Binder:.*", ".*Finalizer.*"))
@@ -114,15 +119,8 @@ class AcraApplication : Application() {
                 setPlaceholderSizeKb(512)
                 setLogFileMaintainDelayMs(1000)
 
-                val fileFolder =
-                    "${it.applicationContext.getExternalFilesDir("Log")?.absolutePath}${File.separator}crash${File.separator}xCrash"
-
-                File(fileFolder).apply {
-                    if (!exists()) {
-                        mkdirs()
-                    }
-                }
-                setLogDir(fileFolder)
+                val customFile=File("${mRootFolder}xCrash").create()
+                setLogDir(customFile.absolutePath)  //自定义存储目录
             })
         } catch (e: PackageManager.NameNotFoundException) {
             e.printStackTrace()
@@ -158,7 +156,7 @@ class AcraApplication : Application() {
         //TombstoneManager.deleteTombstone(logPath);
     }
 
-    private fun debug(context: Context, logPath: String?, emergency: String?) {
+    private fun debug(logPath: String?, emergency: String?) {
 
         val map=TombstoneParser.parse(logPath,emergency)
 
@@ -169,11 +167,7 @@ class AcraApplication : Application() {
         }
 
         val time = System.currentTimeMillis()
-        val file = File("${XCrash.getLogDir()}${File.separator}info").apply {
-            if (!exists()) {
-                mkdirs()
-            }
-        }
+        val file = File("${XCrash.getLogDir()}${File.separator}${mAppInfo.first}").create()
         try {
             PrintWriter(FileWriter(File(file, "${time}_crash_info.txt"))).apply {
                 println("time: ${map["Crash time"]}")

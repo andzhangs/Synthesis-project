@@ -50,6 +50,7 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
+    //https://www.acra.ch/docs/Setup
     def acraVersion = "5.9.7"
     implementation("ch.acra:acra-http:$acraVersion")
     implementation("ch.acra:acra-mail:$acraVersion")
@@ -65,5 +66,11 @@ dependencies {
     kapt("com.google.auto.service:auto-service:1.1.1")
     implementation("com.google.auto.service:auto-service-annotations:1.1.1")
 
+    //https://github.com/iqiyi/xCrash/blob/master/README.zh-CN.md
     implementation 'com.iqiyi.xcrash:xcrash-android-lib:3.0.0'
+
+    //https://github.com/simplepeng/SpiderMan
+    def spider_man = "v1.1.9"
+    debugImplementation "com.github.simplepeng.SpiderMan:spiderman:${spider_man}"
+    releaseImplementation "com.github.simplepeng.SpiderMan:spiderman-no-op:${spider_man}"
 }
