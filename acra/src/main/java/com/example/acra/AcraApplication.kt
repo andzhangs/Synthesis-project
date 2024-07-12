@@ -1,6 +1,7 @@
 package com.example.acra
 
 import android.app.Application
+import android.content.Context
 import android.content.pm.PackageManager
 import android.util.Log
 import com.simple.spiderman.SpiderMan
@@ -24,6 +25,10 @@ class AcraApplication : Application() {
 
     private val mAppInfo by lazy { AppUtils.getAppVersion(this) }
     private val mRootFolder by lazy{ "${this.applicationContext.getExternalFilesDir("Log")?.absolutePath}${File.separator}crash${File.separator}"}
+
+    override fun attachBaseContext(base: Context?) {
+        super.attachBaseContext(base)
+    }
 
     override fun onCreate() {
         super.onCreate()
@@ -53,7 +58,7 @@ class AcraApplication : Application() {
                 val time = System.currentTimeMillis().toString()
                 val logPath = "${mRootFolder}spiderMan${File.separator}${mAppInfo.first}"
 
-                val parentFile=File("${mRootFolder}spiderMan${File.separator}${mAppInfo.first}").create()
+                val parentFile=File(logPath).create()
                 SpiderManUtils.saveTextToFile(text, "${parentFile.absolutePath}${File.separator}log_${time}.txt")
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -169,45 +174,55 @@ class AcraApplication : Application() {
         val time = System.currentTimeMillis()
         val file = File("${XCrash.getLogDir()}${File.separator}${mAppInfo.first}").create()
         try {
-            PrintWriter(FileWriter(File(file, "${time}_crash_info.txt"))).apply {
-                println("time: ${map["Crash time"]}")
-                println("appVersion：Name-${map["App version"]}")
-                println("mobileDevice: ${map["Brand"]} ${map["Model"]}")
-                println("androidVersion：${map["API level"]} ${map["OS version"]}")
-                println("error：${map["tname"]}-> ${map["java stacktrace"]}")
+            PrintWriter(FileWriter(File(file, "${time}_crash_info.json"))).apply {
+//                println("time: ${map["Crash time"]}")
+//                println("time: ${map["Crash time"]}")
+//                println("appVersion：Name-${map["App version"]}")
+//                println("mobileDevice: ${map["Brand"]} ${map["Model"]}")
+//                println("androidVersion：${map["API level"]} ${map["OS version"]}")
+//                println("error：${map["tname"]}-> ${map["java stacktrace"]}")
+
+                val jsonObj=JSONObject().also {obj->
+                    obj.put("logPath",logPath)
+                    obj.put("time",map["Crash time"])
+                    obj.put("appVersion",map["App version"])
+                    obj.put("mobileDevice","${map["Brand"]} - ${map["Model"]}")
+                    obj.put("androidVersion","[${map["API level"]} , ${map["OS version"]}]")
+                    obj.put("error","${map["tname"]}-> ${map["java stacktrace"]}")
+                }
+                print(jsonObj.toString())
                 close()
             }
+
         } catch (ex: Exception) {
             ex.printStackTrace()
         }
 
-
-
         // Parse and save the crash info to a JSON file for debugging.
-        var writer: FileWriter? = null
-        try { //XCrash.getLogDir()
-            val debug = File("${XCrash.getLogDir()}${File.separator}debug.json")
-            debug.createNewFile()
-            writer = FileWriter(debug, false)
-            writer.write(
-                (TombstoneParser.parse(
-                    logPath,
-                    emergency
-                ) as Map<*, *>?)?.let {
-                    JSONObject(
-                        it
-                    ).toString()
-                }
-            )
-        } catch (e: Exception) {
-            Log.d("print_logs", "debug failed", e)
-        } finally {
-            if (writer != null) {
-                try {
-                    writer.close()
-                } catch (ignored: Exception) {
-                }
-            }
-        }
+//        var writer: FileWriter? = null
+//        try { //XCrash.getLogDir()
+//            val debug = File("${XCrash.getLogDir()}${File.separator}debug.json")
+//            debug.createNewFile()
+//            writer = FileWriter(debug, false)
+//            writer.write(
+//                (TombstoneParser.parse(
+//                    logPath,
+//                    emergency
+//                ) as Map<*, *>?)?.let {
+//                    JSONObject(
+//                        it
+//                    ).toString()
+//                }
+//            )
+//        } catch (e: Exception) {
+//            Log.d("print_logs", "debug failed", e)
+//        } finally {
+//            if (writer != null) {
+//                try {
+//                    writer.close()
+//                } catch (ignored: Exception) {
+//                }
+//            }
+//        }
     }
 }
