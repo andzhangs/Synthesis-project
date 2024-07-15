@@ -20,7 +20,9 @@ import com.jcraft.jsch.JSch
 import com.module.attrsense.databinding.ActivityMainBinding
 import java.io.BufferedReader
 import java.io.File
+import java.io.FileWriter
 import java.io.InputStreamReader
+import java.io.PrintWriter
 import kotlin.concurrent.thread
 
 class MainActivity : AppCompatActivity() {
@@ -112,29 +114,29 @@ class MainActivity : AppCompatActivity() {
         mLiveData.observe(this) {
             mDataBinding.acTvFolder.text = it
 
-//            val file = File(DOWNLOADS_FOLDER, "attrsense").create()
-//            try {
-//                PrintWriter(FileWriter(File(file, "info.txt"))).apply {
-//                    println(it)
-//                    close()
-//                }
-//            } catch (ex: Exception) {
-//                ex.printStackTrace()
-//            }
+            val file = File(DOWNLOADS_FOLDER, "attrsense").create()
+            try {
+                PrintWriter(FileWriter(File(file, "info.txt"))).apply {
+                    println(it)
+                    close()
+                }
+            } catch (ex: Exception) {
+                ex.printStackTrace()
+            }
         }
     }
 
-    private fun deleteFiles(file: File){
+    private fun deleteFiles(file: File) {
         if (file.isDirectory) {
-            file.listFiles()?.forEach { childFile->
+            file.listFiles()?.forEach { childFile ->
                 if (childFile.isDirectory) {
                     deleteFiles(childFile)
-                }else{
+                } else {
                     file.delete()
                 }
                 childFile.delete()
             }
-        }else{
+        } else {
             file.delete()
         }
     }
