@@ -1,6 +1,8 @@
 package com.module.attrsense
 
 import android.app.Application
+import com.module.attrsense.test1.Test1
+import com.module.attrsense.test2.Test2
 
 /**
  *
@@ -12,5 +14,11 @@ class AttrApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        Test1().getHello()
+        Test2.getWorld()
+        AppConfig().apply {
+            getContent()
+            getContent12()
+        }
     }
 }
