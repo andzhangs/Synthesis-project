@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var startActivityForResult: ActivityResultLauncher<Intent>
     private lateinit var startIntentSenderForResult: ActivityResultLauncher<IntentSenderRequest>
-    private lateinit var startManagerAllFile:ActivityResultLauncher<Intent>
+    private lateinit var startManagerAllFile: ActivityResultLauncher<Intent>
     private lateinit var requestPermission: ActivityResultLauncher<String>
     private lateinit var requestMultiplePermissions: ActivityResultLauncher<Array<String>>
     private lateinit var openDocument: ActivityResultLauncher<Array<String>>
@@ -45,6 +45,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var getContent: ActivityResultLauncher<String>
     private lateinit var createDocument: ActivityResultLauncher<String>
     private lateinit var getMultipleContents: ActivityResultLauncher<String>
+    private lateinit var mObserver: MyLifecycleObserver
 
     private lateinit var mImageView: AppCompatImageView
 
@@ -90,17 +91,21 @@ class MainActivity : AppCompatActivity() {
 
 
         //请求所有文件权限
-        startManagerAllFile=registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
-            if (BuildConfig.DEBUG) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                    Log.i("print_logs", "setCallback: ${Environment.isExternalStorageManager()}")
+        startManagerAllFile =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+                if (BuildConfig.DEBUG) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                        Log.i(
+                            "print_logs",
+                            "setCallback: ${Environment.isExternalStorageManager()}"
+                        )
+                    }
                 }
             }
-        }
         findViewById<AppCompatButton>(R.id.managerAllFile).setOnClickListener {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                 startManagerAllFile.launch(Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION).also {
-                    it.data=Uri.parse("package:${this.applicationContext.packageName}")
+                    it.data = Uri.parse("package:${this.applicationContext.packageName}")
                 })
             }
         }
@@ -247,22 +252,23 @@ class MainActivity : AppCompatActivity() {
             )
         }
 
-        var takePicturePreviewState=false
-        var takePictureState=false
+        var takePicturePreviewState = false
+        var takePictureState = false
         val cameraPath: String =
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).absolutePath + File.separator + "Camera"
 
-        requestCameraPermission = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
-            if (it) {
-                Log.i("print_logs", "requestPermission 同意：WRITE_EXTERNAL_STORAGE")
+        requestCameraPermission =
+            registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+                if (it) {
+                    Log.i("print_logs", "requestPermission 同意：WRITE_EXTERNAL_STORAGE")
 
-                if (takePicturePreviewState){
-                    takePicturePreviewState=false
-                    takePicturePreview.launch(null)
-                }
+                    if (takePicturePreviewState) {
+                        takePicturePreviewState = false
+                        takePicturePreview.launch(null)
+                    }
 
-                if (takePictureState) {
-                    takePictureState=false
+                    if (takePictureState) {
+                        takePictureState = false
 //                    uri = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
 //                        val values = ContentValues().apply {
 //                            put(
@@ -276,26 +282,26 @@ class MainActivity : AppCompatActivity() {
 //                      null
 //                    }
 
-                    val file = File(cameraPath).apply {
-                        if (!this.exists()) {
-                            this.mkdirs()
-                        } else {
-                            if (this.isDirectory) {
-                                this.listFiles()?.forEach { file ->
-                                    if (file.isFile) {
-                                        file.delete()
+                        val file = File(cameraPath).apply {
+                            if (!this.exists()) {
+                                this.mkdirs()
+                            } else {
+                                if (this.isDirectory) {
+                                    this.listFiles()?.forEach { file ->
+                                        if (file.isFile) {
+                                            file.delete()
+                                        }
                                     }
                                 }
                             }
                         }
-                    }
 
-                    val photoFile = File.createTempFile("IMG_", ".jpg", file)
-                    uri = FileProvider.getUriForFile(
-                        this,
-                        "${BuildConfig.APPLICATION_ID}.providers",
-                        photoFile
-                    )
+                        val photoFile = File.createTempFile("IMG_", ".jpg", file)
+                        uri = FileProvider.getUriForFile(
+                            this,
+                            "${BuildConfig.APPLICATION_ID}.providers",
+                            photoFile
+                        )
 
 //                    cameraPath?.let { folder ->
 //                        if (folder.exists() && folder.isDirectory) {
@@ -310,13 +316,13 @@ class MainActivity : AppCompatActivity() {
 //                        }
 //                    }
 
-                    takePicture.launch(uri)
-                }
-            } else {
-                Log.e("print_logs", "requestPermission 拒绝：WRITE_EXTERNAL_STORAGE")
+                        takePicture.launch(uri)
+                    }
+                } else {
+                    Log.e("print_logs", "requestPermission 拒绝：WRITE_EXTERNAL_STORAGE")
 
+                }
             }
-        }
 
 
         //调用MediaStore.ACTION_IMAGE_CAPTURE拍照，返回值为Bitmap图片
@@ -330,7 +336,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         findViewById<AppCompatButton>(R.id.onTakePicturePreview).setOnClickListener {
-            takePicturePreviewState=true
+            takePicturePreviewState = true
             requestCameraPermission.launch(Manifest.permission.CAMERA)
         }
 
@@ -349,10 +355,9 @@ class MainActivity : AppCompatActivity() {
             }
         }
         findViewById<AppCompatButton>(R.id.onTakePicture).setOnClickListener {
-            takePictureState=true
+            takePictureState = true
             requestCameraPermission.launch(Manifest.permission.CAMERA)
         }
-
 
 
         //调用MediaStore.ACTION_VIDEO_CAPTURE 拍摄视频，保存到给定的Uri地址，返回一张缩略图
@@ -432,6 +437,17 @@ class MainActivity : AppCompatActivity() {
             getMultipleContents.launch(
                 "text/plain"
             )
+        }
+
+        mObserver = MyLifecycleObserver(this.activityResultRegistry){
+            with(mImageView) {
+                visibility = View.VISIBLE
+                setImageURI(it)
+            }
+        }
+        lifecycle.addObserver(mObserver)
+        findViewById<AppCompatButton>(R.id.onActivityResultRegistry).setOnClickListener {
+            mObserver.selectImage()
         }
     }
 
@@ -570,21 +586,22 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        startActivityForResult.unregister()
-        startIntentSenderForResult.unregister()
-        startManagerAllFile.unregister()
-        requestPermission.unregister()
-        requestMultiplePermissions.unregister()
-        openDocument.unregister()
-        openMultipleDocuments.unregister()
-        openDocumentTree.unregister()
-        takePicturePreview.unregister()
-        requestCameraPermission.unregister()
-        takePicture.unregister()
-        captureVideo.unregister()
-        pickContact.unregister()
-        getContent.unregister()
-        createDocument.unregister()
-        getMultipleContents.unregister()
+//        startActivityForResult.unregister()
+//        startIntentSenderForResult.unregister()
+//        startManagerAllFile.unregister()
+//        requestPermission.unregister()
+//        requestMultiplePermissions.unregister()
+//        openDocument.unregister()
+//        openMultipleDocuments.unregister()
+//        openDocumentTree.unregister()
+//        takePicturePreview.unregister()
+//        requestCameraPermission.unregister()
+//        takePicture.unregister()
+//        captureVideo.unregister()
+//        pickContact.unregister()
+//        getContent.unregister()
+//        createDocument.unregister()
+//        getMultipleContents.unregister()
+        lifecycle.removeObserver(mObserver)
     }
 }

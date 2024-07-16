@@ -407,7 +407,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        launchPick.unregister()
+//        launchPick.unregister()
         mDataBinding.unbind()
     }
 

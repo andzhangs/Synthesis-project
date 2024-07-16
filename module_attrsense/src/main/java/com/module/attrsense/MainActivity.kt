@@ -237,7 +237,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
     private fun File.create(): File {
         if (!this.exists()) {
             this.mkdirs()
@@ -247,8 +246,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        mLauncherAllFiles.unregister()
-        mLauncherreadWrite.unregister()
+//        mLauncherAllFiles.unregister()
+//        mLauncherreadWrite.unregister()
         mDataBinding.unbind()
     }
 }

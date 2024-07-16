@@ -30,21 +30,15 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments = [AROUTER_MODULE_NAME: project.getName()]
-            }
-        }
     }
 
     buildTypes {
         debug {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -55,7 +49,7 @@ android {
     kotlinOptions {
         jvmTarget = '17'
     }
-    buildFeatures{
+    buildFeatures {
         dataBinding true
     }
 }
@@ -72,3 +66,11 @@ dependencies {
 
     implementation 'com.jcraft:jsch:0.1.55' // 或最新版本
 }
+
+//第一步：下载bundletool工具包，并保存在：/Library/Android/sdk/tools/ 目录下
+//第二步：配置环境变量：alias bundletool="java -jar $HOME/Library/Android/sdk/tools/bundletool-all-1.15.6.jar"
+//第三步：执行命令：source .zshrc 保存.
+//第四步：生成apks命令：
+//bundletool build-apks --bundle=/Users/zhangshuai/Project____/Android/Synthesis-Project/module_attrsense/release/module_attrsense-release.aab --output=/Users/zhangshuai/Project____/Android/Synthesis-Project/module_attrsense/release/attrsense.apks --ks=/Users/zhangshuai/Project____/Android/Synthesis-Project/module_attrsense/attr.keystore --ks-pass=pass:attrsense --ks-key-alias=attrsense --key-pass=pass:attrsense
+//第五步安装apks包命令：
+//bundletool install-apks --apks=/Users/zhangshuai/Project____/Android/Synthesis-Project/module_attrsense/release/attrsense.apks
