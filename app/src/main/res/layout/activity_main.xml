@@ -15,6 +15,11 @@
             android:textSize="16sp"
             android:text="设置字体"/>
 
-
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/acBtn_load_jar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:text="加载Jar"/>
     </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>

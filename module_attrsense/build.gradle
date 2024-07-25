@@ -7,13 +7,13 @@ plugins {
 android {
     signingConfigs {
         debug {
-            storeFile file("${projectDir.absolutePath}/attr.keystore")
+            storeFile file("${rootDir.absolutePath}/attr.keystore")
             storePassword 'attrsense'
             keyAlias 'attrsense'
             keyPassword 'attrsense'
         }
         release {
-            storeFile file("${projectDir.absolutePath}/attr.keystore")
+            storeFile file("${rootDir.absolutePath}/attr.keystore")
             storePassword 'attrsense'
             keyAlias 'attrsense'
             keyPassword 'attrsense'
@@ -36,10 +36,12 @@ android {
         debug {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
         }
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
     compileOptions {
