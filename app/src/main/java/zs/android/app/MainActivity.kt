@@ -17,6 +17,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import zs.android.app.databinding.ActivityMainBinding
 import java.io.File
 
@@ -101,6 +104,13 @@ class MainActivity : AppCompatActivity() {
                 }
             } else {
                 launch.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+            }
+        }
+
+        lifecycleScope.launch(Dispatchers.IO){
+            val info=resources.getString(R.string.test_format).format(12,32)
+            if (BuildConfig.DEBUG) {
+                Log.d("print_logs", "MainActivity::onCreate: $info")
             }
         }
     }

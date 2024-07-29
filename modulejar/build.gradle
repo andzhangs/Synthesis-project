@@ -50,7 +50,8 @@ dependencies {
 
 task makeJar(type: Copy, group: 'Jar') {
     delete "${projectDir}/jar/moduleJar_v1.0.0.jar"
-    from('build/intermediates/aar_main_jar/release/')
+    delete "${buildDir}/intermediates/aar_main_jar/release/"
+    from("${buildDir}/intermediates/aar_main_jar/release/")
     into("${projectDir}/jar")
     include('classes.jar')
     rename('classes.jar', 'moduleJar_v1.0.0.jar')

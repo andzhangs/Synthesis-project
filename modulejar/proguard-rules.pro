@@ -58,9 +58,9 @@
 -optimizations !code/simplification/cast,!field/*,!class/merging/*
 
 # 指定外部模糊字典 proguard-1il.txt 改为混淆文件名，下同
-#-obfuscationdictionary proguard-1il.txt
+-obfuscationdictionary proguard-1il.txt
 # 指定class模糊字典
-#-classobfuscationdictionary proguard-1il.txt
+-classobfuscationdictionary proguard-1il.txt
 # 指定package模糊字典
 -packageobfuscationdictionary proguard-1il.txt
 
@@ -185,6 +185,7 @@
 -keep class com.synthesis.modulejar.Constants{
     public java.lang.String getCurrentTime(...);
 }
+
 
 #避免混淆泛型
 -keepattributes Signature

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">app</string>
+    <string name="test_format">图片：%d张, 视频：%d条</string>
 </resources>

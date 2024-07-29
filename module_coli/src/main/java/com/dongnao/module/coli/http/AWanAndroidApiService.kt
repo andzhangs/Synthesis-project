@@ -13,7 +13,7 @@ import retrofit2.http.Query
  *
  * https://www.wanandroid.com/project/list/1/json?cid=1
  */
-interface ApiAWanAndroidService {
+interface AWanAndroidApiService {
 
     @GET("project/list/{page}/json")
     suspend fun getData(@Path("page") page: Int, @Query("cid") cid: Int): WanAndroidBean?

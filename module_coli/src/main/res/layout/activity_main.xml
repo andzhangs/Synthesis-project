@@ -14,14 +14,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="@{()->vm.getUserData()}"
-            android:text="Get Protobuf"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/switch_remote_or_local"
             android:layout_width="wrap_content"
@@ -36,7 +28,7 @@
             android:id="@+id/switch_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="动画"
+            android:text="图片"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:switchPadding="5dp" />

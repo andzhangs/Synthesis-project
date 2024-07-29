@@ -1,9 +1,11 @@
 package com.dongnao.module.coli.model.wanandroid
 
+import androidx.annotation.Keep
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
+@Keep
 @Serializable
 data class DataX(
     val adminAdd: Boolean,
