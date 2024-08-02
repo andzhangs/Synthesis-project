@@ -1,21 +1,30 @@
 plugins {
-    id 'com.android.application'
-    id 'org.jetbrains.kotlin.android'
-    id 'version-catalog'
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
 }
+
+/*加载baseConstants.properties信息到该gradle文件中*/
+def keystorePropertiesFile = rootProject.file("baseConstants.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 android {
     namespace 'com.module.versions.catalog'
-    compileSdk 33
+    compileSdk libs.versions.compileSdkVersion.get().toInteger()
 
     defaultConfig {
-        applicationId "com.module.versions.catalog"
-        minSdk 21
-        targetSdk 33
-        versionCode 1
-        versionName "1.0"
+        applicationId libs.versions.applicationId.get()
+        minSdk libs.versions.minSdkVersion.get().toInteger()
+        targetSdk libs.versions.compileSdkVersion.get().toInteger()
+        versionCode libs.versions.versionCode.get().toInteger()
+        versionName libs.versions.versionName.get()
+        multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "BASE_HTTP_URL", keystoreProperties['DebugBaseHttpUrl'])
+        buildConfigField("String", "WEB_LINK", rootProject.ext.BAIDU_LINK)  //rootProject.ext是访问项目级别的gradle.properties文件的
+        buildConfigField("String", "DebugBaseHttpUrl", rootProject.ext.DebugBaseHttpUrl)  //rootProject.ext是访问自定义的.properties文件
     }
 
     buildTypes {
@@ -34,12 +43,12 @@ android {
 }
 
 dependencies {
-
-    implementation 'androidx.core:core-ktx:1.10.1'
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'com.google.android.material:material:1.5.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    implementation libs.core.ktx
+    implementation libs.appcompat
+    implementation libs.material
+    implementation libs.constraintlayout
+    testImplementation libs.junit
+    androidTestImplementation libs.androidx.test
+    androidTestImplementation libs.espresso.core
+    implementation libs.multiDex
 }

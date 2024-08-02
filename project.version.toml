@@ -1,2 +1,0 @@
-#version('v_rebound', "0.3.8")
-#alias('imp_rebound').to('com.facebook.rebound','rebound').versionRef('v_rebound')
