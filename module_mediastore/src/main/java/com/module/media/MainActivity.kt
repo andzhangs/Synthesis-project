@@ -17,15 +17,12 @@ import androidx.core.database.getIntOrNull
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import com.module.media.databinding.ActivityMainBinding
+import com.module.media.factory.TranslateFactory
+import com.module.media.factory.TranslateType
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.json.JSONObject
-import java.io.BufferedReader
 import java.io.FileInputStream
-import java.io.InputStreamReader
-import java.net.URL
 import java.security.MessageDigest
 
 
@@ -198,16 +195,43 @@ class MainActivity : AppCompatActivity() {
                         cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.DATE_TAKEN))
 
 
-                    withContext(Dispatchers.IO){
-                        translateChinese(folderName,filePath)
+                    if (fileName.contains("attr_IMG_6159")) {
+                        withContext(Dispatchers.IO) {
+                            translateChinese(folderName, filePath) {
+                                val result = TranslateFactory.getChineseText(
+                                    TranslateType.BAI_DU,
+                                    folderName,
+                                    filePath
+                                )
+                                if (result.second.isNotEmpty() && result.third == filePath) {
+                                    mFolderNameMap[result.first] =
+                                        Pair(result.second, mutableListOf(result.third))
+                                } else {
+                                    Log.d("print_logs", "百度翻译失败：$folderName")
+                                }
+                            }
+                        }
+                    } else { //if (fileName=="640.jpeg")
+                        withContext(Dispatchers.IO) {
+                            translateChinese(folderName, filePath) {
+                                val result2 = TranslateFactory.getChineseText(
+                                    TranslateType.YOU_DAO,
+                                    folderName,
+                                    filePath
+                                )
+                                if (result2.second.isNotEmpty() && result2.third == filePath) {
+                                    mFolderNameMap[result2.first] =
+                                        Pair(result2.second, mutableListOf(result2.third))
+                                } else {
+                                    Log.d("print_logs", "有道译失败：$folderName")
+                                }
+                            }
+                        }
                     }
 
-                    if (fileName == "attr_IMG_6159.mov" && mimeType.contains("video")) {
-//                        if (BuildConfig.DEBUG) {
-//                            Log.i("print_logs", "MainActivity::searchMediaData: 1")
-//                        }
 
-                        withContext(Dispatchers.Main){
+                    if (fileName == "attr_IMG_6159.mov" && mimeType.contains("video")) {
+                        withContext(Dispatchers.Main) {
                             loadVideo("/storage/emulated/0/attr/livePhoto/attr_IMG_6159.mov")
                         }
                     }
@@ -231,16 +255,13 @@ class MainActivity : AppCompatActivity() {
 //                    )
                 }
                 cursor.close()
-                if (BuildConfig.DEBUG) {
-                    Log.i("print_logs", "MainActivity::searchMediaData: close")
-                }
             } else {
                 Log.e("print_logs", "MainActivity::getMedia: null.")
             }
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e("print_logs", "MainActivity::getMedia: $e")
-        }finally {
+        } finally {
             if (BuildConfig.DEBUG) {
                 Log.i("print_logs", "MainActivity::searchMediaData: finally")
             }
@@ -257,6 +278,22 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+    private suspend fun translateChinese(
+        wordTxt: String,
+        filePath: String,
+        block: suspend () -> Unit
+    ) {
+        if (mFolderNameMap.contains(wordTxt)) {
+            if (BuildConfig.DEBUG) {
+                Log.d("print_logs", "translateChinese，已经存在：$wordTxt")
+            }
+            mFolderNameMap[wordTxt]?.second?.add(filePath)
+        } else {
+            block()
+        }
+    }
+
 
     private fun loadVideo(filePath: String) {
         mBinding.videoView.setVideoPath(filePath)
@@ -405,105 +442,8 @@ class MainActivity : AppCompatActivity() {
         mPlayHandler.removeCallbacks(seekRunnable)
     }
 
-
-    private suspend fun translateChinese(wordTxt: String, filePath: String) {
-        if (mFolderNameMap.contains(wordTxt)) {
-            if (BuildConfig.DEBUG) {
-                Log.d("print_logs", "translateChinese，已经存在：$wordTxt")
-            }
-            mFolderNameMap[wordTxt]?.second?.add(filePath)
-        }else{
-            if (wordTxt.isChinese()) {  //本身就是中文
-                mFolderNameMap[wordTxt] = Pair(wordTxt, mutableListOf(filePath))
-                return
-            }
-
-            delay(1000L)
-
-            try {
-                val baseUrl="https://fanyi-api.baidu.com/api/trans/vip/translate"
-                val appid="20210520000835483"
-                val salt=System.currentTimeMillis().toString()
-                val secret="vm6j6GCPhSlHxoOV51fb"
-                val md5Sign=convertMd5(appid+wordTxt+salt+secret)
-
-                val urlWithParams= "$baseUrl?q=${wordTxt}&from=auto&to=zh&appid=${appid}&salt=${salt}&sign=$md5Sign"
-
-                if (BuildConfig.DEBUG) {
-                    Log.i("print_logs", "md5Str: $md5Sign, ${md5Sign.length}, $urlWithParams")
-                }
-
-                //拼接字符串后，转成MD5，并发起网络翻译
-                val connection= URL(urlWithParams).openConnection().apply {
-                    setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36")
-                    setRequestProperty("Connection", "keep-alive")
-                }
-                val reader= BufferedReader(InputStreamReader(connection.getInputStream()))
-                var line: String?
-                val response = java.lang.StringBuilder()
-                while (reader.readLine().also { line = it } != null) {
-                    response.append(line)
-                }
-
-                if (BuildConfig.DEBUG) {
-                    Log.i("print_logs", "translateChinese: $response")
-                }
-
-                val jsonObject= JSONObject(response.toString())
-                val transResult=jsonObject.getJSONArray("trans_result")
-                val transResultObj=transResult.getJSONObject(0)
-                val dst=transResultObj.getString("dst")
-                if (BuildConfig.DEBUG) {
-                    Log.i("print_logs", "translateChinese: $dst")
-                }
-
-                mFolderNameMap[wordTxt] = Pair(dst, mutableListOf(filePath))
-
-            }catch (e:Exception){
-                e.printStackTrace()
-                if (BuildConfig.DEBUG) {
-                    Log.e("print_logs", "translateChinese: $e")
-                }
-            }
-        }
-    }
-
-    private fun String.isChinese(): Boolean {
-        val regex = "[\u4e00-\u9fa5]" // 中文 Unicode 范围
-        return this.matches(Regex(regex))
-    }
-
-    /**
-     * 将拼接字符串转换为MD5
-     */
-    private fun convertMd5(inputStr:String):String{
-
-        if (BuildConfig.DEBUG) {
-            Log.i("print_logs", "inputStr: $inputStr")
-        }
-
-        // 创建 MessageDigest 对象，指定使用 MD5 算法
-        val md5 = MessageDigest.getInstance("MD5")
-
-        // 将输入字符串转换为字节数组并计算摘要
-        val messageDigest=md5.digest(inputStr.toByteArray())
-
-        // 将摘要转换为十六进制字符串
-        val sb = StringBuilder()
-        messageDigest.forEach {
-//            val hex= if (it.toInt() and 0xFF < 0x10) {
-//                "0" + Integer.toHexString(it.toInt() and 0xFF)
-//            } else {
-//                Integer.toHexString(it.toInt() and 0xFF)
-//            }
-            sb.append(String.format("%02x", it)) //it.toInt() and 0xFF
-        }
-        return sb.toString()
-    }
-
     override fun onDestroy() {
         mFolderNameMap.clear()
         super.onDestroy()
     }
-
 }
