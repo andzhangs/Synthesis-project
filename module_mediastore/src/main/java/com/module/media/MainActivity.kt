@@ -15,14 +15,25 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.database.getIntOrNull
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.lifecycleScope
 import com.module.media.databinding.ActivityMainBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import org.json.JSONObject
+import java.io.BufferedReader
 import java.io.FileInputStream
+import java.io.InputStreamReader
+import java.net.URL
 import java.security.MessageDigest
 
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var mBinding: ActivityMainBinding
+
+    private val mFolderNameMap = LinkedHashMap<String, Pair<String, MutableList<String>>>()
 
     private val mPlayHandler = Handler(Looper.getMainLooper())
     private val seekRunnable = object : Runnable {
@@ -40,9 +51,6 @@ class MainActivity : AppCompatActivity() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
-                if (BuildConfig.DEBUG) {
-                    Log.i("print_logs", "MainActivity::onCreate: ${it.isNotEmpty()}")
-                }
                 if (it.isNotEmpty()) {
                     if (it[Manifest.permission.READ_MEDIA_IMAGES]!! && it[Manifest.permission.READ_MEDIA_VIDEO]!!) {
                         initView()
@@ -57,12 +65,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
     private fun initView() {
-        if (BuildConfig.DEBUG) {
-            Log.i("print_logs", "MainActivity::initView: ")
+        lifecycleScope.launch(Dispatchers.IO) {
+            searchMediaData()
         }
-        searchMediaData()
 
         mBinding.acIvStart.setOnClickListener {
             mPlayHandler.postDelayed(seekRunnable, 0)
@@ -88,9 +94,9 @@ class MainActivity : AppCompatActivity() {
         mBinding.acSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
 
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                if (BuildConfig.DEBUG) {
-                    Log.i("print_logs", "当前进度: $progress, fromUser= $fromUser")
-                }
+//                if (BuildConfig.DEBUG) {
+//                    Log.i("print_logs", "当前进度: $progress, fromUser= $fromUser")
+//                }
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
@@ -110,11 +116,12 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    private fun searchMediaData() {
+    private suspend fun searchMediaData() {
         try {
             val projection = arrayOf(
                 MediaStore.Files.FileColumns._ID,
                 MediaStore.Files.FileColumns.DISPLAY_NAME,
+                MediaStore.Files.FileColumns.BUCKET_DISPLAY_NAME,
                 MediaStore.Files.FileColumns.DATA,
                 MediaStore.Files.FileColumns.SIZE,
                 MediaStore.Files.FileColumns.MIME_TYPE,
@@ -156,6 +163,9 @@ class MainActivity : AppCompatActivity() {
                     //获取图片的名称
                     val fileName =
                         cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.DISPLAY_NAME))
+                    //文件夹
+                    val folderName =
+                        cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.BUCKET_DISPLAY_NAME))
                     //获取图片的路径
                     val filePath =
                         cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.DATA))
@@ -188,38 +198,63 @@ class MainActivity : AppCompatActivity() {
                         cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.DATE_TAKEN))
 
 
-                    if (fileName=="VID_20230825_183553.mp4" && mimeType.contains("video")) {
-                        if (BuildConfig.DEBUG) {
-                            Log.i("print_logs", "MainActivity::searchMediaData: 1")
-                        }
+                    withContext(Dispatchers.IO){
+                        translateChinese(folderName,filePath)
+                    }
 
-                        loadVideo("/storage/emulated/0/DCIM/Camera/VID_20230825_183553.mp4")
+                    if (fileName == "attr_IMG_6159.mov" && mimeType.contains("video")) {
+//                        if (BuildConfig.DEBUG) {
+//                            Log.i("print_logs", "MainActivity::searchMediaData: 1")
+//                        }
+
+                        withContext(Dispatchers.Main){
+                            loadVideo("/storage/emulated/0/attr/livePhoto/attr_IMG_6159.mov")
+                        }
                     }
                     ++index
 
-                    Log.i(
-                        "print_logs",
-                        "fileName: $fileName,\n" +
-                                "filePath: $filePath,\n" +
-                                "fileSize: $fileSize,\n" +
-                                "mimeType: $mimeType,\n" +
-                                "mediaType：$mediaType,\n" +
-                                "hash: $hash,\n" +
-                                "fileUri: $fileUri,\n" +
-                                "duration: $duration,\n" +
-                                "dateModified: $dateModified,\n" +
-                                "dateExpires: $dateExpires,\n" +
-                                "dateAdded: $dateAdded,\n" +
-                                "dateTaken: $dateTaken"
-                    )
+//                    Log.i(
+//                        "print_logs",
+//                        "fileName: $fileName,\n" +
+//                                "folderName：$folderName,\n" +
+//                                "filePath: $filePath,\n" +
+//                                "fileSize: $fileSize,\n" +
+//                                "mimeType: $mimeType,\n" +
+//                                "mediaType：$mediaType,\n" +
+//                                "hash: $hash,\n" +
+//                                "fileUri: $fileUri,\n" +
+//                                "duration: $duration,\n" +
+//                                "dateModified: $dateModified,\n" +
+//                                "dateExpires: $dateExpires,\n" +
+//                                "dateAdded: $dateAdded,\n" +
+//                                "dateTaken: $dateTaken"
+//                    )
                 }
                 cursor.close()
+                if (BuildConfig.DEBUG) {
+                    Log.i("print_logs", "MainActivity::searchMediaData: close")
+                }
             } else {
                 Log.e("print_logs", "MainActivity::getMedia: null.")
             }
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e("print_logs", "MainActivity::getMedia: $e")
+        }finally {
+            if (BuildConfig.DEBUG) {
+                Log.i("print_logs", "MainActivity::searchMediaData: finally")
+            }
+
+            mFolderNameMap.forEach { (t, u) ->
+                if (BuildConfig.DEBUG) {
+                    Log.d("print_logs", "文件夹: $t, ${u.first}")
+                }
+                u.second.forEach {
+                    if (BuildConfig.DEBUG) {
+                        Log.w("print_logs", "包含: $it")
+                    }
+                }
+            }
         }
     }
 
@@ -246,19 +281,19 @@ class MainActivity : AppCompatActivity() {
 
             mBinding.acSeekBar.max = it.duration
 
-            if (BuildConfig.DEBUG) {
-                Log.i(
-                    "print_logs",
-                    "MainActivity::setOnPreparedListener: 总时长= ${it.duration}"
-                )
-            }
+//            if (BuildConfig.DEBUG) {
+//                Log.i(
+//                    "print_logs",
+//                    "MainActivity::setOnPreparedListener: 总时长= ${it.duration}"
+//                )
+//            }
         }
 
 
         mBinding.videoView.setOnInfoListener { mp, what, extra ->
-            if (BuildConfig.DEBUG) {
-                Log.i("print_logs", "MainActivity::setOnInfoListener: $what")
-            }
+//            if (BuildConfig.DEBUG) {
+//                Log.i("print_logs", "MainActivity::setOnInfoListener: $what")
+//            }
             when (what) {
                 MediaPlayer.MEDIA_INFO_UNKNOWN -> {
 
@@ -368,6 +403,107 @@ class MainActivity : AppCompatActivity() {
         super.onStop()
         mBinding.videoView.stopPlayback()
         mPlayHandler.removeCallbacks(seekRunnable)
+    }
+
+
+    private suspend fun translateChinese(wordTxt: String, filePath: String) {
+        if (mFolderNameMap.contains(wordTxt)) {
+            if (BuildConfig.DEBUG) {
+                Log.d("print_logs", "translateChinese，已经存在：$wordTxt")
+            }
+            mFolderNameMap[wordTxt]?.second?.add(filePath)
+        }else{
+            if (wordTxt.isChinese()) {  //本身就是中文
+                mFolderNameMap[wordTxt] = Pair(wordTxt, mutableListOf(filePath))
+                return
+            }
+
+            delay(1000L)
+
+            try {
+                val baseUrl="https://fanyi-api.baidu.com/api/trans/vip/translate"
+                val appid="20210520000835483"
+                val salt=System.currentTimeMillis().toString()
+                val secret="vm6j6GCPhSlHxoOV51fb"
+                val md5Sign=convertMd5(appid+wordTxt+salt+secret)
+
+                val urlWithParams= "$baseUrl?q=${wordTxt}&from=auto&to=zh&appid=${appid}&salt=${salt}&sign=$md5Sign"
+
+                if (BuildConfig.DEBUG) {
+                    Log.i("print_logs", "md5Str: $md5Sign, ${md5Sign.length}, $urlWithParams")
+                }
+
+                //拼接字符串后，转成MD5，并发起网络翻译
+                val connection= URL(urlWithParams).openConnection().apply {
+                    setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36")
+                    setRequestProperty("Connection", "keep-alive")
+                }
+                val reader= BufferedReader(InputStreamReader(connection.getInputStream()))
+                var line: String?
+                val response = java.lang.StringBuilder()
+                while (reader.readLine().also { line = it } != null) {
+                    response.append(line)
+                }
+
+                if (BuildConfig.DEBUG) {
+                    Log.i("print_logs", "translateChinese: $response")
+                }
+
+                val jsonObject= JSONObject(response.toString())
+                val transResult=jsonObject.getJSONArray("trans_result")
+                val transResultObj=transResult.getJSONObject(0)
+                val dst=transResultObj.getString("dst")
+                if (BuildConfig.DEBUG) {
+                    Log.i("print_logs", "translateChinese: $dst")
+                }
+
+                mFolderNameMap[wordTxt] = Pair(dst, mutableListOf(filePath))
+
+            }catch (e:Exception){
+                e.printStackTrace()
+                if (BuildConfig.DEBUG) {
+                    Log.e("print_logs", "translateChinese: $e")
+                }
+            }
+        }
+    }
+
+    private fun String.isChinese(): Boolean {
+        val regex = "[\u4e00-\u9fa5]" // 中文 Unicode 范围
+        return this.matches(Regex(regex))
+    }
+
+    /**
+     * 将拼接字符串转换为MD5
+     */
+    private fun convertMd5(inputStr:String):String{
+
+        if (BuildConfig.DEBUG) {
+            Log.i("print_logs", "inputStr: $inputStr")
+        }
+
+        // 创建 MessageDigest 对象，指定使用 MD5 算法
+        val md5 = MessageDigest.getInstance("MD5")
+
+        // 将输入字符串转换为字节数组并计算摘要
+        val messageDigest=md5.digest(inputStr.toByteArray())
+
+        // 将摘要转换为十六进制字符串
+        val sb = StringBuilder()
+        messageDigest.forEach {
+//            val hex= if (it.toInt() and 0xFF < 0x10) {
+//                "0" + Integer.toHexString(it.toInt() and 0xFF)
+//            } else {
+//                Integer.toHexString(it.toInt() and 0xFF)
+//            }
+            sb.append(String.format("%02x", it)) //it.toInt() and 0xFF
+        }
+        return sb.toString()
+    }
+
+    override fun onDestroy() {
+        mFolderNameMap.clear()
+        super.onDestroy()
     }
 
 }

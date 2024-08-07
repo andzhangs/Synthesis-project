@@ -7,12 +7,14 @@
     tools:context=".MainActivity">
 
     <TextView
+        android:id="@+id/text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Version Catalog"
+        android:text="假设视图层次结构具有第一个布局，该放大镜会显示在屏幕上，并包含一个以视图内给定坐标为中心的区域。该窗格会显示在要复制的内容的中心点上方。该放大镜会持续显示，直到用户将其关闭。假设视图层次结构具有第一个布局，该放大镜会显示在屏幕上，并包含一个以视图内给定坐标为中心的区域。该窗格会显示在要复制的内容的中心点上方。该放大镜会持续显示，直到用户将其关闭。假设视图层次结构具有第一个布局，该放大镜会显示在屏幕上，并包含一个以视图内给定坐标为中心的区域。该窗格会显示在要复制的内容的中心点上方。该放大镜会持续显示，直到用户将其关闭。"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:textSize="8sp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
