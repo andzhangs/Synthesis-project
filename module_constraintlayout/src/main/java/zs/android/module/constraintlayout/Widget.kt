@@ -29,9 +29,8 @@ class WordParticleView @JvmOverloads constructor(
     context: Context?,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
-) :
-    View(context, attrs, defStyleAttr) {
-    private var text: CharArray? = "永远的女神".toCharArray()
+) : View(context, attrs, defStyleAttr) {
+    private var text: CharArray? = "女神".toCharArray()
     private var mDM: DisplayMetrics? = null
     var fm = Paint.FontMetrics()
     var shouldUpdateTextPath = true
