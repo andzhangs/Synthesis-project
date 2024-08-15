@@ -50,5 +50,7 @@
             android:textSize="18sp"
             android:textStyle="bold"
             tools:text="@sample/github_user.json/github_users/name[3]" />
+
+        <include layout="@layout/layout" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>

@@ -119,7 +119,7 @@
             android:src="@drawable/image"
             app:shapeAppearanceOverlay="@style/tipImageStyle"
             app:strokeColor="#F44336"
-            app:strokeWidth="2dp" />
+            app:strokeWidth="5dp" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 </androidx.core.widget.NestedScrollView>
 
