@@ -41,6 +41,7 @@
             android:background="@color/white"
             android:indeterminateTint="@color/purple_200"
             app:layout_constraintBottom_toBottomOf="parent"
-            style="?android:attr/progressBarStyleLargeInverse"/>
+            style="?android:attr/progressBarStyleLargeInverse"
+            android:visibility="gone"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

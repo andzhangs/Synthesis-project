@@ -26,31 +26,28 @@ class BaiduTranslate : ITranslate {
         return if (input.isChinese()) {  //本身就是中文
             Triple(input, input, filePath)
         }else{
-//            withContext(Dispatchers.Default){
-                delay(1000L)
+            delay(1000L)
 
-                try {
-                    val salt = System.currentTimeMillis().toString()
-                    val md5Sign = convertMd5(APP_ID + input + salt + SECRET)
+            try {
+                val salt = System.currentTimeMillis().toString()
+                val md5Sign = convertMd5(APP_ID + input + salt + SECRET)
 
-                    val urlWithParams = "$BASE_URL?q=${input}&from=auto&to=zh&appid=$APP_ID&salt=${salt}&sign=$md5Sign"
+                val urlWithParams = "$BASE_URL?q=${input}&from=auto&to=zh&appid=$APP_ID&salt=${salt}&sign=$md5Sign"
 
-                    val jsonObject = getNetWork(urlWithParams)
-                    val transResult = jsonObject.getJSONArray("trans_result")
-                    val transResultObj = transResult.getJSONObject(0)
-                    val dst = transResultObj.getString("dst")
+                val jsonObject = getNetWork(urlWithParams)
+                val transResult = jsonObject.getJSONArray("trans_result")
+                val transResultObj = transResult.getJSONObject(0)
+                val dst = transResultObj.getString("dst")
 
-                    Triple(input, dst, filePath)
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                    if (BuildConfig.DEBUG) {
-                        Log.e("print_logs", "BaiduTranslate:: $e")
-                    }
-                    Triple("", "", "")
+                Triple(input, dst, filePath)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                if (BuildConfig.DEBUG) {
+                    Log.e("print_logs", "BaiduTranslate:: $e")
                 }
-//            }
+                Triple("", "", "")
+            }
         }
-
     }
 
     /**

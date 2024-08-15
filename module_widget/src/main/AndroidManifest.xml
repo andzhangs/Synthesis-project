@@ -64,14 +64,16 @@
         <service
             android:name="com.tencent.smtt.export.external.DexClassLoaderProviderService"
             android:label="dexopt"
-            android:process=":dexopt" /> <!-- <activity -->
-        <!-- android:name=".WebActivity" -->
-        <!-- android:exported="true"> -->
-        <!-- <intent-filter> -->
-        <!-- <action android:name="android.intent.action.MAIN" /> -->
-        <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-        <!-- </intent-filter> -->
-        <!-- </activity> -->
+            android:process=":dexopt" />
+
+        <activity
+            android:name=".WebActivity"
+            android:exported="false">
+            <!--         <intent-filter> -->
+            <!--         <action android:name="android.intent.action.MAIN" /> -->
+            <!--         <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!--         </intent-filter> -->
+        </activity>
         <activity
             android:name=".ViewFlipperActivity"
             android:exported="false" />

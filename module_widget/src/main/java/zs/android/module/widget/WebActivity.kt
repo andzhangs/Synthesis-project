@@ -1,10 +1,11 @@
 package zs.android.module.widget
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.webkit.JavascriptInterface
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import com.tencent.smtt.export.external.TbsCoreSettings
 import com.tencent.smtt.export.external.interfaces.WebResourceRequest
@@ -60,9 +61,13 @@ class WebActivity : AppCompatActivity() {
 //                setDisplayCutoutEnable(true)
             }
 
+            setBackgroundColor(ContextCompat.getColor(this@WebActivity,R.color.translucent))
+
             addJavascriptInterface(AndroidInterface(), "Android")
 
-            loadUrl("http://206.168.2.64:3000")
+//            loadUrl("http://206.168.2.64:3000")
+
+            loadUrl("file:///android_asset/H5.html")
         }
     }
 

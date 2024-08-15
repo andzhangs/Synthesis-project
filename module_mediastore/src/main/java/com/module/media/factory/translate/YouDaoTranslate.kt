@@ -11,7 +11,8 @@ import java.util.UUID
  *
  * @author zhangshuai
  * @date 2024/8/7 15:02
- * @description 百度翻译
+ * @description 有道翻译
+ * https://ai.youdao.com/DOCSIRMA/html/trans/api/wbfy/index.html
  */
 class YouDaoTranslate : ITranslate {
 

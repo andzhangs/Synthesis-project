@@ -59,7 +59,8 @@ class MainActivity : AppCompatActivity() {
             "ImageLabelerActivity",
             "CrossDeviceActivity",
             "BatteryFlowActivity",
-            "NetworkFlowActivity"
+            "NetworkFlowActivity",
+            "WebActivity"
         )
     }
     private val mAdapter = RvAdapter(mList)
@@ -185,7 +186,9 @@ class MainActivity : AppCompatActivity() {
                     22 -> {
                         jumpActivity(NetworkFlowActivity::class.java)
                     }
-
+                    23->{
+                        jumpActivity(WebActivity::class.java)
+                    }
                     else -> {}
                 }
             }

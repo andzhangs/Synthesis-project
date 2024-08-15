@@ -26,6 +26,7 @@
             <option value="$PROJECT_DIR$/module_java11" />
             <option value="$PROJECT_DIR$/module_java8" />
             <option value="$PROJECT_DIR$/module_jdbc_mysql" />
+            <option value="$PROJECT_DIR$/module_jni" />
             <option value="$PROJECT_DIR$/module_jni_json" />
             <option value="$PROJECT_DIR$/module_koin" />
             <option value="$PROJECT_DIR$/module_ktor" />
@@ -61,5 +62,6 @@
         </option>
       </GradleProjectSettings>
     </option>
+    <option name="offlineMode" value="true" />
   </component>
 </project>

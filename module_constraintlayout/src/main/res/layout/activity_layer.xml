@@ -145,7 +145,7 @@
                         android:id="@+id/ImgFv_3"
                         android:layout_width="100dp"
                         android:layout_height="100dp"
-                        android:background="@android:color/holo_red_light"
+                        android:background="@drawable/n02007558_10737"
                         android:contentDescription="放大或缩小图片大小，比如：2表示图片放大到原来的2倍，0.5表示图片缩小到原来的一半。View的大小不变，只是显示的图片缩放了。"
                         android:scaleType="centerCrop"
                         android:src="@drawable/n01608432_1031"
