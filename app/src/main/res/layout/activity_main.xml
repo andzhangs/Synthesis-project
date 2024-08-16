@@ -52,5 +52,11 @@
             tools:text="@sample/github_user.json/github_users/name[3]" />
 
         <include layout="@layout/layout" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/acIv"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@android:color/darker_gray" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>
