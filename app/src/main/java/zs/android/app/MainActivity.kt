@@ -36,11 +36,10 @@ class MainActivity : AppCompatActivity() {
         mDataBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         mDataBinding.lifecycleOwner = this
 
+
         mDataBinding.acBtnSetFont.setOnClickListener {
 
-            if (mDataBinding.llRoot.childCount != 0) {
-                mDataBinding.llRoot.removeAllViews()
-            }
+            mDataBinding.llRoot.removeAllViews()
 
             val folderPath = "${getExternalFilesDir("")?.absolutePath}${File.separator}fonts"
 
