@@ -3,32 +3,35 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/acIv_img"
             android:layout_width="400dp"
             android:layout_height="0dp"
+            android:layout_weight="1"
             android:scaleType="centerCrop"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/acIfv_img"
-            app:layout_constraintTop_toTopOf="parent"
-            android:src="@drawable/img_640"/>
+            android:src="@drawable/img_640" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/acIv_shape"
+            android:layout_width="400dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:scaleType="centerCrop"
+            android:src="@drawable/img_640" />
 
         <androidx.constraintlayout.utils.widget.ImageFilterView
             android:id="@+id/acIfv_img"
             android:layout_width="400dp"
             android:layout_height="0dp"
-            android:src="@drawable/img_640"
+            android:layout_weight="1"
             android:contentDescription="float型，默认1，取值0为灰阶样式，大于1的数值都是超饱和状态，色彩非常艳丽，有点辣眼睛。"
             android:scaleType="centerCrop"
-            app:saturation="0"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/acIv_img" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:src="@drawable/img_640"
+            app:saturation="0" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>
