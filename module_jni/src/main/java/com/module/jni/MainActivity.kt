@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
 
         val bitmap = BitmapFactory.decodeResource(resources, R.drawable.img_640)
         mDataBinding.acIvImg.setImageBitmap(bitmap)
-        mDataBinding.acBtnBlackWhite.setOnClickListener {
+        mDataBinding.acIvImg.setOnClickListener {
             mDataBinding.acIvImg.setImageBitmap(handleBitmap(bitmap))
         }
     }

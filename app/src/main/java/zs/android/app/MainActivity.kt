@@ -114,11 +114,12 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch(Dispatchers.IO) {
             val info = resources.getString(R.string.test_format).format(12, 32)
             if (BuildConfig.DEBUG) {
-                Log.d("print_logs", "MainActivity::onCreate: $info")
+                Log.d("print_logs", "string format: $info")
             }
         }
 
         mDataBinding.acIv.setOnClickListener {
+
             val bitmap = BitmapFactory.decodeResource(resources, R.drawable.img_ami)
             // 创建一个与源 Bitmap 大小相同的画布
             val croppedBitmap = Bitmap.createBitmap(bitmap.width, bitmap.height, Bitmap.Config.ARGB_8888)
@@ -132,6 +133,11 @@ class MainActivity : AppCompatActivity() {
             // 绘制源 Bitmap 到画布上
             canvas.drawBitmap(bitmap, 0f, 0f, null)
             mDataBinding.acIv.setImageBitmap(croppedBitmap)
+
+            Intent(Intent.ACTION_VIEW).apply {
+                data = Uri.parse("byyourside://?data=value")
+                startActivity(this)
+            }
         }
     }
 
