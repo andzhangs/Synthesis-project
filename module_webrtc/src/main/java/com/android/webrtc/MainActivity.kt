@@ -9,6 +9,9 @@ import org.webrtc.IceCandidate
 import org.webrtc.MediaStream
 import org.webrtc.PeerConnection
 
+/**
+ * https://cloud.baidu.com/article/3319597
+ */
 class MainActivity : AppCompatActivity(), WebRtcClient.PeerConnectionObserver {
 
     private lateinit var mDataBinding: ActivityMainBinding
