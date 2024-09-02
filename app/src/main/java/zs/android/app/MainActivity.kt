@@ -23,6 +23,9 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import zs.android.app.databinding.ActivityMainBinding
 import java.io.File
@@ -119,7 +122,12 @@ class MainActivity : AppCompatActivity() {
         }
 
         mDataBinding.acIv.setOnClickListener {
+            loadAsync{
+                if (BuildConfig.DEBUG) {
+                    Log.e("print_logs", "MainActivity::onCreate: ")
+                }
 
+            }
             val bitmap = BitmapFactory.decodeResource(resources, R.drawable.img_ami)
             // 创建一个与源 Bitmap 大小相同的画布
             val croppedBitmap = Bitmap.createBitmap(bitmap.width, bitmap.height, Bitmap.Config.ARGB_8888)
@@ -138,6 +146,32 @@ class MainActivity : AppCompatActivity() {
                 data = Uri.parse("byyourside://?data=value")
                 startActivity(this)
             }
+        }
+    }
+
+    private fun loadAsync(block: () -> Unit) {
+        lifecycleScope.launch {
+            val job1 = async {
+                if (BuildConfig.DEBUG) {
+                    Log.d("print_logs", "1.start: ${System.currentTimeMillis()}")
+                }
+                delay(2000L)
+                if (BuildConfig.DEBUG) {
+                    Log.d("print_logs", "1.end: ${System.currentTimeMillis()}")
+                }
+            }
+            val job2 = async {
+                if (BuildConfig.DEBUG) {
+                    Log.i("print_logs", "2.start: ${System.currentTimeMillis()}")
+                }
+                delay(2000L)
+                if (BuildConfig.DEBUG) {
+                    Log.i("print_logs", "2.end: ${System.currentTimeMillis()}")
+                }
+            }
+            listOf(job1, job2).awaitAll()
+
+            block()
         }
     }
 

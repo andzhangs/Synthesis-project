@@ -12,6 +12,6 @@ import com.google.auto.service.AutoService
 @AutoService(value = [ISayHello::class])
 class ISayHelloWithEnglish : ISayHello {
     override fun sayHello() {
-        Log.d("print_logs", "ISayHelloWithEnglish::sayHello：Hello")
+        Log.d("print_logs", "ISayHelloWithEnglish::sayHell")
     }
 }

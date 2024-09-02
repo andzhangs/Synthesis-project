@@ -1,8 +1,8 @@
 package zs.android.module.widget
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
@@ -17,7 +17,7 @@ class ImageLabelerActivity : AppCompatActivity() {
         setContentView(R.layout.activity_image_labeler)
 
         val img = findViewById<AppCompatImageView>(R.id.acIv_img)
-        val bitmap = assetsToBitmap("9426826.jpg")
+        val bitmap = assetsToBitmap("img_id_card.png")
         img.setImageBitmap(bitmap)
 
         val textOutput = findViewById<AppCompatTextView>(R.id.acTv_info)
@@ -33,7 +33,7 @@ class ImageLabelerActivity : AppCompatActivity() {
                         val index = imageLabel.index
                         val text = imageLabel.text
                         val confidence = imageLabel.confidence
-                        stringBuilder.append("$index，$text, $confidence").append("\n")
+                        stringBuilder.append("$index，$text, $confidence," ).append("\n")
                     }
                     textOutput.text = stringBuilder.toString()
                 }.addOnFailureListener {

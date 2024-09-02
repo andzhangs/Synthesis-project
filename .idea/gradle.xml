@@ -55,6 +55,7 @@
             <option value="$PROJECT_DIR$/module_thread" />
             <option value="$PROJECT_DIR$/module_transition" />
             <option value="$PROJECT_DIR$/module_versions_catalog" />
+            <option value="$PROJECT_DIR$/module_webrtc" />
             <option value="$PROJECT_DIR$/module_widget" />
             <option value="$PROJECT_DIR$/modulejar" />
             <option value="$PROJECT_DIR$/tangram" />
@@ -62,6 +63,5 @@
         </option>
       </GradleProjectSettings>
     </option>
-    <option name="offlineMode" value="true" />
   </component>
 </project>

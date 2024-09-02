@@ -1,10 +1,10 @@
 package zs.android.module.spi
 
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.loader.app.LoaderManager
 import androidx.loader.content.AsyncTaskLoader
 import androidx.loader.content.Loader
@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
                 registerOnLoadCanceledListener(mLoadCanceledListener)
             }
         } catch (e: Exception) {
-            e.printStackTrace();
+            e.printStackTrace()
         } finally {
 
         }
