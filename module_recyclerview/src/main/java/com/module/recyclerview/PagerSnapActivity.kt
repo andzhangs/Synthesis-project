@@ -2,7 +2,6 @@ package com.module.recyclerview
 
 import android.Manifest
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.os.PowerManager
@@ -10,11 +9,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.module.recyclerview.snap.BuildConfig
 import com.module.recyclerview.snap.R
 import com.module.recyclerview.snap.databinding.ActivityPagerSnapBinding
 import com.module.recyclerview.snap.databinding.LayoutImageBinding
@@ -92,6 +93,22 @@ class PagerSnapActivity : AppCompatActivity() {
             }
             PagerSnapHelper().attachToRecyclerView(this)
             adapter = mAdapter
+
+            addOnScrollListener(object :RecyclerView.OnScrollListener(){
+                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                    super.onScrollStateChanged(recyclerView, newState)
+                    if (BuildConfig.DEBUG) {
+                        Log.i("print_logs", "PagerSnapActivity::onScrollStateChanged: $newState")
+                    }
+                    if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                        // 滚动停止时，可以获取当前页面位置
+                        val currentPosition = (layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
+                        if (BuildConfig.DEBUG) {
+                            Log.i("print_logs", "onScrollStateChanged: $currentPosition")
+                        }
+                    }
+                }
+            })
         }
     }
 

@@ -4,9 +4,9 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -16,7 +16,16 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import zs.module.material.base.BaseMaterialFragment
 import zs.module.material.databinding.ActivityMainBinding
-import zs.module.material.ui.fragment.*
+import zs.module.material.ui.fragment.BottomNavigationViewFragment
+import zs.module.material.ui.fragment.CarouselFragment
+import zs.module.material.ui.fragment.ChipFragment
+import zs.module.material.ui.fragment.CircularRevealFragment
+import zs.module.material.ui.fragment.MaterialBottomSheetDialogFragment
+import zs.module.material.ui.fragment.MaterialShapeDrawableFragment
+import zs.module.material.ui.fragment.MaterialToolbarFragment
+import zs.module.material.ui.fragment.ShapeableImageViewFragment
+import zs.module.material.ui.fragment.SliderFragment
+import zs.module.material.ui.fragment.SwipeDismissBehaviorFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -39,7 +48,7 @@ class MainActivity : AppCompatActivity() {
             MaterialBottomSheetDialogFragment.newInstance(),
             SliderFragment.newInstance(),
             SwipeDismissBehaviorFragment.newInstance(),
-            CarouseFragment.newInstance()
+            CarouselFragment.newInstance()
         )
         mList.forEach { _ -> mBinding.tabLayout.addTab(mBinding.tabLayout.newTab()) }
 

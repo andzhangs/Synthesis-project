@@ -17,12 +17,12 @@ import zs.module.material.base.BaseMaterialFragment
  * 实现轮播效果的 LayoutManager。
  * 它可以实现水平和垂直方向的轮播效果，并且可以通过设置方向和间距来控制轮播效果。
  */
-class CarouseFragment private constructor(mIndexName: String) :
+class CarouselFragment private constructor(mIndexName: String) :
     BaseMaterialFragment(mIndexName) {
 
     companion object {
         @JvmStatic
-        fun newInstance() = CarouseFragment("CarouselLayoutManager")
+        fun newInstance() = CarouselFragment("CarouselLayoutManager")
     }
 
 

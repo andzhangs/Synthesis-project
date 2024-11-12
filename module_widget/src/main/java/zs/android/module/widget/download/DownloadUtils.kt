@@ -11,6 +11,7 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.DefaultLifecycleObserver
 import zs.android.module.widget.BuildConfig
+import java.io.FileNotFoundException
 import java.lang.ref.WeakReference
 import java.text.DecimalFormat
 import kotlin.math.abs
@@ -128,7 +129,14 @@ class DownloadUtils private constructor(private val mContext: Context) :
     private fun queryStatus() {
         val mQuery = DownloadManager.Query()
         mQuery.setFilterById(mDownloadId)
-        val parcelFileDescriptor=mDownloadManager.openDownloadedFile(mDownloadId)
+        try {
+            val parcelFileDescriptor=mDownloadManager.openDownloadedFile(mDownloadId)
+        }catch (e: FileNotFoundException){
+            e.printStackTrace()
+            if (BuildConfig.DEBUG) {
+                Log.e("print_logs", "queryStatus: $e")
+            }
+        }
         mDownloadManager.query(mQuery)?.also { cursor ->
             try {
                 if (cursor.moveToFirst()) {

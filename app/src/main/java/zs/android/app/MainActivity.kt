@@ -6,6 +6,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.Path
 import android.graphics.Typeface
 import android.net.Uri
@@ -13,13 +14,29 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.Settings
+import android.text.Spanned
+import android.text.TextPaint
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
 import android.util.Log
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.text.backgroundColor
+import androidx.core.text.bold
+import androidx.core.text.buildSpannedString
+import androidx.core.text.color
+import androidx.core.text.italic
+import androidx.core.text.scale
+import androidx.core.text.strikeThrough
+import androidx.core.text.subscript
+import androidx.core.text.superscript
+import androidx.core.text.underline
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
@@ -38,6 +55,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         mDataBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         mDataBinding.lifecycleOwner = this
+
 
 
         mDataBinding.acBtnSetFont.setOnClickListener {
@@ -222,6 +240,70 @@ class MainActivity : AppCompatActivity() {
         override operator fun invoke(p1: Int): Int {
             return p1 * 10
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        mDataBinding.acTvSpannedString.apply {
+            movementMethod=LinkMovementMethod.getInstance()
+            highlightColor=Color.TRANSPARENT
+        }.text = buildSpannedString {
+            //加粗
+            bold {
+                val str1="点我"
+                append(str1)
+
+                setSpan(object : ClickableSpan(){
+                    override fun onClick(widget: View) {
+
+                        Log.i("print_logs", "MainActivity::onClick: ")
+
+                        Toast.makeText(this@MainActivity, "点击了", Toast.LENGTH_SHORT).show()
+                    }
+
+                    override fun updateDrawState(ds: TextPaint) {
+                        super.updateDrawState(ds)
+                        ds.textSize = 70F
+                        ds.isUnderlineText=true
+                        ds.color=ContextCompat.getColor(this@MainActivity,R.color.green)
+                    }
+                },0,str1.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+            }
+            //颜色
+            color(ContextCompat.getColor(this@MainActivity,R.color.yellow)){
+                append("黄色")
+
+            }
+            //下划线
+            underline {
+                append("下划线")
+            }
+            //背景颜色
+            backgroundColor(ContextCompat.getColor(this@MainActivity,R.color.green)){
+                append("绿色背景颜色")
+            }
+            //斜体
+            italic {
+                append("斜体")
+            }
+            //缩放
+            scale(1.5F){
+                append("缩放1.5倍")
+            }
+            //删除线
+            strikeThrough {
+                append("删除线")
+            }
+            //下标
+            subscript {
+                append("下标")
+            }
+            //上标
+            superscript {
+                append("下标")
+            }
+        }
+
     }
 
     override fun onDestroy() {

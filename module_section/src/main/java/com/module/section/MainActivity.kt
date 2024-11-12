@@ -1,9 +1,8 @@
 package com.module.section
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import com.module.section.databinding.ActivityMainBinding
@@ -59,11 +58,6 @@ class MainActivity : AppCompatActivity() {
             }
 
         }.also {mList->
-            for(i in 0 until mList.size){
-                if (BuildConfig.DEBUG) {
-                    Log.i("print_logs", "${mList[i]}")
-                }
-            }
             with(mDataBinding.rvList) {
                 this.layoutManager = GridLayoutManager(this@MainActivity, 4)
                 mAdapter = MySectionQuickAdapter(R.layout.item_content, mList)
@@ -104,6 +98,16 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             }
+        }
+        clickListener()
+    }
+
+    private fun clickListener(){
+        mDataBinding.acBtnSelectAll.setOnClickListener {
+
+        }
+        mDataBinding.acBtnDelete.setOnClickListener {
+            mAdapter.delete()
         }
     }
 

@@ -27,6 +27,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Synthesisproject"
         tools:targetApi="n">
+        <receiver
+            android:name=".screenshots.ScreenshotReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.SCREENSHOT" />
+                <action android:name="com.android.systemui.screenshot" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </receiver>
         <activity
             android:name=".NetworkFlowActivity"
             android:exported="false" />
@@ -69,10 +80,11 @@
         <activity
             android:name=".WebActivity"
             android:exported="false">
-            <!--         <intent-filter> -->
-            <!--         <action android:name="android.intent.action.MAIN" /> -->
-            <!--         <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!--         </intent-filter> -->
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
         <activity
             android:name=".ViewFlipperActivity"

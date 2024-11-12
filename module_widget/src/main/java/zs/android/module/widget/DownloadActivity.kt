@@ -1,12 +1,12 @@
 package zs.android.module.widget
 
 import android.Manifest
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.lifecycle.lifecycleScope
@@ -227,7 +227,7 @@ class DownloadActivity : AppCompatActivity() {
 //        val fileName = "201308-915375262_tiny.mp4"//getFileNameFromUrl(downloadUrl)
 
         val request = DownloadRequest.Builder()
-            .url(mDownloadFileUrl)
+            .url("baid.com")
             .relativeDirectory("http")
             .progressInterval(mIntervalTime, TimeUnit.MILLISECONDS)
             .downloadCallback(object : DownloadCallback {

@@ -20,9 +20,5 @@ data class MySection(
 
     //内容对应的时间头位置
     var headerIndex: Int = 0
-
     var isSelected: Boolean = false
-    override fun toString(): String {
-        return "MySection(isHeader=$isHeader, content='$content', startIndex=$startIndex, endIndex=$endIndex, headerIndex=$headerIndex, isSelected=$isSelected)"
-    }
 }

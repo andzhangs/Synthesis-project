@@ -3,15 +3,16 @@ package com.andorid.module.pick
 import android.Manifest
 import android.content.ContentValues
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.os.SystemClock
 import android.provider.MediaStore
 import android.util.Log
+import android.webkit.MimeTypeMap
 import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.selection.SelectionPredicates
@@ -58,6 +59,7 @@ class MainActivity : AppCompatActivity() {
         selectSingle()
         selectMultiple()
         initRecyclerView()
+        getScreenshots()
     }
 
     //android-Q 新建文件
@@ -316,4 +318,41 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * 获取截图
+     */
+    private fun getScreenshots() {
+
+        val shotsPath = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            "${Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_SCREENSHOTS).absolutePath}${File.separator}Screenshots"
+        } else {
+            "${Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).absolutePath}${File.separator}Screenshots"
+        }
+
+        val possiblePaths = arrayOf(
+            shotsPath,
+            "${Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).absolutePath}${File.separator}Screenshots",
+        )
+        possiblePaths.forEach {
+            File(it).also { fileFolder ->
+                if (fileFolder.isDirectory) {
+                    fileFolder.listFiles()?.forEach { childFile ->
+                        if (childFile.isImage()) {
+                            if (BuildConfig.DEBUG) {
+                                Log.i("print_logs", "截图: ${childFile.name}")
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * 是否为图片
+     */
+    private fun File.isImage(): Boolean {
+        return MimeTypeMap.getSingleton().getMimeTypeFromExtension(this.extension)
+            ?.startsWith("image/") == true
+    }
 }

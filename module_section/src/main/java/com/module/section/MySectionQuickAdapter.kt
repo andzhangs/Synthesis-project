@@ -1,6 +1,5 @@
 package com.module.section
 
-import android.util.Log
 import android.view.View
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
@@ -53,7 +52,7 @@ class MySectionQuickAdapter(
     }
 
     /**
-     *
+     * 全选
      */
     fun setGroupSelectAll(position: Int) {
 
@@ -75,10 +74,9 @@ class MySectionQuickAdapter(
             }
 
             val itemCount = headerSection.endIndex - headerSection.startIndex + 1
-            if (BuildConfig.DEBUG) {
-                Log.i("print_logs", "setGroupSelectAll: ${headerSection.startIndex}, $itemCount")
-            }
             notifyItemRangeChanged(headerSection.startIndex, itemCount)
+        }else{
+
         }
     }
 
@@ -86,7 +84,6 @@ class MySectionQuickAdapter(
         val mSection = data[position]
         mSection.isSelected = !mSection.isSelected
         notifyItemChanged(position)
-
 
         //验证这组是否都选中了
         val header = data[mSection.headerIndex]
@@ -99,8 +96,15 @@ class MySectionQuickAdapter(
         header.isSelected = !collectSections.contains(false)
         notifyItemChanged(mSection.headerIndex)
 
-        val viewType=this.getItemViewType(position)
+        val viewType = this.getItemViewType(position)
 
+    }
+
+    fun delete() {
+        data.filter { it.isSelected }.toList().forEach {
+            data.remove(it)
+        }
+        notifyDataSetChanged()
     }
 
 }

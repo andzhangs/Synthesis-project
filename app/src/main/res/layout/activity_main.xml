@@ -58,5 +58,11 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:background="@android:color/darker_gray" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/acTv_spanned_string"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
     </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>
