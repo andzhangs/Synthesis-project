@@ -52,9 +52,11 @@ class MainActivity : AppCompatActivity() {
         )
         mList.forEach { _ -> mBinding.tabLayout.addTab(mBinding.tabLayout.newTab()) }
 
-        mBinding.viewPager2.adapter = object : FragmentStateAdapter(this) {
-            override fun getItemCount(): Int = mList.size
-            override fun createFragment(position: Int): Fragment = mList[position]
+        mBinding.viewPager2.apply {
+            adapter = object : FragmentStateAdapter(this@MainActivity) {
+                override fun getItemCount(): Int = mList.size
+                override fun createFragment(position: Int): Fragment = mList[position]
+            }
         }
 
         mMediator = TabLayoutMediator(
@@ -93,8 +95,12 @@ class MainActivity : AppCompatActivity() {
             it.orCreateBadge.apply {
                 backgroundColor = ContextCompat.getColor(this@MainActivity, R.color.purple_700)
                 badgeTextColor = ContextCompat.getColor(this@MainActivity, R.color.white)
-                number = 10
+                number = 100
             }
+        }
+
+        mBinding.progressCircular.setOnClickListener {
+            mBinding.tabLayout.getTabAt(0)?.removeBadge()
         }
     }
 

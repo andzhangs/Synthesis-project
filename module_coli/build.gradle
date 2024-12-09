@@ -97,7 +97,7 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
 
 
-    def retrofit_version = "2.9.0"
+    def retrofit_version = "2.11.0" //2.9.0
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     //转换器
     implementation "com.squareup.retrofit2:converter-moshi:$retrofit_version"
@@ -106,7 +106,7 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-jaxb:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-protobuf:$retrofit_version"
 
-    implementation 'com.google.protobuf:protobuf-java:3.25.1'
+    implementation 'com.google.protobuf:protobuf-java:3.25.3' //3.25.1
     implementation 'com.google.protobuf:protoc:3.25.1'
 
     //适配器
@@ -118,7 +118,7 @@ dependencies {
     implementation 'com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0'
 
     implementation 'com.orhanobut:logger:2.2.0'
-    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.3'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.3' //4.9.3
     implementation 'com.localebro:okhttpprofiler:1.0.8'
 
     def coil_version = '2.4.0'

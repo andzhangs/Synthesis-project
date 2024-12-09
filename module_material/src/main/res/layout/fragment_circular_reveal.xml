@@ -265,6 +265,5 @@
                     android:textColor="@color/white" />
             </androidx.appcompat.widget.LinearLayoutCompat>
         </com.google.android.material.circularreveal.coordinatorlayout.CircularRevealCoordinatorLayout>
-
     </androidx.appcompat.widget.LinearLayoutCompat>
 </androidx.core.widget.NestedScrollView>

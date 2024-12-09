@@ -1,9 +1,9 @@
 package zs.android.module.widget
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.viewpager2.widget.ViewPager2
@@ -44,10 +44,7 @@ class BannerActivity : AppCompatActivity() {
             setOrientation(ViewPager2.ORIENTATION_HORIZONTAL)
             addPageTransformer(ScaleInTransformer(0.55f))
             removeTransformer(ScaleInTransformer(0.75f))//OverlapPageTransformer(ViewPager2.ORIENTATION_HORIZONTAL,0.75f,0.6f,0.2f,0.8f)
-
         }.create(mList)
-
-
     }
 
     private val mBannerAdapter = object : BaseBannerAdapter<BannerBean>() {

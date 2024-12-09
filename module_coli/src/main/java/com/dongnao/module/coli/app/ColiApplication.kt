@@ -15,6 +15,8 @@ import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.FormatStrategy
 import com.orhanobut.logger.Logger
 import com.orhanobut.logger.PrettyFormatStrategy
+import okhttp3.Interceptor
+import okhttp3.OkHttpClient
 
 /**
  *
@@ -46,10 +48,22 @@ class ColiApplication : Application(), ImageLoaderFactory {
     }
 
     override fun newImageLoader(): ImageLoader {
+
+        val okHttpClient=OkHttpClient.Builder()
+            .addInterceptor(Interceptor { chain ->   //全局请求头
+                val newRequest = chain.request().newBuilder()
+                    .addHeader("","")
+                    .build()
+                chain.proceed(newRequest)
+            })
+            .build()
+
         return ImageLoader.Builder(this)
-            .crossfade(true)
-            .allowHardware(true)
-            .allowRgb565(true)
+            .okHttpClient(okHttpClient)
+            .crossfade(true)     //渐进渐出
+            .crossfade(1000) //渐进渐出时间
+            .allowHardware(true)  //硬件加速
+            .allowRgb565(true)   //支持565格式
             .addLastModifiedToFileCacheKey(true)
             .networkObserverEnabled(true)
             .respectCacheHeaders(true)

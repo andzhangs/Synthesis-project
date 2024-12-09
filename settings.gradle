@@ -27,6 +27,7 @@ dependencyResolutionManagement {
         maven { url 'https://maven.aliyun.com/repository/central' }
         maven { url 'https://maven.aliyun.com/repository/google' }
         maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         maven {
             allowInsecureProtocol = true
             url 'http://oss.jfrog.org/artifactory/oss-snapshot-local'
@@ -96,7 +97,6 @@ include ':module_share'
 include ':tangram'
 include ':module_constraintlayout'
 include ':module_coli'
-include ':module_booster'
 include ':module_jni_json'
 include ':module_anko'
 include ':module_splitties'
@@ -116,3 +116,4 @@ include ':module_jni'
 include ':module_webrtc'
 include ':module_mediarouter'
 include ':module_gesture'
+include ':module_badge'

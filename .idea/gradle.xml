@@ -17,7 +17,7 @@
             <option value="$PROJECT_DIR$/module_animation" />
             <option value="$PROJECT_DIR$/module_anko" />
             <option value="$PROJECT_DIR$/module_attrsense" />
-            <option value="$PROJECT_DIR$/module_booster" />
+            <option value="$PROJECT_DIR$/module_badge" />
             <option value="$PROJECT_DIR$/module_coli" />
             <option value="$PROJECT_DIR$/module_constraintlayout" />
             <option value="$PROJECT_DIR$/module_core_ktx" />
@@ -65,6 +65,5 @@
         </option>
       </GradleProjectSettings>
     </option>
-    <option name="offlineMode" value="true" />
   </component>
 </project>

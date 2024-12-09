@@ -45,7 +45,7 @@ class PagerSnapActivity : AppCompatActivity() {
                             }
                         }
                     }
-                }else{
+                } else {
                     if (it[Manifest.permission.READ_EXTERNAL_STORAGE]!! && it[Manifest.permission.WRITE_EXTERNAL_STORAGE]!!) {
                         val parentFolder =
                             "${Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM)}${File.separator}Camera"
@@ -94,7 +94,7 @@ class PagerSnapActivity : AppCompatActivity() {
             PagerSnapHelper().attachToRecyclerView(this)
             adapter = mAdapter
 
-            addOnScrollListener(object :RecyclerView.OnScrollListener(){
+            addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                     super.onScrollStateChanged(recyclerView, newState)
                     if (BuildConfig.DEBUG) {
@@ -102,7 +102,8 @@ class PagerSnapActivity : AppCompatActivity() {
                     }
                     if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                         // 滚动停止时，可以获取当前页面位置
-                        val currentPosition = (layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
+                        val currentPosition =
+                            (layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
                         if (BuildConfig.DEBUG) {
                             Log.i("print_logs", "onScrollStateChanged: $currentPosition")
                         }
@@ -134,7 +135,7 @@ class PagerSnapActivity : AppCompatActivity() {
                 RecyclerView.ViewHolder(binding.root) {
 
                 fun bind(fileUrl: String) {
-                        Log.i("print_logs", "VideoViewHolder::bind: $fileUrl")
+                    Log.i("print_logs", "VideoViewHolder::bind: $fileUrl")
                     val context = binding.videoView.context
                     binding.videoView.setVideoPath(fileUrl)
                     binding.videoView.requestFocus()

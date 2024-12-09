@@ -1,10 +1,12 @@
 package zs.module.material.ui.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import zs.module.material.BuildConfig
 import zs.module.material.R
 import zs.module.material.base.BaseMaterialFragment
 import java.util.Random
@@ -22,7 +24,23 @@ class ChipFragment private constructor(mIndexName: String) :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val chipGroup1 = mRootView.findViewById<ChipGroup>(R.id.chip_group_1)
+
+        chipGroup1.setOnCheckedStateChangeListener { group, checkedIds ->
+            if (BuildConfig.DEBUG) {
+                Log.i("print_logs", "chipGroup2::stateChange:")
+            }
+        }
+
         val chipGroup2 = mRootView.findViewById<ChipGroup>(R.id.chip_group_2)
+
+        chipGroup2.setOnCheckedStateChangeListener { group, checkedIds ->
+            if (BuildConfig.DEBUG) {
+                Log.i("print_logs", "chipGroup2::stateChange: ")
+            }
+        }
+
 
         for (i in 1..10) {
             val chipItemView = layoutInflater.inflate(R.layout.item_chip, null, false)

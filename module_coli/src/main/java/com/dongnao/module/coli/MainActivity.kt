@@ -105,7 +105,27 @@ class MainActivity : AppCompatActivity() {
         RecyclerView.ViewHolder(itemBinding.root) {
 
         fun bindImage(data: ImageBean?) {
-            itemBinding.ifvImg.load(data?.getImageUrl())
+            val disposable = itemBinding.ifvImg.load(data?.getImageUrl()){
+                lifecycle(itemBinding.lifecycleOwner)  //生命周期关联
+//                addHeader()
+                listener(
+                    onStart = {
+
+                    },
+                    onError = {request, throwable ->
+
+                    },
+                    onSuccess = {request, result ->
+
+                    },
+                    onCancel = {
+
+                    }
+                )
+            }
+            //取消下载
+            //disposable.dispose()
+
             itemBinding.acTvTitle.text = data?.title
             itemBinding.acTvDesc.text = data?.copyright
             itemBinding.acTvBottom.text = data?.startdate

@@ -17,7 +17,7 @@ class ImageLabelerActivity : AppCompatActivity() {
         setContentView(R.layout.activity_image_labeler)
 
         val img = findViewById<AppCompatImageView>(R.id.acIv_img)
-        val bitmap = assetsToBitmap("img_id_card.png")
+        val bitmap = assetsToBitmap("9426826.png")
         img.setImageBitmap(bitmap)
 
         val textOutput = findViewById<AppCompatTextView>(R.id.acTv_info)

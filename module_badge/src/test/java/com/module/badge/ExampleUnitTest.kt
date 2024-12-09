@@ -1,4 +1,4 @@
-package com.module.booster
+package com.module.badge
 
 import org.junit.Test
 

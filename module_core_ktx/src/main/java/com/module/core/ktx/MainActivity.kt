@@ -8,7 +8,6 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.net.Uri
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -20,6 +19,7 @@ import android.util.Log
 import android.util.SparseArray
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.appcompat.widget.LinearLayoutCompat
@@ -231,7 +231,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun loadUri() {
         try {
-            val filePath = "/sdcard/image/file/IMG_20230713_142243.jpg"
+            val filePath = "/sdcard/Movies/IMG_20230722_104731.jpg"
             filePath.toUri()
 
             val file = File(filePath)

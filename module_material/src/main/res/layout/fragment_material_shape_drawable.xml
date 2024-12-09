@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:padding="50dp"
-            android:text="ShapeableImageViewFragment"
+            android:text="圆角效果"
             android:textColor="@android:color/white"
             android:textSize="20sp" />
 
@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:padding="50dp"
-            android:text="ShapeableImageViewFragment"
+            android:text="切角效果"
             android:textColor="@android:color/white"
             android:textSize="20sp" />
 
@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:padding="50dp"
-            android:text="ShapeableImageViewFragment"
+            android:text="标注效果"
             android:textColor="@android:color/white"
             android:textSize="20sp" />
 
@@ -50,7 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:padding="50dp"
-            android:text="ShapeableImageViewFragment"
+            android:text="内边三角形"
             android:textColor="@android:color/white"
             android:textSize="20sp" />
 
@@ -60,7 +60,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:padding="50dp"
-            android:text="ShapeableImageViewFragment"
+            android:text="外边三角形"
             android:textColor="@android:color/white"
             android:textSize="20sp" />
 
@@ -70,7 +70,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:padding="50dp"
-            android:text="ShapeableImageViewFragment"
+            android:text="气泡一"
             android:textColor="@android:color/white"
             android:textSize="20sp" />
 
@@ -80,7 +80,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:padding="50dp"
-            android:text="ShapeableImageViewFragment"
+            android:text="气泡二"
             android:textColor="@android:color/white"
             android:textSize="20sp" />
 
@@ -90,7 +90,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:padding="50dp"
-            android:text="ShapeableImageViewFragment"
+            android:text="阴影"
             android:textColor="@android:color/white"
             android:textSize="20sp"
             android:layout_marginBottom="10dp"/>

@@ -1,15 +1,21 @@
 package com.module.jni
 
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.ColorMatrix
 import android.graphics.ColorMatrixColorFilter
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.module.jni.databinding.ActivityMainBinding
 
+/**
+ * 黑白特效
+ */
 class MainActivity : AppCompatActivity() {
 
     companion object {
@@ -32,29 +38,32 @@ class MainActivity : AppCompatActivity() {
             mDataBinding.acIvImg.setImageBitmap(handleBitmap(bitmap))
         }
 
-        var shapeViewSat=0f
+        var shapeViewSat = 0f
         mDataBinding.acIvShape.setOnClickListener {
             val matrix = ColorMatrix().apply { setSaturation(shapeViewSat) }
             val filter = ColorMatrixColorFilter(matrix)
             mDataBinding.acIvShape.colorFilter = filter
-            shapeViewSat=if (shapeViewSat == 0f) {
+            shapeViewSat = if (shapeViewSat == 0f) {
                 1f
-            }else{
+            } else {
                 0f
             }
+            openByUri("squareAlbum", "albumId=11")
         }
 
 
-        var filterViewSat=1f
+        var filterViewSat = 1f
         mDataBinding.acIfvImg.setOnClickListener {
 
             mDataBinding.acIfvImg.saturation = filterViewSat
 
-            filterViewSat=if (filterViewSat == 0f) {
+            filterViewSat = if (filterViewSat == 0f) {
                 1f
-            }else{
+            } else {
                 0f
             }
+
+            openByUri("squareAlbum", "albumId=10&fileId=101")
         }
     }
 
@@ -75,5 +84,13 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         mDataBinding.unbind()
+    }
+
+    private fun openByUri(path: String, params: String) {
+        Toast.makeText(this, "点击了", Toast.LENGTH_SHORT).show()
+        val intent = Intent(Intent.ACTION_VIEW)
+        val uriString = "byyourside://album.attrsense.com/${path}?$params"
+        intent.data = Uri.parse(uriString)
+        startActivity(intent)
     }
 }

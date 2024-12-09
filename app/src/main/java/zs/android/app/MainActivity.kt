@@ -44,6 +44,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import zs.android.app.databinding.ActivityMainBinding
 import java.io.File
 
@@ -56,7 +57,9 @@ class MainActivity : AppCompatActivity() {
         mDataBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         mDataBinding.lifecycleOwner = this
 
-
+        lifecycleScope.launch {
+            TestCoroutine.start()
+        }
 
         mDataBinding.acBtnSetFont.setOnClickListener {
 
@@ -301,6 +304,21 @@ class MainActivity : AppCompatActivity() {
             //上标
             superscript {
                 append("下标")
+            }
+        }
+
+        runBlocking {
+            launch {
+                println("1")
+            }
+            launch(Dispatchers.IO) {
+                println("2")
+            }
+            launch(Dispatchers.Default) {
+                println("3")
+            }
+            launch(Dispatchers.Unconfined) {
+                println("4")
             }
         }
 

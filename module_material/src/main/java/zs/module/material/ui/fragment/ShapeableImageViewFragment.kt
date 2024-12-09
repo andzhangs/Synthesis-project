@@ -1,9 +1,11 @@
 package zs.module.material.ui.fragment
 
+import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.AppCompatTextView
+import androidx.appcompat.widget.AppCompatImageView
+import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.shape.AbsoluteCornerSize
 import com.google.android.material.shape.CornerFamily
@@ -28,6 +30,19 @@ class ShapeableImageViewFragment private constructor(mIndexName: String) :
                 load(this)
             }
         }
+
+        val bitmap= BitmapFactory.decodeResource(resources,R.drawable.image)
+        val roundBitmapDrawable= RoundedBitmapDrawableFactory.create(resources,bitmap)
+            .apply {
+                paint.isAntiAlias=true
+//                cornerRadius = 100f
+
+                //将位图绘制成圆形
+                isCircular=true
+                gravity=Gravity.CENTER
+                setTargetDensity(50)
+            }
+        mRootView.findViewById<AppCompatImageView>(R.id.acIv_round).setImageDrawable(roundBitmapDrawable)
     }
 
     private fun load(imageView: ShapeableImageView) {

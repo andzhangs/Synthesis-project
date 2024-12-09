@@ -117,5 +117,20 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-common:$lifecycle_version"
     kapt("androidx.lifecycle:lifecycle-compiler:$lifecycle_version")
 
+    //https://github.com/lingochamp/okdownload/wiki
+//    def latest_version='1.0.8-SNAPSHOT'
+//    // core
+//    implementation "com.liulishuo.okdownload:okdownload:$latest_version"
+//// provide sqlite to store breakpoints
+//    implementation "com.liulishuo.okdownload:sqlite:$latest_version"
+//// provide okhttp to connect to backend
+//// and then please import okhttp dependencies by yourself
+//    implementation  "com.liulishuo.okdownload:okhttp:$latest_version"
+//// provide interface to match filedownloader
+//    implementation "com.liulishuo.okdownload:filedownloader:$latest_version"
+//// provide interface for kotlin extension
+//    implementation  "com.liulishuo.okdownload:ktx:$latest_version"
+//    implementation 'com.squareup.okhttp3:okhttp:3.10.0'
+
     implementation(project(':lib_base'))
 }

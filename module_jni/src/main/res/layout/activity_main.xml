@@ -3,35 +3,74 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.appcompat.widget.LinearLayoutCompat
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/acIv_img"
-            android:layout_width="400dp"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:scaleType="centerCrop"
-            android:src="@drawable/img_640" />
+            android:src="@drawable/img_640"
+            app:layout_constraintBottom_toTopOf="@id/acIv_shape"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="ImageView黑白效果"
+            android:textSize="18sp"
+            android:textColor="@android:color/holo_red_light"/>
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/acIv_shape"
-            android:layout_width="400dp"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:scaleType="centerCrop"
-            android:src="@drawable/img_640" />
+            android:src="@drawable/img_640"
+            app:layout_constraintBottom_toTopOf="@id/acIfv_img"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/acIv_img" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/acIv_shape"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="ShapeableImageView黑白效果"
+            android:textSize="18sp"
+            android:textColor="@android:color/holo_red_light"/>
 
         <androidx.constraintlayout.utils.widget.ImageFilterView
             android:id="@+id/acIfv_img"
-            android:layout_width="400dp"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:contentDescription="float型，默认1，取值0为灰阶样式，大于1的数值都是超饱和状态，色彩非常艳丽，有点辣眼睛。"
             android:scaleType="centerCrop"
             android:src="@drawable/img_640"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/acIv_shape"
             app:saturation="0" />
-    </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/acIfv_img"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="ImageFilterView黑白效果"
+            android:textSize="18sp"
+            android:textColor="@android:color/holo_red_light"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

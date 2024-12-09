@@ -1,4 +1,4 @@
-package com.module.booster
+package com.module.badge
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.module.booster", appContext.packageName)
+        assertEquals("com.module.badge", appContext.packageName)
     }
 }
