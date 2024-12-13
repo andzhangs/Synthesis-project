@@ -7,8 +7,7 @@
         android:id="@+id/motion_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layoutDescription="@xml/activity_motion_effect_scene"
-        tools:context=".MotionEffectActivity">
+        app:layoutDescription="@xml/activity_motion_effect_scene">
 
         <androidx.constraintlayout.utils.widget.ImageFilterView
             android:id="@+id/imgFv_1"
@@ -122,6 +121,12 @@
             android:id="@+id/fade"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:constraint_referenced_ids="imgFv_1,imgFv_2,imgFv_3,imgFv_4,imgFv_5,imgFv_6,imgFv_7,imgFv_8,imgFv_9" />
+            app:constraint_referenced_ids="imgFv_1,imgFv_2,imgFv_3,imgFv_4,imgFv_5,imgFv_6,imgFv_7,imgFv_8,imgFv_9"
+            app:motionEffect_alpha="0.5"
+            app:motionEffect_end="10"
+            app:motionEffect_move="auto"
+            app:motionEffect_start="10"
+            app:motionEffect_strict="true"
+            app:motionEffect_viewTransition="@+id/coolFade" />
     </androidx.constraintlayout.motion.widget.MotionLayout>
 </layout>

@@ -2,6 +2,7 @@
 <MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <!--动画开始状态-->
     <ConstraintSet android:id="@+id/start">
         <Constraint
             android:id="@+id/imgFv_move"
@@ -14,6 +15,7 @@
             app:roundPercent="1" />
     </ConstraintSet>
 
+    <!--动画结束状态-->
     <ConstraintSet android:id="@+id/end">
         <Constraint
             android:id="@id/imgFv_move"
@@ -23,13 +25,165 @@
             android:layout_marginEnd="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:roundPercent="1" />
+            app:roundPercent="1">
+<!--            <CustomAttribute-->
+<!--                app:attributeName="backgroundColor"-->
+<!--                app:customColorValue="#D81B60" />-->
+        </Constraint>
     </ConstraintSet>
 
+    <!--转场-->
     <Transition
         app:constraintSetEnd="@id/end"
         app:constraintSetStart="@+id/start"
-        app:duration="300">
-        <OnClick app:targetId="@id/imgFv_move" />
+        app:duration="3000"
+        app:motionInterpolator="bounce">
+
+        <!--
+
+        app:clickAction=
+            toggle：默认设置，在transitionToStart、transitionToEnd之间来回切换。如果在Start状态，点击之后会切换到End状态，反之一样。
+            transitionToEnd：过渡到End状态，有动画效果；
+            transitionToStart：过渡到Start状态，有动画效果；
+            jumpToEnd：直接跳转到End状态，没有动画效果；
+            jumpToStart：直接跳转到Start状态，没有动画效果。
+
+        -->
+        <OnClick
+            app:clickAction="toggle"
+            app:targetId="@id/imgFv_move" />
+
+        <OnSwipe
+            app:dragDirection="dragEnd"
+            app:touchAnchorId="@id/imgFv_move">
+
+        </OnSwipe>
+
+        <!--
+
+        KeyFrameSet 是一个用于定义动画关键帧的容器，它可以在动画的特定时间点上对属性进行插值或触发事件，从而控制动画的行为和效果
+
+            1、KeyPosition：
+                framePosition：定义动画帧的位置，表示在动画中的百分比位置。范围为 0-100，例如 framePosition="50" 表示动画的中点。
+                motionTarget：指定该关键帧所应用的目标视图，通过 ID 进行引用。
+                percentX/percentY：是指在 framePosition 按多大百分比来修改路径（值介于 0.0 到 1.0 之间，允许使用负数值和大于 1 的值）。可以简单理解为：在framePosition，修改motionTarget 的路径，即根据 keyPositionType 确定的坐标移动percentX 或percentY 。
+                keyPositionType：定义关键帧位置的计算方式，keyPositionType 属性用于确定如何根据 percentX 或 percentY 来修改路径。它可以是 parentRelative、pathRelative 或 deltaRelative。
+                    parentRelative: 相对于父容器的位置来计算关键帧，左上角和右下角分别为（0,0）和（1,1）。
+                    deltaRelative: 基于相对于起始点和结束点的相对偏移量来计算路径，起始坐标和终点坐标分别为（0,0）和（1,1）。
+                    pathRelative: 基于运动路径的百分比位置，从起点连接到终点的方向是X轴，Y轴的正方向是X轴顺时针转90度的方向。
+                percentWidth：表示在宽度上的百分比变化量。若宽度无变化，设置此属性无效，可用来实现逐帧增宽的效果。
+                percentHeight：表示在高度上的百分比变化量。同 percentWidth，若高度无变化则无效。
+                sizePercent：定义元素的整体大小百分比变化（宽度和高度比例一致），是 percentWidth 和 percentHeight 的简化形式。
+                transitionEasing：用于定义在关键帧上应用的缓动效果。可以选择 easeIn, easeOut 等内置类型或自定义曲线。
+                pathMotionArc：定义路径的弧度，如 startVertical, startHorizontal 等。用于创建更加平滑的曲线运动。
+                curveFit：用于曲线拟合，指定如何连接关键帧。通常用于处理更复杂的曲线路径，取值有：spline样条插值、linear线性插值。
+
+            2、KeyAttribute 是在特定时间点上动态修改 UI 元素属性的关键帧类型。
+                framePosition：定义了关键帧在动画进度中的位置，以百分比（0 到 100）表示。例如，framePosition=50 表示动画进行到一半时触发该关键帧，framePosition="25"表示该关键帧会在动画的 25% 处生效。
+                motionTarget：指定关键帧的目标视图或组件，通常使用视图 ID 引用。如：motionTarget="@+id/my_view" 用于指定应用此关键帧的视图。
+                transitionEasing：控制该关键帧的动画缓动效果，例如线性或非线性变化。示例：transitionEasing="easeInOut" 表示从平滑启动到渐渐加速，最后减速结束。
+                curveFit：定义了属性在动画中的插值方式，如线性或样条插值。示例：curveFit="spline" 表示使用样条插值。
+                motionProgress：用于控制 MotionLayout 内的嵌套动画进度，范围从 0 到 1。示例：在某个关键帧时，可以通过 motionProgress="0.5" 将进度条设为一半。
+                android:alpha：设置透明度。android:alpha="0.5" 表示视图半透明。
+                android:elevation：控制视图的高度，以增加视图的层次感。示例：android:elevation="10dp" 表示将视图抬升 10dp。
+                android:rotation、android:rotationX、android:rotationY：分别控制视图的二维和三维旋转角度。示例：android:rotation="45" 将视图顺时针旋转 45 度。
+                android:transformPivotX、android:transformPivotY：控制旋转和缩放的中心点。示例：android:transformPivotX="50dp" 表示将 X 轴的旋转中心设置在 50dp 处。
+                transformPivotTarget：指定其他视图作为旋转和缩放的中心点。
+                transitionPathRotate：视图沿动画路径旋转的角度。示例：transitionPathRotate="30" 将视图沿路径旋转 30 度。
+                android:scaleX、android:scaleY：分别设置视图的 X 和 Y 轴缩放。示例：android:scaleX="1.5" 将视图宽度放大 1.5 倍。
+                android:translationX、android:translationY：控制视图的 X、Y 方向偏移。示例：android:translationX="20dp" 表示将视图向右平移 20dp。
+                android:translationZ：控制视图在 Z 轴上的偏移。
+
+            3、KeyCycle在动画过程中做周期性波形来实现动画效果。通过 KeyCycle，可以让属性值以波动的方式进行变化（例如像正弦波或方波），用于产生类似于脉冲或振荡的效果。
+                motionTarget：指定应用波动效果的目标视图，通常使用视图的 ID。
+                curveFit：插值方式，决定波形曲线的平滑程度。示例：curveFit="spline" 表示使用样条插值。
+                framePosition：定义关键帧在动画进度中的位置，以 0 到 100 的百分比表示。示例：framePosition="50" 表示在动画进度的一半时触发此波动效果。
+                transitionEasing：缓动函数，控制波动动画的速度和流畅度。示例：transitionEasing="easeInOut"。
+                motionProgress：控制 MotionLayout 内嵌套动画的进度，值从 0 到 1。
+                waveShape：定义波形的形状，可选值包括：
+                    •	sin：正弦波
+                    •	square：方波
+                    •	triangle：三角波
+                    •	sawtooth：锯齿波
+                    •	reverseSawtooth：反向锯齿波
+                    •	cos：余弦
+                    •	bounce：弹跳
+                wavePhase：波的初始相位，单位为度数。它控制波形的起始位置。示例：wavePhase="90" 表示波形从 90 度开始。
+                wavePeriod：波形周期，表示波形重复的频率。值越小，频率越高。示例：wavePeriod="2" 表示波形每 2 秒完成一个周期。
+                waveOffset：波的偏移量，控制波动效果的初始位置。示例：waveOffset="0、2" 表示从 0、2 的位置开始波动。
+                waveVariesBy：定义波动变化的方向，可以是 x, y 或 path。示例：waveVariesBy="x"。
+                transitionPathRotate：视图沿路径旋转的角度，主要在路径动画中使用。示例：transitionPathRotate="45" 使视图沿路径旋转 45 度。
+                android:alpha：透明度变化。
+                android:elevation：视图的高度。
+                android:rotation、android:rotationX、android:rotationY：控制二维和三维旋转。
+                android:scaleX、android:scaleY：控制 X 和 Y 轴缩放。
+                android:translationX、android:translationY：控制 X 和 Y 方向位移。
+                android:translationZ：控制 Z 轴方向位移。
+
+            4、KeyTimeCycle 用于实现基于时间的周期性动画。
+                framePosition：动画进度中的位置，以百分比表示（0-100）。确定波动效果的触发时间点。
+                motionTarget：指定动画目标视图，通过视图 ID 关联。
+                transitionEasing：控制缓动效果，定义波形的流畅性。
+                curveFit：曲线拟合方法，用于控制插值的平滑度和效果（如 spline）。
+                waveShape：波形的形状，定义周期变化的方式。常用的值包括：
+                    •	sin：正弦波
+                    •	square：方波
+                    •	triangle：三角波
+                    •	sawtooth：锯齿波
+                    •	reverseSawtooth：反向锯齿波
+                    •	cos：余弦
+                    •	bounce：弹跳
+                wavePeriod：波形周期，控制波形的频率，值越大表示频率越高。
+                motionProgress：控制嵌套动画的进度，范围为 0 到 1。
+                waveOffset：波的偏移量，用于设置初始波动位置。
+                wavePhase：波的相位，定义波的起始角度，以度数表示。
+                waveDecay：波的衰减时间，单位为毫秒。控制波动效果随时间逐渐减弱，直到小于 1/256。
+                android:alpha：透明度变化。
+                android:elevation：视图的高度。
+                android:rotation、android:rotationX、android:rotationY：控制二维和三维旋转。
+                android:scaleX、android:scaleY：控制 X 和 Y 轴缩放。
+                android:translationX、android:translationY：控制 X 和 Y 方向位移。
+                android:translationZ：控制 Z 轴方向位移。
+
+            5、KeyTrigger 用于在动画到达特定位置时触发事件函数。
+                framePosition：触发事件的位置，以动画进度的百分比表示。范围是 0 到 100。
+                motionTarget：指定触发事件的目标视图，通过视图 ID 进行关联。
+                triggerReceiver：指定接收触发事件的视图，可以是另一个视图的 ID。
+                onNegativeCross、onPositiveCross、onCross：这些属性指定了事件的回调函数，分别在以下条件下调用：
+                    •	onNegativeCross：动画经过 framePosition 向负方向（回退）触发。
+                    •	onPositiveCross：动画经过 framePosition 向正方向（前进）触发。
+                    •	onCross：动画经过 framePosition 时（无论方向）触发。
+                viewTransitionOnNegativeCross、viewTransitionOnPositiveCross、viewTransitionOnCross：这些属性指定了动画过度操作的 ID，对应 onNegativeCross、onPositiveCross 和 onCross 的触发条件。
+                triggerSlack：触发的容差，表示触发事件前后的范围，用于避免重复触发。
+                triggerId：触发事件的唯一 ID，用于在回调中识别触发事件。
+                motion_postLayoutCollision：布尔值，设置为 true 时将在布局后检测碰撞触发。
+                motion_triggerOnCollision：指定目标视图的 ID，用于检测 motionTarget 和目标视图的碰撞，发生碰撞时触发事件。
+            -->
+
+        <KeyFrameSet>
+            <KeyAttribute
+                android:scaleX="2"
+                android:scaleY="2"
+                android:translationY="550dp"
+                app:framePosition="50"
+                app:motionTarget="@+id/imgFv_move"
+                app:transitionEasing="linear" />
+            <KeyCycle
+                android:elevation="3dp"
+                app:curveFit="spline"
+                app:framePosition="0"
+                app:motionProgress="0.5"
+                app:motionTarget="@+id/imgFv_move"
+                app:transitionPathRotate="1080"
+                app:wavePeriod="1"
+                app:wavePhase="0"
+                app:waveShape="reverseSawtooth"
+                app:waveVariesBy="position" />
+<!--            <KeyTrigger-->
+<!--                app:framePosition="10"-->
+<!--                app:motionTarget="@+id/acTv_text"-->
+<!--                app:triggerSlack="10"-->
+<!--                app:viewTransitionOnCross="@android:color/black" />-->
+        </KeyFrameSet>
     </Transition>
 </MotionScene>

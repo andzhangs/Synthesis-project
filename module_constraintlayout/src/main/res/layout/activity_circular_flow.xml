@@ -8,22 +8,6 @@
         android:layout_height="match_parent"
         tools:context=".CircularFlowActivity">
 
-        <androidx.constraintlayout.helper.widget.CircularFlow
-            android:id="@+id/circle_flow"
-            android:layout_width="10dp"
-            android:layout_height="10dp"
-            android:orientation="horizontal"
-            app:circularflow_angles="90,180,270,0"
-            app:circularflow_radiusInDP="120,120,120,120"
-            app:circularflow_viewCenter="@id/imgFv_center"
-            app:constraint_referenced_ids="imgFv_1,imgFv_2,imgFv_3,imgFv_4"
-            app:flow_horizontalGap="10dp"
-            app:flow_verticalGap="10dp"
-            app:flow_wrapMode="chain"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <androidx.constraintlayout.utils.widget.ImageFilterView
             android:id="@+id/imgFv_center"
             android:layout_width="100dp"
@@ -42,7 +26,8 @@
             android:layout_height="100dp"
             android:scaleType="centerCrop"
             android:src="@drawable/n01608432_1013"
-            app:round="16dp" />
+            app:round="16dp"
+            tools:ignore="MissingConstraints" />
 
         <androidx.constraintlayout.utils.widget.ImageFilterView
             android:id="@+id/imgFv_2"
@@ -50,7 +35,8 @@
             android:layout_height="100dp"
             android:scaleType="centerCrop"
             android:src="@drawable/n01608432_1018"
-            app:round="16dp" />
+            app:round="16dp"
+            tools:ignore="MissingConstraints" />
 
         <androidx.constraintlayout.utils.widget.ImageFilterView
             android:id="@+id/imgFv_3"
@@ -58,7 +44,8 @@
             android:layout_height="100dp"
             android:scaleType="centerCrop"
             android:src="@drawable/n01608432_1031"
-            app:round="16dp" />
+            app:round="16dp"
+            tools:ignore="MissingConstraints" />
 
         <androidx.constraintlayout.utils.widget.ImageFilterView
             android:id="@+id/imgFv_4"
@@ -66,12 +53,103 @@
             android:layout_height="100dp"
             android:scaleType="centerCrop"
             android:src="@drawable/n01608432_1032"
-            app:round="16dp" />
+            app:round="16dp"
+            tools:ignore="MissingConstraints" />
 
-        <!--        <androidx.core.widget.ContentLoadingProgressBar-->
-        <!--            android:layout_width="100dp"-->
-        <!--            android:layout_height="100dp"-->
-        <!--            style="?android:attr/progressBarStyleLarge" />-->
+        <androidx.constraintlayout.helper.widget.CircularFlow
+            android:id="@+id/circle_flow"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:orientation="horizontal"
+            app:circularflow_angles="90,180,270,0"
+            app:circularflow_radiusInDP="110,110,110,110"
+            app:circularflow_viewCenter="@id/imgFv_center"
+            app:constraint_referenced_ids="imgFv_1,imgFv_2,imgFv_3,imgFv_4"
+            app:flow_horizontalGap="10dp"
+            app:flow_verticalGap="10dp"
+            app:flow_wrapMode="chain"
+            tools:ignore="MissingConstraints" />
 
+        <View
+            android:id="@+id/view1"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@android:color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/view2"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@android:color/darker_gray"
+            tools:ignore="MissingConstraints" />
+
+        <View
+            android:id="@+id/view3"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@android:color/holo_red_dark"
+            tools:ignore="MissingConstraints" />
+
+        <View
+            android:id="@+id/view4"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@android:color/holo_green_dark"
+            tools:ignore="MissingConstraints" />
+
+
+        <View
+            android:id="@+id/view5"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@android:color/holo_blue_dark"
+            tools:ignore="MissingConstraints" />
+
+
+        <View
+            android:id="@+id/view6"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@android:color/holo_orange_dark"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <View
+            android:id="@+id/view7"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:background="@android:color/holo_purple"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/view8"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@android:color/holo_green_light"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.helper.widget.CircularFlow
+            android:id="@+id/circularFlow"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:circularflow_angles="10, 40, 80, 135"
+            app:circularflow_defaultAngle="45"
+            app:circularflow_defaultRadius="110dp"
+            app:circularflow_radiusInDP="110, 150, 170, 190"
+            app:circularflow_viewCenter="@+id/view1"
+            app:constraint_referenced_ids="view2,view3,view4,view5" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

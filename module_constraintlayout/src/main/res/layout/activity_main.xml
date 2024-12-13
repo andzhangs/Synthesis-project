@@ -63,6 +63,18 @@
                 android:text="MotionTelltales" />
 
             <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/acBtn_motion_carousel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Motion Carousel" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/acBtn_grid_helper"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Grid Helper" />
+
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/acBtn_coordinator_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -77,7 +89,6 @@
             <zs.android.module.constraintlayout.WordParticleView
                 android:layout_width="match_parent"
                 android:layout_height="300dp" />
-
         </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.core.widget.NestedScrollView>
 </layout>

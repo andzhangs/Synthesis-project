@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity() {
                 0f
             }
 
-            openByUri("squareAlbum", "albumId=10&fileId=101")
+            openByUri("squareAlbum", "albumId=11&fileId=d884e3d8b62392592ca964c12ad0ce3c0681a9ca241f6cc0204832329687dba4")
         }
     }
 

@@ -62,7 +62,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         mDataBinding.acBtnSetFont.setOnClickListener {
-
             mDataBinding.llRoot.removeAllViews()
 
             val folderPath = "${getExternalFilesDir("")?.absolutePath}${File.separator}fonts"
@@ -143,7 +142,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         mDataBinding.acIv.setOnClickListener {
-            loadAsync{
+            loadAsync {
                 if (BuildConfig.DEBUG) {
                     Log.e("print_logs", "MainActivity::onCreate: ")
                 }
@@ -151,7 +150,8 @@ class MainActivity : AppCompatActivity() {
             }
             val bitmap = BitmapFactory.decodeResource(resources, R.drawable.img_ami)
             // 创建一个与源 Bitmap 大小相同的画布
-            val croppedBitmap = Bitmap.createBitmap(bitmap.width, bitmap.height, Bitmap.Config.ARGB_8888)
+            val croppedBitmap =
+                Bitmap.createBitmap(bitmap.width, bitmap.height, Bitmap.Config.ARGB_8888)
             val canvas = Canvas(croppedBitmap)
 
 
@@ -163,10 +163,10 @@ class MainActivity : AppCompatActivity() {
             canvas.drawBitmap(bitmap, 0f, 0f, null)
             mDataBinding.acIv.setImageBitmap(croppedBitmap)
 
-            Intent(Intent.ACTION_VIEW).apply {
-                data = Uri.parse("byyourside://?data=value")
-                startActivity(this)
-            }
+//            Intent(Intent.ACTION_VIEW).apply {
+//                data = Uri.parse("byyourside://?data=value")
+//                startActivity(this)
+//            }
         }
     }
 
@@ -248,15 +248,15 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         mDataBinding.acTvSpannedString.apply {
-            movementMethod=LinkMovementMethod.getInstance()
-            highlightColor=Color.TRANSPARENT
+            movementMethod = LinkMovementMethod.getInstance()
+            highlightColor = Color.TRANSPARENT
         }.text = buildSpannedString {
             //加粗
             bold {
-                val str1="点我"
+                val str1 = "点我"
                 append(str1)
 
-                setSpan(object : ClickableSpan(){
+                setSpan(object : ClickableSpan() {
                     override fun onClick(widget: View) {
 
                         Log.i("print_logs", "MainActivity::onClick: ")
@@ -267,13 +267,13 @@ class MainActivity : AppCompatActivity() {
                     override fun updateDrawState(ds: TextPaint) {
                         super.updateDrawState(ds)
                         ds.textSize = 70F
-                        ds.isUnderlineText=true
-                        ds.color=ContextCompat.getColor(this@MainActivity,R.color.green)
+                        ds.isUnderlineText = true
+                        ds.color = ContextCompat.getColor(this@MainActivity, R.color.green)
                     }
-                },0,str1.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                }, 0, str1.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
             }
             //颜色
-            color(ContextCompat.getColor(this@MainActivity,R.color.yellow)){
+            color(ContextCompat.getColor(this@MainActivity, R.color.yellow)) {
                 append("黄色")
 
             }
@@ -282,7 +282,7 @@ class MainActivity : AppCompatActivity() {
                 append("下划线")
             }
             //背景颜色
-            backgroundColor(ContextCompat.getColor(this@MainActivity,R.color.green)){
+            backgroundColor(ContextCompat.getColor(this@MainActivity, R.color.green)) {
                 append("绿色背景颜色")
             }
             //斜体
@@ -290,7 +290,7 @@ class MainActivity : AppCompatActivity() {
                 append("斜体")
             }
             //缩放
-            scale(1.5F){
+            scale(1.5F) {
                 append("缩放1.5倍")
             }
             //删除线

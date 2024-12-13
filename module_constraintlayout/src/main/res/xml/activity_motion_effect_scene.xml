@@ -3,31 +3,47 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ConstraintSet android:id="@+id/start">
-        <Constraint
-            android:id="@+id/imgFv_move"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+<!--        <Constraint-->
+<!--            android:id="@+id/imgFv_move"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="16dp"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent" />-->
     </ConstraintSet>
 
     <ConstraintSet android:id="@+id/end">
-        <Constraint
-            android:id="@id/imgFv_move"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+<!--        <Constraint-->
+<!--            android:id="@id/imgFv_move"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            android:layout_marginEnd="16dp"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent" />-->
     </ConstraintSet>
 
     <Transition
         app:constraintSetEnd="@id/end"
         app:constraintSetStart="@+id/start"
-        app:duration="300">
-        <OnClick app:targetId="@id/imgFv_move" />
+        app:duration="1000">
     </Transition>
+
+    <ViewTransition android:id="@+id/coolFade">
+        <KeyFrameSet>
+            <KeyAttribute
+                app:framePosition="20"
+                android:scaleX="0.1"
+                android:scaleY="0.1"
+                android:rotation="-90"
+                android:alpha="0"/>
+            <KeyAttribute
+                app:framePosition="80"
+                android:scaleX="0.1"
+                android:scaleY="0.1"
+                android:rotation="-90"
+                android:alpha="0"/>
+        </KeyFrameSet>
+    </ViewTransition>
 </MotionScene>

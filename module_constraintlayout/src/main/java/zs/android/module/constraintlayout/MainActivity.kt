@@ -1,8 +1,8 @@
 package zs.android.module.constraintlayout
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import zs.android.module.constraintlayout.databinding.ActivityMainBinding
 
@@ -47,6 +47,14 @@ class MainActivity : AppCompatActivity() {
 
         mDataBinding.acBtnMotionTelltales.setOnClickListener {
             startActivity(Intent(this, MotionTelltalesActivity::class.java))
+        }
+
+        mDataBinding.acBtnMotionCarousel.setOnClickListener {
+            startActivity(Intent(this, MotionCarouselActivity::class.java))
+        }
+
+        mDataBinding.acBtnGridHelper.setOnClickListener {
+            startActivity(Intent(this, GridHelperActivity::class.java))
         }
 
         mDataBinding.acBtnCoordinatorLayout.setOnClickListener {
