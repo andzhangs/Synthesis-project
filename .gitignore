@@ -13,3 +13,4 @@
 .externalNativeBuild
 .cxx
 local.properties
+module_scan/agconnect-services.json
