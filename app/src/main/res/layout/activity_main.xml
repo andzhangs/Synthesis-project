@@ -9,6 +9,16 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <com.huawei.hms.support.hwid.ui.HuaweiIdAuthButton
+            android:id="@+id/hwBtn_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="15dp"
+            app:hwid_button_theme="hwid_button_theme_full_title"
+            app:hwid_color_policy="hwid_color_policy_red"
+            app:hwid_corner_radius="hwid_corner_radius_large"/>
+
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/acBtn_set_font"
             android:layout_width="wrap_content"

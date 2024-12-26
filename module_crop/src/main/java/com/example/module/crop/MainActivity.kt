@@ -22,6 +22,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.lifecycleScope
 import com.example.module.crop.databinding.ActivityMainBinding
 import com.lyrebirdstudio.croppylib.Croppy
 import com.lyrebirdstudio.croppylib.main.CropRequest
@@ -32,6 +33,8 @@ import com.yalantis.ucrop.UCrop
 import com.yalantis.ucrop.UCropActivity
 import com.yuyh.library.imgsel.ISNav
 import com.yuyh.library.imgsel.config.ISListConfig
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import top.zibin.luban.Luban
 import top.zibin.luban.OnCompressListener
 import java.io.File
@@ -142,7 +145,7 @@ class MainActivity : AppCompatActivity() {
         mDataBinding.acBtnCropper.setOnClickListener {
             mDataBinding.cropIv.getCroppedImage(200, 200)?.also {
                 mDataBinding.acIvShowCrop.setImageBitmap(it)
-                bitmapToFile(it, "cropper")
+                bitmapToFile(it, "Cropper")
                 showCropImage()
             }
         }
@@ -162,7 +165,7 @@ class MainActivity : AppCompatActivity() {
 
             override fun onSuccess(bitmap: Bitmap) {
                 Log.i("print_logs", "MainActivity::onSuccess: cropLayout")
-                bitmapToFile(bitmap, "cropLayout")
+                bitmapToFile(bitmap, "CropLayout")
                 mDataBinding.acIvShowCrop.setImageBitmap(bitmap)
 
                 showCropImage()
@@ -191,14 +194,14 @@ class MainActivity : AppCompatActivity() {
         mDataBinding.acBtnCropView.setOnClickListener {
             Thread {
                 val fileFolder =
-                    "${this.applicationContext.getExternalFilesDir("cropIwa")?.absoluteFile}"
+                    "${this.applicationContext.getExternalFilesDir("CropIwa")?.absoluteFile}"
 
                 mDataBinding.cropView.crop(
                     CropIwaSaveConfig.Builder(
                         Uri.fromFile(
                             File(
                                 fileFolder,
-                                "cropIwa_${System.currentTimeMillis()}.jpeg"
+                                "CropIwa_${System.currentTimeMillis()}.jpeg"
                             )
                         )
                     )
@@ -244,16 +247,16 @@ class MainActivity : AppCompatActivity() {
             Log.i("print_logs", "loadUCrop: $uri")
         }
 
-        val cacheFolder1="${applicationContext.externalCacheDir?.absoluteFile}${File.separator}ucrop"
+        val cacheFolder1="${applicationContext.externalCacheDir?.absoluteFile}${File.separator}Ucrop"
 
-        File(cacheFolder1).apply {
+        val cacheFolder2 =
+            "${this.applicationContext.getExternalFilesDir("Ucrop")?.absoluteFile}"
+
+        File(cacheFolder2).apply {
             if (!this.exists()) {
                 this.mkdirs()
             }
         }
-
-        val cacheFolder2 =
-            "${this.applicationContext.getExternalFilesDir("ucrop")?.absoluteFile}"
 
         val options=UCrop.Options().apply {
             setCompressionFormat(Bitmap.CompressFormat.PNG)
@@ -278,7 +281,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         uri?.also {
-            UCrop.of(it, Uri.fromFile(File(cacheFolder1, "ucrop_${System.currentTimeMillis()}.png")))
+            UCrop.of(it, Uri.fromFile(File(cacheFolder2, "Ucrop_${System.currentTimeMillis()}.png")))
                 .withAspectRatio(1f, 1f) //裁剪比例
                 .withOptions(options)
                 .start(this)
@@ -360,7 +363,7 @@ class MainActivity : AppCompatActivity() {
             .filter {
                 !TextUtils.isEmpty(it) || it.lowercase().endsWith(".gif")
             }
-            .setTargetDir("${applicationContext.externalCacheDir?.absoluteFile}${File.separator}ucrop")
+            .setTargetDir("${applicationContext.externalCacheDir?.absoluteFile}${File.separator}Ucrop")
             .setCompressListener(object :OnCompressListener{
                 override fun onStart() {
                     if (BuildConfig.DEBUG) {
@@ -390,18 +393,21 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun bitmapToFile(bitmap: Bitmap, fileFolder: String) {
-        try {
+        lifecycleScope.launch(Dispatchers.IO){
             val saveFile =
-                File(
-                    getExternalFilesDir(fileFolder),
-                    "${fileFolder}_${System.currentTimeMillis()}.jpeg"
-                )
-            val fos = FileOutputStream(saveFile)
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 10, fos)
-            fos.flush()
-            fos.close()
-        } catch (e: Exception) {
-            e.printStackTrace()
+                File(getExternalFilesDir(fileFolder), "${fileFolder}_${System.currentTimeMillis()}${Thread.currentThread().id}.jpeg")
+            try {
+                val fos = FileOutputStream(saveFile)
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos)
+                fos.flush()
+                fos.close()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }finally {
+                if (BuildConfig.DEBUG) {
+                    Log.d("print_logs", "保存: ${saveFile.exists()}")
+                }
+            }
         }
     }
 

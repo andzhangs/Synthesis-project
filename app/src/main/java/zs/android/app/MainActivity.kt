@@ -39,6 +39,11 @@ import androidx.core.text.superscript
 import androidx.core.text.underline
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
+import com.huawei.hms.common.ApiException
+import com.huawei.hms.support.account.AccountAuthManager
+import com.huawei.hms.support.account.request.AccountAuthParams
+import com.huawei.hms.support.account.request.AccountAuthParamsHelper
+import com.huawei.hms.support.account.service.AccountAuthService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -52,13 +57,60 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var mDataBinding: ActivityMainBinding
 
+    private var mService: AccountAuthService? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mDataBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         mDataBinding.lifecycleOwner = this
 
+        //普通登录华为账号
+        fun loginAccount() {
+            val authParams = AccountAuthParamsHelper(AccountAuthParams.DEFAULT_AUTH_REQUEST_PARAM)
+                .setAuthorizationCode()
+                .setAccessToken()
+                .setIdToken()
+                .createParams()
+            mService = AccountAuthManager.getService(this@MainActivity, authParams)
+            startActivityForResult(mService!!.signInIntent, 8888)
+        }
+
+        //静默登录华为账号
+        fun loginSilent() {
+            val authParams = AccountAuthParamsHelper(AccountAuthParams.DEFAULT_AUTH_REQUEST_PARAM)
+                .createParams()
+            mService = AccountAuthManager.getService(this@MainActivity, authParams)
+            val task = mService!!.silentSignIn()
+            task.addOnSuccessListener {
+                //0表示华为帐号、1表示AppTouch帐号
+                Log.i(
+                    "print_logs", "静默登录: \n" +
+                            "账号信息：${it.displayName}\n" +
+                            "账号类型：${it.accountFlag}"
+                )
+            }.addOnFailureListener {
+                Log.e("print_logs", "登录失败: ${it.message}")
+                Toast.makeText(this, "登录失败：${it.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        mDataBinding.hwBtnLogin.setOnClickListener {
+            loginSilent()
+        }
+
         lifecycleScope.launch {
             TestCoroutine.start()
+            Thread.currentThread().stackTrace.forEach { callingElement ->
+                val className = callingElement.className
+
+                if (className.contains(this@MainActivity.packageName)) {
+                    val lineNumber = callingElement.lineNumber
+
+                    if (BuildConfig.DEBUG) {
+                        Log.d("print_logs", "onCreate: $className, $lineNumber")
+                    }
+                }
+            }
         }
 
         mDataBinding.acBtnSetFont.setOnClickListener {
@@ -233,6 +285,23 @@ class MainActivity : AppCompatActivity() {
                     Toast.makeText(this, "授权失败！", Toast.LENGTH_SHORT).show()
                 }
             }
+        } else if (requestCode == 8888) {
+            val authAccountTask = AccountAuthManager.parseAuthResultFromIntent(data)
+            if (authAccountTask.isSuccessful) {
+                val authAccount = authAccountTask.result
+                if (BuildConfig.DEBUG) {
+                    Log.i(
+                        "print_logs", "登录成功：\n" +
+                                "AuthorizationCode：\n${authAccount.authorizationCode} \n" +
+                                "IDToken：\n${authAccount.idToken} \n" +
+                                "AccessToken：\n${authAccount.accessToken}"
+                    )
+                }
+            } else {
+                if (BuildConfig.DEBUG) {
+                    Log.e("print_logs", "登录失败！${authAccountTask.exception}")
+                }
+            }
         }
     }
 
@@ -322,6 +391,27 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+    }
+
+    override fun onStop() {
+        super.onStop()
+        mService?.signOut()?.addOnSuccessListener {
+            if (BuildConfig.DEBUG) {
+                Log.i("print_logs", "MainActivity::onStop: 退出华为账号")
+            }
+        }
+        mService?.cancelAuthorization()?.addOnCompleteListener {
+            if (it.isSuccessful) {
+                Log.i("print_logs", "onSuccess: 取消授权成功后的处理")
+            }else{
+                //异常处理
+                val exception = it.exception
+                if (exception is ApiException) {
+                    val statusCode = exception.statusCode
+                    Log.i("print_logs", "onFailure: $statusCode")
+                }
+            }
+        }
     }
 
     override fun onDestroy() {

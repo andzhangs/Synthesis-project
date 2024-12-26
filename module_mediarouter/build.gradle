@@ -6,7 +6,7 @@ plugins {
 android {
     namespace 'zs.module.mediarouter'
     compileSdk 33
-    compileSdkPreview 'UpsideDownCake'
+//    compileSdkPreview 'UpsideDownCake'
 
     defaultConfig {
         applicationId "zs.module.mediarouter"

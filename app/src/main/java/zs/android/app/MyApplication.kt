@@ -1,6 +1,8 @@
 package zs.android.app
 
 import android.app.Application
+import com.huawei.agconnect.AGConnectInstance
+import com.huawei.agconnect.AGConnectOptionsBuilder
 
 /**
  *
@@ -10,5 +12,23 @@ import android.app.Application
  */
 class MyApplication : Application() {
 
-    
+    override fun onCreate() {
+        super.onCreate()
+        try {
+            AGConnectInstance.initialize(this, AGConnectOptionsBuilder().apply {
+                val inputStream=assets.open("agconnect-services.json")
+                this.setInputStream(inputStream)
+                this.setClientId("client_id")
+                this.setClientSecret("client_secret")
+                this.setApiKey("api_key")
+                this.setCPId("cp_id")
+                this.setProductId("product_id")
+                this.setAppId("app_id")
+            })
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }finally {
+//            AccessNetworkManager.getInstance().setAccessNetwork(true)
+        }
+    }
 }

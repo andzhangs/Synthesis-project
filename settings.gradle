@@ -1,6 +1,12 @@
 pluginManagement {
     repositories {
+        gradlePluginPortal()
+        google()
+        mavenCentral()
         maven { url 'https://jitpack.io' }
+
+        maven { url 'https://developer.huawei.com/repo/' }
+
         maven { url 'https://maven.aliyun.com/repository/public' }
         maven { url 'https://maven.aliyun.com/repository/central' }
         maven { url 'https://maven.aliyun.com/repository/google' }
@@ -9,9 +15,13 @@ pluginManagement {
             allowInsecureProtocol = true
             url 'http://oss.jfrog.org/artifactory/oss-snapshot-local'
         }
-        gradlePluginPortal()
-        google()
-        mavenCentral()
+
+    }
+
+    plugins {
+        id 'com.android.application' version '8.0.0'
+        id 'org.jetbrains.kotlin.android' version '1.8.20'
+        id 'com.huawei.agconnect.agcp' version '1.9.1.301'//'1.6.0.300'
     }
 }
 
@@ -22,7 +32,13 @@ pluginManagement {
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
+        google()
+        mavenCentral()
+
         maven { url 'https://jitpack.io' }
+
+        maven { url 'https://developer.huawei.com/repo/' }
+
         maven { url 'https://maven.aliyun.com/repository/public' }
         maven { url 'https://maven.aliyun.com/repository/central' }
         maven { url 'https://maven.aliyun.com/repository/google' }
@@ -32,8 +48,6 @@ dependencyResolutionManagement {
             allowInsecureProtocol = true
             url 'http://oss.jfrog.org/artifactory/oss-snapshot-local'
         }
-        google()
-        mavenCentral()
     }
 
     versionCatalogs {
@@ -117,3 +131,4 @@ include ':module_webrtc'
 include ':module_mediarouter'
 include ':module_gesture'
 include ':module_badge'
+include ':module_scan'

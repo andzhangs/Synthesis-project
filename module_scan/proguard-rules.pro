@@ -20,17 +20,12 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
--dontwarn com.yalantis.ucrop**
--keep class com.yalantis.ucrop** { *; }
--keep interface com.yalantis.ucrop** { *; }
-
 -ignorewarnings
--keep class com.huawei.agconnect.**{*;}
 -keepattributes *Annotation*
 -keepattributes Exceptions
 -keepattributes InnerClasses
 -keepattributes Signature
--keepattributes SourceFileLineNumberTable
--keep class com.hianalytics.android.**{*;}
+-keepattributes SourceFile,LineNumberTable
+-keep class com.huawei.hianalytics.**{*;}
 -keep class com.huawei.updatesdk.**{*;}
 -keep class com.huawei.hms.**{*;}

@@ -5,9 +5,8 @@
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
         <option name="testRunner" value="GRADLE" />
-        <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="gradleJvm" value="Android Studio java home" />
+        <option name="gradleJvm" value="Embedded JDK" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
@@ -45,6 +44,7 @@
             <option value="$PROJECT_DIR$/module_photo" />
             <option value="$PROJECT_DIR$/module_pick" />
             <option value="$PROJECT_DIR$/module_recyclerview" />
+            <option value="$PROJECT_DIR$/module_scan" />
             <option value="$PROJECT_DIR$/module_section" />
             <option value="$PROJECT_DIR$/module_seismic" />
             <option value="$PROJECT_DIR$/module_service" />
@@ -63,6 +63,7 @@
             <option value="$PROJECT_DIR$/tangram" />
           </set>
         </option>
+        <option name="resolveExternalAnnotations" value="false" />
       </GradleProjectSettings>
     </option>
     <option name="offlineMode" value="true" />

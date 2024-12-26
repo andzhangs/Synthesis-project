@@ -1,28 +1,23 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
-//    id 'com.huawei.agconnect'
+    id 'com.huawei.agconnect'
 }
 
 android {
-    namespace 'zs.android.app'
+    namespace 'com.module.scan'
     compileSdk 33
-    signingConfigs {
-        release {
-            storeFile file("${rootDir.absolutePath}/attr.keystore")
-            storePassword 'attrsense'
-            keyAlias 'attrsense'
-            keyPassword 'attrsense'
-        }
-    }
+
     defaultConfig {
-        applicationId "zs.android.app"
+        applicationId "com.module.scan"
         minSdk 24
         targetSdk 33
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        resConfigs "en", "zh-rCN"
     }
 
     buildTypes {
@@ -39,20 +34,25 @@ android {
         jvmTarget = '17'
     }
     buildFeatures {
+        buildConfig = true
+        viewBinding true
         dataBinding true
     }
 }
 
 dependencies {
-    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
-    implementation 'androidx.core:core-ktx:1.10.1'
+
+    implementation 'androidx.core:core-ktx:1.8.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'com.google.android.material:material:1.9.0'
+    implementation 'com.google.android.material:material:1.5.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
-//    implementation files('libs/moduleJar_v1.0.0.jar')
-    implementation 'com.huawei.hms:hwid:6.0.1.300'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
+
+//    implementation 'com.huawei.hms:scan:2.12.0.301'
+    implementation 'com.huawei.hms:scanplus:2.12.0.301'
+
     implementation 'com.huawei.agconnect:agconnect-core:1.9.1.301'
+
 }
