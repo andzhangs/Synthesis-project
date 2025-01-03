@@ -3,37 +3,102 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/acBtn_scan"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="点击扫描"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/acEt_input"
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="请输入内容1"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/acEt_input2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="请输入内容2"
-            app:layout_constraintTop_toBottomOf="@id/acEt_input"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/acBtn_scan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="点击扫描" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/acBtn_make_code"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:text="生成二维码" />
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/acIv_code"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/acBtn_make_code"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/acEt_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="请输入内容1" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/acEt_input2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="请输入内容2" />
+
+            <com.huawei.hms.support.hwid.ui.HuaweiIdAuthButton
+                android:id="@+id/hwBtn_login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="15dp"
+                app:hwid_button_theme="hwid_button_theme_full_title"
+                app:hwid_color_policy="hwid_color_policy_red"
+                app:hwid_corner_radius="hwid_corner_radius_large" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/acBtn_face"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="人脸识别" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/acBtn_body"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="人体识别" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/acBtn_picture"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="图片识别" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/acBtn_code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="码识别" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/acBtn_video"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="视频技术" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/acBtn_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="文本识别" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/acBtn_audio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="语音识别" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.core.widget.NestedScrollView>
 </layout>
