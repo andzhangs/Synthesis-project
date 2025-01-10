@@ -2,6 +2,7 @@ package com.module.recyclerview
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.view.ViewParent
@@ -82,14 +83,19 @@ class BaseQuickAdapterActivity : AppCompatActivity() {
             layoutManager = LinearLayoutManager(this@BaseQuickAdapterActivity,RecyclerView.VERTICAL,false)
             addDividerDefault(2)
             adapter=mAdapter
-            mAdapter.submitList(listOf("0","1", "2", "3", "4", "5", "6", "7", "8", "9"))
+            mAdapter.submitList(mutableListOf("0","1", "2", "3", "4", "5", "6", "7", "8", "9"))
         }
 
         mDataBinding.acBtnUpdate.setOnClickListener {
             mAdapter[1]="我是更新的"
         }
         mDataBinding.acBtnAdd.setOnClickListener {
-            mAdapter.add("我是新增的数据")
+//            try {
+                mAdapter.add("我是新增的数据")
+//            }catch (e:Exception){
+//                e.printStackTrace()
+//                Log.e("print_logs", "add异常: $e")
+//            }
         }
         mDataBinding.acBtnAdd1.setOnClickListener {
             mAdapter.add(1,"我是指定新增的")
