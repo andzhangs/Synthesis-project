@@ -23,6 +23,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Synthesisproject">
         <activity
+            android:name="com.module.recyclerview.BaseQuickAdapterActivity"
+            android:exported="false" />
+        <activity
             android:name="com.module.recyclerview.DiffActivity"
             android:exported="false" />
         <activity

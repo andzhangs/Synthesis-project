@@ -29,9 +29,6 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var mScanHelperObserver:ScanHelperObserver
 
-    private val mInputFlow = MutableSharedFlow<String?>()
-    private val mInput2Flow = MutableSharedFlow<String?>()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mDataBinding = DataBindingUtil.setContentView(this,R.layout.activity_main)
@@ -83,34 +80,6 @@ class MainActivity : AppCompatActivity() {
 
         mDataBinding.acBtnMakeCode.setOnClickListener {
             mDataBinding.acIvCode.setImageBitmap(mScanHelperObserver.makeCode())
-        }
-
-        mDataBinding.acEtInput.doAfterTextChanged {
-            if (BuildConfig.DEBUG) {
-                Log.d("print_logs", "发送数据一: $it")
-            }
-            lifecycleScope.launch {
-                mInputFlow.emit(it?.toString())
-            }
-        }
-
-        mDataBinding.acEtInput2.doAfterTextChanged {
-            if (BuildConfig.DEBUG) {
-                Log.d("print_logs", "发送数据二: $it")
-            }
-            lifecycleScope.launch {
-                mInput2Flow.emit(it?.toString())
-            }
-        }
-
-        lifecycleScope.launch {
-            combine(mInputFlow,mInput2Flow){text1,text2->
-                "$text1, $text2"
-            }.collectLatest {
-                if (BuildConfig.DEBUG) {
-                    Log.i("print_logs", "监听数据: $it")
-                }
-            }
         }
 
         mDataBinding.acBtnFace.setOnClickListener {

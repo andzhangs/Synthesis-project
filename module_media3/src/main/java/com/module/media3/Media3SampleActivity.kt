@@ -34,6 +34,7 @@ import androidx.media3.transformer.ExportException
 import androidx.media3.transformer.ExportResult
 import androidx.media3.transformer.TransformationRequest
 import androidx.media3.transformer.Transformer
+import androidx.media3.ui.AspectRatioFrameLayout
 import com.module.media3.databinding.ActivityMedia3SampleBinding
 import java.io.IOException
 
@@ -54,6 +55,7 @@ import java.io.IOException
         mPlayer = ExoPlayer.Builder(this).build().apply {
             addListener(mPlayListener)
             addAnalyticsListener(mAnalyticsListener)
+
 
             repeatMode = Player.REPEAT_MODE_OFF
         }
@@ -85,6 +87,36 @@ import java.io.IOException
                 mPickPlayFile.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.VideoOnly))
             } else {
                 Log.i("print_logs", "setCallback: 系统不适用")
+            }
+        }
+
+        val ratioArray= floatArrayOf(16f/9f,9f/16f,1f/1f,4f/3f,2.35f/1f)
+        var ratioIndex=0
+        mDataBinding.acBtnZoom.setOnClickListener {
+            mDataBinding.aspectRatioFrameLayout.apply {
+                if (ratioIndex>ratioArray.size-1) {
+                    ratioIndex=0
+                }
+                if (BuildConfig.DEBUG) {
+                    Log.i("print_logs", "setAspectRatio: $ratioIndex, ${ratioArray[ratioIndex]}")
+                }
+                setAspectRatio(ratioArray[ratioIndex])
+                ratioIndex++
+            }
+        }
+
+        val mode= intArrayOf(AspectRatioFrameLayout.RESIZE_MODE_FIT,AspectRatioFrameLayout.RESIZE_MODE_FIXED_WIDTH,AspectRatioFrameLayout.RESIZE_MODE_FIXED_HEIGHT,AspectRatioFrameLayout.RESIZE_MODE_FILL,AspectRatioFrameLayout.RESIZE_MODE_ZOOM)
+        var modeIndex=0
+        mDataBinding.acBtnRatio.setOnClickListener {
+            mDataBinding.aspectRatioFrameLayout.apply {
+                if (modeIndex>mode.size-1){
+                    modeIndex=0
+                }
+                if (BuildConfig.DEBUG) {
+                    Log.i("print_logs", "setResizeMode: $modeIndex, ${mode[modeIndex]}")
+                }
+                this.resizeMode = mode[modeIndex]
+                modeIndex++
             }
         }
 

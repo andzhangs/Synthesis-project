@@ -29,6 +29,10 @@ class MainActivity : AppCompatActivity() {
         mDataBinding.acBtnDiffCallback.setOnClickListener {
             startActivity(Intent(this, DiffActivity::class.java))
         }
+
+        mDataBinding.acBtnBaseQuickAdapter.setOnClickListener {
+            startActivity(Intent(this, BaseQuickAdapterActivity::class.java))
+        }
     }
 
     override fun onDestroy() {

@@ -2,17 +2,21 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="?android:actionBarSize"
-        android:gravity="center"
-        android:background="@android:color/white">
+        android:background="@color/white"
+        android:orientation="vertical">
+
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/acTv_info"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="哈哈哈"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:background="@color/cardview_shadow_start_color"
+            android:gravity="center"
+            android:textColor="@color/black"
             android:textSize="18sp"
-            android:textColor="@android:color/black"/>
-    </LinearLayout>
+            tools:text="哈哈哈" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>

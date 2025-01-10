@@ -30,6 +30,9 @@ buildscript {
         maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
     }
     dependencies {
+        classpath 'com.android.tools.build:gradle:8.2.0'
+
+
         def booster_version = "4.16.3"
         classpath "com.didiglobal.booster:booster-gradle-plugin:$booster_version"
         classpath "com.didiglobal.booster:booster-task-analyser:$booster_version"
@@ -82,7 +85,6 @@ buildscript {
         classpath 'com.squareup.sqldelight:gradle-plugin:1.5.4'
 
 
-        classpath 'com.android.tools.build:gradle:8.0.0'
         classpath 'com.huawei.agconnect:agcp:1.9.1.301' //1.6.0.300
 
         //        classpath "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin:1.8.21-1.0.11"

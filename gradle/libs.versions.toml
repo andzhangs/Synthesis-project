@@ -11,8 +11,9 @@ versionName = '1.0.0'
 versionCode = '1'
 
 #插件版本
-androidGradlePlugin = '8.0.0'
-kotlinVersion = '1.8.0'
+androidGradlePlugin = '8.2.0'
+androidGradlePluginLibrary = '8.0.2'
+kotlinVersion = '1.8.20'
 kspVersion = '1.8.21-1.0.11'
 
 #依赖库版本
@@ -25,6 +26,7 @@ androidxJunitVersion = '1.1.5'
 espressoVersion = '3.5.1'
 multiDexVersion = '2.0.1'
 activity = "1.8.0"
+junit = "1.1.5"
 
 [libraries]
 core-ktx = { group = 'androidx.core', name = 'core-ktx', version.ref = 'corektxVersion' }
@@ -36,10 +38,11 @@ androidx-test = { group = 'androidx.test', name = 'core', version.ref = 'android
 espresso-core = { group = 'androidx.test.espresso',name = 'espresso-core', version.ref = 'espressoVersion' }
 multiDex = { group = 'androidx.multidex', name = 'multidex', version.ref = 'multiDexVersion' }
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
+androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junit" }
 
 [plugins]
 android-application = { id = 'com.android.application', version.ref = 'androidGradlePlugin' }
-android-library = { id = 'com.android.library', version.ref = 'androidGradlePlugin' }
+android-library = { id = 'com.android.library', version.ref = 'androidGradlePluginLibrary' }
 kotlin-android = { id = 'org.jetbrains.kotlin.android', version.ref = 'kotlinVersion' }
 ksp = { id = 'com.google.devtools.ksp', version.ref = 'kspVersion' }
 

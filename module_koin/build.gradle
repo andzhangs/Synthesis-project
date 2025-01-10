@@ -80,8 +80,8 @@ dependencies {
     implementation "io.insert-koin:koin-logger-slf4j:$koin_android_version"
 
 
-    def koin_annotations_version = '1.3.0'
-    implementation "io.insert-koin:koin-annotations:$koin_annotations_version"
-    implementation "io.insert-koin:koin-annotations-bom:$koin_annotations_version"
-    ksp "io.insert-koin:koin-ksp-compiler:$koin_annotations_version"
+//    def koin_annotations_version = '1.3.0'
+//    implementation "io.insert-koin:koin-annotations:$koin_annotations_version"
+//    implementation "io.insert-koin:koin-annotations-bom:$koin_annotations_version"
+//    ksp "io.insert-koin:koin-ksp-compiler:$koin_annotations_version"
 }

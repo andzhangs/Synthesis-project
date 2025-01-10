@@ -25,7 +25,10 @@ import com.andorid.module.pick.selection.ImageAdapter
 import com.andorid.module.pick.selection.ImageBean
 import com.andorid.module.pick.selection.base.BaseItemDetailsLookup
 import com.andorid.module.pick.selection.base.BaseItemKeyProvider
+import java.io.BufferedWriter
 import java.io.File
+import java.io.FileOutputStream
+import java.io.FileWriter
 
 class MainActivity : AppCompatActivity() {
 
@@ -66,7 +69,7 @@ class MainActivity : AppCompatActivity() {
     private fun createFile() {
         val requestPermissionLauncher =
             registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
-                this.contentResolver.apply {
+                this.contentResolver.also {mResolver->
                     val contentValues = ContentValues().apply {
                         put(
                             MediaStore.MediaColumns.DISPLAY_NAME,
@@ -78,13 +81,12 @@ class MainActivity : AppCompatActivity() {
                             "${Environment.DIRECTORY_DOCUMENTS}${File.separator}${packageName}${File.separator}text"
                         )
                     }
-
-                    val mUri = insert(MediaStore.Files.getContentUri("external"), contentValues)
+                    val mUri = mResolver.insert(MediaStore.Files.getContentUri("external"), contentValues)
                     mUri?.let { it1 ->
-                        val outputStream = openOutputStream(it1)
-                        outputStream?.write("${mShowInfo.text}".toByteArray())
-                        outputStream?.close()
-                        query(it1, null, null, null, null)?.also { cursor ->
+                        mResolver.openOutputStream(it1)?.use {outputStream->
+                            outputStream.write("选中数据信息：${mShowInfo.text}".toByteArray())
+                        }
+                        mResolver.query(it1, null, null, null, null)?.use { cursor ->
                             while (cursor.moveToNext()) {
                                 val path =
                                     cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA))
@@ -93,7 +95,6 @@ class MainActivity : AppCompatActivity() {
                                 }
                             }
                         }
-
                     }
 
                     if (BuildConfig.DEBUG) {
@@ -243,7 +244,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         //获取选中的数据
-
         findViewById<AppCompatButton>(R.id.acBtn_get_selected).setOnClickListener {
             val sb = StringBuilder()
             mSelectionTracker.selection.forEach {

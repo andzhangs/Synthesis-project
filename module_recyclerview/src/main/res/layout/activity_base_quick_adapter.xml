@@ -4,79 +4,74 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".Media3SampleActivity">
+        android:background="@color/default_gray">
 
-        <androidx.media3.ui.AspectRatioFrameLayout
-            android:id="@+id/aspect_ratio_frame_layout"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_constraintTop_toTopOf="parent"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:itemCount="4"
+            tools:listitem="@layout/item_one" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/acBtn_update"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="修改 1 处的数据"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent">
-            <SurfaceView
-                android:id="@+id/surface_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </androidx.media3.ui.AspectRatioFrameLayout>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/acBtn_search"
+            android:id="@+id/acBtn_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="增加数据"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:text="找文件"/>
+            app:layout_constraintTop_toBottomOf="@id/acBtn_update" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/acBtn_transformer"
+            android:id="@+id/acBtn_add_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="增加 1 处的数据"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/acBtn_search"
-            android:text="格式转换"/>
+            app:layout_constraintTop_toBottomOf="@id/acBtn_add" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/acBtn_zoom"
+            android:id="@+id/acBtn_add_list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="增加数据集合"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/acBtn_transformer"
-            android:text="缩放模式"/>
+            app:layout_constraintTop_toBottomOf="@id/acBtn_add_1" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/acBtn_ratio"
+            android:id="@+id/acBtn_add_list_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="增加 1 处数据集合"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/acBtn_zoom"
-            android:text="宽高比"/>
+            app:layout_constraintTop_toBottomOf="@id/acBtn_add_list" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/acBtn_play"
+            android:id="@+id/acBtn_add_delete_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="删除 1 处数据"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:text="播放"/>
+            app:layout_constraintTop_toBottomOf="@id/acBtn_add_list_1" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/acBtn_pause"
+            android:id="@+id/acBtn_add_swap_1_with_3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toEndOf="@id/acBtn_play"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:text="暂停"/>
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/acBtn_stop"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toEndOf="@id/acBtn_pause"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:text="停止"/>
-
+            android:text="交换 1和3 处数据位置"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/acBtn_add_delete_1" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
