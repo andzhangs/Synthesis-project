@@ -10,10 +10,14 @@
     <uses-permission
         android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
+    <uses-permission
+        android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" />
     <uses-permission android:name="android.permission.VIBRATE" /> <!-- Android-14版本适配 -->
     <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
     <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" /> <!-- 通知栏 -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.READ_MEDIA_VISUAL_USER_SELECTED" />
 
     <application
         android:allowBackup="true"
@@ -23,13 +27,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Synthesisproject">
         <activity
+            android:name="com.module.recyclerview.BaseSingleItemAdapterActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.module.recyclerview.BaseMultiItemAdapterActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.module.recyclerview.BaseDifferAdapterActivity"
+            android:exported="false" />
+        <activity
             android:name="com.module.recyclerview.BaseQuickAdapterActivity"
             android:exported="false" />
         <activity
             android:name="com.module.recyclerview.DiffActivity"
-            android:exported="false" />
-        <activity
-            android:name=".MainActivity2"
             android:exported="false" />
         <activity
             android:name="com.module.recyclerview.ConcatActivity"

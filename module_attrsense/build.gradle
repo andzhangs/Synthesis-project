@@ -5,6 +5,7 @@ plugins {
 }
 
 android {
+
     signingConfigs {
         debug {
             storeFile file("${rootDir.absolutePath}/attr.keystore")

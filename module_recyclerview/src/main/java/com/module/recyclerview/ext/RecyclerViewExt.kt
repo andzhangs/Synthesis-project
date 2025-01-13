@@ -1,4 +1,4 @@
-package com.attrsense.ui.library.ext
+package com.module.recyclerview.ext
 
 import android.util.TypedValue
 import androidx.annotation.ColorRes

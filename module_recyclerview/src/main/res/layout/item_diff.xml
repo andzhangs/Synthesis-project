@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="entity"
+            type="com.module.recyclerview.model.Entity" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@color/white">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@{entity.content}"
+            tools:text="哈哈哈哈"
+            android:textColor="@color/black"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -33,6 +33,14 @@ class MainActivity : AppCompatActivity() {
         mDataBinding.acBtnBaseQuickAdapter.setOnClickListener {
             startActivity(Intent(this, BaseQuickAdapterActivity::class.java))
         }
+
+        mDataBinding.acBtnBaseDiffAdapter.setOnClickListener {
+            startActivity(Intent(this, BaseDifferAdapterActivity::class.java))
+        }
+
+        mDataBinding.acBtnBaseMultiItemAdapter.setOnClickListener {
+            startActivity(Intent(this, BaseMultiItemAdapterActivity::class.java))
+        }
     }
 
     override fun onDestroy() {

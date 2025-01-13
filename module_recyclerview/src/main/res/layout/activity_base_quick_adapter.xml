@@ -73,5 +73,13 @@
             android:text="交换 1和3 处数据位置"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/acBtn_add_delete_1" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/acBtn_clear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="清空"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/acBtn_add_swap_1_with_3" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

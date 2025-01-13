@@ -32,5 +32,16 @@
             android:layout_height="wrap_content"
             android:text="BaseQuickAdapter" />
 
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/acBtn_base_diff_adapter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="BaseDifferAdapter" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/acBtn_base_multi_item_adapter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="BaseMultiItemAdapter" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>
