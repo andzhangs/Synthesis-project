@@ -43,5 +43,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="BaseMultiItemAdapter" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/acBtn_base_single_item_adapter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="BaseSingleItemAdapter" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>
