@@ -11,7 +11,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.AdapterListUpdateCallback
+import androidx.recyclerview.widget.AsyncDifferConfig
+import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.ConcatAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.chad.library.adapter4.BaseMultiItemAdapter
@@ -38,51 +42,12 @@ class BaseSingleItemAdapterActivity : AppCompatActivity() {
 
     private lateinit var mDataBinding: ActivityBaseSingleItemAdapterBinding
 
-    private val mCenterAdapter = CenterAdapter()
-
-    private val mAdapterHelper by lazy {
-        QuickAdapterHelper.Builder(mCenterAdapter.apply {
-                setOnItemClickListener{adapter,_,_->
-                    adapter.add(3,"新增数据：${System.currentTimeMillis()}")
-                }
-            })
-//            .setLeadingLoadStateAdapter(HeaderAdapter().apply {
-//                setOnLeadingListener(object :LeadingLoadStateAdapter.OnLeadingListener{
-//                    override fun onLoad() {
-//
-//                    }
-//
-//                    override fun isAllowLoading() = true
-//                })
-//            })
-            .setTrailingLoadStateAdapter(FooterAdapter().apply {
-                setOnLoadMoreListener(object :TrailingLoadStateAdapter.OnTrailingListener{
-                    override fun onFailRetry() {
-                        // 加载失败后，点击重试的操作，通常都是网络请求
-                        Log.i("print_logs", "BaseSingleItemAdapterActivity::onFailRetry: ")
-                    }
-
-                    override fun onLoad() {
-                        // 执行加载更多的操作，通常都是网络请求
-                        Log.i("print_logs", "BaseSingleItemAdapterActivity::onLoad: ")
-                    }
-
-                    // 是否允许触发“加载更多”，通常情况下，下拉刷新的时候不允许进行加载更多
-                    override fun isAllowLoading() :Boolean{
-                        Log.i("print_logs", "BaseSingleItemAdapterActivity::isAllowLoading: ")
-                        return true
-                    }
-                })
-            })
-            .setConfig(ConcatAdapter.Config.DEFAULT)
-            .build()
-    }
+    private val mAdapter =HeaderAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        mDataBinding =
-            DataBindingUtil.setContentView(this, R.layout.activity_base_single_item_adapter)
+        mDataBinding = DataBindingUtil.setContentView(this, R.layout.activity_base_single_item_adapter)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -97,16 +62,21 @@ class BaseSingleItemAdapterActivity : AppCompatActivity() {
                 false
             )
             addDividerDefault(1)
-            adapter = mAdapterHelper.adapter
+            adapter = mAdapter
+        }
+        mDataBinding.acBtnAdd.setOnClickListener {
+            mAdapter.item="你好！${System.currentTimeMillis()}"
         }
 
-        mCenterAdapter.submitList(mutableListOf("数据-1", "数据-2", "数据-3", "数据-4", "数据-5", "数据-6","数据-1", "数据-2", "数据-3", "数据-4", "数据-5", "数据-6","数据-1", "数据-2", "数据-3", "数据-4", "数据-5", "数据-6"))
+        mDataBinding.acBtnUpdatePayload.setOnClickListener {
+            mAdapter.setItem("来自Payload的更新","from")
+        }
     }
 
     /**
      * 头部
      */
-    class HeaderAdapter : LeadingLoadStateAdapter<HeaderAdapter.HeaderViewHolder>() {
+    class HeaderAdapter : BaseSingleItemAdapter<String,HeaderAdapter.HeaderViewHolder>() {
         inner class HeaderViewHolder(
             parent: ViewGroup,
             val binding: ItemSingleHeaderBinding = ItemSingleHeaderBinding.inflate(
@@ -114,64 +84,32 @@ class BaseSingleItemAdapterActivity : AppCompatActivity() {
             )
         ) : RecyclerView.ViewHolder(binding.root)
 
-        override fun onBindViewHolder(holder: HeaderViewHolder, loadState: LoadState) {
-            Log.i("print_logs", "HeaderAdapter::onBindViewHolder: $loadState")
+        override fun onBindViewHolder(holder: HeaderViewHolder, item: String?) {
+            Log.i("print_logs", "HeaderAdapter::onBindViewHolder: 3 $item")
+            holder.binding.acTvInfo.text=item
         }
 
-        override fun onCreateViewHolder(parent: ViewGroup, loadState: LoadState): HeaderViewHolder {
-            return HeaderViewHolder(parent)
-        }
-    }
+        override fun onBindViewHolder(
+            holder: HeaderViewHolder,
+            item: String?,
+            payloads: List<Any>
+        ) {
+            if (payloads.isNotEmpty()) {
+                Log.i("print_logs", "HeaderAdapter::onBindViewHolder: 1")
+                holder.binding.acTvInfo.text = payloads[0].toString()
+            }
+            Log.i("print_logs", "HeaderAdapter::onBindViewHolder: 2")
 
-    /**
-     * 中间内容列表
-     */
-    inner class CenterAdapter : BaseQuickAdapter<String, CenterAdapter.CenterViewHolder>() {
-
-        inner class CenterViewHolder(
-            parent: ViewGroup,
-            val binding: ItemOneBinding = ItemOneBinding.inflate(
-                LayoutInflater.from(parent.context), parent, false
-            )
-        ) : RecyclerView.ViewHolder(binding.root)
-
-        override fun onBindViewHolder(holder: CenterViewHolder, position: Int, item: String?) {
-            holder.binding.acTvInfo.text = item
+            super.onBindViewHolder(holder, item, payloads)
         }
 
         override fun onCreateViewHolder(
             context: Context,
             parent: ViewGroup,
             viewType: Int
-        ) = CenterViewHolder(parent)
+        )            = HeaderViewHolder(parent)
     }
 
-    /**
-     * 底部
-     */
-    class FooterAdapter : TrailingLoadStateAdapter<FooterAdapter.FooterViewHolder>() {
-        inner class FooterViewHolder(
-            parent: ViewGroup,
-            val binding: ItemFooterBinding = ItemFooterBinding.inflate(
-                LayoutInflater.from(parent.context), parent, false
-            )
-        ) : RecyclerView.ViewHolder(binding.root)
-
-        override fun onBindViewHolder(holder: FooterViewHolder, loadState: LoadState) {
-            Log.i("print_logs", "FooterAdapter::onBindViewHolder: $loadState")
-            when (loadState) {
-                is com.chad.library.adapter4.loadState.LoadState.Error -> {}
-                is com.chad.library.adapter4.loadState.LoadState.Loading -> {}
-                is com.chad.library.adapter4.loadState.LoadState.None -> {}
-                is com.chad.library.adapter4.loadState.LoadState.NotLoading -> {}
-                else ->{}
-            }
-        }
-
-        override fun onCreateViewHolder(parent: ViewGroup, loadState: LoadState): FooterViewHolder {
-            return FooterViewHolder(parent)
-        }
-    }
     override fun onDestroy() {
         super.onDestroy()
         mDataBinding.unbind()

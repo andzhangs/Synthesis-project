@@ -15,7 +15,33 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:itemCount="6"
-            tools:listitem="@layout/item_diff" />
+            tools:itemCount="1"
+            tools:listitem="@layout/item_single_header" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/acTv_mark"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/default_gray"
+            android:gravity="center"
+            android:text="由于只有单item，所有没有add、remove等操作"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/acBtn_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="设置单数据"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/acBtn_update_payload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="payload方式刷新数据"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/acBtn_add" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

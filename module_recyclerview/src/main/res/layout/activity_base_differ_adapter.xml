@@ -17,5 +17,12 @@
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             tools:itemCount="6"
             tools:listitem="@layout/item_diff" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/acBtn_update"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="更新数据"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

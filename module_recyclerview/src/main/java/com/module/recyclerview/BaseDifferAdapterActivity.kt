@@ -25,11 +25,15 @@ import com.module.recyclerview.snap.R
 import com.module.recyclerview.snap.databinding.ActivityBaseDifferAdapterBinding
 import com.module.recyclerview.snap.databinding.ItemDiffBinding
 import com.module.recyclerview.snap.databinding.ItemOneBinding
-
+/**
+ * TODO://
+ * BaseMultiItemAdapter增加diff支持（临时解决）
+ * https://github.com/CymChad/BaseRecyclerViewAdapterHelper/issues/3873
+ */
 class BaseDifferAdapterActivity : AppCompatActivity() {
 
     private lateinit var mDataBinding: ActivityBaseDifferAdapterBinding
-    private val mAdapter by lazy { TestAdapter() }
+    private val mAdapter = TestAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,20 +63,26 @@ class BaseDifferAdapterActivity : AppCompatActivity() {
         }
 
         val mList= mutableListOf<Entity>().apply {
-            for (i in 1..10) {
+            for (i in 1..5) {
                 add(Entity(content = "数据-$i"))
             }
         }
         mAdapter.submitList(mList)
+
+        mDataBinding.acBtnUpdate.setOnClickListener {
+            mAdapter.set(0,Entity(content = "数据-1"))
+        }
     }
 
     inner class TestAdapter :
         BaseDifferAdapter<Entity, TestAdapter.TestViewHolder>(diffCallback = object : DiffUtil.ItemCallback<Entity>() {
             override fun areContentsTheSame(oldItem: Entity, newItem: Entity): Boolean {
+                Log.d("print_logs", "areContentsTheSame: ${oldItem.content} - ${newItem.content}")
                 return oldItem.content == newItem.content
             }
 
             override fun areItemsTheSame(oldItem: Entity, newItem: Entity): Boolean {
+                Log.d("print_logs", "areItemsTheSame: ${oldItem.content} - ${newItem.content}")
                 return oldItem == newItem
             }
         }) {
@@ -90,7 +100,14 @@ class BaseDifferAdapterActivity : AppCompatActivity() {
         ) = TestViewHolder(parent)
 
         override fun onBindViewHolder(holder: TestViewHolder, position: Int, item: Entity?) {
+            Log.i("print_logs", "TestAdapter::onBindViewHolder: ${item?.content}")
             holder.binding.entity = item
+        }
+
+        //可不写
+        override fun onCurrentListChanged(previousList: List<Entity>, currentList: List<Entity>) {
+            super.onCurrentListChanged(previousList, currentList)
+            Log.d("print_logs", "onCurrentListChanged: $previousList, $currentList")
         }
     }
 

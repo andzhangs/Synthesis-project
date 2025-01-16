@@ -37,7 +37,7 @@ junit = { group = 'junit',name = 'junit', version.ref = 'junitVersion' }
 androidx-test = { group = 'androidx.test', name = 'core', version.ref = 'androidxJunitVersion' }
 espresso-core = { group = 'androidx.test.espresso',name = 'espresso-core', version.ref = 'espressoVersion' }
 multiDex = { group = 'androidx.multidex', name = 'multidex', version.ref = 'multiDexVersion' }
-androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
+androidx-activity = { group = "androidx.activity", name = "activity-ktx", version.ref = "activity" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junit" }
 
 [plugins]

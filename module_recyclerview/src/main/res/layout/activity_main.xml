@@ -39,15 +39,33 @@
             android:text="BaseDifferAdapter" />
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/acBtn_base_single_item_adapter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="BaseSingleItemAdapter" />
+
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/acBtn_base_multi_item_adapter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="BaseMultiItemAdapter" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/acBtn_base_single_item_adapter"
+            android:id="@+id/acBtn_quick_adapter_helper"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="BaseSingleItemAdapter" />
+            android:text="QuickAdapterHelper" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/acIv_img"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:src="@drawable/img_841"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/acBtn_crop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Crop" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>
