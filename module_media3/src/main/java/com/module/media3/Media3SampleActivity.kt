@@ -1,5 +1,6 @@
 package com.module.media3
 
+import android.media.MediaFormat
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.result.ActivityResultLauncher
@@ -29,6 +30,7 @@ import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.analytics.AnalyticsListener
 import androidx.media3.exoplayer.source.LoadEventInfo
 import androidx.media3.exoplayer.source.MediaLoadData
+import androidx.media3.exoplayer.video.VideoFrameMetadataListener
 import androidx.media3.transformer.Composition
 import androidx.media3.transformer.ExportException
 import androidx.media3.transformer.ExportResult
@@ -55,7 +57,7 @@ import java.io.IOException
         mPlayer = ExoPlayer.Builder(this).build().apply {
             addListener(mPlayListener)
             addAnalyticsListener(mAnalyticsListener)
-
+            setVideoFrameMetadataListener(mVideoFrameMetadataListener)
 
             repeatMode = Player.REPEAT_MODE_OFF
         }
@@ -1646,6 +1648,22 @@ import java.io.IOException
 
         override fun onEvents(player: Player, events: AnalyticsListener.Events) {
             super.onEvents(player, events)
+        }
+    }
+
+
+    private val mVideoFrameMetadataListener = object : VideoFrameMetadataListener {
+        override fun onVideoFrameAboutToBeRendered(
+            presentationTimeUs: Long,
+            releaseTimeNs: Long,
+            format: Format,
+            mediaFormat: MediaFormat?
+        ) {
+            if (BuildConfig.DEBUG) {
+                Log.i("print_logs", "onVideo：" +
+                        "presentationTimeUs= $presentationTimeUs, " +
+                        "releaseTimeNs= $releaseTimeNs")
+            }
         }
     }
 

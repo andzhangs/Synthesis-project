@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="单张图片"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/acIv_img"
+            android:layout_width="wrap_content"
+            android:layout_height="150dp"
+            android:adjustViewBounds="true"
+            android:background="@android:color/holo_red_dark"
+            android:scaleType="centerInside"
+            android:src="@drawable/img_841" />
+
+        <androidx.appcompat.widget.AppCompatSeekBar
+            android:id="@+id/acSeek_bar"
+            android:layout_width="233dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            tools:max="100"
+            tools:progress="50" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2张图片"
+            android:layout_marginTop="50dp"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/acIv_img2"
+            android:layout_width="wrap_content"
+            android:layout_height="150dp"
+            android:adjustViewBounds="true"
+            android:background="@android:color/holo_red_dark"
+            android:scaleType="centerInside"
+            android:src="@drawable/img_841" />
+
+        <androidx.appcompat.widget.AppCompatSeekBar
+            android:id="@+id/acSeek_bar2"
+            android:layout_width="233dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            tools:max="100"
+            tools:progress="50" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</layout>

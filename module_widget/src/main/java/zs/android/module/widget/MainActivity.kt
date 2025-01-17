@@ -60,7 +60,8 @@ class MainActivity : AppCompatActivity() {
             "CrossDeviceActivity",
             "BatteryFlowActivity",
             "NetworkFlowActivity",
-            "WebActivity"
+            "WebActivity",
+            "SeekBarBitmapActivity"
         )
     }
     private val mAdapter = RvAdapter(mList)
@@ -188,6 +189,9 @@ class MainActivity : AppCompatActivity() {
                     }
                     23->{
                         jumpActivity(WebActivity::class.java)
+                    }
+                    24->{
+                        jumpActivity(SeekBarBitmapActivity::class.java)
                     }
                     else -> {}
                 }

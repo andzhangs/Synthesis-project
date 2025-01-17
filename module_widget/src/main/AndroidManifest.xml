@@ -27,6 +27,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Synthesisproject"
         tools:targetApi="n">
+        <activity
+            android:name=".SeekBarBitmapActivity"
+            android:exported="false" />
+
         <receiver
             android:name=".screenshots.ScreenshotReceiver"
             android:enabled="true"
@@ -38,6 +42,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </receiver>
+
         <activity
             android:name=".NetworkFlowActivity"
             android:exported="false" />

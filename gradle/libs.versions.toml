@@ -27,6 +27,7 @@ espressoVersion = '3.5.1'
 multiDexVersion = '2.0.1'
 activity = "1.8.0"
 junit = "1.1.5"
+activityVersion = "1.8.0"
 
 [libraries]
 core-ktx = { group = 'androidx.core', name = 'core-ktx', version.ref = 'corektxVersion' }
@@ -39,6 +40,7 @@ espresso-core = { group = 'androidx.test.espresso',name = 'espresso-core', versi
 multiDex = { group = 'androidx.multidex', name = 'multidex', version.ref = 'multiDexVersion' }
 androidx-activity = { group = "androidx.activity", name = "activity-ktx", version.ref = "activity" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junit" }
+activity = { group = "androidx.activity", name = "activity", version.ref = "activityVersion" }
 
 [plugins]
 android-application = { id = 'com.android.application', version.ref = 'androidGradlePlugin' }
