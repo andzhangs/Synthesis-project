@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
             val download= DownloadRequest.Builder("100", Uri.parse("https://vfx.mtime.cn/Video/2019/01/15/mp4/190115161611510728_480.mp4"))
                 .build()
 
-            NetDownloadService.add(this,download)
+            NetDownloadService.add(this,download,true)
         }
 
         mDataBinding.acBtnPlayVideo7.setOnClickListener {

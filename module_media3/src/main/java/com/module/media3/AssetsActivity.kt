@@ -47,14 +47,14 @@ class AssetsActivity : AppCompatActivity() {
 //                it.repeatMode = Player.REPEAT_MODE_ONE
                 it.videoScalingMode = C.VIDEO_SCALING_MODE_SCALE_TO_FIT_WITH_CROPPING
             }
-        assets.openFd("video_02.mp4").let {
+        assets.openFd("traffic_2_960x540_450kbps.mp4").let {
             if (BuildConfig.DEBUG) {
                 Log.i("print_logs", "文件大小: ${it.declaredLength}")
             }
 
             //方式一：
             val assetDataSource = AssetDataSource(this)
-            assetDataSource.open(DataSpec(Uri.parse("asset:///video_02.mp4")))
+            assetDataSource.open(DataSpec(Uri.parse("asset:///traffic_2_960x540_450kbps.mp4")))
 
             val dataSourceFactory = DataSource.Factory { assetDataSource }
 

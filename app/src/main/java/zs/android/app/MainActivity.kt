@@ -3,6 +3,7 @@ package zs.android.app
 import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
@@ -266,7 +267,6 @@ class MainActivity : AppCompatActivity() {
             bold {
                 val str1 = "点我"
                 append(str1)
-
                 setSpan(object : ClickableSpan() {
                     override fun onClick(widget: View) {
 

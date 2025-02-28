@@ -7,12 +7,15 @@ import android.media.AudioManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.text.TextUtils
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.net.toFile
 import androidx.databinding.DataBindingUtil
 import androidx.media3.common.AudioAttributes
 import androidx.media3.common.C
@@ -47,6 +50,7 @@ class Media3Activity : AppCompatActivity(), View.OnClickListener {
     private lateinit var mPickPlayListFile: ActivityResultLauncher<PickVisualMediaRequest>
     private lateinit var mMediaControllerFuture: ListenableFuture<MediaController>
 
+    private lateinit var openDocument: ActivityResultLauncher<Array<String>>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,6 +69,8 @@ class Media3Activity : AppCompatActivity(), View.OnClickListener {
         initPlayer()
         initClick()
         initChooseFile()
+
+        ////storage/emulated/0//Download/QuarkDownloads/CloudDrive/8ab77eec02ea6c225cbe44e84a5ede18/traffic_2_960x540_450kbps.mp4
     }
 
     private fun initChooseFile() {
@@ -74,6 +80,23 @@ class Media3Activity : AppCompatActivity(), View.OnClickListener {
                 val newItem = MediaItem.Builder().let { builder ->
                     builder.setMediaId("$uri")
                     builder.setUri(uri)
+                    builder.build()
+                }
+
+                mPlayer.setMediaItem(newItem)
+                loadMediaItem(it)
+            }
+        }
+
+        //提示用户选择文档（可以选择一个），分别返回它们的Uri
+        openDocument = registerForActivityResult(ActivityResultContracts.OpenDocument()) {
+            if (it != null && !TextUtils.isEmpty(it.path)) {
+//                val path = Uri2PathUtil.getRealPathFromUri(this, it)
+                Log.i("print_logs", "openDocument $it")
+
+                val newItem = MediaItem.Builder().let { builder ->
+                    builder.setMediaId("$it")
+                    builder.setUri(it)
                     builder.build()
                 }
 
@@ -133,6 +156,8 @@ class Media3Activity : AppCompatActivity(), View.OnClickListener {
         mMediaControllerFuture.addListener({
             mPlayer = mMediaControllerFuture.get()
         }, MoreExecutors.directExecutor())
+
+
     }
 
     private fun loadMediaItem(uri: Uri? = null) {
@@ -163,7 +188,7 @@ class Media3Activity : AppCompatActivity(), View.OnClickListener {
         mPlayer.repeatMode = Player.REPEAT_MODE_OFF
         mPlayer.setPlaybackSpeed(PLAYBACK_SPEEDS[speedIndex])
         mPlayer.prepare()
-//        mPlayer.playWhenReady = true
+        mPlayer.playWhenReady = true
         if (BuildConfig.DEBUG) {
             Log.d("print_logs", "初始化播放器: 当前音量：${mPlayer.volume}, ${mPlayer.deviceVolume}")
         }
@@ -198,7 +223,11 @@ class Media3Activity : AppCompatActivity(), View.OnClickListener {
                 if (ActivityResultContracts.PickVisualMedia.isPhotoPickerAvailable()) {
                     mPickPlayFile.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.VideoOnly))
                 } else {
-                    Log.i("print_logs", "setCallback: 系统不适用")
+                    Log.i("print_logs", "照片选择器 系统不适用")
+                    Toast.makeText(this, "'照片选择器'系统不适用!", Toast.LENGTH_SHORT).show()
+                    openDocument.launch(
+                        arrayOf("video/*")
+                    )
                 }
             }
             //选择播放列表
@@ -207,7 +236,11 @@ class Media3Activity : AppCompatActivity(), View.OnClickListener {
                 if (ActivityResultContracts.PickVisualMedia.isPhotoPickerAvailable()) {
                     mPickPlayListFile.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.VideoOnly))
                 } else {
-                    Log.i("print_logs", "setCallback: 系统不适用")
+                    Log.i("print_logs", "照片选择器 系统不适用")
+                    Toast.makeText(this, "'照片选择器'系统不适用!", Toast.LENGTH_SHORT).show()
+                    openDocument.launch(
+                        arrayOf("video/*")
+                    )
                 }
             }
             //清空播放列表

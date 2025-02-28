@@ -59,7 +59,7 @@ class MusicPlayerService : MediaLibraryService() {
             .setSeekForwardIncrementMs(5000L)       //设置快进进度单位为5秒
             .setHandleAudioBecomingNoisy(true)      //设置当外放和耳机切换时，暂停播放
             .setSkipSilenceEnabled(true)            //设置是否启用音频流中的静音。
-//            .setVideoScalingMode(C.VIDEO_SCALING_MODE_SCALE_TO_FIT)
+            .setVideoScalingMode(C.VIDEO_SCALING_MODE_SCALE_TO_FIT)
 //            .setWakeMode(C.WAKE_MODE_NETWORK)
 //            .setAudioAttributes(AudioAttributes.Builder()
 //                .setContentType(C.AUDIO_CONTENT_TYPE_MOVIE)

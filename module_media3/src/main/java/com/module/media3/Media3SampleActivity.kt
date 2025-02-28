@@ -2,6 +2,7 @@ package com.module.media3
 
 import android.media.MediaFormat
 import android.os.Bundle
+import android.text.TextUtils
 import android.util.Log
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
@@ -48,6 +49,8 @@ import java.io.IOException
     private lateinit var videoMediaItem: MediaItem
     private val mTransformerBuilder by lazy{Transformer.Builder(this)}
 
+    private lateinit var openDocument: ActivityResultLauncher<Array<String>>
+
 
     @UnstableApi
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,6 +64,7 @@ import java.io.IOException
 
             repeatMode = Player.REPEAT_MODE_OFF
         }
+
         //单个文件
         mPickPlayFile = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) {
             it?.also { uri ->
@@ -83,12 +87,40 @@ import java.io.IOException
             }
         }
 
+        //提示用户选择文档（可以选择一个），分别返回它们的Uri
+        openDocument = registerForActivityResult(ActivityResultContracts.OpenDocument()) {
+            if (it != null && !TextUtils.isEmpty(it.path)) {
+//                val path = Uri2PathUtil.getRealPathFromUri(this, it)
+                Log.i("print_logs", "openDocument $it")
+
+                videoMediaItem = MediaItem.Builder().let { builder ->
+                    builder.setMediaId("$it")
+                    builder.setUri(it)
+//                    builder.setDrmConfiguration(
+//                        MediaItem.DrmConfiguration.Builder(UUID.randomUUID())
+//                            .setLicenseRequestHeaders(
+//                                mapOf(
+//                                    "" to "",
+//                                    "" to ""
+//                                )
+//                            )
+//                            .build()
+//                    )
+                    builder.build()
+                }
+                loadVideo()
+            }
+        }
+
         mDataBinding.acBtnSearch.setOnClickListener {
             //验证照片选择器在设备上是否可用
             if (ActivityResultContracts.PickVisualMedia.isPhotoPickerAvailable()) {
                 mPickPlayFile.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.VideoOnly))
             } else {
                 Log.i("print_logs", "setCallback: 系统不适用")
+                openDocument.launch(
+                    arrayOf("video/*")
+                )
             }
         }
 
@@ -1650,7 +1682,6 @@ import java.io.IOException
             super.onEvents(player, events)
         }
     }
-
 
     private val mVideoFrameMetadataListener = object : VideoFrameMetadataListener {
         override fun onVideoFrameAboutToBeRendered(

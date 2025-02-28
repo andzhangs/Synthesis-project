@@ -26,6 +26,10 @@ private const val DOWNLOAD_NOTIFICATION_CHANNEL_ID="download_channel"
 private const val JOB_ID = 1
 private const val FOREGROUND_NOTIFICATION_ID = 1
 
+/**
+ * 官方Demo
+ * https://github.com/androidx/media/blob/release/demos/main/src/main/java/androidx/media3/demo/main/DemoDownloadService.java
+ */
 @UnstableApi
 class NetDownloadService : DownloadService(
     FOREGROUND_NOTIFICATION_ID,
@@ -137,7 +141,7 @@ class NetDownloadService : DownloadService(
 //    private lateinit var downloadManager: DownloadManager
 
     override fun getDownloadManager(): DownloadManager{
-// 这应该是应用中的单例
+        // 这应该是应用中的单例
         databaseProvider = StandaloneDatabaseProvider(this)
         // 下载缓存不应该驱逐媒体，所以应该使用NoopCacheEvictor
         downloadCache = SimpleCache(File(""), NoOpCacheEvictor(), databaseProvider)
@@ -242,7 +246,7 @@ class NetDownloadService : DownloadService(
         ) {
             super.onDownloadChanged(downloadManager, download, finalException)
             if (BuildConfig.DEBUG) {
-                Log.i("print_logs", "MyDownloadService::onDownloadChanged: ")
+                Log.i("print_logs", "MyDownloadService::onDownloadChanged: ${download.contentLength}, ${download.bytesDownloaded}, ${download.percentDownloaded}, ${download.stopReason}, ${download.failureReason} ,${download.state}")
             }
         }
 
