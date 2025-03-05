@@ -10,4 +10,14 @@
     <style name="AppFontTheme">
         <item name="android:fontFamily">@font/roboto_spell</item>
     </style>
+
+    <style name="Theme.ActivityFullScreenTheme" parent="Base.Theme.Synthesisproject">
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:fitsSystemWindows">false</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightNavigationBar" tools:ignore="NewApi">true</item>
+    </style>
+
 </resources>

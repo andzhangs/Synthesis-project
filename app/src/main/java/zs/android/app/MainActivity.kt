@@ -22,6 +22,7 @@ import android.text.style.ClickableSpan
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowInsetsController
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -38,8 +39,15 @@ import androidx.core.text.strikeThrough
 import androidx.core.text.subscript
 import androidx.core.text.superscript
 import androidx.core.text.underline
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsAnimationControllerCompat
+import androidx.core.view.WindowInsetsControllerCompat
+import androidx.core.view.marginTop
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
+import com.blankj.utilcode.util.BarUtils
+import com.blankj.utilcode.util.ScreenUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -55,8 +63,43 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+//        WindowCompat.setDecorFitsSystemWindows(window,false)
+//        with(WindowCompat.getInsetsController(window, window.decorView)) {
+//            isAppearanceLightNavigationBars=false
+//            isAppearanceLightStatusBars=false
+//            isAppearanceLightNavigationBars=true
+//            isAppearanceLightStatusBars=true
+//            systemBarsBehavior=WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+//        }
+
+//        setSupportActionBar(mDataBinding.toolBar)
+
         mDataBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         mDataBinding.lifecycleOwner = this
+        setSupportActionBar(mDataBinding.toolBar)
+
+//        BarUtils.transparentStatusBar(this)
+        BarUtils.setStatusBarLightMode(this,true)
+        BarUtils.setStatusBarColor(this,ContextCompat.getColor(this@MainActivity,R.color.translucent))
+
+        BarUtils.transparentNavBar(this)
+        BarUtils.setNavBarLightMode(this,true)
+
+        with(mDataBinding.toolBar) {
+
+            BarUtils.addMarginTopEqualStatusBarHeight(this)
+
+            post {
+                with(mDataBinding.llRoot) {
+                    if (BuildConfig.DEBUG) {
+                        Log.i("print_logs", "toolBar.height: ${mDataBinding.toolBar.height}")
+                    }
+
+                    this.setPadding(0,BarUtils.getStatusBarHeight()+mDataBinding.toolBar.height,0,BarUtils.getNavBarHeight())
+                }
+            }
+        }
+
 
         lifecycleScope.launch {
             TestCoroutine.start()
@@ -66,9 +109,7 @@ class MainActivity : AppCompatActivity() {
                 if (className.contains(this@MainActivity.packageName)) {
                     val lineNumber = callingElement.lineNumber
 
-                    if (BuildConfig.DEBUG) {
                         Log.d("print_logs", "onCreate: $className, $lineNumber")
-                    }
                 }
             }
         }

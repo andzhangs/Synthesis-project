@@ -38,6 +38,7 @@ android {
         jvmTarget = '17'
     }
     buildFeatures {
+        buildConfig true
         dataBinding true
     }
 }
@@ -52,4 +53,11 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 //    implementation files('libs/moduleJar_v1.0.0.jar')
+
+    // 基础依赖包，必须要依赖
+    implementation 'com.geyifeng.immersionbar:immersionbar:3.2.2'
+// kotlin扩展（可选）
+    implementation 'com.geyifeng.immersionbar:immersionbar-ktx:3.2.2'
+
+    implementation 'com.blankj:utilcodex:1.31.1'
 }

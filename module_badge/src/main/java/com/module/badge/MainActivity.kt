@@ -140,7 +140,13 @@ class MainActivity : AppCompatActivity() {
 
             return true
         }
+    }
 
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        if (BuildConfig.DEBUG) {
+            Log.i("print_logs", "MainActivity::onNewIntent: ")
+        }
     }
 
     @SuppressLint("MissingPermission")
