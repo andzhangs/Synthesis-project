@@ -79,6 +79,11 @@
                     android:layout_height="wrap_content" />
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/acTv_span_utils"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     android:layout_height="?android:attr/actionBarSize"
                     android:text="哈哈哈1"
@@ -123,6 +128,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="?android:attr/actionBarSize"
                     android:text="哈哈哈7"
+                    android:textColor="@android:color/holo_red_dark"
+                    android:textSize="24sp" />
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="?android:attr/actionBarSize"
+                    android:text="哈哈哈8"
                     android:textColor="@android:color/holo_red_dark"
                     android:textSize="24sp" />
             </androidx.appcompat.widget.LinearLayoutCompat>

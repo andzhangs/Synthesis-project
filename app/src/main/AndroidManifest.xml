@@ -13,6 +13,12 @@
         tools:ignore="ScopedStorage" />
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
 
+    <queries>
+        <intent>
+            <action android:name="com.huawei.hms.core.aidlservice" />
+        </intent>
+    </queries>
+
     <application
         android:name=".app.MyApplication"
         android:allowBackup="true"
@@ -22,6 +28,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Synthesisproject">
+        <activity
+            android:name=".FullscreenActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="landscape"
+            android:exported="false"
+            android:label="@string/title_activity_fullscreen"
+            android:theme="@style/Theme.Synthesisproject.Fullscreen" />
         <activity
             android:name=".UriSchemeActivity"
             android:exported="true">
@@ -42,6 +55,7 @@
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -49,14 +63,6 @@
         <meta-data
             android:name="com.huawei.hms.client.channel.androidMarket"
             android:value="false" />
-<!--        <meta-data-->
-<!--            android:name="com.huawei.agconnect.AccessNetwork"-->
-<!--            android:value="false" />-->
     </application>
-    <queries>
-        <intent>
-            <action android:name="com.huawei.hms.core.aidlservice" />
-        </intent>
-    </queries>
-</manifest>
 
+</manifest>

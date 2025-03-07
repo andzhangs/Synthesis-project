@@ -1,11 +1,13 @@
 package zs.android.app
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.BlurMaskFilter
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Path
@@ -48,6 +50,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import com.blankj.utilcode.util.BarUtils
 import com.blankj.utilcode.util.ScreenUtils
+import com.blankj.utilcode.util.SpanUtils
+import com.blankj.utilcode.util.ToastUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -61,6 +65,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var mDataBinding: ActivityMainBinding
 
+    @SuppressLint("SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        WindowCompat.setDecorFitsSystemWindows(window,false)
@@ -100,7 +105,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-
         lifecycleScope.launch {
             TestCoroutine.start()
             Thread.currentThread().stackTrace.forEach { callingElement ->
@@ -108,8 +112,7 @@ class MainActivity : AppCompatActivity() {
 
                 if (className.contains(this@MainActivity.packageName)) {
                     val lineNumber = callingElement.lineNumber
-
-                        Log.d("print_logs", "onCreate: $className, $lineNumber")
+                    Log.d("print_logs", "onCreate: $className, $lineNumber")
                 }
             }
         }
@@ -320,7 +323,7 @@ class MainActivity : AppCompatActivity() {
                         super.updateDrawState(ds)
                         ds.textSize = 70F
                         ds.isUnderlineText = true
-                        ds.color = ContextCompat.getColor(this@MainActivity, R.color.green)
+                        ds.color = ContextCompat.getColor(this@MainActivity, R.color.white)
                     }
                 }, 0, str1.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
             }
@@ -334,8 +337,8 @@ class MainActivity : AppCompatActivity() {
                 append("下划线")
             }
             //背景颜色
-            backgroundColor(ContextCompat.getColor(this@MainActivity, R.color.green)) {
-                append("绿色背景颜色")
+            backgroundColor(ContextCompat.getColor(this@MainActivity, R.color.white)) {
+                append("白色背景颜色")
             }
             //斜体
             italic {
@@ -374,6 +377,22 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+
+        SpanUtils.with(mDataBinding.acTvSpanUtils)
+            .append("哈哈哈")
+            .setStrikethrough() //设置删除线
+            .append("点我跳转")
+            .setFontSize(50)
+            .setUnderline()
+            .setBold()
+            .setClickSpan(object :ClickableSpan(){
+                override fun onClick(widget: View) {
+                 startActivity(Intent(this@MainActivity,FullscreenActivity::class.java))
+                }
+            })
+            .append("完成")
+            .setBlur(20f,BlurMaskFilter.Blur.OUTER)
+            .create()
     }
 
     override fun onDestroy() {

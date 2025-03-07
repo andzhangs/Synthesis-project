@@ -1,33 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/acBtn_create_or_start"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Notify-创建或启动" />
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/acBtn_autoincrement"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Notify-增加任务进度" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/acBtn_create_or_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Notify-创建或启动" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/acBtn_batch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Notify-新增批量任务" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/acBtn_autoincrement"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Notify-增加任务进度" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/acBtn_reset"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Notify-重置" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/acBtn_batch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Notify-新增批量任务" />
 
-</androidx.appcompat.widget.LinearLayoutCompat>
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/acBtn_reset"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Notify-重置" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/acBtn_start_compress"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="启动压缩服务"
+                android:textSize="16sp" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/acBtn_start_upload"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="启动上传服务"
+                android:textSize="16sp" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/acBtn_start_download"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="启动下载服务"
+                android:textSize="16sp" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/acBtn_stop"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="关闭服务"
+                android:textSize="16sp" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</layout>
