@@ -5,12 +5,12 @@ plugins {
 
 android {
     namespace 'com.module.mlkit'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.module.mlkit"
         minSdk 24
-        targetSdk 33
+        targetSdk 34
         versionCode 1
         versionName "1.0"
 
@@ -41,6 +41,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.5.0'
     implementation 'com.google.android.material:material:1.5.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation libs.activity
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
@@ -58,10 +59,12 @@ dependencies {
     implementation "androidx.camera:camera-view:${camerax_version}"
     implementation "androidx.camera:camera-extensions:${camerax_version}"
 
-    // To recognize Chinese script
+    // 图片中的文本
+    // https://developers.google.cn/ml-kit/vision/text-recognition/v2/android?hl=zh-cn
     implementation 'com.google.mlkit:text-recognition-chinese:16.0.0'
 
     //参考文档：https://juejin.cn/post/7250396163240673341
+    // https://developers.google.cn/ml-kit/vision/barcode-scanning/android?hl=zh-cn
     // MLKit Barcode Scanning依赖
     implementation 'com.google.mlkit:barcode-scanning:17.1.0'
 }

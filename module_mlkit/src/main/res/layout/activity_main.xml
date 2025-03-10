@@ -4,29 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <androidx.camera.view.PreviewView
-            android:id="@+id/pre_view"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/acBtn_operation"
-            android:layout_width="match_parent"
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/acBtn_text_recognition"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:text="点击停止文本识别" />
+            android:text="文字识别" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/acTv_content"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:padding="10dp" />
-
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/acBtn_scan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="扫描二维码" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>
