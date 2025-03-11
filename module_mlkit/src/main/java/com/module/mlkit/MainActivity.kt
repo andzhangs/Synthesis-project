@@ -50,6 +50,10 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this@MainActivity, ScanActivity::class.java))
         }
 
+        mDataBinding.acBtnGoogleScan.setOnClickListener {
+            startActivity(Intent(this@MainActivity, GoogleScanActivity::class.java))
+        }
+
         mDataBinding.acBtnFace.setOnClickListener {
             startActivity(Intent(this@MainActivity, FaceActivity::class.java))
         }

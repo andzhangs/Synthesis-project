@@ -88,8 +88,6 @@ class ScanActivity : AppCompatActivity() {
             .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)  // 仅保留最新帧
             .build()
         analysis.setAnalyzer(Executors.newSingleThreadExecutor()) {
-            Log.i("print_logs", "setAnalyzer: $it")
-
             analyzeImage(it)
         }
 
@@ -122,8 +120,6 @@ class ScanActivity : AppCompatActivity() {
                         runOnUiThread {
                             mDataBinding.acTvResult.text = qrCodeValue.toString()
                         }
-
-
                         image.close()
                         mCameraProvider?.unbindAll()
                         mCameraProvider = null
@@ -138,4 +134,6 @@ class ScanActivity : AppCompatActivity() {
 
             }
     }
+
+
 }

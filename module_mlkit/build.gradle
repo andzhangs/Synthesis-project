@@ -68,6 +68,9 @@ dependencies {
     // MLKit Barcode Scanning依赖
     implementation 'com.google.mlkit:barcode-scanning:17.3.0'
 
+    //谷歌扫码器 https://developers.google.cn/ml-kit/vision/barcode-scanning/code-scanner?hl=zh-cn
+    implementation 'com.google.android.gms:play-services-code-scanner:16.1.0'
+
     //人脸检测  https://developers.google.cn/ml-kit/vision/face-detection/android?hl=zh-cn
     implementation 'com.google.mlkit:face-detection:16.1.7'
 
