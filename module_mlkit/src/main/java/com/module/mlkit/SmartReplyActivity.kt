@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -36,6 +37,7 @@ class SmartReplyActivity : AppCompatActivity() {
     private val mList = mutableListOf<ItemData>()
     private val mConversation = mutableListOf<TextMessage>()
     private lateinit var mAdapter: ItemAdapter
+    private var hasTranslateModel = false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -141,13 +143,22 @@ class SmartReplyActivity : AppCompatActivity() {
     }
 
     private fun sendContent() {
+        lifecycle.addObserver(mTranslator)
+
         //获取存储在设备上的翻译模型
         RemoteModelManager.getInstance().getDownloadedModels(TranslateRemoteModel::class.java)
-            .addOnSuccessListener {list->
-                list.forEach{
+            .addOnSuccessListener { list ->
+                list.forEach {
                     if (BuildConfig.DEBUG) {
                         Log.i("print_logs", "已下载翻译模型: ${it.language}")
                     }
+                }
+                if (list.size < 2) {
+//                    Toast.makeText(this, "没有下载任何翻译模型", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "模型下载中...", Toast.LENGTH_LONG).show()
+                    downloadModel()
+                } else {
+                    hasTranslateModel = true
                 }
             }.addOnFailureListener {
                 if (BuildConfig.DEBUG) {
@@ -241,22 +252,22 @@ class SmartReplyActivity : AppCompatActivity() {
     /**
      * 翻译
      */
-    private fun loadTranslate(contentStr: String) {
-        val options=TranslatorOptions.Builder()
+    private val mTranslator by lazy {
+        val options = TranslatorOptions.Builder()
             .setSourceLanguage(TranslateLanguage.ENGLISH)
             .setTargetLanguage(TranslateLanguage.CHINESE)
             .setExecutor(Executors.newSingleThreadExecutor())
             .build()
-
-        val conditions=DownloadConditions.Builder()
+        Translation.getClient(options)
+    }
+    private val mConditions by lazy {
+        DownloadConditions.Builder()
             .requireWifi()
             .build()
+    }
 
-        val mTranslator= Translation.getClient(options)
-        lifecycle.addObserver(mTranslator)
-
-
-        fun toTranslate(){
+    private fun loadTranslate(contentStr: String) {
+        fun toTranslate() {
             mTranslator.translate(contentStr)
                 .addOnSuccessListener {
                     if (BuildConfig.DEBUG) {
@@ -273,12 +284,25 @@ class SmartReplyActivity : AppCompatActivity() {
                 }
         }
 
-        mTranslator.downloadModelIfNeeded(conditions)
+        if (hasTranslateModel) {
+            toTranslate()
+        } else {
+            downloadModel {
+                Toast.makeText(this, "模型下载中...", Toast.LENGTH_LONG).show()
+                toTranslate()
+            }
+        }
+    }
+
+    private fun downloadModel(block: (() -> Unit)? = null) {
+        mTranslator.downloadModelIfNeeded(mConditions)
             .addOnSuccessListener {
                 if (BuildConfig.DEBUG) {
                     Log.i("print_logs", "模型下载完成！")
                 }
-                toTranslate()
+                Toast.makeText(this, "模型下载完成！", Toast.LENGTH_SHORT).show()
+                hasTranslateModel = true
+                block?.invoke()
             }.addOnFailureListener {
                 if (BuildConfig.DEBUG) {
                     Log.e("print_logs", "模型下载失败！$it")
@@ -289,7 +313,6 @@ class SmartReplyActivity : AppCompatActivity() {
                 }
             }
     }
-
 
     private data class ItemData(val itemType: Int, val content: String) {
         companion object {

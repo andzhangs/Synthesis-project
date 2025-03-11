@@ -83,6 +83,8 @@ class ImageLabelingActivity : AppCompatActivity() {
             pickImageLauncher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
         }
 
+        lifecycle.addObserver(mTranslator)
+
         //获取存储在设备上的翻译模型
         RemoteModelManager.getInstance().getDownloadedModels(TranslateRemoteModel::class.java)
             .addOnSuccessListener { list ->
@@ -91,8 +93,10 @@ class ImageLabelingActivity : AppCompatActivity() {
                         Log.i("print_logs", "已下载翻译模型: ${it.language}")
                     }
                 }
-                if (list.isEmpty()) {
-                    Toast.makeText(this, "没有下载任何翻译模型", Toast.LENGTH_SHORT).show()
+                if (list.size < 2) {
+//                    Toast.makeText(this, "没有下载任何翻译模型", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "模型下载中...", Toast.LENGTH_LONG).show()
+                    downloadModel()
                 } else {
                     hasTranslateModel = true
                 }
@@ -101,14 +105,11 @@ class ImageLabelingActivity : AppCompatActivity() {
                     Log.e("print_logs", "模型已下载失败！")
                 }
             }
-
-        lifecycle.addObserver(mTranslator)
     }
 
     /**
      * 翻译
      */
-
     private val mTranslator by lazy {
         val options = TranslatorOptions.Builder()
             .setSourceLanguage(TranslateLanguage.ENGLISH)
@@ -141,18 +142,29 @@ class ImageLabelingActivity : AppCompatActivity() {
         if (hasTranslateModel) {
             toTranslate()
         } else {
-            mTranslator.downloadModelIfNeeded(mConditions)
-                .addOnSuccessListener {
-                    if (BuildConfig.DEBUG) {
-                        Log.i("print_logs", "模型下载成功！")
-                    }
-                    hasTranslateModel = true
-                    toTranslate()
-                }.addOnFailureListener {
-                    if (BuildConfig.DEBUG) {
-                        Log.e("print_logs", "模型下载失败！$it")
-                    }
-                }
+           downloadModel {
+               Toast.makeText(this, "模型下载中...", Toast.LENGTH_LONG).show()
+               toTranslate()
+           }
         }
+    }
+
+    /**
+     * 下载模型
+     */
+    private fun downloadModel(block: (() -> Unit)? = null) {
+        mTranslator.downloadModelIfNeeded(mConditions)
+            .addOnSuccessListener {
+                if (BuildConfig.DEBUG) {
+                    Log.i("print_logs", "模型下载成功！")
+                }
+                Toast.makeText(this, "模型下载成功！", Toast.LENGTH_SHORT).show()
+                hasTranslateModel = true
+                block?.invoke()
+            }.addOnFailureListener {
+                if (BuildConfig.DEBUG) {
+                    Log.e("print_logs", "模型下载失败！$it")
+                }
+            }
     }
 }
