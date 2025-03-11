@@ -31,6 +31,7 @@ android {
         jvmTarget = '17'
     }
     buildFeatures {
+        buildConfig true
         dataBinding true
     }
 }
@@ -59,12 +60,23 @@ dependencies {
     implementation "androidx.camera:camera-view:${camerax_version}"
     implementation "androidx.camera:camera-extensions:${camerax_version}"
 
-    // 图片中的文本
-    // https://developers.google.cn/ml-kit/vision/text-recognition/v2/android?hl=zh-cn
-    implementation 'com.google.mlkit:text-recognition-chinese:16.0.0'
+    // 文字识别  https://developers.google.cn/ml-kit/vision/text-recognition/v2/android?hl=zh-cn
+    implementation 'com.google.mlkit:text-recognition-chinese:16.0.1'
 
     //参考文档：https://juejin.cn/post/7250396163240673341
     // https://developers.google.cn/ml-kit/vision/barcode-scanning/android?hl=zh-cn
     // MLKit Barcode Scanning依赖
-    implementation 'com.google.mlkit:barcode-scanning:17.1.0'
+    implementation 'com.google.mlkit:barcode-scanning:17.3.0'
+
+    //人脸检测  https://developers.google.cn/ml-kit/vision/face-detection/android?hl=zh-cn
+    implementation 'com.google.mlkit:face-detection:16.1.7'
+
+    //智能回复  https://developers.google.cn/ml-kit/language/smart-reply/android?hl=zh-cn
+    implementation 'com.google.mlkit:smart-reply:17.0.4'
+
+    //翻译  https://developers.google.cn/ml-kit/language/translation/android?hl=zh-cn
+    implementation 'com.google.mlkit:translate:17.0.3'
+
+    //图片识别 https://developers.google.cn/ml-kit/vision/image-labeling/android?hl=zh-cn
+    implementation 'com.google.mlkit:image-labeling:17.0.9'
 }

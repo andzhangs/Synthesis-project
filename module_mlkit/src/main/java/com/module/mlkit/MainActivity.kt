@@ -31,7 +31,6 @@ import java.util.concurrent.Executors
 class MainActivity : AppCompatActivity() {
 
     private lateinit var mDataBinding: ActivityMainBinding
-    private var mCameraProvider: ProcessCameraProvider? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,7 +49,18 @@ class MainActivity : AppCompatActivity() {
         mDataBinding.acBtnScan.setOnClickListener {
             startActivity(Intent(this@MainActivity, ScanActivity::class.java))
         }
+
+        mDataBinding.acBtnFace.setOnClickListener {
+            startActivity(Intent(this@MainActivity, FaceActivity::class.java))
+        }
+
+        mDataBinding.acBtnSmartReply.setOnClickListener {
+            startActivity(Intent(this@MainActivity, SmartReplyActivity::class.java))
+        }
+
+        mDataBinding.acBtnImageLabeler.setOnClickListener {
+            startActivity(Intent(this@MainActivity, ImageLabelingActivity::class.java))
+        }
+
     }
-
-
 }

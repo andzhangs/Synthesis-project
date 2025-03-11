@@ -42,23 +42,23 @@ class TextRecognitionActivity : AppCompatActivity() {
             insets
         }
 
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+        val launcher=registerForActivityResult(ActivityResultContracts.RequestPermission()) {
             if (it) {
-                setupCamera()
+                mCameraProvider?.let {
+                    mDataBinding.acBtnOperation.text = "点击开始文本识别"
+                    mCameraProvider?.unbindAll()
+                    mCameraProvider = null
+                } ?: kotlin.run {
+                    mDataBinding.acBtnOperation.text = "点击停止文本识别"
+                    setupCamera()
+                }
             } else {
                 Toast.makeText(this, "权限被拒绝！", Toast.LENGTH_SHORT).show()
             }
-        }.launch(Manifest.permission.CAMERA)
+        }
 
         mDataBinding.acBtnOperation.setOnClickListener {
-            mCameraProvider?.let {
-                mDataBinding.acBtnOperation.text = "点击开始文本识别"
-                mCameraProvider?.unbindAll()
-                mCameraProvider = null
-            } ?: kotlin.run {
-                mDataBinding.acBtnOperation.text = "点击停止文本识别"
-                setupCamera()
-            }
+            launcher.launch(Manifest.permission.CAMERA)
         }
     }
 
@@ -83,7 +83,7 @@ class TextRecognitionActivity : AppCompatActivity() {
         val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
         preview.setSurfaceProvider(mDataBinding.preView.surfaceProvider)
         val analysis = ImageAnalysis.Builder()
-            .setOutputImageFormat(ImageAnalysis.OUTPUT_IMAGE_FORMAT_YUV_420_888)
+            .setOutputImageFormat(ImageAnalysis.OUTPUT_IMAGE_FORMAT_YUV_420_888)  //如果您使用 Camera2 API，请以 ImageFormat.YUV_420_888 格式捕获图片。如果您使用旧版 Camera API，请以 ImageFormat.NV21 格式捕获图片
             .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
             .build()
         analysis.setAnalyzer(Executors.newSingleThreadExecutor(), this::analyzeImage)
@@ -101,6 +101,9 @@ class TextRecognitionActivity : AppCompatActivity() {
         recognizer.process(inputImage)
             .addOnSuccessListener {
                 mDataBinding.acTvContent.text = it.text
+
+                mCameraProvider?.unbindAll()
+                mCameraProvider = null
             }
             .addOnCompleteListener {
                 //释放imageProxy对象

@@ -78,14 +78,12 @@ class MainActivity : AppCompatActivity() {
             override fun onClick(position: Int, item: View) {
                 when (position) {
                     0 -> {
-                        if (BuildConfig.DEBUG) {
-                            val result = (100.0.BYTES + 200.0.BYTES).toLong(DataUnit.BYTES)
-                            Toast.makeText(
-                                this@MainActivity,
-                                "DataSize：$result， ${1024.0.toDataSize(DataUnit.BYTES)}",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
+                        val result = (100.0.BYTES + 200.0.BYTES).toLong(DataUnit.BYTES)
+                        Toast.makeText(
+                            this@MainActivity,
+                            "DataSize：$result， ${1024.0.toDataSize(DataUnit.BYTES)}",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
 
                     1 -> {
@@ -173,26 +171,25 @@ class MainActivity : AppCompatActivity() {
                     }
 
                     19 -> {
-                        jumpActivity(ImageLabelerActivity::class.java)
-                    }
-
-                    20 -> {
                         jumpActivity(CrossDeviceActivity::class.java)
                     }
 
-                    21 -> {
+                    20 -> {
                         jumpActivity(BatteryFlowActivity::class.java)
                     }
 
-                    22 -> {
+                    21 -> {
                         jumpActivity(NetworkFlowActivity::class.java)
                     }
-                    23->{
+
+                    22 -> {
                         jumpActivity(WebActivity::class.java)
                     }
-                    24->{
+
+                    23 -> {
                         jumpActivity(SeekBarBitmapActivity::class.java)
                     }
+
                     else -> {}
                 }
             }

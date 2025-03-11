@@ -21,6 +21,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Synthesisproject">
         <activity
+            android:name=".ImageLabelingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SmartReplyActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".FaceActivity"
+            android:exported="false" />
+        <activity
             android:name=".TextRecognitionActivity"
             android:exported="false" />
         <activity

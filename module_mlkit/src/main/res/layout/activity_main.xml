@@ -20,5 +20,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="扫描二维码" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/acBtn_face"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="面部识别" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/acBtn_smart_reply"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="智能回复" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/acBtn_image_labeler"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="图像标签" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>
