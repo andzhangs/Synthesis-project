@@ -56,7 +56,6 @@ class MainActivity : AppCompatActivity() {
             "PagerActivity",
             "DownloadActivity",
             "TextBytesActivity",
-            "ImageLabelerActivity",
             "CrossDeviceActivity",
             "BatteryFlowActivity",
             "NetworkFlowActivity",

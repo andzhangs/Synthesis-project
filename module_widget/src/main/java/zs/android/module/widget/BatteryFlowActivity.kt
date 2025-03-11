@@ -17,93 +17,53 @@ import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
+import zs.android.module.widget.app.WidgetApplication
 import zs.android.module.widget.databinding.ActivityBatteryFlowBinding
 
 class BatteryFlowActivity : AppCompatActivity() {
 
     private lateinit var mDataBinding: ActivityBatteryFlowBinding
-    private val mBatteryFlow by lazy { createBatteryFlow(this.applicationContext) }
-    private val mBatterChannelFlow by lazy { createBatteryChannelFlow(this.applicationContext) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mDataBinding = DataBindingUtil.setContentView(this, R.layout.activity_battery_flow)
         mDataBinding.lifecycleOwner = this
 
+        val sb=StringBuilder()
+
         lifecycleScope.launch {
             //方式一
-            mBatteryFlow.flowOn(Dispatchers.IO)
+            WidgetApplication.getInstance().getBatterCallbackFlow().flowOn(Dispatchers.IO)
                 .collect { batteryStatus ->
                     if (BuildConfig.DEBUG) {
                         Log.i(
                             "print_logs",
-                            "1、当前电量: ${batteryStatus.level}%, 充电中：${batteryStatus.isCharging}"
+                            "CallbackFlow、当前电量: ${batteryStatus.level}%, 充电中：${batteryStatus.isCharging}"
                         )
                     }
 
-                    mDataBinding.acTvLevelInfo.text =
-                        "1、当前电量: ${batteryStatus.level}%, 充电中：${batteryStatus.isCharging}"
-                }
+                    sb.append( "CallbackFlow、当前电量: ${batteryStatus.level}%, 充电中：${batteryStatus.isCharging}").append("\n")
 
+                    mDataBinding.acTvLevelInfo.text = sb
+
+                }
+        }
+
+        lifecycleScope.launch {
             //方式二
-//            mBatterChannelFlow.flowOn(Dispatchers.IO)
-//                .collect { batteryStatus ->
-//                    if (BuildConfig.DEBUG) {
-//                        Log.i(
-//                            "print_logs",
-//                            "2、当前电量: ${batteryStatus.level}%, 充电中：${batteryStatus.isCharging}"
-//                        )
-//                    }
-//                  mDataBinding.acTvLevelInfo.text="1、当前电量: ${batteryStatus.level}%, 充电中：${batteryStatus.isCharging}"
-//                }
-        }
-    }
-
-    private fun createBatteryFlow(context: Context): Flow<BatteryStatus> = callbackFlow {
-        val batteryManager = context.applicationContext.getSystemService(Context.BATTERY_SERVICE) as BatteryManager
-        val batterStatusReceiver = object : BroadcastReceiver() {
-            override fun onReceive(context: Context?, intent: Intent?) {
-                val level = intent?.getIntExtra(BatteryManager.EXTRA_LEVEL, -1) ?: -1
-                val status = intent?.getIntExtra(BatteryManager.EXTRA_STATUS, -1) ?: -1
-                val isCharging =
-                    status == BatteryManager.BATTERY_STATUS_CHARGING || status == BatteryManager.BATTERY_STATUS_FULL
-                trySend(BatteryStatus(level, isCharging)).isSuccess
-            }
-        }
-        context.applicationContext.registerReceiver(
-            batterStatusReceiver,
-            IntentFilter(Intent.ACTION_BATTERY_CHANGED)
-        )
-
-
-        awaitClose {
-            context.applicationContext.unregisterReceiver(batterStatusReceiver)
-        }
-    }
-
-    private fun createBatteryChannelFlow(context: Context): Flow<BatteryStatus> =
-        channelFlow {
-            val batterStatusReceiver = object : BroadcastReceiver() {
-                override fun onReceive(context: Context?, intent: Intent?) {
-                    val level = intent?.getIntExtra(BatteryManager.EXTRA_LEVEL, -1) ?: -1
-                    val status = intent?.getIntExtra(BatteryManager.EXTRA_STATUS, -1) ?: -1
-                    val isCharging =
-                        status == BatteryManager.BATTERY_STATUS_CHARGING || status == BatteryManager.BATTERY_STATUS_FULL
-                    trySend(BatteryStatus(level, isCharging))
+            WidgetApplication.getInstance().getBatterChannelFlow().flowOn(Dispatchers.IO)
+                .collect { batteryStatus ->
+                    if (BuildConfig.DEBUG) {
+                        Log.d(
+                            "print_logs",
+                            "ChannelFlow、当前电量: ${batteryStatus.level}%, 充电中：${batteryStatus.isCharging}"
+                        )
+                    }
+                    sb.append("ChannelFlow、当前电量: ${batteryStatus.level}%, 充电中：${batteryStatus.isCharging}").append("\n")
+                    mDataBinding.acTvLevelInfo.text=sb
                 }
-            }
-
-            context.applicationContext.registerReceiver(
-                batterStatusReceiver,
-                IntentFilter(Intent.ACTION_BATTERY_CHANGED)
-            )
-
-            awaitClose {
-                context.applicationContext.unregisterReceiver(batterStatusReceiver)
-            }
         }
-
-    data class BatteryStatus(val level: Int, val isCharging: Boolean)
+    }
 
     override fun onDestroy() {
         super.onDestroy()

@@ -183,7 +183,7 @@ class ScanHelperObserver(
         }catch (e:Exception){
             e.printStackTrace()
             if (BuildConfig.DEBUG) {
-                Log.e("print_logs", "ScanHelperObserver::makeCode: ")
+                Log.e("print_logs", "ScanHelperObserver::makeCode: $e")
             }
             return null
         }
