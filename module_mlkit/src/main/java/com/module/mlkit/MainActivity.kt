@@ -25,6 +25,7 @@ import androidx.databinding.ViewDataBinding
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.chinese.ChineseTextRecognizerOptions
+import com.module.mlkit.app.MyApplication
 import com.module.mlkit.databinding.ActivityMainBinding
 import java.util.concurrent.Executors
 
@@ -41,6 +42,13 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+//        with(this.application as MyApplication) {
+//            val currentTimeMillis=this.trustedTimeClient?.computeCurrentUnixEpochMillis() ?: System.currentTimeMillis()
+//            if (BuildConfig.DEBUG) {
+//                Log.i("print_logs", "当前时间戳: $currentTimeMillis")
+//            }
+//        }
 
         mDataBinding.acBtnTextRecognition.setOnClickListener {
             startActivity(Intent(this@MainActivity, TextRecognitionActivity::class.java))

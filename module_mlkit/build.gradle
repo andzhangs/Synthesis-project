@@ -82,4 +82,7 @@ dependencies {
 
     //图片识别 https://developers.google.cn/ml-kit/vision/image-labeling/android?hl=zh-cn
     implementation 'com.google.mlkit:image-labeling:17.0.9'
+
+    // 时间API  https://developers.google.com/location-context/time
+//    implementation 'com.google.android.gms:play-services-time:16.0.1'
 }
