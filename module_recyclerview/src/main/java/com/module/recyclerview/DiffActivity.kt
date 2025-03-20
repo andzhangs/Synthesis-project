@@ -2,6 +2,7 @@ package com.module.recyclerview
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.ListUpdateCallback
 import androidx.recyclerview.widget.RecyclerView
 import com.module.recyclerview.snap.R
 import com.module.recyclerview.snap.databinding.ActivityDiffBinding
@@ -67,6 +69,7 @@ class DiffActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         mDataBinding = DataBindingUtil.setContentView(this, R.layout.activity_diff)
         mDataBinding.lifecycleOwner = this
+        loadListDiff()
 
         with(mDataBinding.recyclerView) {
             layoutManager = LinearLayoutManager(this@DiffActivity, RecyclerView.VERTICAL, false)
@@ -151,4 +154,65 @@ class DiffActivity : AppCompatActivity() {
         super.onDestroy()
         mDataBinding.unbind()
     }
+
+    private fun loadListDiff(){
+        val mOldList = arrayListOf(1, 2, 3, 4, 5, 6)
+        val mNewList = arrayListOf(1, 2, 3, 4, 5, 7, 8, 6, 9)
+
+        val mDiffCallback = object : DiffUtil.Callback() {
+            override fun getOldListSize(): Int {
+                return mOldList.size
+            }
+
+            override fun getNewListSize(): Int {
+                return mNewList.size
+            }
+
+            override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+                return mOldList[oldItemPosition] == mNewList[newItemPosition]
+            }
+
+            override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+                return mOldList[oldItemPosition] == mNewList[newItemPosition]
+            }
+
+            override fun getChangePayload(oldItemPosition: Int, newItemPosition: Int): Any? {
+                val oldItem = mOldList[oldItemPosition]
+                val newItem = mNewList[newItemPosition]
+
+                Log.d("print_logs", "getChangePayload: $oldItem, $newItem")
+                return null //super.getChangePayload(oldItemPosition, newItemPosition)
+            }
+        }
+        val diffResult = DiffUtil.calculateDiff(mDiffCallback)
+
+        diffResult.dispatchUpdatesTo(object : ListUpdateCallback {
+
+            private val mCacheList = ArrayList<Int>()
+
+            override fun onInserted(position: Int, count: Int) {
+                Log.i("print_logs", "onInserted:: $mCacheList, position= $position, count= $count")
+
+            }
+
+            override fun onRemoved(position: Int, count: Int) {
+                Log.e("print_logs", "删除: ${mOldList[position]}")
+            }
+
+            override fun onMoved(fromPosition: Int, toPosition: Int) {
+                Log.v(
+                    "print_logs",
+                    "onMoved: fromPosition= $fromPosition, toPosition= $toPosition"
+                )
+            }
+
+            override fun onChanged(position: Int, count: Int, payload: Any?) {
+                Log.w(
+                    "print_logs",
+                    "onChanged: position= $position, count= $count, payload= $payload"
+                )
+            }
+        })
+    }
+
 }

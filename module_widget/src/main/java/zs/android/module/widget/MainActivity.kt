@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.Point
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
@@ -33,6 +34,7 @@ import com.google.android.material.snackbar.Snackbar
 import zs.android.base.lib.util.DataSize.Companion.BYTES
 import zs.android.base.lib.util.DataSize.Companion.toDataSize
 import zs.android.base.lib.util.DataUnit
+import zs.android.module.widget.able.ResponseCloseable
 import zs.android.module.widget.blur.BlurViewActivity
 import zs.android.module.widget.blur.BlurryActivity
 import zs.android.module.widget.blur.RealtimeBlurViewActivity
@@ -85,7 +87,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         loadRv()
-        loadListDiff()
+
         mDataBinding.progressBar.setFirstWidth(0.5f)
         mDataBinding.progressBar.setSecondWidth(0.2f)
     }
@@ -143,11 +145,19 @@ class MainActivity : AppCompatActivity() {
                         ) {
                             jumpActivity(GlideScaleActivity::class.java)
                         } else {
-                            ActivityCompat.requestPermissions(
-                                this@MainActivity,
-                                arrayOf(Manifest.permission.READ_MEDIA_IMAGES),
-                                100
-                            )
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                                ActivityCompat.requestPermissions(
+                                    this@MainActivity,
+                                    arrayOf(Manifest.permission.READ_MEDIA_IMAGES),
+                                    100
+                                )
+                            }else{
+                                ActivityCompat.requestPermissions(
+                                    this@MainActivity,
+                                    arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+                                    100
+                                )
+                            }
                         }
                     }
 
@@ -340,81 +350,6 @@ class MainActivity : AppCompatActivity() {
         startActivity(Intent(this, targetActivity))
     }
 
-
-
-    private fun loadListDiff(){
-        val mOldList = arrayListOf(1, 2, 3, 4, 5, 6)
-        val mNewList = arrayListOf(1, 2, 3, 4, 5, 7, 8, 6, 9)
-
-        val mDiffCallback = object : DiffUtil.Callback() {
-            override fun getOldListSize(): Int {
-                return mOldList.size
-            }
-
-            override fun getNewListSize(): Int {
-                return mNewList.size
-            }
-
-            override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-                return mOldList[oldItemPosition] == mNewList[newItemPosition]
-            }
-
-            override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-                return mOldList[oldItemPosition] == mNewList[newItemPosition]
-            }
-
-            override fun getChangePayload(oldItemPosition: Int, newItemPosition: Int): Any? {
-                val oldItem = mOldList[oldItemPosition]
-                val newItem = mNewList[newItemPosition]
-
-                if (BuildConfig.DEBUG) {
-                    Log.d("print_logs", "getChangePayload: $oldItem, $newItem")
-                }
-                return null //super.getChangePayload(oldItemPosition, newItemPosition)
-            }
-        }
-        val diffResult = DiffUtil.calculateDiff(mDiffCallback)
-
-        diffResult.dispatchUpdatesTo(object : ListUpdateCallback {
-
-            private val mCacheList = ArrayList<Int>()
-
-            override fun onInserted(position: Int, count: Int) {
-                if (BuildConfig.DEBUG) {
-                    Log.i("print_logs", "onInserted: position= $position, count= $count")
-                }
-
-                if (BuildConfig.DEBUG) {
-                    Log.i("print_logs", "MainActivity::onInserted: $mCacheList")
-                }
-            }
-
-            override fun onRemoved(position: Int, count: Int) {
-                if (BuildConfig.DEBUG) {
-                    Log.e("print_logs", "删除: ${mOldList[position]}")
-                }
-            }
-
-            override fun onMoved(fromPosition: Int, toPosition: Int) {
-                if (BuildConfig.DEBUG) {
-                    Log.v(
-                        "print_logs",
-                        "onMoved: fromPosition= $fromPosition, toPosition= $toPosition"
-                    )
-                }
-            }
-
-            override fun onChanged(position: Int, count: Int, payload: Any?) {
-                if (BuildConfig.DEBUG) {
-                    Log.w(
-                        "print_logs",
-                        "onChanged: position= $position, count= $count, payload= $payload"
-                    )
-                }
-            }
-        })
-    }
-
     private fun loadBackPressed() {
         val backPressedCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -436,7 +371,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loadCloseableAndCloneable() {
-        val responseCloseable = zs.android.module.widget.able.ResponseCloseable()
+        val responseCloseable = ResponseCloseable()
         responseCloseable.name = "Hello World!"
         responseCloseable.age = 18
         responseCloseable.toString()
