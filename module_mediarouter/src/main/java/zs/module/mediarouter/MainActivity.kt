@@ -13,6 +13,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mDataBinding: ActivityMainBinding
 
     private lateinit var mMediaRouter: MediaRouter
+
+    //// 创建一个媒体路由选择器，用于指定要搜索的媒体类型
     private val mSelector by lazy {
         MediaRouteSelector.Builder()
             .addControlCategory(MediaControlIntent.CATEGORY_REMOTE_PLAYBACK)
@@ -39,6 +41,9 @@ class MainActivity : AppCompatActivity() {
 //    }
 
     private val mMediaRouterCallback = object : MediaRouter.Callback() {
+        /**
+         * 当用户选择一个媒体路由时触发
+         */
         override fun onRouteSelected(
             router: MediaRouter,
             route: MediaRouter.RouteInfo,
@@ -47,6 +52,9 @@ class MainActivity : AppCompatActivity() {
             super.onRouteSelected(router, route, reason)
         }
 
+        /**
+         * 当用户取消选择一个媒体路由时触发
+         */
         override fun onRouteUnselected(
             router: MediaRouter,
             route: MediaRouter.RouteInfo,
@@ -54,9 +62,25 @@ class MainActivity : AppCompatActivity() {
         ) {
             super.onRouteUnselected(router, route, reason)
         }
+
+        /**
+         * 当发现新的媒体路由时触发
+         */
+        override fun onRouteAdded(router: MediaRouter, route: MediaRouter.RouteInfo) {
+            super.onRouteAdded(router, route)
+
+        }
+
+        /**
+         * 当媒体路由被移除时触发
+         */
+        override fun onRouteRemoved(router: MediaRouter, route: MediaRouter.RouteInfo) {
+            super.onRouteRemoved(router, route)
+        }
     }
 
     override fun onStart() {
+        // 注册媒体路由回调
         mMediaRouter.addCallback(
             mSelector,
             mMediaRouterCallback,

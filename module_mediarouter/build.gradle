@@ -5,13 +5,13 @@ plugins {
 
 android {
     namespace 'zs.module.mediarouter'
-    compileSdk 33
-//    compileSdkPreview 'UpsideDownCake'
+//    compileSdk 34
+    compileSdkPreview 'UpsideDownCake'
 
     defaultConfig {
         applicationId "zs.module.mediarouter"
         minSdk 24
-        targetSdk 33
+        targetSdk 34
         versionCode 1
         versionName "1.0"
 
@@ -45,6 +45,8 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+
+    // Android 应用提供媒体路由功能
     implementation 'androidx.mediarouter:mediarouter:1.6.0-alpha02'
 
 }

@@ -87,7 +87,7 @@ class TestCoroutine {
 
             defferred.invokeOnCompletion {
                 if (it == null) {
-                    val result=defferred.getCompleted()
+                    val result = defferred.getCompleted()
                     continuation.resume(result)  //返回正常结果，也就是一个String
                 } else {
                     continuation.resumeWithException(it)  //返回异常，需要在函数掉用方捕获

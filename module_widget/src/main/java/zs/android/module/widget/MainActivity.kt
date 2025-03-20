@@ -7,6 +7,7 @@ import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.Point
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -81,6 +82,9 @@ class MainActivity : AppCompatActivity() {
         }
 
         loadRv()
+
+        mDataBinding.progressBar.setFirstWidth(0.5f)
+        mDataBinding.progressBar.setSecondWidth(0.2f)
     }
 
     private fun loadRv() {

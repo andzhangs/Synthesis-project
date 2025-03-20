@@ -26,7 +26,7 @@ class AutoScrollView @JvmOverloads constructor(
     defStyleRes: Int = 0
 ) : ConstraintLayout(context, attrs, defStyleAttr, defStyleRes) {
 
-    private var mBinding: LayoutViewFlipperBinding = DataBindingUtil.inflate(
+    private val mBinding: LayoutViewFlipperBinding = DataBindingUtil.inflate(
         LayoutInflater.from(context),
         R.layout.layout_view_flipper,
         this,
