@@ -1,4 +1,4 @@
-package com.module.other.able
+package zs.android.module.widget.able
 
 import android.util.Log
 import com.module.other.BuildConfig
