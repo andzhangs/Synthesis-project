@@ -8,6 +8,9 @@ import androidx.mediarouter.media.MediaRouteSelector
 import androidx.mediarouter.media.MediaRouter
 import zs.module.mediarouter.databinding.ActivityMainBinding
 
+/**
+ * 主要用于媒体路由，例如将音频或视频投射到外部设备（如 Chromecast、蓝牙音箱等）
+ */
 class MainActivity : AppCompatActivity() {
 
     private lateinit var mDataBinding: ActivityMainBinding
