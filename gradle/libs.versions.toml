@@ -28,19 +28,21 @@ multiDexVersion = '2.0.1'
 activity = "1.8.0"
 junit = "1.1.5"
 activityVersion = "1.8.0"
+ufileClientJava = "2.6.7"
 
 [libraries]
 core-ktx = { group = 'androidx.core', name = 'core-ktx', version.ref = 'corektxVersion' }
 appcompat = { group = 'androidx.appcompat', name = 'appcompat', version.ref = 'appcompatVersion' }
 material = { group = 'com.google.android.material', name = 'material', version.ref = 'materialVersion' }
-constraintlayout = { group = 'androidx.constraintlayout',name = 'constraintlayout', version.ref = 'constraintlayoutVersion' }
-junit = { group = 'junit',name = 'junit', version.ref = 'junitVersion' }
+constraintlayout = { group = 'androidx.constraintlayout', name = 'constraintlayout', version.ref = 'constraintlayoutVersion' }
+junit = { group = 'junit', name = 'junit', version.ref = 'junitVersion' }
 androidx-test = { group = 'androidx.test', name = 'core', version.ref = 'androidxJunitVersion' }
-espresso-core = { group = 'androidx.test.espresso',name = 'espresso-core', version.ref = 'espressoVersion' }
+espresso-core = { group = 'androidx.test.espresso', name = 'espresso-core', version.ref = 'espressoVersion' }
 multiDex = { group = 'androidx.multidex', name = 'multidex', version.ref = 'multiDexVersion' }
 androidx-activity = { group = "androidx.activity", name = "activity-ktx", version.ref = "activity" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junit" }
 activity = { group = "androidx.activity", name = "activity", version.ref = "activityVersion" }
+ufile-client-java = { group = "cn.ucloud.ufile", name = 'ufile-client-java', version.ref = "ufileClientJava" }
 
 [plugins]
 android-application = { id = 'com.android.application', version.ref = 'androidGradlePlugin' }
