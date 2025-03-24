@@ -7,5 +7,7 @@ package com.attrsense.module.ucloud
  * @description 自定义类描述
  */
 object AppConfig {
+    fun load(){
 
+    }
 }
