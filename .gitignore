@@ -14,4 +14,4 @@
 .cxx
 local.properties
 module_scan/agconnect-services.json
-module_ucloud/src/main/java/com/attrsense/module/ucloud/AppConfig.kt
+#module_ucloud/src/main/java/com/attrsense/module/ucloud/AppConfig.kt

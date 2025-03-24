@@ -8,7 +8,4 @@ package com.attrsense.module.ucloud
  */
 object AppConfig {
 
-
-
-
 }
