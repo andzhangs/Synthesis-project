@@ -15,49 +15,69 @@ class MainActivity : AppCompatActivity() {
         mDataBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         mutableListOf<MySection>().apply {
-            val section1 = MySection(isHeader = true, content = "2024年-7月-2日")
-            section1.startIndex=1
-            section1.endIndex=8
+            val section1 = MySection(isHeader = true, date = "2024年-7月-2日")
+            section1.startIndex = 1
+            section1.endIndex = 8
             add(section1)
             for (index in 1..8) {
-                add(MySection(isHeader = false, content = "打印：$index").apply {
-                    headerIndex = 0
-                })
+                add(
+                    MySection(
+                        isHeader = false,
+                        date = "2024年-7月-2日",
+                        content = "打印：$index"
+                    ).apply {
+                        headerIndex = 0
+                    })
             }
 
-            val section2 = MySection(isHeader = true, content = "2024年-7月-1日")
-            section2.startIndex=10
-            section2.endIndex=15
+            val section2 = MySection(isHeader = true, date = "2024年-7月-1日")
+            section2.startIndex = 10
+            section2.endIndex = 15
             add(section2)
 
             for (index in 10..15) {
-                add(MySection(isHeader = false, content = "打印：$index").apply {
-                    headerIndex=9
-                })
+                add(
+                    MySection(
+                        isHeader = false,
+                        date = "2024年-7月-1日",
+                        content = "打印：$index"
+                    ).apply {
+                        headerIndex = 9
+                    })
             }
 
-            val section3 = MySection(isHeader = true, content = "2024年-6月-30日")
-            section3.startIndex=17
-            section3.endIndex=30
+            val section3 = MySection(isHeader = true, date = "2024年-6月-30日")
+            section3.startIndex = 17
+            section3.endIndex = 30
             add(section3)
             for (index in 17..30) {
-                add(MySection(isHeader = false, content = "打印：$index").apply {
-                    headerIndex=16
-                })
+                add(
+                    MySection(
+                        isHeader = false,
+                        date = "2024年-6月-30日",
+                        content = "打印：$index"
+                    ).apply {
+                        headerIndex = 16
+                    })
             }
 
 
-            val section4 = MySection(isHeader = true, content = "2024年-5月-30日")
-            section4.startIndex=32
-            section4.endIndex=35
+            val section4 = MySection(isHeader = true, date = "2024年-5月-30日")
+            section4.startIndex = 32
+            section4.endIndex = 35
             add(section4)
             for (index in 32..35) {
-                add(MySection(isHeader = false, content = "打印：$index").apply {
-                    headerIndex=31
-                })
+                add(
+                    MySection(
+                        isHeader = false,
+                        date = "2024年-5月-30日",
+                        content = "打印：$index"
+                    ).apply {
+                        headerIndex = 31
+                    })
             }
 
-        }.also {mList->
+        }.also { mList ->
             with(mDataBinding.rvList) {
                 this.layoutManager = GridLayoutManager(this@MainActivity, 4)
                 mAdapter = MySectionQuickAdapter(R.layout.item_content, mList)
@@ -92,7 +112,11 @@ class MainActivity : AppCompatActivity() {
                                 else -> {}
                             }
                         } else {
-                            Toast.makeText(this@MainActivity, "点击：${it.content}", Toast.LENGTH_SHORT)
+                            Toast.makeText(
+                                this@MainActivity,
+                                "点击：${it.content}",
+                                Toast.LENGTH_SHORT
+                            )
                                 .show()
                         }
                     }
@@ -102,12 +126,21 @@ class MainActivity : AppCompatActivity() {
         clickListener()
     }
 
-    private fun clickListener(){
+    private fun clickListener() {
         mDataBinding.acBtnSelectAll.setOnClickListener {
 
+            mAdapter.selectAll { isAllSelected ->
+                if (isAllSelected) {
+                    mDataBinding.acBtnSelectAll.text = "取消全选"
+                } else {
+                    mDataBinding.acBtnSelectAll.text = "全选"
+                }
+            }
         }
         mDataBinding.acBtnDelete.setOnClickListener {
-            mAdapter.delete()
+            mAdapter.delete{ isAllSelected ->
+                mDataBinding.acBtnSelectAll.text = "全选"
+            }
         }
     }
 

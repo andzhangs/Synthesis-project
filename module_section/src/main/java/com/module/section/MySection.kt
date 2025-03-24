@@ -11,6 +11,7 @@ import com.chad.library.adapter.base.entity.SectionEntity
  */
 data class MySection(
     override val isHeader: Boolean,
+    val date: String,
     val content: String = ""
 ) : SectionEntity {
 
