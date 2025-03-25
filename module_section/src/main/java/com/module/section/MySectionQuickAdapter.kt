@@ -165,21 +165,6 @@ class MySectionQuickAdapter(
      * ---------------------------------------------------------------------------------------------
      */
     private val mDragSelectionProcess: DragSelectionProcessor by lazy {
-
-        fun selectItem(position: Int) {
-            val section = data[position]
-            if (!section.isHeader) {
-                if (selectedList.contains(section)) {
-                    selectedList.remove(section)
-                } else {
-                    selectedList.add(section)
-                }
-
-                mSelectAllLiveData.value = selectedList.size == getAllGroupChild().size
-                notifyItemChanged(position)
-            }
-        }
-
         DragSelectionProcessor(object : DragSelectionProcessor.ISelectionHandler {
 
             override val selection: HashSet<Int>
@@ -202,33 +187,21 @@ class MySectionQuickAdapter(
                             selectedList.add(mySection)
                             (this@MySectionQuickAdapter.recyclerView.findViewHolderForAdapterPosition(
                                 i
-                            ) as? BaseViewHolder)?.let {
-                                it.getView<AppCompatImageView>(R.id.acIv_select)
-                                    .setImageResource(R.drawable.icon_selected)
-                            }
-
+                            ) as? BaseViewHolder)?.getView<AppCompatImageView>(R.id.acIv_select)
+                                ?.setImageResource(R.drawable.icon_selected)
                         } else {
                             selectedList.remove(mySection)
                             (this@MySectionQuickAdapter.recyclerView.findViewHolderForAdapterPosition(
                                 i
-                            ) as? BaseViewHolder)?.let {
-                                it.getView<AppCompatImageView>(R.id.acIv_select)
-                                    .setImageResource(R.drawable.icon_unselected)
-                            }
+                            ) as? BaseViewHolder)?.getView<AppCompatImageView>(R.id.acIv_select)
+                                ?.setImageResource(R.drawable.icon_unselected)
                         }
                     }
                 }
             }
         }).withStartFinishedListener(object :
             DragSelectionProcessor.ISelectionStartFinishedListener {
-            override fun onSelectionStarted(start: Int, originalSelectionState: Boolean) {
-                if (BuildConfig.DEBUG) {
-                    Log.i(
-                        "print_logs",
-                        "MySectionQuickAdapter::onSelectionStarted: $start, $originalSelectionState"
-                    )
-                }
-            }
+            override fun onSelectionStarted(start: Int, originalSelectionState: Boolean) {}
 
             override fun onSelectionFinished(end: Int) {
                 mSelectAllLiveData.value = selectedList.size == getAllGroupChild().size

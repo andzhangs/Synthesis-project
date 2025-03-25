@@ -1,10 +1,16 @@
 package com.module.section
 
+import android.content.Context
 import android.os.Bundle
+import android.util.AttributeSet
 import android.util.Log
+import android.view.LayoutInflater
+import android.view.LayoutInflater.Factory2
+import android.view.View
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.LayoutInflaterCompat
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
