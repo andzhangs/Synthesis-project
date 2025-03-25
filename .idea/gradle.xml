@@ -39,6 +39,7 @@
             <option value="$PROJECT_DIR$/module_mlkit" />
             <option value="$PROJECT_DIR$/module_nearby" />
             <option value="$PROJECT_DIR$/module_notification" />
+            <option value="$PROJECT_DIR$/module_nsd" />
             <option value="$PROJECT_DIR$/module_permission" />
             <option value="$PROJECT_DIR$/module_photo" />
             <option value="$PROJECT_DIR$/module_pick" />
