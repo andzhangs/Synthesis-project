@@ -11,10 +11,20 @@
             android:id="@+id/rv_list"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:overScrollMode="never"
             app:layout_constraintBottom_toTopOf="@id/cl_bottom"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <include
+            android:id="@+id/include_header"
+            layout="@layout/item_header"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            app:layout_constraintTop_toTopOf="@id/rv_list"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_bottom"
@@ -44,8 +54,20 @@
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/acBtn_restore"
                 app:layout_constraintStart_toEndOf="@id/acBtn_select_all"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/acBtn_restore"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="重置"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/acBtn_delete"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 

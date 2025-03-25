@@ -15,11 +15,5 @@ data class MySection(
     val content: String = ""
 ) : SectionEntity {
 
-    //标记时间头包含的内容位置范围
-    var startIndex: Int = 0
-    var endIndex: Int = 0
-
-    //内容对应的时间头位置
-    var headerIndex: Int = 0
     var isSelected: Boolean = false
 }

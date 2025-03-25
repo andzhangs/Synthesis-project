@@ -1,10 +1,19 @@
 package com.module.section
 
+import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.recyclerview.widget.RecyclerView
 import com.chad.library.adapter.base.BaseSectionQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
+import com.module.section.drag.DragSelectTouchListener
+import com.module.section.drag.DragSelectionProcessor
+import kotlinx.coroutines.flow.flow
 
 /**
  *
@@ -13,23 +22,27 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder
  * @description 自定义类描述
  */
 class MySectionQuickAdapter(
-    private val mLayoutReId: Int,
+    private val mLayoutReId: Int = R.layout.item_content,
     private val mList: MutableList<MySection>
 ) : BaseSectionQuickAdapter<MySection, BaseViewHolder>(
-    R.layout.item_header,
-    mList
+    sectionHeadResId = R.layout.item_header,
+    data = mList
 ) {
 
     //是否多选
-    var isMultiSelection = false
+    private var isMultiSelection = false
 
-    //全选-非全选
-    private var isAllSelected = false
+    //选中集合
+    private var selectedList = mutableSetOf<MySection>()
+
+    private val headerList= mutableSetOf<String>()
+
+    private val mSellAllLiveData = MutableLiveData<Boolean>()
 
     init {
         setNormalLayout(mLayoutReId)
-        addChildClickViewIds(R.id.acIv_select_all, R.id.acIv_img, R.id.acIv_select)
-        addChildLongClickViewIds(R.id.acIv_img)
+//        addChildClickViewIds(R.id.acIv_img,R.id.acIv_select)
+//        addChildLongClickViewIds(R.id.acIv_img)
     }
 
     override fun convertHeader(helper: BaseViewHolder, item: MySection) {
@@ -38,103 +51,163 @@ class MySectionQuickAdapter(
 //            visibility = if (isMultiSelection) View.VISIBLE else View.GONE
 //            setImageResource(if (item.isSelected) R.drawable.icon_selected else R.drawable.icon_unselected)
 //        }
-
     }
 
     override fun convert(holder: BaseViewHolder, item: MySection) {
-        holder.getView<AppCompatImageView>(R.id.acIv_select).apply {
+        val selectIcon=holder.getView<AppCompatImageView>(R.id.acIv_select).apply {
             visibility = if (isMultiSelection) View.VISIBLE else View.GONE
-            setImageResource(if (item.isSelected) R.drawable.icon_selected else R.drawable.icon_unselected)
+            setImageResource(if (selectedList.contains(item)) R.drawable.icon_selected else R.drawable.icon_unselected)
         }
         holder.getView<AppCompatTextView>(R.id.acIv_content).text = item.content
-    }
 
-    fun setMultipleSelect(state: Boolean) {
-        isMultiSelection = state
-        notifyItemRangeChanged(0, mList.size)
-    }
-
-    /**
-     * 全选
-     */
-    fun setGroupSelectAll(position: Int) {
-
-        val headerSection = data[position]
-
-        if (headerSection.isHeader) {
-            //更新全选状态
-            headerSection.isSelected = !headerSection.isSelected
-            notifyItemChanged(position)
-
-            for (index in headerSection.startIndex..headerSection.endIndex) {
-                if (!headerSection.isSelected) {
-                    data[index].isSelected = false
-                } else {
-                    if (!data[index].isSelected) {
-                        data[index].isSelected = true
-                    }
-                }
+        holder.getView<ConstraintLayout>(R.id.cl_item).apply {
+            setOnLongClickListener {
+                isMultiSelection = true
+                notifyDataSetChanged()
+                dragSelectTouchListener.startDragSelection(holder.layoutPosition)
+                true
             }
 
-            val itemCount = headerSection.endIndex - headerSection.startIndex + 1
-            notifyItemRangeChanged(headerSection.startIndex, itemCount)
-        } else {
+            setOnClickListener {
+                if (isMultiSelection) {
+                    if (selectedList.contains(item)) {
+                        selectedList.remove(item)
+                        selectIcon.setImageResource(R.drawable.icon_unselected)
+                    } else {
+                        selectedList.add(item)
+                        selectIcon.setImageResource(R.drawable.icon_selected)
+                    }
 
+                    mSellAllLiveData.value = selectedList.size == getAllGroupChild().size
+                }else{
+                    Toast.makeText(
+                        it.context,
+                        "点击：${item.content}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
         }
     }
 
-    fun setItemSelect(position: Int) {
-        val mSection = data[position]
-        mSection.isSelected = !mSection.isSelected
-        notifyItemChanged(position)
 
-//        //验证这组是否都选中了
-//        val header = data[mSection.headerIndex]
-//
-//        val collectSections = arrayListOf<Boolean>().apply {
-//            for (index in header.startIndex..header.endIndex) {
-//                add(data[index].isSelected)
-//            }
-//        }
-//        header.isSelected = !collectSections.contains(false)
-//        notifyItemChanged(mSection.headerIndex)
-//
-//        val viewType = this.getItemViewType(position)
+    //----------------------------------------------------------------------------------------------
 
+    private fun getAllGroupChild(): List<MySection> {
+        return data.filter { !it.isHeader }
     }
 
-    fun delete(block: (Boolean) -> Unit) {
-        if (isAllSelected) {
+    fun getSelectedAllLiveData(): LiveData<Boolean> {
+        return mSellAllLiveData
+    }
+
+    fun selectAllOrNone() {
+        if (selectedList.size == getAllGroupChild().size) {
+            selectedList.clear()
+            mSellAllLiveData.value=false
+        } else {
+            selectedList.addAll(getAllGroupChild())
+            mSellAllLiveData.value=true
+        }
+        notifyDataSetChanged()
+    }
+
+    fun delete() {
+        if (selectedList.size == getAllGroupChild().size) {
+            isMultiSelection=false
             data.clear()
-            isAllSelected=false
-            block(isAllSelected)
-        }else{
-            val headerList = mutableSetOf<String>()
-            data.filter { it.isSelected }.toList().forEach {
+            mSellAllLiveData.value =false
+        } else {
+            selectedList.forEach {
                 headerList.add(it.date)
                 data.remove(it)
             }
-
-            data.find {headerList.contains(it.date) && !it.isHeader}?.let {
-                //说明组内还存在数据,反之组内没有数据了，需要移出头布局
-            } ?: run {
-                //当前头布局下不存在数据了，应当移出当前头布局
-                data.find { it.isHeader && headerList.contains(it.date) }?.let { header ->
-                    data.remove(header)
+            headerList.forEach { headerDate ->
+                val list = data.filter { !it.isHeader && headerDate == it.date }
+                if (list.isEmpty()) {
+                    data.find { it.isHeader && it.date == headerDate }?.let {
+                        data.remove(it)
+                    }
                 }
             }
+            headerList.clear()
         }
+
+        selectedList.clear()
         notifyDataSetChanged()
     }
 
-    fun selectAll(block: (Boolean) -> Unit) {
-        isAllSelected = !isAllSelected
+    /**
+     * ---------------------------------------------------------------------------------------------
+     *                                      滑动多选
+     * ---------------------------------------------------------------------------------------------
+     */
+    private val mDragSelectionProcess:DragSelectionProcessor by lazy {
 
-        data.forEach {
-            it.isSelected=isAllSelected
+        fun selectItem(position: Int) {
+            val section= data[position]
+            if (!section.isHeader) {
+                if (selectedList.contains(section)) {
+                    selectedList.remove(section)
+                } else {
+                    selectedList.add(section)
+                }
+
+                mSellAllLiveData.value = selectedList.size == getAllGroupChild().size
+                notifyItemChanged(position)
+            }
         }
-        notifyDataSetChanged()
-        block(isAllSelected)
+
+        DragSelectionProcessor(object :DragSelectionProcessor.ISelectionHandler{
+
+            override val selection: HashSet<Int>
+                get() = selectedList.map { data.indexOf(it) }.toHashSet()
+
+            override fun isSelected(index: Int): Boolean {
+                return selectedList.contains(data[index])
+            }
+
+            override fun updateSelection(
+                start: Int,
+                end: Int,
+                isSelected: Boolean,
+                calledFromOnStart: Boolean
+            ) {
+               for (i in start..end) {
+                   val mySection=data[i]
+                   if (!mySection.isHeader) {
+                       if (isSelected) {
+                           selectedList.add(mySection)
+                           (this@MySectionQuickAdapter.recyclerView.findViewHolderForAdapterPosition(i) as? BaseViewHolder)?.let {
+                               it.getView<AppCompatImageView>(R.id.acIv_select).setImageResource(R.drawable.icon_selected )
+                           }
+
+                       } else {
+                           selectedList.remove(mySection)
+                           (this@MySectionQuickAdapter.recyclerView.findViewHolderForAdapterPosition(i) as? BaseViewHolder)?.let {
+                               it.getView<AppCompatImageView>(R.id.acIv_select).setImageResource(R.drawable.icon_unselected)
+                           }
+                       }
+                   }
+               }
+            }
+        }).withStartFinishedListener(object :DragSelectionProcessor.ISelectionStartFinishedListener{
+            override fun onSelectionStarted(start: Int, originalSelectionState: Boolean) {
+                if (BuildConfig.DEBUG) {
+                    Log.i("print_logs", "MySectionQuickAdapter::onSelectionStarted: $start, $originalSelectionState")
+                }
+            }
+
+            override fun onSelectionFinished(end: Int) {
+                mSellAllLiveData.value = selectedList.size == getAllGroupChild().size
+            }
+        }).withMode(DragSelectionProcessor.Mode.FirstItemDependent)
     }
 
+    val dragSelectTouchListener:DragSelectTouchListener by lazy {
+        DragSelectTouchListener()
+            .withSelectListener(mDragSelectionProcess)
+            .withScrollAboveTopRegion(true)
+            .withScrollBelowTopRegion(true)
+    }
 }
