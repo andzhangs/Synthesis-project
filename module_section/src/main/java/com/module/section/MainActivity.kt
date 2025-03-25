@@ -37,9 +37,11 @@ class MainActivity : AppCompatActivity() {
         with(mDataBinding.rvList) {
             this.layoutManager = GridLayoutManager(this@MainActivity, 4)
             mAdapter = MySectionQuickAdapter(mList = getNewData()).apply {
+
                 selectedAllLiveData.observe(this@MainActivity) { isAllSelected ->
                     mDataBinding.acBtnSelectAll.text = if (isAllSelected) "取消全选" else "全选"
                 }
+
                 showMultiLiveData.observe(this@MainActivity){
                     mDataBinding.acBtnSelectAll.isVisible = it
                     //返回键监听
