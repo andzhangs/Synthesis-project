@@ -3,6 +3,7 @@ package com.module.section
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
@@ -17,6 +18,18 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mDataBinding: ActivityMainBinding
     private lateinit var mAdapter: MySectionQuickAdapter
 
+    private val mOnBackPressedCallback :OnBackPressedCallback by lazy {
+        // enable：true-拦截执行代码块；false-不拦截不执行代码块
+        object :OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                if (BuildConfig.DEBUG) {
+                    Log.i("print_logs", "MainActivity::handleOnBackPressed: ")
+                }
+                mAdapter.setMultiSelection(false)
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mDataBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
@@ -24,11 +37,16 @@ class MainActivity : AppCompatActivity() {
         with(mDataBinding.rvList) {
             this.layoutManager = GridLayoutManager(this@MainActivity, 4)
             mAdapter = MySectionQuickAdapter(mList = getNewData()).apply {
-                getSelectedAllLiveData().observe(this@MainActivity) { isAllSelected ->
-                    if (isAllSelected) {
-                        mDataBinding.acBtnSelectAll.text = "取消全选"
-                    } else {
-                        mDataBinding.acBtnSelectAll.text = "全选"
+                selectedAllLiveData.observe(this@MainActivity) { isAllSelected ->
+                    mDataBinding.acBtnSelectAll.text = if (isAllSelected) "取消全选" else "全选"
+                }
+                showMultiLiveData.observe(this@MainActivity){
+                    mDataBinding.acBtnSelectAll.isVisible = it
+                    //返回键监听
+                    if (it){
+                        onBackPressedDispatcher.addCallback(this@MainActivity,mOnBackPressedCallback)
+                    }else{
+                        mOnBackPressedCallback.remove()
                     }
                 }
             }
@@ -71,8 +89,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun getNewData(): MutableList<MySection> {
         return mutableListOf<MySection>().apply {
-            val section1 = MySection(isHeader = true, date = "2024年-7月-2日")
-            add(section1)
+            val isExit=this.filter { it.isHeader }.find { it.date == "2024年-7月-2日"}
+            if (isExit == null) {
+                add(MySection(isHeader = true, date = "2024年-7月-2日"))
+            }
             for (index in 1..8) {
                 add(
                     MySection(
@@ -83,9 +103,10 @@ class MainActivity : AppCompatActivity() {
                 )
             }
 
-            val section2 = MySection(isHeader = true, date = "2024年-7月-1日")
-            add(section2)
-
+            val isExit2=this.filter { it.isHeader }.find { it.date == "2024年-7月-1日"}
+            if (isExit2==null) {
+                add(MySection(isHeader = true, date = "2024年-7月-1日"))
+            }
             for (index in 10..15) {
                 add(
                     MySection(
@@ -96,8 +117,10 @@ class MainActivity : AppCompatActivity() {
                 )
             }
 
-            val section3 = MySection(isHeader = true, date = "2024年-6月-30日")
-            add(section3)
+            val isExit3=this.filter { it.isHeader }.find { it.date == "2024年-6月-30日"}
+            if (isExit3==null) {
+                add(MySection(isHeader = true, date = "2024年-6月-30日"))
+            }
             for (index in 17..30) {
                 add(
                     MySection(
@@ -108,8 +131,10 @@ class MainActivity : AppCompatActivity() {
                 )
             }
 
-            val section4 = MySection(isHeader = true, date = "2024年-5月-30日")
-            add(section4)
+            val isExit4=this.filter { it.isHeader }.find { it.date == "2024年-5月-3日"}
+            if (isExit4 == null) {
+                add(MySection(isHeader = true, date = "2024年-5月-3日"))
+            }
             for (index in 32..35) {
                 add(
                     MySection(
@@ -120,8 +145,10 @@ class MainActivity : AppCompatActivity() {
                 )
             }
 
-            val section5 = MySection(isHeader = true, date = "2024年-3月-10日")
-            add(section5)
+            val isExit5=this.filter { it.isHeader }.find { it.date == "2024年-3月-10日"}
+            if (isExit5 == null) {
+                add(MySection(isHeader = true, date = "2024年-3月-10日"))
+            }
             for (index in 37..48) {
                 add(
                     MySection(

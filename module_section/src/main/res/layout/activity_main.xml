@@ -41,6 +41,7 @@
                 android:text="全选"
                 android:textColor="@color/white"
                 android:textSize="18sp"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/acBtn_delete"
                 app:layout_constraintStart_toStartOf="parent"
