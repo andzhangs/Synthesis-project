@@ -84,14 +84,18 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(mDataBinding.toolBar)
 
 //        BarUtils.transparentStatusBar(this)
+        //设置状态栏是否为浅色模式
         BarUtils.setStatusBarLightMode(this,true)
+        //设置状态栏颜色
         BarUtils.setStatusBarColor(this,ContextCompat.getColor(this@MainActivity,R.color.translucent))
 
         BarUtils.transparentNavBar(this)
         BarUtils.setNavBarLightMode(this,true)
+//        BarUtils.setNavBarColor(this,ContextCompat.getColor(this@MainActivity,R.color.translucent))
 
         with(mDataBinding.toolBar) {
 
+            //为 view 增加 MarginTop 为状态栏高度
             BarUtils.addMarginTopEqualStatusBarHeight(this)
 
             post {
