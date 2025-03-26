@@ -140,18 +140,26 @@ class MySectionQuickAdapter(
                     data.remove(it)
                 }
                 headerList.forEach { headerDate ->
-                    val list = data.filter { !it.isHeader && headerDate == it.date }
-                    if (list.isEmpty()) {
+                    if (BuildConfig.DEBUG) {
+                        Log.i("print_logs", "头部: $headerDate")
+                    }
+                    val groupList = data.filter { !it.isHeader && headerDate == it.date }
+                    if (BuildConfig.DEBUG) {
+                        Log.d("print_logs", "MySectionQuickAdapter::delete: ${groupList.size}")
+                    }
+                    if (groupList.isEmpty()) {
                         data.find { it.isHeader && it.date == headerDate }?.let {
+                            if (BuildConfig.DEBUG) {
+                                Log.i("print_logs", "delete: ${it.content}")
+                            }
                             data.remove(it)
                         }
                     }
                 }
-                headerList.clear()
-
                 if (data.isEmpty()) {
                     mShowMultiLiveData.value = false
                 }
+                headerList.clear()
             }
 
             selectedList.clear()
@@ -185,13 +193,13 @@ class MySectionQuickAdapter(
                     if (!mySection.isHeader) {
                         if (isSelected) {
                             selectedList.add(mySection)
-                            (this@MySectionQuickAdapter.recyclerView.findViewHolderForAdapterPosition(
+                            (recyclerView.findViewHolderForAdapterPosition(
                                 i
                             ) as? BaseViewHolder)?.getView<AppCompatImageView>(R.id.acIv_select)
                                 ?.setImageResource(R.drawable.icon_selected)
                         } else {
                             selectedList.remove(mySection)
-                            (this@MySectionQuickAdapter.recyclerView.findViewHolderForAdapterPosition(
+                            (recyclerView.findViewHolderForAdapterPosition(
                                 i
                             ) as? BaseViewHolder)?.getView<AppCompatImageView>(R.id.acIv_select)
                                 ?.setImageResource(R.drawable.icon_unselected)

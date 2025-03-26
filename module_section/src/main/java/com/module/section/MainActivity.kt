@@ -24,9 +24,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mDataBinding: ActivityMainBinding
     private lateinit var mAdapter: MySectionQuickAdapter
 
-    private val mOnBackPressedCallback :OnBackPressedCallback by lazy {
+    private val mOnBackPressedCallback: OnBackPressedCallback by lazy {
         // enable：true-拦截执行代码块；false-不拦截不执行代码块
-        object :OnBackPressedCallback(true){
+        object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 if (BuildConfig.DEBUG) {
                     Log.i("print_logs", "MainActivity::handleOnBackPressed: ")
@@ -48,12 +48,15 @@ class MainActivity : AppCompatActivity() {
                     mDataBinding.acBtnSelectAll.text = if (isAllSelected) "取消全选" else "全选"
                 }
 
-                showMultiLiveData.observe(this@MainActivity){
+                showMultiLiveData.observe(this@MainActivity) {
                     mDataBinding.acBtnSelectAll.isVisible = it
                     //返回键监听
-                    if (it){
-                        onBackPressedDispatcher.addCallback(this@MainActivity,mOnBackPressedCallback)
-                    }else{
+                    if (it) {
+                        onBackPressedDispatcher.addCallback(
+                            this@MainActivity,
+                            mOnBackPressedCallback
+                        )
+                    } else {
                         mOnBackPressedCallback.remove()
                     }
                 }
@@ -97,71 +100,76 @@ class MainActivity : AppCompatActivity() {
 
     private fun getNewData(): MutableList<MySection> {
         return mutableListOf<MySection>().apply {
-            val isExit=this.filter { it.isHeader }.find { it.date == "2024年-7月-2日"}
+            val date1 = "2024年-7月-2日"
+            val isExit = this.filter { it.isHeader }.find { it.date == date1 }
             if (isExit == null) {
-                add(MySection(isHeader = true, date = "2024年-7月-2日"))
+                add(MySection(isHeader = true, date = date1))
             }
             for (index in 1..8) {
                 add(
                     MySection(
                         isHeader = false,
-                        date = "2024年-7月-2日",
+                        date = date1,
                         content = "打印：$index"
                     )
                 )
             }
 
-            val isExit2=this.filter { it.isHeader }.find { it.date == "2024年-7月-1日"}
-            if (isExit2==null) {
-                add(MySection(isHeader = true, date = "2024年-7月-1日"))
+            val date2 = "2024年-7月-1日"
+            val isExit2 = this.filter { it.isHeader }.find { it.date == date2 }
+            if (isExit2 == null) {
+                add(MySection(isHeader = true, date = date2))
             }
             for (index in 10..15) {
                 add(
                     MySection(
                         isHeader = false,
-                        date = "2024年-7月-1日",
+                        date = date2,
                         content = "打印：$index"
                     )
                 )
             }
 
-            val isExit3=this.filter { it.isHeader }.find { it.date == "2024年-6月-30日"}
-            if (isExit3==null) {
-                add(MySection(isHeader = true, date = "2024年-6月-30日"))
+            val date3 = "2024年-6月-30日"
+            val isExit3 = this.filter { it.isHeader }.find { it.date == date3 }
+            if (isExit3 == null) {
+                add(MySection(isHeader = true, date = date3))
             }
             for (index in 17..30) {
                 add(
                     MySection(
                         isHeader = false,
-                        date = "2024年-6月-30日",
+                        date = date3,
                         content = "打印：$index"
                     )
                 )
             }
 
-            val isExit4=this.filter { it.isHeader }.find { it.date == "2024年-5月-3日"}
+            val date4 = "2024年-5月-3日"
+            val isExit4 = this.filter { it.isHeader }.find { it.date == date4 }
             if (isExit4 == null) {
-                add(MySection(isHeader = true, date = "2024年-5月-3日"))
+                add(MySection(isHeader = true, date = date4))
             }
             for (index in 32..35) {
                 add(
                     MySection(
                         isHeader = false,
-                        date = "2024年-5月-30日",
+                        date = date4,
                         content = "打印：$index"
                     )
                 )
             }
 
-            val isExit5=this.filter { it.isHeader }.find { it.date == "2024年-3月-10日"}
+            val date5 = "2024年-3月-10日"
+            val isExit5 = this.filter { it.isHeader }.find { it.date == date5 }
             if (isExit5 == null) {
-                add(MySection(isHeader = true, date = "2024年-3月-10日"))
+                add(MySection(isHeader = true, date = date5))
             }
             for (index in 37..48) {
                 add(
                     MySection(
                         isHeader = false,
-                        date = "2024年-3月-10日",
+                        date = date5,
                         content = "打印：$index"
                     )
                 )
