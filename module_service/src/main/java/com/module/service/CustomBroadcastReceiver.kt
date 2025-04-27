@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.os.Build
 import android.util.Log
 import com.module.service.BuildConfig.*
 
@@ -28,7 +29,12 @@ class CustomBroadcastReceiver : BroadcastReceiver() {
             val intentFilter = IntentFilter().apply {
                 this.addAction(ACTION_CUSTOM)
             }
-            context.applicationContext.registerReceiver(mReceiver, intentFilter)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                context.applicationContext.registerReceiver(mReceiver, intentFilter,
+                    Context.RECEIVER_NOT_EXPORTED)
+            }else{
+                context.applicationContext.registerReceiver(mReceiver, intentFilter)
+            }
         }
 
         @JvmStatic

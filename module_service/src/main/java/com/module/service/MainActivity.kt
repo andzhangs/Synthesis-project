@@ -1,5 +1,7 @@
 package com.module.service
 
+import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Service
 import android.content.ComponentName
 import android.content.Intent
@@ -8,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.IBinder
 import android.util.Log
+import androidx.activity.result.contract.ActivityResultContracts
 import com.module.service.BuildConfig.*
 
 class MainActivity : AppCompatActivity() {
@@ -39,13 +42,17 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("InlinedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        CustomBroadcastReceiver.register(this)
+//        CustomBroadcastReceiver.register(this)
 
-        bindService(mBindIntent, mLifecycleServiceConnection, Service.BIND_AUTO_CREATE)
-
+        registerForActivityResult(ActivityResultContracts.RequestPermission()){
+            if (it) {
+                bindService(mBindIntent, mLifecycleServiceConnection, Service.BIND_AUTO_CREATE)
+            }
+        }.launch(Manifest.permission.POST_NOTIFICATIONS)
 
 //        MyJobService.start(this)
     }
@@ -53,6 +60,6 @@ class MainActivity : AppCompatActivity() {
     override fun onStop() {
         super.onStop()
         unbindService(mLifecycleServiceConnection)
-        CustomBroadcastReceiver.unregister(this)
+//        CustomBroadcastReceiver.unregister(this)
     }
 }
