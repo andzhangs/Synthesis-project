@@ -12,6 +12,8 @@ import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import android.os.BatteryManager
 import android.util.Log
+import com.downloader.PRDownloader
+import com.downloader.PRDownloaderConfig
 import com.tencent.smtt.sdk.QbSdk
 import com.tencent.smtt.sdk.QbSdk.PreInitCallback
 import kotlinx.coroutines.channels.awaitClose
@@ -48,6 +50,12 @@ class WidgetApplication : Application() {
 //                }
             }
         })
+
+        PRDownloader.initialize(this,
+            PRDownloaderConfig.newBuilder()
+                .setDatabaseEnabled(true)
+            .build()
+        )
     }
 
    /**

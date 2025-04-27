@@ -15,5 +15,4 @@ data class MySection(
     val content: String = ""
 ) : SectionEntity {
 
-    var isSelected: Boolean = false
 }

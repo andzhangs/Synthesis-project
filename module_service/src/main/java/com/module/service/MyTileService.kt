@@ -7,6 +7,7 @@ import android.os.IBinder
 import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
 import android.util.Log
+import com.module.service.BuildConfig.*
 
 class MyTileService : TileService() {
 
@@ -16,13 +17,13 @@ class MyTileService : TileService() {
 
     override fun onCreate() {
         super.onCreate()
-        if (BuildConfig.DEBUG) {
+        if (DEBUG) {
             Log.i("print_logs", "MyTileService::onCreate: ")
         }
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        if (BuildConfig.DEBUG) {
+        if (DEBUG) {
             Log.i("print_logs", "MyTileService::onStartCommand: ")
         }
         return super.onStartCommand(intent, flags, startId)
@@ -30,14 +31,14 @@ class MyTileService : TileService() {
 
     override fun onClick() {
         super.onClick()
-        if (BuildConfig.DEBUG) {
+        if (DEBUG) {
             Log.i("print_logs", "MyTileService::onClick:起始状态： ${qsTile.state}")
         }
 
         qsTile.state =
             if (qsTile.state == Tile.STATE_INACTIVE) Tile.STATE_ACTIVE else Tile.STATE_INACTIVE
 
-        if (BuildConfig.DEBUG) {
+        if (DEBUG) {
             Log.i("print_logs", "MyTileService::onClick:当前状态：${qsTile.state}")
         }
 
@@ -75,7 +76,7 @@ class MyTileService : TileService() {
      */
     override fun onTileAdded() {
         super.onTileAdded()
-        if (BuildConfig.DEBUG) {
+        if (DEBUG) {
             Log.i("print_logs", "MyTileService::onTileAdded: ${Thread.currentThread().name}")
         }
     }
@@ -85,7 +86,7 @@ class MyTileService : TileService() {
      */
     override fun onTileRemoved() {
         super.onTileRemoved()
-        if (BuildConfig.DEBUG) {
+        if (DEBUG) {
             Log.i("print_logs", "MyTileService::onTileRemoved: ${Thread.currentThread().name}")
         }
     }
@@ -96,7 +97,7 @@ class MyTileService : TileService() {
      */
     override fun onStartListening() {
         super.onStartListening()
-        if (BuildConfig.DEBUG) {
+        if (DEBUG) {
             Log.i("print_logs", "MyTileService::onStartListening: ${Thread.currentThread().name}")
         }
     }
@@ -106,7 +107,7 @@ class MyTileService : TileService() {
      */
     override fun onStopListening() {
         super.onStopListening()
-        if (BuildConfig.DEBUG) {
+        if (DEBUG) {
             Log.i("print_logs", "MyTileService::onStopListening: ${Thread.currentThread().name}")
         }
     }

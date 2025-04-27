@@ -1,81 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".DownloadActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/acBtn_download"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:text="系统：下载"/>
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/acBtn_stop"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@id/acBtn_download"
-        app:layout_constraintTop_toTopOf="@id/acBtn_download"
-        android:text="系统：停止" />
-
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/acBtn_download_x"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/acBtn_download"
-        app:layout_constraintStart_toStartOf="parent"
-        android:text="DownloadX：下载"
-        android:layout_marginTop="20dp"/>
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/acBtn_stop_x"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@id/acBtn_download_x"
-        app:layout_constraintStart_toEndOf="@id/acBtn_download_x"
-        android:text="DownloadX：停止" />
-
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/acBtn_http_download"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/acBtn_download_x"
-        app:layout_constraintStart_toStartOf="parent"
-        android:text="Http：下载"
-        android:layout_marginTop="20dp"/>
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/acBtn_http_stop"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@id/acBtn_http_download"
-        app:layout_constraintStart_toEndOf="@id/acBtn_http_download"
-        android:text="Http：停止" />
-
-    <androidx.core.widget.NestedScrollView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="20dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/acBtn_http_stop">
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/acTv_info"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:textSize="18sp"
-            android:textColor="@color/black"
-            android:textStyle="italic|bold" />
-    </androidx.core.widget.NestedScrollView>
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".DownloadActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/acBtn_download"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="系统：下载"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/acBtn_stop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="系统：停止"
+            app:layout_constraintStart_toEndOf="@id/acBtn_download"
+            app:layout_constraintTop_toTopOf="@id/acBtn_download" />
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/acBtn_download_x"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="DownloadX：下载"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/acBtn_download" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/acBtn_stop_x"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="DownloadX：停止"
+            app:layout_constraintStart_toEndOf="@id/acBtn_download_x"
+            app:layout_constraintTop_toTopOf="@id/acBtn_download_x" />
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/acBtn_http_download"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Http：下载"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/acBtn_download_x" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/acBtn_http_stop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Http：停止"
+            app:layout_constraintStart_toEndOf="@id/acBtn_http_download"
+            app:layout_constraintTop_toTopOf="@id/acBtn_http_download" />
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/acBtn_pr_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="PR：下载"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/acBtn_http_download" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/acBtn_pr_pause"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="PR：暂停"
+            app:layout_constraintStart_toEndOf="@id/acBtn_pr_start"
+            app:layout_constraintTop_toTopOf="@id/acBtn_pr_start" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/acBtn_pr_resume"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="PR：继续"
+            app:layout_constraintStart_toEndOf="@id/acBtn_pr_pause"
+            app:layout_constraintTop_toTopOf="@id/acBtn_pr_pause" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/acBtn_pr_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="PR：取消"
+            app:layout_constraintStart_toEndOf="@id/acBtn_pr_resume"
+            app:layout_constraintTop_toTopOf="@id/acBtn_pr_resume" />
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/nested_scroll_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/acBtn_pr_start">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/acTv_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="italic|bold" />
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

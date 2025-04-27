@@ -28,9 +28,6 @@ class MainActivity : AppCompatActivity() {
         // enable：true-拦截执行代码块；false-不拦截不执行代码块
         object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                if (BuildConfig.DEBUG) {
-                    Log.i("print_logs", "MainActivity::handleOnBackPressed: ")
-                }
                 mAdapter.setMultiSelection(false)
             }
         }
@@ -43,11 +40,12 @@ class MainActivity : AppCompatActivity() {
         with(mDataBinding.rvList) {
             this.layoutManager = GridLayoutManager(this@MainActivity, 4)
             mAdapter = MySectionQuickAdapter(mList = getNewData()).apply {
-
+                //监听是否全选了
                 selectedAllLiveData.observe(this@MainActivity) { isAllSelected ->
                     mDataBinding.acBtnSelectAll.text = if (isAllSelected) "取消全选" else "全选"
                 }
 
+                //监听是否开启多选了
                 showMultiLiveData.observe(this@MainActivity) {
                     mDataBinding.acBtnSelectAll.isVisible = it
                     //返回键监听
@@ -60,6 +58,66 @@ class MainActivity : AppCompatActivity() {
                         mOnBackPressedCallback.remove()
                     }
                 }
+            }.apply {
+                registerAdapterDataObserver(object :RecyclerView.AdapterDataObserver(){
+                    //调用了调用了 notifyDataSetChanged()才触发
+                    override fun onChanged() {
+                        super.onChanged()
+                        if (BuildConfig.DEBUG) {
+                            Log.i("print_logs", "MainActivity::onChanged: ")
+                        }
+                    }
+
+                    override fun onItemRangeChanged(positionStart: Int, itemCount: Int) {
+                        super.onItemRangeChanged(positionStart, itemCount)
+                        if (BuildConfig.DEBUG) {
+                            Log.i("print_logs", "MainActivity::onItemRangeChanged: ")
+                        }
+                    }
+
+                    override fun onItemRangeChanged(
+                        positionStart: Int,
+                        itemCount: Int,
+                        payload: Any?
+                    ) {
+                        super.onItemRangeChanged(positionStart, itemCount, payload)
+                        if (BuildConfig.DEBUG) {
+                            Log.i("print_logs", "MainActivity::onItemRangeChanged: ")
+                        }
+                    }
+
+                    override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                        super.onItemRangeInserted(positionStart, itemCount)
+                        if (BuildConfig.DEBUG) {
+                            Log.d("print_logs", "MainActivity::onItemRangeInserted: ")
+                        }
+                    }
+
+                    override fun onItemRangeMoved(
+                        fromPosition: Int,
+                        toPosition: Int,
+                        itemCount: Int
+                    ) {
+                        super.onItemRangeMoved(fromPosition, toPosition, itemCount)
+                        if (BuildConfig.DEBUG) {
+                            Log.e("print_logs", "MainActivity::onItemRangeMoved: ")
+                        }
+                    }
+
+                    override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) {
+                        super.onItemRangeRemoved(positionStart, itemCount)
+                        if (BuildConfig.DEBUG) {
+                            Log.e("print_logs", "MainActivity::onItemRangeRemoved: ")
+                        }
+                    }
+
+                    override fun onStateRestorationPolicyChanged() {
+                        super.onStateRestorationPolicyChanged()
+                        if (BuildConfig.DEBUG) {
+                            Log.i("print_logs", "MainActivity::onStateRestorationPolicyChanged: ")
+                        }
+                    }
+                })
             }
             adapter = mAdapter
 
@@ -87,6 +145,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun clickListener() {
+//        mDataBinding.acBtnAdd.setOnClickListener {
+//            mAdapter.addData(0,MySection(
+//                isHeader = false,
+//                date = "2024年-7月-2日",
+//                content = "打印：新增"
+//            ))
+//        }
+//        mDataBinding.acBtnRemove.setOnClickListener {
+//            mAdapter.removeAt(0)
+//        }
+
         mDataBinding.acBtnSelectAll.setOnClickListener {
             mAdapter.selectAllOrNone()
         }
@@ -94,6 +163,7 @@ class MainActivity : AppCompatActivity() {
             mAdapter.delete()
         }
         mDataBinding.acBtnRestore.setOnClickListener {
+            mDataBinding.includeHeader.clHeader.isVisible = true
             mAdapter.setNewInstance(getNewData())
         }
     }
@@ -105,7 +175,7 @@ class MainActivity : AppCompatActivity() {
             if (isExit == null) {
                 add(MySection(isHeader = true, date = date1))
             }
-            for (index in 1..8) {
+            for (index in 0..8) {
                 add(
                     MySection(
                         isHeader = false,
@@ -173,6 +243,10 @@ class MainActivity : AppCompatActivity() {
                         content = "打印：$index"
                     )
                 )
+            }
+        }.apply {
+            if (this[0].isHeader) {
+                removeAt(0)
             }
         }
     }

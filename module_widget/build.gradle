@@ -98,6 +98,9 @@ dependencies {
     //https://ahdm.coolerfall.com/#/quickstart
     implementation 'com.coolerfall:android-http-download-manager:2.0.0'
 
+    //https://github.com/amitshekhariitbhu/PRDownloader
+    implementation 'com.github.amitshekhariitbhu:PRDownloader:1.0.2'
+
     //https://github.com/pirrip90/CeilingLayout
     implementation 'com.github.xubo.ceilinglayout:CeilingLayout:1.1.1'
 

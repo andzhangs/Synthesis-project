@@ -112,6 +112,7 @@ class DownloadUtils private constructor(private val mContext: Context) :
     fun stop() {
         mDownloadManager.remove(mDownloadId)
 
+
         mHandler.removeCallbacks(this)
         this.mListener?.onPaused()
     }

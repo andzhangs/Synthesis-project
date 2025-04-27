@@ -31,6 +31,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListUpdateCallback
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.channels.BroadcastChannel
+import kotlinx.coroutines.channels.ChannelResult
+import kotlinx.coroutines.flow.internal.ChannelFlow
 import zs.android.base.lib.util.DataSize.Companion.BYTES
 import zs.android.base.lib.util.DataSize.Companion.toDataSize
 import zs.android.base.lib.util.DataUnit
@@ -97,12 +100,14 @@ class MainActivity : AppCompatActivity() {
             override fun onClick(position: Int, item: View) {
                 when (position) {
                     0 -> {
-                        val result = (100.0.BYTES + 200.0.BYTES).toLong(DataUnit.BYTES)
-                        Toast.makeText(
-                            this@MainActivity,
-                            "DataSize：$result， ${1024.0.toDataSize(DataUnit.BYTES)}",
-                            Toast.LENGTH_SHORT
-                        ).show()
+//                        val result = (100.0.BYTES + 200.0.BYTES).toLong(DataUnit.BYTES)
+//                        Toast.makeText(
+//                            this@MainActivity,
+//                            "DataSize：$result， ${1024.0.toDataSize(DataUnit.BYTES)}",
+//                            Toast.LENGTH_SHORT
+//                        ).show()
+
+                        showSnackBar(item)
                     }
 
                     1 -> {
@@ -298,7 +303,7 @@ class MainActivity : AppCompatActivity() {
     //----------------------------------------------------------------------------------------------
 
     private fun showSnackBar(view: View) {
-        Snackbar.make(this, view, "你哈", Snackbar.LENGTH_SHORT)
+        Snackbar.make(this, view, "你哈", Snackbar.LENGTH_LONG)
             .setAction("取消") {
                 Toast.makeText(this@MainActivity, "触发 点击", Toast.LENGTH_SHORT).show()
             }

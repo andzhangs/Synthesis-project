@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.util.Log
+import com.module.service.BuildConfig.*
 
 /**
  * @author zhangshuai@attrsense.com
@@ -21,7 +22,7 @@ class CustomBroadcastReceiver : BroadcastReceiver() {
 
         @JvmStatic
         fun register(context: Context) {
-            if (BuildConfig.DEBUG) {
+            if (DEBUG) {
                 Log.d("print_logs", "CustomBroadcastReceiver::register: ")
             }
             val intentFilter = IntentFilter().apply {
@@ -32,7 +33,7 @@ class CustomBroadcastReceiver : BroadcastReceiver() {
 
         @JvmStatic
         fun send(context: Context, state: Boolean) {
-            if (BuildConfig.DEBUG) {
+            if (DEBUG) {
                 Log.d("print_logs", "CustomBroadcastReceiver::send: ")
             }
             val intent = Intent(ACTION_CUSTOM).apply {
@@ -43,7 +44,7 @@ class CustomBroadcastReceiver : BroadcastReceiver() {
 
         @JvmStatic
         fun unregister(context: Context) {
-            if (BuildConfig.DEBUG) {
+            if (DEBUG) {
                 Log.d("print_logs", "CustomBroadcastReceiver::unregister: ")
             }
             context.applicationContext.unregisterReceiver(mReceiver)
@@ -52,14 +53,14 @@ class CustomBroadcastReceiver : BroadcastReceiver() {
     }
 
     override fun onReceive(context: Context, intent: Intent?) {
-        if (BuildConfig.DEBUG) {
+        if (DEBUG) {
             Log.d("print_logs", "CustomBroadcastReceiver::onReceive")
         }
         intent?.also {
 
             val isBinding = it.getBooleanExtra(KEY_BINDING, false)
 
-            if (BuildConfig.DEBUG) {
+            if (DEBUG) {
                 Log.d(
                     "print_logs",
                     "CustomBroadcastReceiver::onReceive: isBinding = $isBinding"

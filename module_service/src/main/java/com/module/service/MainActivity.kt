@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.IBinder
 import android.util.Log
+import com.module.service.BuildConfig.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -21,7 +22,7 @@ class MainActivity : AppCompatActivity() {
 
     private val mLifecycleServiceConnection = object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-            if (BuildConfig.DEBUG) {
+            if (DEBUG) {
                 Log.i("print_logs", "MainActivity::onServiceConnected: ")
             }
                 mBinder = (service as? CustomLifecycleService.LifeBinder)?.apply {
@@ -32,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         override fun onServiceDisconnected(name: ComponentName?) {
-            if (BuildConfig.DEBUG) {
+            if (DEBUG) {
                 Log.i("print_logs", "MainActivity::onServiceDisconnected: ")
             }
         }
