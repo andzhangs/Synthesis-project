@@ -30,8 +30,9 @@ class CustomBroadcastReceiver : BroadcastReceiver() {
                 this.addAction(ACTION_CUSTOM)
             }
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                context.applicationContext.registerReceiver(mReceiver, intentFilter,
-                    Context.RECEIVER_NOT_EXPORTED)
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    context.applicationContext.registerReceiver(mReceiver, intentFilter, Context.RECEIVER_NOT_EXPORTED)
+//                }
             }else{
                 context.applicationContext.registerReceiver(mReceiver, intentFilter)
             }

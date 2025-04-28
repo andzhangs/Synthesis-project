@@ -46,7 +46,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-//        CustomBroadcastReceiver.register(this)
 
         registerForActivityResult(ActivityResultContracts.RequestPermission()){
             if (it) {
@@ -57,9 +56,15 @@ class MainActivity : AppCompatActivity() {
 //        MyJobService.start(this)
     }
 
+    override fun onStart() {
+        super.onStart()
+        CustomBroadcastReceiver.register(this)
+
+    }
+
     override fun onStop() {
         super.onStop()
         unbindService(mLifecycleServiceConnection)
-//        CustomBroadcastReceiver.unregister(this)
+        CustomBroadcastReceiver.unregister(this)
     }
 }

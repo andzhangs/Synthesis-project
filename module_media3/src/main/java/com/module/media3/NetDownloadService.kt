@@ -1,7 +1,14 @@
 package com.module.media3
 
+import android.app.ActivityManager
 import android.app.Notification
+import android.app.NotificationManager
 import android.content.Context
+import android.media.MediaScannerConnection
+import android.net.Uri
+import android.os.Build
+import android.os.Environment
+import android.provider.MediaStore
 import android.util.Log
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.common.util.Util
@@ -18,8 +25,16 @@ import androidx.media3.exoplayer.offline.DownloadService
 import androidx.media3.exoplayer.scheduler.PlatformScheduler
 import androidx.media3.exoplayer.scheduler.Requirements
 import androidx.media3.exoplayer.scheduler.Scheduler
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 import java.io.File
-import java.lang.Exception
+import java.io.FileInputStream
+import java.io.FileOutputStream
+import java.io.InputStream
 import java.util.concurrent.Executor
 
 private const val DOWNLOAD_NOTIFICATION_CHANNEL_ID="download_channel"
@@ -41,12 +56,20 @@ class NetDownloadService : DownloadService(
 
     companion object {
 
+        const val DOWNLOAD_ID="100"
+
         // 添加下载任务
         // 对于自适应流，使用DownloadHelper来帮助构建DownloadRequest
         // val downloadRequest = DownloadRequest.Builder(contentId, contentUri).build()
         // 对于自适应流，使用DownloadHelper来帮助构建DownloadRequest
         @JvmStatic
-        fun add(context: Context, downloadRequest: DownloadRequest, isForeground: Boolean = false) {
+        fun add(context: Context,videoUrl:String,  isForeground: Boolean = true) {
+
+            val downloadRequest= DownloadRequest.Builder(
+                DOWNLOAD_ID,
+                Uri.parse(videoUrl)
+            ).build()
+
             DownloadService.sendAddDownload(
                 context,
                 NetDownloadService::class.java,
@@ -117,7 +140,7 @@ class NetDownloadService : DownloadService(
         }
 
         /**
-         * 设置需求条件
+         * 设置下载进度所需满足的要求
          */
         @JvmStatic
         fun setRequirements(
@@ -138,15 +161,16 @@ class NetDownloadService : DownloadService(
     private lateinit var databaseProvider: StandaloneDatabaseProvider
     private lateinit var downloadCache: SimpleCache
     private lateinit var dataSourceFactory: DefaultHttpDataSource.Factory
-//    private lateinit var downloadManager: DownloadManager
+    private val mJobScope = CoroutineScope(SupervisorJob())
 
     override fun getDownloadManager(): DownloadManager{
         // 这应该是应用中的单例
         databaseProvider = StandaloneDatabaseProvider(this)
         // 下载缓存不应该驱逐媒体，所以应该使用NoopCacheEvictor
-        downloadCache = SimpleCache(File(""), NoOpCacheEvictor(), databaseProvider)
+        downloadCache = SimpleCache(File(getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS),"video"), NoOpCacheEvictor(), databaseProvider)
         // 创建一个工厂，用于从网络读取数据
         dataSourceFactory = DefaultHttpDataSource.Factory()
+//        DefaultMediaSourceFactory(DefaultDataSource.Factory(this))
 
         // 选择用于下载数据的执行器。使用Runnable:：run将导致每个下载任务在其自己的线程上下载数据。
         // 传递一个使用多个线程的执行器将加快下载任务的速度，这些任务可以分成更小的部分进行并行执行。
@@ -154,20 +178,18 @@ class NetDownloadService : DownloadService(
         val downloadExecutor = Executor(Runnable::run)
 
         //创建一个下载管理器
-        val downloadManager = DownloadManager(
+        return DownloadManager(
             this,
             databaseProvider,
             downloadCache,
             dataSourceFactory,
             downloadExecutor
-        )
-
-        //可选，可以分配属性来配置下载管理器
-//        downloadManager.requirements
-        downloadManager.maxParallelDownloads = 3
-        downloadManager.addListener(downloadListener)
-
-        return downloadManager
+        ).apply {
+            //可选，可以分配属性来配置下载管理器
+//        requirements
+            maxParallelDownloads = 3
+            addListener(downloadListener)
+        }
 
         //查询为满足的条件
         //downloadManager.notMetRequirements
@@ -220,22 +242,11 @@ class NetDownloadService : DownloadService(
             )
     }
 
-
     private val downloadListener = object : DownloadManager.Listener {
         override fun onInitialized(downloadManager: DownloadManager) {
             super.onInitialized(downloadManager)
             if (BuildConfig.DEBUG) {
                 Log.i("print_logs", "MyDownloadService::onInitialized: ")
-            }
-        }
-
-        override fun onDownloadsPausedChanged(
-            downloadManager: DownloadManager,
-            downloadsPaused: Boolean
-        ) {
-            super.onDownloadsPausedChanged(downloadManager, downloadsPaused)
-            if (BuildConfig.DEBUG) {
-                Log.i("print_logs", "MyDownloadService::onDownloadsPausedChanged: ")
             }
         }
 
@@ -246,8 +257,87 @@ class NetDownloadService : DownloadService(
         ) {
             super.onDownloadChanged(downloadManager, download, finalException)
             if (BuildConfig.DEBUG) {
-                Log.i("print_logs", "MyDownloadService::onDownloadChanged: ${download.contentLength}, ${download.bytesDownloaded}, ${download.percentDownloaded}, ${download.stopReason}, ${download.failureReason} ,${download.state}")
+                Log.i("print_logs", "MyDownloadService::onDownloadChanged: 文件总大小：${download.contentLength}, ${download.request.id}")
             }
+
+            when (download.state) {
+                Download.STATE_QUEUED -> {
+                    if (BuildConfig.DEBUG) {
+                        Log.i("print_logs", "onDownloadChanged: 等待下载...${download.contentLength}")
+                    }
+                }
+                Download.STATE_STOPPED -> {
+                    if (BuildConfig.DEBUG) {
+                        Log.w("print_logs", "onDownloadChanged: 停止下载：${download.stopReason}")
+                    }
+                }
+                Download.STATE_DOWNLOADING -> {
+                    mJobScope.launch {
+                        while (isActive){
+                            delay(500)
+                            if (BuildConfig.DEBUG) {
+                                Log.i("print_logs", "onDownloadChanged: 下载中: ${download.bytesDownloaded}, 下载进度：${download.percentDownloaded}")
+                            }
+                        }
+                    }
+                }
+                Download.STATE_COMPLETED -> {
+//                    val downloadIndex=downloadManager.downloadIndex
+//                    val dl=downloadIndex.getDownload(DOWNLOAD_ID)
+//                    val originalUri=dl?.request?.toMediaItem()?.localConfiguration?.uri ?: return
+
+                    val cachedSpans=downloadCache.getCachedSpans(download.request.id).toList()
+                    if (cachedSpans.isNotEmpty()) {
+                        // 确保 CacheSpan 是按偏移量排序的
+                        val sortedSpans=cachedSpans.sortedBy { it.position }
+
+                        val fileName=download.request.uri.path?.substringAfterLast("/")
+                        val destinationFile=File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),"export_$fileName")
+                        FileOutputStream(destinationFile).use {outputStream->
+                            sortedSpans.forEach {cacheSpan->
+                                val cachedFile=cacheSpan.file
+                                if (cachedFile?.exists()==true){
+                                    cachedFile.inputStream().use {inputStream->
+                                        inputStream.copyTo(outputStream)
+                                    }
+                                }
+                            }
+                        }
+                        // 通知媒体库更新 (可选)
+                        MediaScannerConnection.scanFile(
+                            this@NetDownloadService,
+                            arrayOf(destinationFile.absolutePath),
+                            arrayOf("video/mp4"),
+                            null
+                        )
+
+                        if (BuildConfig.DEBUG) {
+                            Log.i("print_logs", "onDownloadChanged: 完成【${Thread.currentThread().name}】并导出：${destinationFile.absolutePath}")
+                        }
+                    }else{
+                        if (BuildConfig.DEBUG) {
+                            Log.e("print_logs", "不存在缓存 ${download.request.id}， ${download.request.uri.path?.substringAfterLast("/")}")
+                        }
+                    }
+                }
+                Download.STATE_FAILED -> {
+                    if (BuildConfig.DEBUG) {
+                        Log.e("print_logs", "onDownloadChanged: 下载失败： ${download.stopReason}，${download.failureReason}")
+                    }
+                }
+                Download.STATE_REMOVING -> {
+                    if (BuildConfig.DEBUG) {
+                        Log.i("print_logs", "onDownloadChanged: 移出下载任务.")
+                    }
+                }
+                Download.STATE_RESTARTING -> {
+                    if (BuildConfig.DEBUG) {
+                        Log.d("print_logs", "onDownloadChanged: 重新开始下载.")
+                    }
+                }
+                else -> {}
+            }
+
         }
 
         override fun onDownloadRemoved(downloadManager: DownloadManager, download: Download) {
@@ -263,33 +353,15 @@ class NetDownloadService : DownloadService(
                 Log.i("print_logs", "MyDownloadService::onIdle: ")
             }
         }
-
-        override fun onRequirementsStateChanged(
-            downloadManager: DownloadManager,
-            requirements: Requirements,
-            notMetRequirements: Int
-        ) {
-            super.onRequirementsStateChanged(downloadManager, requirements, notMetRequirements)
-            if (BuildConfig.DEBUG) {
-                Log.i("print_logs", "MyDownloadService::onRequirementsStateChanged: ")
-            }
-        }
-
-        override fun onWaitingForRequirementsChanged(
-            downloadManager: DownloadManager,
-            waitingForRequirements: Boolean
-        ) {
-            super.onWaitingForRequirementsChanged(downloadManager, waitingForRequirements)
-            if (BuildConfig.DEBUG) {
-                Log.i("print_logs", "MyDownloadService::onWaitingForRequirementsChanged: ")
-            }
-        }
     }
 
     override fun onDestroy() {
-        downloadManager.removeListener(downloadListener)
-        downloadManager.release()
+        if (BuildConfig.DEBUG) {
+            Log.i("print_logs", "NetDownloadService::onDestroy: ")
+        }
         super.onDestroy()
+        mJobScope.cancel()
+        downloadCache.release()
     }
 
 }
