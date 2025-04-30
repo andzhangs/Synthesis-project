@@ -2,24 +2,28 @@ package com.module.media3
 
 import android.app.PendingIntent
 import android.app.PictureInPictureParams
+import android.app.PictureInPictureUiState
 import android.app.RemoteAction
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.graphics.Rect
 import android.graphics.drawable.Icon
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.util.Rational
 import android.view.View
+import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.media3.common.AudioAttributes
 import androidx.media3.common.C
 import androidx.media3.common.MediaItem
 import androidx.media3.common.PlaybackException
@@ -66,6 +70,13 @@ class NetWorkActivity : AppCompatActivity() {
         mPlayer = ExoPlayer.Builder(this)
             .setMediaSourceFactory(DefaultMediaSourceFactory(this))
             .setWakeMode(C.WAKE_MODE_NETWORK)
+//            .setHandleAudioBecomingNoisy(true)
+            .setAudioAttributes(
+                AudioAttributes.Builder()
+                    .setContentType(C.AUDIO_CONTENT_TYPE_MOVIE)
+                .build(),
+                true
+            ) // 让 ExoPlayer 自动管理音频焦点。启用此行为后，您的应用不应包含用于请求或响应音频焦点更改的任何代码。
             .build()
             .also {
                 it.addListener(mPlayListener)
@@ -82,6 +93,8 @@ class NetWorkActivity : AppCompatActivity() {
                 val mediaSource = ProgressiveMediaSource.Factory(dataSource)
                     .createMediaSource(MediaItem.fromUri(videoUrl2))
                 it.setMediaSource(mediaSource)
+
+
 //
 //                val dataSpec=DataSpec(Uri.parse(videoUrl))
 //                dataSpec.buildUpon()
@@ -111,7 +124,11 @@ class NetWorkActivity : AppCompatActivity() {
                 it.prepare()
             }
 
-        registerReceiver(mRemoteReceiver, IntentFilter(ACTION_STOPWATCH_CONTROL))
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            registerReceiver(mRemoteReceiver, IntentFilter(ACTION_STOPWATCH_CONTROL), RECEIVER_NOT_EXPORTED )
+        }else{
+            registerReceiver(mRemoteReceiver, IntentFilter(ACTION_STOPWATCH_CONTROL))
+        }
 
         //方式一
 //        addOnPictureInPictureModeChangedListener {
@@ -344,8 +361,19 @@ class NetWorkActivity : AppCompatActivity() {
     private  val EXTRA_CONTROL_TYPE = "control_type"
     private  val CONTROL_TYPE_START_OR_PAUSE = 1
 
+    /**
+     * 点击进入画中画
+     */
     fun onClickPiP(view: View) {
-        loadPip()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            if (this.packageManager.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE)) {
+                loadPip()
+            }else{
+                Toast.makeText(this, "不支持画中画", Toast.LENGTH_SHORT).show()
+            }
+        }else{
+            Toast.makeText(this, "不支持画中画", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun loadPip(){
@@ -368,6 +396,11 @@ class NetWorkActivity : AppCompatActivity() {
         override fun onReceive(context: Context?, intent: Intent?) {
             intent?.also {
                 if (it.action==ACTION_STOPWATCH_CONTROL && it.getIntExtra(EXTRA_CONTROL_TYPE,CONTROL_TYPE_START_OR_PAUSE) == 1){
+
+                    if (BuildConfig.DEBUG) {
+                        Log.i("print_logs", "NetWorkActivity::onReceive: ${mPlayer.isPlaying}")
+                    }
+
                     if (mPlayer.isPlaying) {
                         mPlayer.pause()
                     }else{
@@ -386,8 +419,11 @@ class NetWorkActivity : AppCompatActivity() {
 
                 // 2、将播放视频的控件binding.movie设置为 PiP 中要展示的部分
                 val visibleRect = Rect()
-                builder.setSourceRectHint(visibleRect)
+
+                //使用 sourceRectHint 作为适当边界构造 PictureInPictureParams
                 mDataBinding.textureView.getLocalVisibleRect(visibleRect)
+
+                builder.setSourceRectHint(visibleRect)
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                     builder.setTitle("画中画")
@@ -401,26 +437,39 @@ class NetWorkActivity : AppCompatActivity() {
                         //手势导航启用 setAutoEnterEnabled 后，您无需在 onUserLeaveHint 中明确调用 enterPictureInPictureMode。
                         builder.setAutoEnterEnabled(true)
 
+                        //为视频内容启用无缝大小调整
                         builder.setSeamlessResizeEnabled(true)
                     }
                 }
 
                 val iconResId = if (mPlayer.isPlaying) {
                     if (BuildConfig.DEBUG) {
-                        Log.i("print_logs", "createRemoteAction: 播放")
+                        Log.i("print_logs", "按钮-播放")
                     }
                     R.drawable.icon_playing
                 } else {
                     if (BuildConfig.DEBUG) {
-                        Log.i("print_logs", "createRemoteAction: 暂停")
+                        Log.i("print_logs", "按钮-暂停")
                     }
                     R.drawable.icon_pause
                 }
+
+                val intent=if (showPip) {
+                    Intent(ACTION_STOPWATCH_CONTROL).putExtra(EXTRA_CONTROL_TYPE, CONTROL_TYPE_START_OR_PAUSE)
+                }else{
+                    Intent()
+                }
+
                 val pendingIntent = PendingIntent.getBroadcast(
                     this,
                     100,
-                    Intent(ACTION_STOPWATCH_CONTROL).putExtra(EXTRA_CONTROL_TYPE, CONTROL_TYPE_START_OR_PAUSE),
-                    PendingIntent.FLAG_IMMUTABLE
+                    intent,
+                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+//                        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+//                    }else{
+//                        PendingIntent.FLAG_UPDATE_CURRENT
+//                    }
                 )
                 val mRemoteAction = RemoteAction(Icon.createWithResource(this,  iconResId), "播放视频", "Play Video", pendingIntent)
                 builder.setActions(listOf(mRemoteAction))
@@ -441,6 +490,8 @@ class NetWorkActivity : AppCompatActivity() {
     }
 
     //方式二
+    //定义用于切换叠加界面元素可见性的逻辑。当 PiP 进入或退出动画完成时，系统会触发此回调
+    //当应用从画中画窗口切换到全屏模式时，请使用 onPictureInPictureModeChanged() 回调取消隐藏这些元素
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onPictureInPictureModeChanged(
         isInPictureInPictureMode: Boolean,
@@ -448,8 +499,21 @@ class NetWorkActivity : AppCompatActivity() {
     ) {
         super.onPictureInPictureModeChanged(isInPictureInPictureMode, newConfig)
         mDataBinding.hideView = isInPictureInPictureMode
-
+        if (BuildConfig.DEBUG) {
+            Log.i("print_logs", "onPictureInPictureModeChanged: $isInPictureInPictureMode")
+        }
     }
+
+    //当应用进入画中画模式时，请使用 onPictureInPictureUiStateChanged() 回调隐藏这些界面元素
+//    override fun onPictureInPictureUiStateChanged(pipState: PictureInPictureUiState) {
+//        super.onPictureInPictureUiStateChanged(pipState)
+//        if (BuildConfig.DEBUG) {
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+//                Log.i("print_logs", "onPictureInPictureUiStateChanged: ${pipState.isStashed}")
+//            }
+//        }
+//    }
+
     //----------------------------------------------------------------------------------------------
 
     override fun onPause() {

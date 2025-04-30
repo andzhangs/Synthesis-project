@@ -29,6 +29,8 @@ activity = "1.8.0"
 junit = "1.1.5"
 activityVersion = "1.8.0"
 ufileClientJava = "2.6.7"
+litertVersion = "1.2.0"
+
 
 [libraries]
 core-ktx = { group = 'androidx.core', name = 'core-ktx', version.ref = 'corektxVersion' }
@@ -43,6 +45,15 @@ androidx-activity = { group = "androidx.activity", name = "activity-ktx", versio
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junit" }
 activity = { group = "androidx.activity", name = "activity", version.ref = "activityVersion" }
 ufile-client-java = { group = "cn.ucloud.ufile", name = 'ufile-client-java', version.ref = "ufileClientJava" }
+
+google-litert = { module = "com.google.ai.edge.litert:litert", version.ref = "litertVersion" }
+google-litert-api = { module = "com.google.ai.edge.litert:litert-api", version.ref = "litertVersion" }
+google-litert-gpu = { module = "com.google.ai.edge.litert:litert-gpu", version.ref = "litertVersion" }
+google-litert-gpu-api = { module = "com.google.ai.edge.litert:litert-gpu-api", version.ref = "litertVersion" }
+google-litert-metadata = { module = "com.google.ai.edge.litert:litert-metadata", version.ref = "litertVersion" }
+google-litert-support = { module = "com.google.ai.edge.litert:litert-support", version.ref = "litertVersion" }
+google-litert-support-api = { module = "com.google.ai.edge.litert:litert-support-api", version.ref = "litertVersion" }
+
 
 [plugins]
 android-application = { id = 'com.android.application', version.ref = 'androidGradlePlugin' }

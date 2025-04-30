@@ -282,10 +282,14 @@ class NetDownloadService : DownloadService(
                     }
                 }
                 Download.STATE_COMPLETED -> {
-//                    val downloadIndex=downloadManager.downloadIndex
-//                    val dl=downloadIndex.getDownload(DOWNLOAD_ID)
+                    val downloadIndex=downloadManager.downloadIndex
+                    val dl=downloadIndex.getDownload(DOWNLOAD_ID)
 //                    val originalUri=dl?.request?.toMediaItem()?.localConfiguration?.uri ?: return
 
+                    if (BuildConfig.DEBUG) {
+                        Log.i("print_logs", "NetDownloadService::onDownloadChanged: ")
+                    }
+                    
                     val cachedSpans=downloadCache.getCachedSpans(download.request.id).toList()
                     if (cachedSpans.isNotEmpty()) {
                         // 确保 CacheSpan 是按偏移量排序的
