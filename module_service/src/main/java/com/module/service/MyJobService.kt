@@ -8,6 +8,7 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.util.Log
+import kotlin.concurrent.thread
 
 /**
  *
@@ -47,45 +48,61 @@ class MyJobService : JobService() {
                 .build()
             val jobScheduler =
                 context.applicationContext.getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
-            jobScheduler.schedule(jobInfo)
+            val result=jobScheduler.schedule(jobInfo)
+
+            if (result==JobScheduler.RESULT_SUCCESS) {
+                if (BuildConfig.DEBUG) {
+                    Log.i("print_logs", "Job scheduled successfully.")
+                }
+            }else{
+                if (BuildConfig.DEBUG) {
+                    Log.e("print_logs", "Job scheduling failed.")
+                }
+            }
+        }
+
+        /**
+         * 取消
+         */
+        @JvmStatic
+        fun stop(context: Context){
+            val jobScheduler =
+                context.applicationContext.getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
+            jobScheduler.cancel(JOB_ID)
         }
     }
 
     override fun onCreate() {
         super.onCreate()
         if (BuildConfig.DEBUG) {
-            Log.i("print_logs", "MyJobService::onCreate: ")
+            Log.i("print_logs", "MyJobService::onCreate: ${Thread.currentThread().name}")
         }
     }
 
-    override fun onStart(intent: Intent?, startId: Int) {
-        super.onStart(intent, startId)
-        if (BuildConfig.DEBUG) {
-            Log.i("print_logs", "MyJobService::onStart: ")
-        }
-    }
-
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        if (BuildConfig.DEBUG) {
-            Log.i("print_logs", "MyJobService::onStartCommand: ")
-        }
-        return super.onStartCommand(intent, flags, startId)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        if (BuildConfig.DEBUG) {
-            Log.i("print_logs", "MyJobService::onDestroy: ")
-        }
-    }
 
     override fun onStartJob(params: JobParameters?): Boolean {
         // 在这里执行后台任务逻辑
-        // 返回true表示任务在此处完成，返回false表示任务在后台线程中执行
+        // 返回true表示任务在此处完成，返回false表示任务在后台线程中执行.
+
+        // jobFinished()， 如果该JobService是个耗时操作，onStartJob中需要return true
+        // 在return之前,需要主动调用jobFinished()方法告诉JobSchedulerService
+        // 该JobService执行结束可以走销毁流程了。
         if (BuildConfig.DEBUG) {
-            Log.i("print_logs", "MyJobService::onStartJob: ")
+            Log.i("print_logs", "MyJobService::onStartJob: ${Thread.currentThread().name}")
         }
-        return false
+
+        thread {
+            if (BuildConfig.DEBUG) {
+                Log.i("print_logs", "MyJobService::onStartJob: 延时开始. ${System.currentTimeMillis()}")
+            }
+            Thread.sleep(2000L)
+            if (BuildConfig.DEBUG) {
+                Log.i("print_logs", "MyJobService::onStartJob: 延时结束. ${System.currentTimeMillis()}")
+            }
+            jobFinished(params,false)
+        }
+
+        return true
     }
 
     override fun onStopJob(params: JobParameters?): Boolean {
@@ -95,5 +112,12 @@ class MyJobService : JobService() {
             Log.i("print_logs", "MyJobService::onStopJob: ")
         }
         return false
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (BuildConfig.DEBUG) {
+            Log.i("print_logs", "MyJobService::onDestroy: ${Thread.currentThread().name}")
+        }
     }
 }

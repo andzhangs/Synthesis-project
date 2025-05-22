@@ -28,11 +28,11 @@ class MainActivity : AppCompatActivity() {
             if (DEBUG) {
                 Log.i("print_logs", "MainActivity::onServiceConnected: ")
             }
-                mBinder = (service as? CustomLifecycleService.LifeBinder)?.apply {
+            mBinder = (service as? CustomLifecycleService.LifeBinder)?.apply {
 //                  getService()  //获取服务类对象实例
-                    printLog(this@MainActivity,"你好呀！")
-                    CustomBroadcastReceiver.send(this@MainActivity, true)
-                }
+                printLog(this@MainActivity, "你好呀！")
+                CustomBroadcastReceiver.send(this@MainActivity, true)
+            }
         }
 
         override fun onServiceDisconnected(name: ComponentName?) {
@@ -47,20 +47,20 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        registerForActivityResult(ActivityResultContracts.RequestPermission()){
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) {
             if (it) {
                 bindService(mBindIntent, mLifecycleServiceConnection, Service.BIND_AUTO_CREATE)
             }
         }.launch(Manifest.permission.POST_NOTIFICATIONS)
 
-//        MyJobService.start(this)
+        MyJobService.start(this)
     }
 
     override fun onStart() {
         super.onStart()
         CustomBroadcastReceiver.register(this)
-
     }
+
 
     override fun onStop() {
         super.onStop()

@@ -71,7 +71,15 @@ import androidx.core.widget.addTextChangedListener
 import androidx.core.widget.doAfterTextChanged
 import androidx.core.widget.doBeforeTextChanged
 import androidx.core.widget.doOnTextChanged
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import java.io.File
+import kotlin.system.measureTimeMillis
 
 /**
  * androidx.core-ktx库
@@ -84,7 +92,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        mTv = findViewById<AppCompatTextView>(R.id.acTv)
+        mTv = findViewById(R.id.acTv)
 
         loadSharedPreferences()
         loadAnimator()
