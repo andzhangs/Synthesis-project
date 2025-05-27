@@ -28,6 +28,7 @@ class MyHandlerThread(threadName: String) : HandlerThread(threadName, Thread.MAX
                 Log.w("print_logs", "原生的handleMessage: ${msg.arg1}, ${msg.arg2}, ${msg.what}, ${msg.obj}, ${msg.isAsynchronous}")
             }
         }
+
         if (mMsg != null) {
             sendMessage(mMsg)
         }

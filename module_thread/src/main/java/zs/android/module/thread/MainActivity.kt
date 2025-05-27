@@ -13,6 +13,8 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import zs.android.module.thread.databinding.ActivityMainBinding
 import zs.android.module.thread.thread.MyHandlerThread
+import java.util.concurrent.atomic.AtomicBoolean
+import java.util.concurrent.atomic.AtomicInteger
 import kotlin.concurrent.thread
 
 class MainActivity : AppCompatActivity() {
@@ -78,4 +80,5 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
         mDataBinding.unbind()
     }
+
 }
