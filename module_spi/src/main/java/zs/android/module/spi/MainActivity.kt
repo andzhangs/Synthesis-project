@@ -13,6 +13,12 @@ import zs.android.module.spi.loader.IClientAndroid
 import zs.android.module.spi.loader.ISayHello
 import java.util.ServiceLoader
 
+/**
+ * ServiceLoader 通过配置文件和反射机制，实现了服务接口与实现类的解耦，
+ * 是 Java 和 Android 中实现插件化、组件化的重要工具。
+ * 在 Android 中使用时需注意类加载器差异和性能优化，
+ * 推荐结合编译时工具（如 AutoService）生成配置文件，减少运行时开销。
+ */
 class MainActivity : AppCompatActivity() {
 
     private lateinit var mLoaderManager: LoaderManager

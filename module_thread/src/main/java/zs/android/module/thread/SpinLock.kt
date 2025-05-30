@@ -13,9 +13,6 @@ class SpinLock {
 
 //    @Synchronized
     fun lock(){
-        synchronized(locked){
-
-        }
         while (!locked.compareAndSet(false,true)){
             // 自旋等待（空循环或短暂休眠）
         }
