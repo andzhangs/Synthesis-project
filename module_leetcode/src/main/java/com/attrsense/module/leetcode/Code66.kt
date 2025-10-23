@@ -4,7 +4,7 @@ package com.attrsense.module.leetcode
  *
  * @author zhangshuai
  * @date 2025/3/25 21:02
- * @description 自定义类描述
+ * @description 加一
  */
 class Code66 {
     companion object{
