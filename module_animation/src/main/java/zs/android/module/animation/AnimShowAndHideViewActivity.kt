@@ -28,22 +28,19 @@ class AnimShowAndHideViewActivity : AppCompatActivity() {
         val progressBar=findViewById<ContentLoadingProgressBar>(R.id.clProgressBar)
         progressBar.apply {
             animate().alpha(1F).setDuration(duration).setListener(object :Animator.AnimatorListener{
-                override fun onAnimationStart(animation: Animator?) {
 
+                override fun onAnimationStart(animation: Animator) {
                 }
 
-                override fun onAnimationEnd(animation: Animator?) {
+                override fun onAnimationEnd(animation: Animator) {
                     progressBar.visibility=View.GONE
                 }
 
-                override fun onAnimationCancel(animation: Animator?) {
-
+                override fun onAnimationCancel(animation: Animator) {
                 }
 
-                override fun onAnimationRepeat(animation: Animator?) {
-
+                override fun onAnimationRepeat(animation: Animator) {
                 }
-
             })
         }
 

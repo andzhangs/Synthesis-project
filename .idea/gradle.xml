@@ -6,7 +6,7 @@
       <GradleProjectSettings>
         <option name="testRunner" value="CHOOSE_PER_TEST" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="gradleJvm" value="jbr-17 (4)" />
+        <option name="gradleJvm" value="#JAVA_HOME" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
@@ -39,6 +39,7 @@
             <option value="$PROJECT_DIR$/module_mediarouter" />
             <option value="$PROJECT_DIR$/module_mediastore" />
             <option value="$PROJECT_DIR$/module_mlkit" />
+            <option value="$PROJECT_DIR$/module_mvi" />
             <option value="$PROJECT_DIR$/module_nearby" />
             <option value="$PROJECT_DIR$/module_notification" />
             <option value="$PROJECT_DIR$/module_nsd" />
@@ -67,7 +68,6 @@
             <option value="$PROJECT_DIR$/tangram" />
           </set>
         </option>
-        <option name="resolveExternalAnnotations" value="false" />
       </GradleProjectSettings>
     </option>
   </component>

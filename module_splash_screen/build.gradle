@@ -5,12 +5,12 @@ plugins {
 
 android {
     namespace 'com.splash.screen.module'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.splash.screen.module"
         minSdk 24
-        targetSdk 33
+        targetSdk 34
         versionCode 1
         versionName "1.0"
 

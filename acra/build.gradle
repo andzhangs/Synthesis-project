@@ -6,12 +6,12 @@ plugins {
 
 android {
     namespace 'com.example.acra'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.example.acra"
         minSdk 24
-        targetSdk 33
+        targetSdk 34
         versionCode 1
         versionName "1.0"
 
@@ -71,7 +71,7 @@ dependencies {
     implementation 'com.iqiyi.xcrash:xcrash-android-lib:3.0.0'
 
     //https://github.com/simplepeng/SpiderMan
-    def spider_man = "v1.1.9"
+    def spider_man = "v1.2.3"
     debugImplementation "com.github.simplepeng.SpiderMan:spiderman:${spider_man}"
     releaseImplementation "com.github.simplepeng.SpiderMan:spiderman-no-op:${spider_man}"
 }

@@ -6,12 +6,12 @@ plugins {
 
 android {
     namespace 'zs.android.module.permission'
-    compileSdk 32
+    compileSdk 34
 
     defaultConfig {
         applicationId "zs.android.module.permission"
         minSdk 21
-        targetSdk 32
+        targetSdk 34
         versionCode 1
         versionName "1.0"
 
@@ -30,6 +30,10 @@ android {
     }
     kotlinOptions {
         jvmTarget = '17'
+    }
+    buildFeatures {
+        dataBinding true
+        buildConfig true
     }
 }
 

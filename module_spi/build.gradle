@@ -6,12 +6,12 @@ plugins {
 
 android {
     namespace 'zs.android.module.spi'
-    compileSdk 32
+    compileSdk 34
 
     defaultConfig {
         applicationId "zs.android.module.spi"
         minSdk 21
-        targetSdk 32
+        targetSdk 34
         versionCode 1
         versionName "1.0"
 

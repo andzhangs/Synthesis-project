@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace 'com.synthesis.modulejar'
-    compileSdk 33
+    compileSdk 34
     signingConfigs {
         release {
             storeFile file("${rootDir.absolutePath}/attr.keystore")
@@ -16,7 +16,7 @@ android {
     }
     defaultConfig {
         minSdk 24
-        targetSdk 33
+        targetSdk 34
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"

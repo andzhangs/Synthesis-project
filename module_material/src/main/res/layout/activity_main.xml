@@ -20,6 +20,8 @@
             app:layout_constraintTop_toTopOf="parent"
             app:tabIndicatorAnimationMode="elastic"
             app:tabIndicatorFullWidth="false"
+            app:tabTextColor="@color/teal_700"
+            app:tabSelectedTextColor="@color/purple_200"
             app:tabMode="auto" />
 
         <androidx.viewpager2.widget.ViewPager2
@@ -33,7 +35,7 @@
 
         <androidx.core.widget.ContentLoadingProgressBar
             android:id="@+id/progress_circular"
-            style="?android:attr/progressBarStyleLargeInverse"
+            style="?android:attr/progressBarStyle"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@color/white"

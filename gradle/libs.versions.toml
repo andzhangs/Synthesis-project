@@ -30,6 +30,9 @@ junit = "1.1.5"
 activityVersion = "1.8.0"
 ufileClientJava = "2.6.7"
 litertVersion = "1.2.0"
+lifecycleVersion = '2.6.2'
+activityKtxVersion = '1.7.2'
+fragmentKtxVersion = '1.6.2'
 
 
 [libraries]
@@ -54,6 +57,27 @@ google-litert-metadata = { module = "com.google.ai.edge.litert:litert-metadata",
 google-litert-support = { module = "com.google.ai.edge.litert:litert-support", version.ref = "litertVersion" }
 google-litert-support-api = { module = "com.google.ai.edge.litert:litert-support-api", version.ref = "litertVersion" }
 
+#【Lifecycle】https://developer.android.google.cn/jetpack/androidx/releases/lifecycle
+#   lifecycleScope, Lifecycles
+lifecycleRuntimeKtx = { group = 'androidx.lifecycle', name = 'lifecycle-runtime-ktx', version.ref = 'lifecycleVersion' }
+#   viewModelScope, ViewModel
+lifecycleViewModelKtx = { group = 'androidx.lifecycle', name = 'lifecycle-viewmodel-ktx', version.ref = 'lifecycleVersion' }
+#   Saved state module for ViewModel
+lifecycleViewModelSavedState = { group = 'androidx.lifecycle', name = 'lifecycle-viewmodel-savedstate', version.ref = 'lifecycleVersion' }
+#   livedata
+lifecycleLivedataKtx = { group = 'androidx.lifecycle', name = 'lifecycle-livedata-ktx', version.ref = 'lifecycleVersion' }
+#   Annotation processor
+lifecycleCompiler = { group = 'androidx.lifecycle', name = 'lifecycle-compiler', version.ref = 'lifecycleVersion' }
+#   在Service中使用Lifecycle
+lifecycleService = { group = 'androidx.lifecycle', name = 'lifecycle-service', version.ref = 'lifecycleVersion' }
+#   Application中使用Lifecycle
+lifecycleProcess = { group = 'androidx.lifecycle', name = 'lifecycle-process', version.ref = 'lifecycleVersion' }
+#   ReactiveStreams support for LiveData
+lifecycleReactivestreamsKtx = { group = 'androidx.lifecycle', name = 'lifecycle-reactivestreams-ktx', version.ref = 'lifecycleVersion' }
+
+# by viewModels<__ViewModel>()
+activityKtx = { group = 'androidx.activity', name = 'activity-ktx', version.ref = 'activityKtxVersion' }
+fragmentKtx = { group = 'androidx.fragment', name = 'fragment-ktx', version.ref = 'fragmentKtxVersion' }
 
 [plugins]
 android-application = { id = 'com.android.application', version.ref = 'androidGradlePlugin' }

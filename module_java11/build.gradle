@@ -1,16 +1,17 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
 }
 
 android {
     namespace 'com.android.module.java11'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.android.module.java11"
         minSdk 24
-        targetSdk 33
+        targetSdk 34
         versionCode 1
         versionName "1.0"
 
@@ -35,6 +36,10 @@ android {
         includeInBundle true
     }
     ndkVersion '21.4.7075529'
+    buildFeatures {
+        buildConfig true
+        dataBinding true
+    }
 }
 
 dependencies {

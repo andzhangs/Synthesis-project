@@ -10,12 +10,12 @@ apply from: "first_task.gradle"
 
 android {
     namespace 'zs.android.module.groovy'
-    compileSdk 32
+    compileSdk 34
 
     defaultConfig {
         applicationId "zs.android.module.groovy"
         minSdk 21
-        targetSdk 32
+        targetSdk 34
 //        versionCode 1
 //        versionName "1.0"
 

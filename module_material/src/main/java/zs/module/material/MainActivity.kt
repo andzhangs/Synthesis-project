@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
@@ -70,17 +71,17 @@ class MainActivity : AppCompatActivity() {
         mBinding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 Log.i("print_logs", "MainActivity::onTabSelected: ${tab?.text}")
-                sentIntent("I'm from MainActivity::onTabSelected")
+                sentIntent("I'm from MainActivity.onTabSelected：",tab?.text.toString())
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
                 Log.i("print_logs", "MainActivity::onTabUnselected: ${tab?.text}")
-                sentIntent("I'm from MainActivity::onTabUnselected")
+                sentIntent("I'm from MainActivity.onTabSelected：",tab?.text.toString())
             }
 
             override fun onTabReselected(tab: TabLayout.Tab?) {
                 Log.i("print_logs", "MainActivity::onTabReselected: ${tab?.text}")
-                sentIntent("I'm from MainActivity::onTabReselected")
+                sentIntent("I'm from MainActivity.onTabSelected：",tab?.text.toString())
             }
         })
 
@@ -100,7 +101,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         mBinding.progressCircular.setOnClickListener {
-            mBinding.tabLayout.getTabAt(0)?.removeBadge()
+            mBinding.tabLayout.getTabAt(1)?.removeBadge()
         }
     }
 
@@ -113,14 +114,10 @@ class MainActivity : AppCompatActivity() {
 
     private val RECEIVER_ACTION = "zs.module.material.action"
 
-    private fun sentIntent(msg: String) {
+    private fun sentIntent(msg: String,msg2: String) {
         val intent = Intent(RECEIVER_ACTION).apply {
-            putExtra("data", Bundle().also {
-                it.putString("msg", msg)
-            })
-            putExtras(Bundle().apply {
-                putString("msg2", msg)
-            })
+            putExtra("data",bundleOf("msg" to msg,"msg2" to msg2))
+            putExtras(bundleOf("msg2" to msg2))
         }
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
     }
@@ -135,7 +132,7 @@ class MainActivity : AppCompatActivity() {
                     val msg = bundle?.getString("msg")
 
                     val msg2 = it.getStringExtra("msg2")
-                    Log.w("print_logs", "MainActivity::onReceive: $msg, $msg2")
+                    Log.w("print_logs", "MainActivity::onReceive: $msg$msg2")
                 }
             }
         }
